@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Clients\ShopController;
+use App\Http\Controllers\OrdersuccessController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,3 +20,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 Route::resource('/',ShopController::class);
+Route::resource('/checkout', CheckoutController::class);
+Route::resource('/orderSuccess', OrdersuccessController::class);
+
