@@ -22,11 +22,16 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::resource('/',ShopController::class);
+
+
+Route::get('/admin/danhmucs', function () {
+    return view('admins.danhmucs.index');
+});
+Route::resource('/', ShopController::class);
+Route::resource('/profile', ProfileController::class);
+
 Route::resource('/checkout', CheckoutController::class);
 Route::resource('/orderSuccess', OrdersuccessController::class);
-
-Route::resource('/profile',ProfileController::class);
 
 Route::get('/login', [AuthController::class, 'showFormLogin']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
