@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Clients\ProfileController;
 use App\Http\Controllers\Clients\ShopController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,4 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 Route::resource('/',ShopController::class);
+Route::resource('/profile',ProfileController::class);
