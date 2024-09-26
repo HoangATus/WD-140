@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Clients\ShopController;
+use App\Http\Controllers\PurchasedOrderDetailsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,3 +19,4 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 Route::resource('/',ShopController::class);
+Route::resource('/purchased', PurchasedOrderDetailsController::class);

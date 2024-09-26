@@ -35,7 +35,7 @@
 
     <!-- Template css -->
     <link id="color-link" rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
-    @livewireStyles
+    {{-- @livewireStyles --}}
 </head>
 
 <body class="bg-effect">
