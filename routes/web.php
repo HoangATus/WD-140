@@ -17,4 +17,8 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::resource('/',ShopController::class);
+
+Route::get('/admin/danhmucs', function () {
+    return view('admins.danhmucs.index');
+});
+Route::resource('/', ShopController::class);
