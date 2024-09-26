@@ -60,6 +60,7 @@
     <!-- mobile fix menu start -->
     
    @yield('content')
+   @yield('cart')
 
     <!-- Newsletter Section End -->
 

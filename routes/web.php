@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Clients\ShopController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Clients\CartController;
+use App\Http\Controllers\Clients\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,4 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 Route::resource('/',ShopController::class);
+Route::resource('/cart',CartController::class);
