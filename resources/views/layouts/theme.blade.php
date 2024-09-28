@@ -3,6 +3,7 @@
 
 
 <!-- Mirrored from themes.pixelstrap.com/fastkart/front-end/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 25 Sep 2024 13:01:02 GMT -->
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,18 +25,24 @@
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap">
 
     <!-- bootstrap css -->
-    <link id="rtl-link" rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/bootstrap.css')}}">
+    <link id="rtl-link" rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
 
     <!-- wow css -->
-    <link rel="stylesheet" href="{{asset('assets/css/animate.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/css/animate.min.css') }}">
 
     <!-- Iconly css -->
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bulk-style.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/animate.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bulk-style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
 
     <!-- Template css -->
-    <link id="color-link" rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
-    
+    <link id="color-link" rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
+    <!-- Thêm Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+
 </head>
 
 <body class="bg-effect">
@@ -58,8 +65,8 @@
     <!-- Header End -->
 
     <!-- mobile fix menu start -->
-    
-   @yield('content')
+
+    @yield('content')
 
     <!-- Newsletter Section End -->
 
@@ -430,54 +437,75 @@
     <!-- Bg overlay Start -->
     <div class="bg-overlay"></div>
     <!-- Bg overlay End -->
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- latest jquery-->
-    <script src="{{asset('assets/js/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 
     <!-- jquery ui-->
-    <script src="{{asset('assets/js/jquery-ui.min.js')}}"></script>
+    <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
     <!-- Bootstrap js-->
-    <script src="{{asset('assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap/bootstrap-notify.min.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap/popper.min.js')}}"></script>
+    <script src="{{ asset('assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap/bootstrap-notify.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
 
     <!-- feather icon js-->
-    <script src="{{asset('assets/js/feather/feather.min.js')}}"></script>
-    <script src="{{asset('assets/js/feather/feather-icon.js')}}"></script>
+    <script src="{{ asset('assets/js/feather/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/js/feather/feather-icon.js') }}"></script>
 
     <!-- Lazyload Js -->
-    <script src="{{asset('assets/js/lazysizes.min.js')}}"></script>
+    <script src="{{ asset('assets/js/lazysizes.min.js') }}"></script>
 
     <!-- Slick js-->
-    <script src="{{asset('assets/js/slick/slick.js')}}"></script>
-    <script src="{{asset('assets/js/slick/slick-animation.min.js')}}"></script>
-    <script src="{{asset('assets/js/slick/custom_slick.js')}}"></script>
+    <script src="{{ asset('assets/js/slick/slick.js') }}"></script>
+    <script src="{{ asset('assets/js/slick/slick-animation.min.js') }}"></script>
+    <script src="{{ asset('assets/js/slick/custom_slick.js') }}"></script>
 
     <!-- Auto Height Js -->
-    <script src="{{asset('assets/js/auto-height.js')}}"></script>
+    <script src="{{ asset('assets/js/auto-height.js') }}"></script>
 
     <!-- Timer Js -->
-    <script src="{{asset('assets/js/timer1.js')}}"></script>
+    <script src="{{ asset('assets/js/timer1.js') }}"></script>
 
     <!-- Fly Cart Js -->
-    <script src="{{asset('assets/js/fly-cart.js')}}"></script>
+    <script src="{{ asset('assets/js/fly-cart.js') }}"></script>
 
     <!-- Quantity js -->
-    <script src="{{asset('assets/js/quantity-2.js')}}"></script>
+    <script src="{{ asset('assets/js/quantity-2.js') }}"></script>
 
     <!-- WOW js -->
-    <script src="{{asset('assets/js/wow.min.js')}}"></script>
-    <script src="{{asset('assets/js/custom-wow.js')}}"></script>
+    <script src="{{ asset('assets/js/wow.min.js') }}"></script>
+    <script src="{{ asset('assets/js/custom-wow.js') }}"></script>
 
     <!-- script js -->
-    <script src="{{asset('assets/js/script.js')}}"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
 
     <!-- theme setting js -->
-    <script src="{{asset('assets/js/theme-setting.js')}}"></script>
+    <script src="{{ asset('assets/js/theme-setting.js') }}"></script>
+
+    <script>
+        function togglePasswordVisibility(passwordFieldId, iconId) {
+            // Lấy input mật khẩu
+            var passwordField = document.getElementById(passwordFieldId);
+            // Lấy icon mắt
+            var icon = document.getElementById(iconId);
+
+            // Kiểm tra kiểu của input mật khẩu và thay đổi nó
+            if (passwordField.type === "password") {
+                passwordField.type = "text"; // Hiện mật khẩu
+                icon.classList.remove('ri-eye-fill'); // Đổi icon thành mắt gạch chéo
+                icon.classList.add('ri-eye-off-fill');
+            } else {
+                passwordField.type = "password"; // Ẩn mật khẩu
+                icon.classList.remove('ri-eye-off-fill'); // Đổi lại icon thành mắt mở
+                icon.classList.add('ri-eye-fill');
+            }
+        }
+    </script>
     @livewireScripts
 </body>
 
 
 <!-- Mirrored from themes.pixelstrap.com/fastkart/front-end/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 25 Sep 2024 13:01:35 GMT -->
+
 </html>

@@ -39,8 +39,8 @@
                         <div class="dropdown theme-form-select">
                             <button class="btn dropdown-toggle" type="button" id="select-language"
                                 data-bs-toggle="dropdown">
-                                <img src="../assets/images/country/united-states.png"
-                                    class="img-fluid blur-up lazyload" alt="">
+                                <img src="../assets/images/country/united-states.png" class="img-fluid blur-up lazyload"
+                                    alt="">
                                 <span>English</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
@@ -110,8 +110,7 @@
 
                     <div class="middle-box">
                         <div class="location-box">
-                            <button class="btn location-button" data-bs-toggle="modal"
-                                data-bs-target="#locationModal">
+                            <button class="btn location-button" data-bs-toggle="modal" data-bs-target="#locationModal">
                                 <span class="location-arrow">
                                     <i data-feather="map-pin"></i>
                                 </span>
@@ -226,7 +225,8 @@
 
                                         <div class="button-group">
                                             <a href="cart.html" class="btn btn-sm cart-button">View Cart</a>
-                                            <a href="checkout.html" class="btn btn-sm cart-button theme-bg-color
+                                            <a href="checkout.html"
+                                                class="btn btn-sm cart-button theme-bg-color
                                             text-white">Checkout</a>
                                         </div>
                                     </div>
@@ -237,6 +237,11 @@
                                     <div class="delivery-icon">
                                         <i data-feather="user"></i>
                                     </div>
+                                    @if (Auth::check())
+                                        <p>{{ Auth::user()->user_name }}</p>
+                                    @else
+                                        <p>Bạn chưa đăng nhập.</p>
+                                    @endif
                                     <div class="delivery-detail">
                                         <h6>Hello,</h6>
                                         <h5>My Account</h5>
@@ -247,15 +252,25 @@
                                     <ul class="user-box-name">
                                         <li class="product-box-contain">
                                             <i></i>
-                                            <a href="login.html">Log In</a>
+                                            <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a>
                                         </li>
 
                                         <li class="product-box-contain">
-                                            <a href="sign-up.html">Register</a>
+                                            <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i> Đăng ký</a>
                                         </li>
 
                                         <li class="product-box-contain">
-                                            <a href="forgot.html">Forgot Password</a>
+                                            <a href="forgot.html"><i class="fas fa-key"></i> Quên mậtkhẩu?</a>
+                                        </li>
+
+                                        <li class="product-box-contain">
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                                @csrf
+                                                <a href="#"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                                </a>
+                                            </form>
                                         </li>
                                     </ul>
                                 </div>
@@ -289,7 +304,8 @@
                         <ul class="category-list">
                             <li class="onhover-category-list">
                                 <a href="javascript:void(0)" class="category-name">
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/vegetable.svg" alt="">
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/vegetable.svg"
+                                        alt="">
                                     <h6>Vegetables & Fruit</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
@@ -360,7 +376,8 @@
 
                             <li class="onhover-category-list">
                                 <a href="javascript:void(0)" class="category-name">
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/cup.svg" alt="">
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/cup.svg"
+                                        alt="">
                                     <h6>Beverages</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
@@ -399,7 +416,8 @@
 
                             <li class="onhover-category-list">
                                 <a href="javascript:void(0)" class="category-name">
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/meats.svg" alt="">
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/meats.svg"
+                                        alt="">
                                     <h6>Meats & Seafood</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
@@ -458,7 +476,8 @@
 
                             <li class="onhover-category-list">
                                 <a href="javascript:void(0)" class="category-name">
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/breakfast.svg" alt="">
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/breakfast.svg"
+                                        alt="">
                                     <h6>Breakfast & Dairy</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
@@ -532,7 +551,8 @@
 
                             <li class="onhover-category-list">
                                 <a href="javascript:void(0)" class="category-name">
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/frozen.svg" alt="">
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/frozen.svg"
+                                        alt="">
                                     <h6>Frozen Foods</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
@@ -565,7 +585,8 @@
 
                             <li class="onhover-category-list">
                                 <a href="javascript:void(0)" class="category-name">
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/biscuit.svg" alt="">
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/biscuit.svg"
+                                        alt="">
                                     <h6>Biscuits & Snacks</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
@@ -618,7 +639,8 @@
 
                             <li class="onhover-category-list">
                                 <a href="javascript:void(0)" class="category-name">
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/grocery.svg" alt="">
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/grocery.svg"
+                                        alt="">
                                     <h6>Grocery & Staples</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
@@ -686,8 +708,7 @@
                         <div class="offcanvas offcanvas-collapse order-xl-2" id="primaryMenu">
                             <div class="offcanvas-header navbar-shadow">
                                 <h5>Menu</h5>
-                                <button class="btn-close lead" type="button"
-                                    data-bs-dismiss="offcanvas"></button>
+                                <button class="btn-close lead" type="button" data-bs-dismiss="offcanvas"></button>
                             </div>
                             <div class="offcanvas-body">
                                 <ul class="navbar-nav">
@@ -779,29 +800,29 @@
                                                         <a class="dropdown-item"
                                                             href="product-left-thumbnail.html">Product
                                                             Thumbnail</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-4-image.html">Product Images</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-slider.html">Product Slider</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-sticky.html">Product Sticky</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-accordion.html">Product Accordion</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-circle.html">Product Tab</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-digital.html">Product Digital</a>
+                                                        <a class="dropdown-item" href="product-4-image.html">Product
+                                                            Images</a>
+                                                        <a class="dropdown-item" href="product-slider.html">Product
+                                                            Slider</a>
+                                                        <a class="dropdown-item" href="product-sticky.html">Product
+                                                            Sticky</a>
+                                                        <a class="dropdown-item" href="product-accordion.html">Product
+                                                            Accordion</a>
+                                                        <a class="dropdown-item" href="product-circle.html">Product
+                                                            Tab</a>
+                                                        <a class="dropdown-item" href="product-digital.html">Product
+                                                            Digital</a>
 
                                                         <h5 class="custom-mt dropdown-header">Product Features
                                                         </h5>
-                                                        <a class="dropdown-item"
-                                                            href="product-circle.html">Bundle (Cross Sale)</a>
+                                                        <a class="dropdown-item" href="product-circle.html">Bundle
+                                                            (Cross Sale)</a>
                                                         <a class="dropdown-item"
                                                             href="product-left-thumbnail.html">Hot Stock
                                                             Progress <label class="menu-label">New</label>
                                                         </a>
-                                                        <a class="dropdown-item"
-                                                            href="product-sold-out.html">SOLD OUT</a>
+                                                        <a class="dropdown-item" href="product-sold-out.html">SOLD
+                                                            OUT</a>
                                                         <a class="dropdown-item" href="product-circle.html">
                                                             Sale Countdown</a>
                                                     </div>
@@ -810,31 +831,30 @@
                                                     <div class="dropdown-column m-0">
                                                         <h5 class="dropdown-header">
                                                             Product Variants Style </h5>
-                                                        <a class="dropdown-item"
-                                                            href="product-rectangle.html">Variant Rectangle</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-circle.html">Variant Circle <label
-                                                                class="menu-label">New</label></a>
+                                                        <a class="dropdown-item" href="product-rectangle.html">Variant
+                                                            Rectangle</a>
+                                                        <a class="dropdown-item" href="product-circle.html">Variant
+                                                            Circle <label class="menu-label">New</label></a>
                                                         <a class="dropdown-item"
                                                             href="product-color-image.html">Variant Image
                                                             Swatch</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-color.html">Variant Color</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-radio.html">Variant Radio Button</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-dropdown.html">Variant Dropdown</a>
+                                                        <a class="dropdown-item" href="product-color.html">Variant
+                                                            Color</a>
+                                                        <a class="dropdown-item" href="product-radio.html">Variant
+                                                            Radio Button</a>
+                                                        <a class="dropdown-item" href="product-dropdown.html">Variant
+                                                            Dropdown</a>
                                                         <h5 class="custom-mt dropdown-header">Product Features
                                                         </h5>
                                                         <a class="dropdown-item"
                                                             href="product-left-thumbnail.html">Sticky
                                                             Checkout</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-dynamic.html">Dynamic Checkout</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-sticky.html">Secure Checkout</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-bundle.html">Active Product view</a>
+                                                        <a class="dropdown-item" href="product-dynamic.html">Dynamic
+                                                            Checkout</a>
+                                                        <a class="dropdown-item" href="product-sticky.html">Secure
+                                                            Checkout</a>
+                                                        <a class="dropdown-item" href="product-bundle.html">Active
+                                                            Product view</a>
                                                         <a class="dropdown-item" href="product-bundle.html">
                                                             Active
                                                             Last Orders
@@ -845,15 +865,13 @@
                                                     <div class="dropdown-column m-0">
                                                         <h5 class="dropdown-header">
                                                             Product Features </h5>
-                                                        <a class="dropdown-item"
-                                                            href="product-image.html">Product Simple</a>
+                                                        <a class="dropdown-item" href="product-image.html">Product
+                                                            Simple</a>
                                                         <a class="dropdown-item" href="product-rectangle.html">
-                                                            Product Classified <label
-                                                                class="menu-label">New</label>
+                                                            Product Classified <label class="menu-label">New</label>
                                                         </a>
-                                                        <a class="dropdown-item"
-                                                            href="product-size-chart.html">Size Chart <label
-                                                                class="menu-label">New</label></a>
+                                                        <a class="dropdown-item" href="product-size-chart.html">Size
+                                                            Chart <label class="menu-label">New</label></a>
                                                         <a class="dropdown-item"
                                                             href="product-size-chart.html">Delivery &
                                                             Return</a>
@@ -868,9 +886,8 @@
                                                             Tags</a>
                                                         <a class="dropdown-item" href="product-image.html">Store
                                                             Information</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-image.html">Social Share <label
-                                                                class="menu-label warning-label">Hot</label>
+                                                        <a class="dropdown-item" href="product-image.html">Social
+                                                            Share <label class="menu-label warning-label">Hot</label>
                                                         </a>
                                                         <a class="dropdown-item"
                                                             href="product-left-thumbnail.html">Related Products
@@ -896,8 +913,8 @@
                                     </li>
 
                                     <li class="nav-item dropdown dropdown-mega">
-                                        <a class="nav-link dropdown-toggle ps-xl-2 ps-0"
-                                            href="javascript:void(0)" data-bs-toggle="dropdown">Mega Menu</a>
+                                        <a class="nav-link dropdown-toggle ps-xl-2 ps-0" href="javascript:void(0)"
+                                            data-bs-toggle="dropdown">Mega Menu</a>
 
                                         <div class="dropdown-menu dropdown-menu-2">
                                             <div class="row">
@@ -906,17 +923,17 @@
                                                     <a class="dropdown-item" href="shop-left-sidebar.html">Beans
                                                         & Brinjals</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Broccoli & Cauliflower</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Broccoli &
+                                                        Cauliflower</a>
 
-                                                    <a href="shop-left-sidebar.html"
-                                                        class="dropdown-item">Chilies, Garlic</a>
+                                                    <a href="shop-left-sidebar.html" class="dropdown-item">Chilies,
+                                                        Garlic</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Vegetables & Salads</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Vegetables
+                                                        & Salads</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Gourd, Cucumber</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Gourd,
+                                                        Cucumber</a>
 
                                                     <a class="dropdown-item" href="shop-left-sidebar.html">Herbs
                                                         & Sprouts</a>
@@ -930,20 +947,20 @@
                                                     <a class="dropdown-item" href="shop-left-sidebar.html">Beans
                                                         & Brinjals</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Broccoli & Cauliflower</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Broccoli &
+                                                        Cauliflower</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Chilies, Garlic</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Chilies,
+                                                        Garlic</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Vegetables & Salads</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Vegetables
+                                                        & Salads</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Gourd, Cucumber</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Gourd,
+                                                        Cucumber</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Potatoes & Tomatoes</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Potatoes &
+                                                        Tomatoes</a>
 
                                                     <a href="shop-left-sidebar.html" class="dropdown-item">Peas
                                                         & Corn</a>
@@ -951,20 +968,20 @@
 
                                                 <div class="dropdown-column col-xl-3">
                                                     <h5 class="dropdown-header">Exotic Vegetables</h5>
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Asparagus & Artichokes</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Asparagus &
+                                                        Artichokes</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Avocados & Peppers</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Avocados &
+                                                        Peppers</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Broccoli & Zucchini</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Broccoli &
+                                                        Zucchini</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Celery, Fennel & Leeks</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Celery,
+                                                        Fennel & Leeks</a>
 
-                                                    <a class="dropdown-item"
-                                                        href="shop-left-sidebar.html">Chilies & Lime</a>
+                                                    <a class="dropdown-item" href="shop-left-sidebar.html">Chilies &
+                                                        Lime</a>
                                                 </div>
 
                                                 <div class="dropdown-column dropdown-column-img col-3"></div>
@@ -1003,19 +1020,23 @@
                                                             href="https://themes.pixelstrap.com/fastkart/email-templete/abandonment-email.html">Abandonment</a>
                                                     </li>
                                                     <li>
-                                                        <a href="https://themes.pixelstrap.com/fastkart/email-templete/offer-template.html">Offer
+                                                        <a
+                                                            href="https://themes.pixelstrap.com/fastkart/email-templete/offer-template.html">Offer
                                                             Template</a>
                                                     </li>
                                                     <li>
-                                                        <a href="https://themes.pixelstrap.com/fastkart/email-templete/order-success.html">Order
+                                                        <a
+                                                            href="https://themes.pixelstrap.com/fastkart/email-templete/order-success.html">Order
                                                             Success</a>
                                                     </li>
                                                     <li>
-                                                        <a href="https://themes.pixelstrap.com/fastkart/email-templete/reset-password.html">Reset
+                                                        <a
+                                                            href="https://themes.pixelstrap.com/fastkart/email-templete/reset-password.html">Reset
                                                             Password</a>
                                                     </li>
                                                     <li>
-                                                        <a href="https://themes.pixelstrap.com/fastkart/email-templete/welcome.html">Welcome
+                                                        <a
+                                                            href="https://themes.pixelstrap.com/fastkart/email-templete/welcome.html">Welcome
                                                             template</a>
                                                     </li>
                                                 </ul>
@@ -1026,15 +1047,21 @@
                                                             class="fa-solid fa-bolt-lightning"></i></span></a>
                                                 <ul class="sub-menu">
                                                     <li>
-                                                        <a href="https://themes.pixelstrap.com/fastkart/invoice/invoice-1.html">Invoice 1</a>
+                                                        <a
+                                                            href="https://themes.pixelstrap.com/fastkart/invoice/invoice-1.html">Invoice
+                                                            1</a>
                                                     </li>
 
                                                     <li>
-                                                        <a href="https://themes.pixelstrap.com/fastkart/invoice/invoice-2.html">Invoice 2</a>
+                                                        <a
+                                                            href="https://themes.pixelstrap.com/fastkart/invoice/invoice-2.html">Invoice
+                                                            2</a>
                                                     </li>
 
                                                     <li>
-                                                        <a href="https://themes.pixelstrap.com/fastkart/invoice/invoice-3.html">Invoice 3</a>
+                                                        <a
+                                                            href="https://themes.pixelstrap.com/fastkart/invoice/invoice-3.html">Invoice
+                                                            3</a>
                                                     </li>
                                                 </ul>
                                             </li>

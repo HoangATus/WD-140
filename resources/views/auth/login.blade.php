@@ -42,37 +42,55 @@
                             </div>
     
                             <div class="input-box">
-                                <form class="row g-4">
+                                <form class="row g-4" action="{{ route('login') }}" method="POST">
+                                    @csrf
+                                    @if ($errors->has('loginError'))
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                <li>{!! $errors->first('loginError') !!}</li>
+                                            </ul>
+                                        </div>
+                                    @endif
+                                
                                     <div class="col-12">
-                                        <div class="form-floating theme-form-floating log-in-form">
-                                            <input type="email" class="form-control" id="email" placeholder="Email Address">
+                                        <div class="form-floating theme-form-floating">
+                                            <input type="email" class="form-control" id="email" name="user_email" placeholder="Email Address">
                                             <label for="email">Email </label>
+                                            @error('user_email')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
-    
+                                
                                     <div class="col-12">
-                                        <div class="form-floating theme-form-floating log-in-form">
-                                            <input type="password" class="form-control" id="password"
-                                                placeholder="Password">
-                                            <label for="password">Mật khẩu</label>
+                                        <div class="form-floating theme-form-floating position-relative">
+                                            <input type="password" class="form-control" id="user_password" name="user_password" placeholder="Password" >
+                                            <label for="user_password">Mật khẩu</label>
+                                            <button type="button" class="btn btn-link position-absolute end-0 top-0 mt-2 me-2 text-muted" onclick="togglePasswordVisibility('user_password')">
+                                                <i class="ri-eye-fill align-middle" id="toggle-password-icon"></i>
+                                            </button>
+                                            @error('user_password')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
-    
+                                
                                     <div class="col-12">
                                         <div class="forgot-box">
                                             <div class="form-check ps-0 m-0 remember-box">
-                                                <input class="checkbox_animated check-box" type="checkbox"
-                                                    id="flexCheckDefault">
+                                                <input class="checkbox_animated check-box" type="checkbox" id="flexCheckDefault" name="remember">
                                                 <label class="form-check-label" for="flexCheckDefault">Nhớ tôi</label>
                                             </div>
-                                            <a href="forgot.html" class="forgot-password">Quên mật khẩu?</a>
+                                            <a href="" class="forgot-password">Quên mật khẩu?</a>
                                         </div>
                                     </div>
-    
+                                
                                     <div class="col-12">
                                         <button class="btn btn-animation w-100 justify-content-center" type="submit">Đăng Nhập</button>
                                     </div>
                                 </form>
+                                
+                                
                             </div>
     
                             {{-- <div class="other-log-in">
