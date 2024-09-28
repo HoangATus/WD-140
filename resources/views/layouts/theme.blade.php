@@ -38,11 +38,10 @@
     <link id="color-link" rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     <!-- Thêm Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
     <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-
+    {{-- @livewireStyles --}}
+    
 </head>
 
 <body class="bg-effect">
