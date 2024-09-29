@@ -42,35 +42,53 @@
                             </div>
     
                             <div class="input-box">
-                                <form class="row g-4">
+                                <form class="row g-4" action="{{ route('register') }}" method="POST">
+                                    @csrf
                                     <div class="col-12">
                                         <div class="form-floating theme-form-floating">
-                                            <input type="text" class="form-control" id="fullname" placeholder="Full Name">
+                                            <input type="text" class="form-control" id="fullname" name="user_name" placeholder="Full Name">
                                             <label for="fullname">Tên tài khoản</label>
+                                            @error('user_name')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating theme-form-floating">
-                                            <input type="email" class="form-control" id="email" placeholder="Email Address">
+                                            <input type="email" class="form-control" id="email" name="user_email" placeholder="Email Address">
                                             <label for="email">Email </label>
+                                            @error('user_email')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
     
                                     <div class="col-12">
-                                        <div class="form-floating theme-form-floating">
-                                            <input type="password" class="form-control" id="password"
-                                                placeholder="Password">
-                                            <label for="password">Mật khẩu</label>
+                                        <div class="form-floating theme-form-floating position-relative">
+                                            <input type="password" class="form-control" id="user_password" name="user_password" placeholder="User Password">
+                                            <label for="user_password">Mật khẩu</label>
+                                            <button type="button" class="btn btn-link position-absolute end-0 top-0 mt-2 me-2 text-muted" onclick="togglePasswordVisibility('user_password', 'toggle-password-icon')">
+                                                <i class="ri-eye-fill align-middle" id="toggle-password-icon"></i>
+                                            </button>
+                                            @error('user_password')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
-    
+                                    
                                     <div class="col-12">
-                                        <div class="form-floating theme-form-floating">
-                                            <input type="password" class="form-control" id="forgot-password"
-                                                placeholder="ForgotPassword">
-                                            <label for="password">Nhập lại mật khẩu</label>
+                                        <div class="form-floating theme-form-floating position-relative">
+                                            <input type="password" class="form-control" id="user_password_confirmation" name="user_password_confirmation" placeholder="Confirm Password">
+                                            <label for="user_password_confirmation">Nhập lại mật khẩu</label>
+                                            <button type="button" class="btn btn-link position-absolute end-0 top-0 mt-2 me-2 text-muted" onclick="togglePasswordVisibility('user_password_confirmation', 'toggle-password-confirmation-icon')">
+                                                <i class="ri-eye-fill align-middle" id="toggle-password-confirmation-icon"></i>
+                                            </button>
+                                            @error('user_password.confirmed')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
+                                    
     
                                     <div class="col-12">
                                         <div class="forgot-box">
