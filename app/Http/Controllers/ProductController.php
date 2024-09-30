@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Clients;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ProductDetailController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('clients.ProductDetail');
+        return view('clients.product');
     }
 
     /**
@@ -36,7 +35,7 @@ class ProductDetailController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('clients.productDetail');
     }
 
     /**
