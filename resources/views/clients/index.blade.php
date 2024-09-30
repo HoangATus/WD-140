@@ -8,7 +8,7 @@
             <div class="col-xl-8 ratio_65">
                 <div class="home-contain h-100">
                     <div class="h-100">
-                        <img src="../assets/images/vegetable/banner/1.jpg" class="bg-img blur-up lazyload" alt="">
+                        <img src="{{ asset('assets/images/BANNER.jpg') }}" class="bg-img blur-up lazyload" alt="">
                     </div>
                     <div class="home-detail p-center-left w-75">
                         <div>
@@ -27,7 +27,7 @@
                 <div class="row g-4">
                     <div class="col-xl-12 col-md-6">
                         <div class="home-contain">
-                            <img src="../assets/images/vegetable/banner/2.jpg" class="bg-img blur-up lazyload"
+                            <img src="{{ asset('assets/images/banner2.jpg') }}" class="bg-img blur-up lazyload"
                                 alt="">
                             <div class="home-detail p-center-left home-p-sm w-75">
                                 <div>
@@ -44,7 +44,7 @@
 
                     <div class="col-xl-12 col-md-6">
                         <div class="home-contain">
-                            <img src="../assets/images/vegetable/banner/3.jpg" class="bg-img blur-up lazyload"
+                            <img src="{{ asset('assets/images/banner3.jpg') }}" class="bg-img blur-up lazyload"
                                 alt="">
                             <div class="home-detail p-center-left home-p-sm w-75">
                                 <div>
@@ -70,7 +70,7 @@
         <div class="banner-slider">
             <div>
                 <div class="banner-contain hover-effect">
-                    <img src="../assets/images/vegetable/banner/4.jpg" class="bg-img blur-up lazyload" alt="">
+                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}" class="bg-img blur-up lazyload" alt="">
                     <div class="banner-details">
                         <div class="banner-box">
                             <h6 class="text-danger">Giảm giá 5% </h6>
@@ -85,7 +85,7 @@
 
             <div>
                 <div class="banner-contain hover-effect">
-                    <img src="../assets/images/vegetable/banner/5.jpg" class="bg-img blur-up lazyload" alt="">
+                    <img src="{{ asset('assets/images/ổngng.png') }}" class="bg-img blur-up lazyload" alt="">
                     <div class="banner-details">
                         <div class="banner-box">
                             <h6 class="text-danger">Giảm giá 5%</h6>
@@ -100,7 +100,7 @@
 
             <div>
                 <div class="banner-contain hover-effect">
-                    <img src="../assets/images/vegetable/banner/6.jpg" class="bg-img blur-up lazyload" alt="">
+                    <img src="{{ asset('assets/images/ao-thun-tron-form-regular-trang-at043-16062.jpg') }}" class="bg-img blur-up lazyload" alt="">
                     <div class="banner-details">
                         <div class="banner-box">
                             <h6 class="text-danger">Giảm giá 5%</h6>
@@ -115,7 +115,7 @@
 
             <div>
                 <div class="banner-contain hover-effect">
-                    <img src="../assets/images/vegetable/banner/7.jpg" class="bg-img blur-up lazyload" alt="">
+                    <img src="{{ asset('assets/images/bombert.jpg') }}" class="bg-img blur-up lazyload" alt="">
                     <div class="banner-details">
                         <div class="banner-box">
                             <h6 class="text-danger">Giảm giá 5%</h6>
@@ -204,7 +204,7 @@
                             <li>
                                 <div class="category-list">
                                     <h5 class="ms-0 text-title">
-                                        <a href="shop-left-sidebar.html">50 ưu đãiz hàng đầu</a>
+                                        <a href="shop-left-sidebar.html">50 ưu đãi hàng đầu</a>
                                     </h5>
                                 </div>
                             </li>
@@ -220,7 +220,7 @@
 
                     <div class="ratio_156 section-t-space">
                         <div class="home-contain hover-effect">
-                            <img src="../assets/images/vegetable/banner/8.jpg" class="bg-img blur-up lazyload"
+                            <img src="{{ asset('assets/images/quantay.png') }}" class="bg-img blur-up lazyload"
                                 alt="">
                             <div class="home-detail p-top-left home-p-medium">
                                 <div>
@@ -236,7 +236,7 @@
 
                     <div class="ratio_medium section-t-space">
                         <div class="home-contain hover-effect">
-                            <img src="../assets/images/vegetable/banner/11.jpg" class="img-fluid blur-up lazyload"
+                            <img src="{{ asset('assets/images/jacket.jpg') }}" class="img-fluid blur-up lazyload"
                                 alt="">
                             <div class="home-detail p-top-left home-p-medium">
                                 <div>
@@ -257,7 +257,7 @@
                                 <li>
                                     <div class="offer-product">
                                         <a href="product-left-thumbnail.html" class="offer-image">
-                                            <img src="../assets/images/vegetable/product/23.png"
+                                            <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}"
                                                 class="blur-up lazyload" alt="">
                                         </a>
 
@@ -276,7 +276,7 @@
                                 <li>
                                     <div class="offer-product">
                                         <a href="product-left-thumbnail.html" class="offer-image">
-                                            <img src="../assets/images/vegetable/product/24.png"
+                                            <img src="{{ asset('assets/images/ổngng.png') }}"
                                                 class="blur-up lazyload" alt="">
                                         </a>
 
@@ -295,7 +295,7 @@
                                 <li>
                                     <div class="offer-product">
                                         <a href="product-left-thumbnail.html" class="offer-image">
-                                            <img src="../assets/images/vegetable/product/25.png"
+                                            <img src="{{ asset('assets/images/ao-thun-tron-form-regular-trang-at043-16062.jpg') }}"
                                                 class="blur-up lazyload" alt="">
                                         </a>
 
@@ -314,7 +314,7 @@
                                 <li class="mb-0">
                                     <div class="offer-product">
                                         <a href="product-left-thumbnail.html" class="offer-image">
-                                            <img src="../assets/images/vegetable/product/26.png"
+                                            <img src="{{ asset('assets/images/vest.jpg') }}"
                                                 class="blur-up lazyload" alt="">
                                         </a>
 
@@ -383,7 +383,7 @@
                                         <div class="product-box">
                                             <div class="product-image">
                                                 <a href="product-left-thumbnail.html">
-                                                    <img src="../assets/images/vegetable/product/1.png"
+                                                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}"
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
@@ -471,187 +471,7 @@
                                         <div class="product-box">
                                             <div class="product-image">
                                                 <a href="product-left-thumbnail.html">
-                                                    <img src="../assets/images/vegetable/product/2.png"
-                                                        class="img-fluid blur-up lazyload" alt="">
-                                                </a>
-                                                <ul class="product-option">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="View">
-                                                        <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                            data-bs-target="#view">
-                                                            <i data-feather="eye"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Compare">
-                                                        <a href="compare.html">
-                                                            <i data-feather="refresh-cw"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Wishlist">
-                                                        <a href="wishlist.html" class="notifi-wishlist">
-                                                            <i data-feather="heart"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a href="product-left-thumbnail.html">
-                                                    <h6 class="name">Quần jean</h6>
-                                                </a>
-
-                                                <h5 class="sold text-content">
-                                                    <span class="theme-color price">600.000</span>
-                                                    <del>1.000.000</del>
-                                                </h5>
-
-                                                <div class="product-rating mt-sm-2 mt-1">
-                                                    <ul class="rating">
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star"></i>
-                                                        </li>
-                                                    </ul>
-
-                                                    <h6 class="theme-color">Đánh giá</h6>
-                                                </div>
-
-                                                <div class="add-to-cart-box">
-                                                    <button class="btn btn-add-cart addcart-button">Thêm giỏ hàng
-                                                        <span class="add-icon">
-                                                            <i class="fa-solid fa-plus"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="cart_qty qty-box">
-                                                        <div class="input-group">
-                                                            <button type="button" class="qty-left-minus"
-                                                                data-type="minus" data-field="">
-                                                                <i class="fa fa-minus"></i>
-                                                            </button>
-                                                            <input class="form-control input-number qty-input"
-                                                                type="text" name="quantity" value="0">
-                                                            <button type="button" class="qty-right-plus"
-                                                                data-type="plus" data-field="">
-                                                                <i class="fa fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="row m-0">
-                                    <div class="col-12 px-0">
-                                        <div class="product-box">
-                                            <div class="product-image">
-                                                <a href="product-left-thumbnail.html">
-                                                    <img src="../assets/images/vegetable/product/2.png"
-                                                        class="img-fluid blur-up lazyload" alt="">
-                                                </a>
-                                                <ul class="product-option">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="View">
-                                                        <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                            data-bs-target="#view">
-                                                            <i data-feather="eye"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Compare">
-                                                        <a href="compare.html">
-                                                            <i data-feather="refresh-cw"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Wishlist">
-                                                        <a href="wishlist.html" class="notifi-wishlist">
-                                                            <i data-feather="heart"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a href="product-left-thumbnail.html">
-                                                    <h6 class="name">Quần jean</h6>
-                                                </a>
-
-                                                <h5 class="sold text-content">
-                                                    <span class="theme-color price">600.000</span>
-                                                    <del>1.000.000</del>
-                                                </h5>
-
-                                                <div class="product-rating mt-sm-2 mt-1">
-                                                    <ul class="rating">
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star"></i>
-                                                        </li>
-                                                    </ul>
-
-                                                    <h6 class="theme-color">Đánh giá</h6>
-                                                </div>
-
-                                                <div class="add-to-cart-box">
-                                                    <button class="btn btn-add-cart addcart-button">Thêm giỏ hàng
-                                                        <span class="add-icon">
-                                                            <i class="fa-solid fa-plus"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="cart_qty qty-box">
-                                                        <div class="input-group">
-                                                            <button type="button" class="qty-left-minus"
-                                                                data-type="minus" data-field="">
-                                                                <i class="fa fa-minus"></i>
-                                                            </button>
-                                                            <input class="form-control input-number qty-input"
-                                                                type="text" name="quantity" value="0">
-                                                            <button type="button" class="qty-right-plus"
-                                                                data-type="plus" data-field="">
-                                                                <i class="fa fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 px-0">
-                                        <div class="product-box">
-                                            <div class="product-image">
-                                                <a href="product-left-thumbnail.html">
-                                                    <img src="../assets/images/vegetable/product/2.png"
+                                                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}"
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
@@ -743,7 +563,7 @@
                                         <div class="product-box">
                                             <div class="product-image">
                                                 <a href="product-left-thumbnail.html">
-                                                    <img src="../assets/images/vegetable/product/2.png"
+                                                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}"
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
@@ -831,187 +651,7 @@
                                         <div class="product-box">
                                             <div class="product-image">
                                                 <a href="product-left-thumbnail.html">
-                                                    <img src="../assets/images/vegetable/product/2.png"
-                                                        class="img-fluid blur-up lazyload" alt="">
-                                                </a>
-                                                <ul class="product-option">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="View">
-                                                        <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                            data-bs-target="#view">
-                                                            <i data-feather="eye"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Compare">
-                                                        <a href="compare.html">
-                                                            <i data-feather="refresh-cw"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Wishlist">
-                                                        <a href="wishlist.html" class="notifi-wishlist">
-                                                            <i data-feather="heart"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a href="product-left-thumbnail.html">
-                                                    <h6 class="name">Quần jean</h6>
-                                                </a>
-
-                                                <h5 class="sold text-content">
-                                                    <span class="theme-color price">600.000</span>
-                                                    <del>1.000.000</del>
-                                                </h5>
-
-                                                <div class="product-rating mt-sm-2 mt-1">
-                                                    <ul class="rating">
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star"></i>
-                                                        </li>
-                                                    </ul>
-
-                                                    <h6 class="theme-color">Đánh giá</h6>
-                                                </div>
-
-                                                <div class="add-to-cart-box">
-                                                    <button class="btn btn-add-cart addcart-button">Thêm giỏ hàng
-                                                        <span class="add-icon">
-                                                            <i class="fa-solid fa-plus"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="cart_qty qty-box">
-                                                        <div class="input-group">
-                                                            <button type="button" class="qty-left-minus"
-                                                                data-type="minus" data-field="">
-                                                                <i class="fa fa-minus"></i>
-                                                            </button>
-                                                            <input class="form-control input-number qty-input"
-                                                                type="text" name="quantity" value="0">
-                                                            <button type="button" class="qty-right-plus"
-                                                                data-type="plus" data-field="">
-                                                                <i class="fa fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="row m-0">
-                                    <div class="col-12 px-0">
-                                        <div class="product-box">
-                                            <div class="product-image">
-                                                <a href="product-left-thumbnail.html">
-                                                    <img src="../assets/images/vegetable/product/2.png"
-                                                        class="img-fluid blur-up lazyload" alt="">
-                                                </a>
-                                                <ul class="product-option">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="View">
-                                                        <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                            data-bs-target="#view">
-                                                            <i data-feather="eye"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Compare">
-                                                        <a href="compare.html">
-                                                            <i data-feather="refresh-cw"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Wishlist">
-                                                        <a href="wishlist.html" class="notifi-wishlist">
-                                                            <i data-feather="heart"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a href="product-left-thumbnail.html">
-                                                    <h6 class="name">Quần jean</h6>
-                                                </a>
-
-                                                <h5 class="sold text-content">
-                                                    <span class="theme-color price">600.000</span>
-                                                    <del>1.000.000</del>
-                                                </h5>
-
-                                                <div class="product-rating mt-sm-2 mt-1">
-                                                    <ul class="rating">
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star" class="fill"></i>
-                                                        </li>
-                                                        <li>
-                                                            <i data-feather="star"></i>
-                                                        </li>
-                                                    </ul>
-
-                                                    <h6 class="theme-color">Đánh giá</h6>
-                                                </div>
-
-                                                <div class="add-to-cart-box">
-                                                    <button class="btn btn-add-cart addcart-button">Thêm giỏ hàng
-                                                        <span class="add-icon">
-                                                            <i class="fa-solid fa-plus"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="cart_qty qty-box">
-                                                        <div class="input-group">
-                                                            <button type="button" class="qty-left-minus"
-                                                                data-type="minus" data-field="">
-                                                                <i class="fa fa-minus"></i>
-                                                            </button>
-                                                            <input class="form-control input-number qty-input"
-                                                                type="text" name="quantity" value="0">
-                                                            <button type="button" class="qty-right-plus"
-                                                                data-type="plus" data-field="">
-                                                                <i class="fa fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 px-0">
-                                        <div class="product-box">
-                                            <div class="product-image">
-                                                <a href="product-left-thumbnail.html">
-                                                    <img src="../assets/images/vegetable/product/2.png"
+                                                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}"
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
@@ -1103,7 +743,7 @@
                                         <div class="product-box">
                                             <div class="product-image">
                                                 <a href="product-left-thumbnail.html">
-                                                    <img src="../assets/images/vegetable/product/2.png"
+                                                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}"
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
@@ -1191,7 +831,367 @@
                                         <div class="product-box">
                                             <div class="product-image">
                                                 <a href="product-left-thumbnail.html">
-                                                    <img src="../assets/images/vegetable/product/2.png"
+                                                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}"
+                                                        class="img-fluid blur-up lazyload" alt="">
+                                                </a>
+                                                <ul class="product-option">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="View">
+                                                        <a href="javascript:void(0)" data-bs-toggle="modal"
+                                                            data-bs-target="#view">
+                                                            <i data-feather="eye"></i>
+                                                        </a>
+                                                    </li>
+
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Compare">
+                                                        <a href="compare.html">
+                                                            <i data-feather="refresh-cw"></i>
+                                                        </a>
+                                                    </li>
+
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Wishlist">
+                                                        <a href="wishlist.html" class="notifi-wishlist">
+                                                            <i data-feather="heart"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="product-detail">
+                                                <a href="product-left-thumbnail.html">
+                                                    <h6 class="name">Quần jean</h6>
+                                                </a>
+
+                                                <h5 class="sold text-content">
+                                                    <span class="theme-color price">600.000</span>
+                                                    <del>1.000.000</del>
+                                                </h5>
+
+                                                <div class="product-rating mt-sm-2 mt-1">
+                                                    <ul class="rating">
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star"></i>
+                                                        </li>
+                                                    </ul>
+
+                                                    <h6 class="theme-color">Đánh giá</h6>
+                                                </div>
+
+                                                <div class="add-to-cart-box">
+                                                    <button class="btn btn-add-cart addcart-button">Thêm giỏ hàng
+                                                        <span class="add-icon">
+                                                            <i class="fa-solid fa-plus"></i>
+                                                        </span>
+                                                    </button>
+                                                    <div class="cart_qty qty-box">
+                                                        <div class="input-group">
+                                                            <button type="button" class="qty-left-minus"
+                                                                data-type="minus" data-field="">
+                                                                <i class="fa fa-minus"></i>
+                                                            </button>
+                                                            <input class="form-control input-number qty-input"
+                                                                type="text" name="quantity" value="0">
+                                                            <button type="button" class="qty-right-plus"
+                                                                data-type="plus" data-field="">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="row m-0">
+                                    <div class="col-12 px-0">
+                                        <div class="product-box">
+                                            <div class="product-image">
+                                                <a href="product-left-thumbnail.html">
+                                                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}"
+                                                        class="img-fluid blur-up lazyload" alt="">
+                                                </a>
+                                                <ul class="product-option">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="View">
+                                                        <a href="javascript:void(0)" data-bs-toggle="modal"
+                                                            data-bs-target="#view">
+                                                            <i data-feather="eye"></i>
+                                                        </a>
+                                                    </li>
+
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Compare">
+                                                        <a href="compare.html">
+                                                            <i data-feather="refresh-cw"></i>
+                                                        </a>
+                                                    </li>
+
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Wishlist">
+                                                        <a href="wishlist.html" class="notifi-wishlist">
+                                                            <i data-feather="heart"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="product-detail">
+                                                <a href="product-left-thumbnail.html">
+                                                    <h6 class="name">Quần jean</h6>
+                                                </a>
+
+                                                <h5 class="sold text-content">
+                                                    <span class="theme-color price">600.000</span>
+                                                    <del>1.000.000</del>
+                                                </h5>
+
+                                                <div class="product-rating mt-sm-2 mt-1">
+                                                    <ul class="rating">
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star"></i>
+                                                        </li>
+                                                    </ul>
+
+                                                    <h6 class="theme-color">Đánh giá</h6>
+                                                </div>
+
+                                                <div class="add-to-cart-box">
+                                                    <button class="btn btn-add-cart addcart-button">Thêm giỏ hàng
+                                                        <span class="add-icon">
+                                                            <i class="fa-solid fa-plus"></i>
+                                                        </span>
+                                                    </button>
+                                                    <div class="cart_qty qty-box">
+                                                        <div class="input-group">
+                                                            <button type="button" class="qty-left-minus"
+                                                                data-type="minus" data-field="">
+                                                                <i class="fa fa-minus"></i>
+                                                            </button>
+                                                            <input class="form-control input-number qty-input"
+                                                                type="text" name="quantity" value="0">
+                                                            <button type="button" class="qty-right-plus"
+                                                                data-type="plus" data-field="">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 px-0">
+                                        <div class="product-box">
+                                            <div class="product-image">
+                                                <a href="product-left-thumbnail.html">
+                                                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}"
+                                                        class="img-fluid blur-up lazyload" alt="">
+                                                </a>
+                                                <ul class="product-option">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="View">
+                                                        <a href="javascript:void(0)" data-bs-toggle="modal"
+                                                            data-bs-target="#view">
+                                                            <i data-feather="eye"></i>
+                                                        </a>
+                                                    </li>
+
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Compare">
+                                                        <a href="compare.html">
+                                                            <i data-feather="refresh-cw"></i>
+                                                        </a>
+                                                    </li>
+
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Wishlist">
+                                                        <a href="wishlist.html" class="notifi-wishlist">
+                                                            <i data-feather="heart"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="product-detail">
+                                                <a href="product-left-thumbnail.html">
+                                                    <h6 class="name">Quần jean</h6>
+                                                </a>
+
+                                                <h5 class="sold text-content">
+                                                    <span class="theme-color price">600.000</span>
+                                                    <del>1.000.000</del>
+                                                </h5>
+
+                                                <div class="product-rating mt-sm-2 mt-1">
+                                                    <ul class="rating">
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star"></i>
+                                                        </li>
+                                                    </ul>
+
+                                                    <h6 class="theme-color">Đánh giá</h6>
+                                                </div>
+
+                                                <div class="add-to-cart-box">
+                                                    <button class="btn btn-add-cart addcart-button">Thêm giỏ hàng
+                                                        <span class="add-icon">
+                                                            <i class="fa-solid fa-plus"></i>
+                                                        </span>
+                                                    </button>
+                                                    <div class="cart_qty qty-box">
+                                                        <div class="input-group">
+                                                            <button type="button" class="qty-left-minus"
+                                                                data-type="minus" data-field="">
+                                                                <i class="fa fa-minus"></i>
+                                                            </button>
+                                                            <input class="form-control input-number qty-input"
+                                                                type="text" name="quantity" value="0">
+                                                            <button type="button" class="qty-right-plus"
+                                                                data-type="plus" data-field="">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="row m-0">
+                                    <div class="col-12 px-0">
+                                        <div class="product-box">
+                                            <div class="product-image">
+                                                <a href="product-left-thumbnail.html">
+                                                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}"
+                                                        class="img-fluid blur-up lazyload" alt="">
+                                                </a>
+                                                <ul class="product-option">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="View">
+                                                        <a href="javascript:void(0)" data-bs-toggle="modal"
+                                                            data-bs-target="#view">
+                                                            <i data-feather="eye"></i>
+                                                        </a>
+                                                    </li>
+
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Compare">
+                                                        <a href="compare.html">
+                                                            <i data-feather="refresh-cw"></i>
+                                                        </a>
+                                                    </li>
+
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Wishlist">
+                                                        <a href="wishlist.html" class="notifi-wishlist">
+                                                            <i data-feather="heart"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="product-detail">
+                                                <a href="product-left-thumbnail.html">
+                                                    <h6 class="name">Quần jean</h6>
+                                                </a>
+
+                                                <h5 class="sold text-content">
+                                                    <span class="theme-color price">600.000</span>
+                                                    <del>1.000.000</del>
+                                                </h5>
+
+                                                <div class="product-rating mt-sm-2 mt-1">
+                                                    <ul class="rating">
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star" class="fill"></i>
+                                                        </li>
+                                                        <li>
+                                                            <i data-feather="star"></i>
+                                                        </li>
+                                                    </ul>
+
+                                                    <h6 class="theme-color">Đánh giá</h6>
+                                                </div>
+
+                                                <div class="add-to-cart-box">
+                                                    <button class="btn btn-add-cart addcart-button">Thêm giỏ hàng
+                                                        <span class="add-icon">
+                                                            <i class="fa-solid fa-plus"></i>
+                                                        </span>
+                                                    </button>
+                                                    <div class="cart_qty qty-box">
+                                                        <div class="input-group">
+                                                            <button type="button" class="qty-left-minus"
+                                                                data-type="minus" data-field="">
+                                                                <i class="fa fa-minus"></i>
+                                                            </button>
+                                                            <input class="form-control input-number qty-input"
+                                                                type="text" name="quantity" value="0">
+                                                            <button type="button" class="qty-right-plus"
+                                                                data-type="plus" data-field="">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 px-0">
+                                        <div class="product-box">
+                                            <div class="product-image">
+                                                <a href="product-left-thumbnail.html">
+                                                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}"
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <ul class="product-option">
@@ -1541,7 +1541,7 @@
                     <div class="row g-md-4 g-3">
                         <div class="col-md-6">
                             <div class="banner-contain hover-effect">
-                                <img src="../assets/images/vegetable/banner/9.jpg" class="bg-img blur-up lazyload"
+                                <img src="{{ asset('assets/images/banner3.jpg') }}" class="bg-img blur-up lazyload"
                                     alt="">
                                 <div class="banner-details p-center-left p-4">
                                     <div>
@@ -1555,7 +1555,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="banner-contain hover-effect">
-                                <img src="../assets/images/vegetable/banner/10.jpg" class="bg-img blur-up lazyload"
+                                <img src="{{ asset('assets/images/banner2.jpg') }}" class="bg-img blur-up lazyload"
                                     alt="">
                                 <div class="banner-details p-center-left p-4">
                                     <div>
@@ -1588,7 +1588,7 @@
                                     <div class="product-box">
                                         <div class="product-image">
                                             <a href="product-left-thumbnail.html">
-                                                <img src="../assets/images/vegetable/product/1.png"
+                                                <img src="{{ asset('assets/images/ao-thun-tron-form-regular-trang-at043-16062.jpg') }}"
                                                     class="img-fluid blur-up lazyload" alt="">
                                             </a>
                                             <ul class="product-option">
@@ -1679,7 +1679,7 @@
                                     <div class="product-box">
                                         <div class="product-image">
                                             <a href="product-left-thumbnail.html">
-                                                <img src="../assets/images/vegetable/product/2.png"
+                                                <img src="{{ asset('assets/images/ao-thun-tron-form-regular-trang-at043-16062.jpg') }}"
                                                     class="img-fluid blur-up lazyload" alt="">
                                             </a>
                                             <ul class="product-option">
@@ -1770,7 +1770,7 @@
                                     <div class="product-box">
                                         <div class="product-image">
                                             <a href="product-left-thumbnail.html">
-                                                <img src="../assets/images/vegetable/product/3.png"
+                                                <img src="{{ asset('assets/images/ao-thun-tron-form-regular-trang-at043-16062.jpg') }}"
                                                     class="img-fluid blur-up lazyload" alt="">
                                             </a>
                                             <ul class="product-option">
@@ -1861,7 +1861,7 @@
                                     <div class="product-box">
                                         <div class="product-image">
                                             <a href="product-left-thumbnail.html">
-                                                <img src="../assets/images/vegetable/product/4.png"
+                                                <img src="{{ asset('assets/images/ao-thun-tron-form-regular-trang-at043-16062.jpg') }}"
                                                     class="img-fluid blur-up lazyload" alt="">
                                             </a>
                                             <ul class="product-option">
@@ -1952,7 +1952,7 @@
                                     <div class="product-box">
                                         <div class="product-image">
                                             <a href="product-left-thumbnail.html">
-                                                <img src="../assets/images/vegetable/product/5.png"
+                                                <img src="{{ asset('assets/images/ao-thun-tron-form-regular-trang-at043-16062.jpg') }}"
                                                     class="img-fluid blur-up lazyload" alt="">
                                             </a>
                                             <ul class="product-option">
@@ -2043,7 +2043,7 @@
                                     <div class="product-box">
                                         <div class="product-image">
                                             <a href="product-left-thumbnail.html">
-                                                <img src="../assets/images/vegetable/product/4.png"
+                                                <img src="{{ asset('assets/images/ao-thun-tron-form-regular-trang-at043-16062.jpg') }}"
                                                     class="img-fluid blur-up lazyload" alt="">
                                             </a>
                                             <ul class="product-option">
@@ -2146,7 +2146,7 @@
                     <div class="row g-md-4 g-3">
                         <div class="col-xxl-8 col-xl-12 col-md-7">
                             <div class="banner-contain hover-effect">
-                                <img src="../assets/images/vegetable/banner/12.jpg" class="bg-img blur-up lazyload"
+                                <img src="{{ asset('assets/images/banner3.jpg') }}" class="bg-img blur-up lazyload"
                                     alt="">
                                 <div class="banner-details p-center-left p-4">
                                     <div>
@@ -2162,7 +2162,7 @@
 
                         <div class="col-xxl-4 col-xl-12 col-md-5">
                             <a href="shop-left-sidebar.html" class="banner-contain hover-effect h-100">
-                                <img src="../assets/images/vegetable/banner/13.jpg" class="bg-img blur-up lazyload"
+                                <img src="{{ asset('assets/images/banner3.jpg') }}" class="bg-img blur-up lazyload"
                                     alt="">
                                 <div class="banner-details p-center-left p-4 h-100">
                                     <div>
@@ -2194,7 +2194,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/11.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2213,7 +2213,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/12.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2232,7 +2232,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/13.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2251,7 +2251,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/14.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2274,7 +2274,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/15.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2293,7 +2293,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/16.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2312,7 +2312,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/17.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2331,7 +2331,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/18.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2354,7 +2354,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/19.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2373,7 +2373,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/20.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2392,7 +2392,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/21.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2411,7 +2411,7 @@
                             <li>
                                 <div class="offer-product">
                                     <a href="product-left-thumbnail.html" class="offer-image">
-                                        <img src="../assets/images/vegetable/product/22.png"
+                                        <img src="{{ asset('assets/images/bombert.jpg') }}"
                                             class="blur-up lazyload" alt="">
                                     </a>
 
@@ -2432,7 +2432,7 @@
 
                 <div class="section-t-space">
                     <div class="banner-contain hover-effect">
-                        <img src="../assets/images/vegetable/banner/14.jpg" class="bg-img blur-up lazyload" alt="">
+                        <img src="{{ asset('assets/images/banner3.jpg') }}" class="bg-img blur-up lazyload" alt="">
                         <div class="banner-details p-center banner-b-space w-100 text-center">
                             <div>
                                 <h6 class="ls-expanded theme-color mb-sm-3 mb-1">Mùa hè</h6>
@@ -2461,7 +2461,7 @@
                         <div class="blog-box">
                             <div class="blog-box-image">
                                 <a href="blog-detail.html" class="blog-image">
-                                    <img src="../assets/images/vegetable/blog/1.jpg" class="bg-img blur-up lazyload"
+                                    <img src="{{ asset('assets/images/ao-thun-tron-form-regular-trang-at043-16062.jpg') }}" class="bg-img blur-up lazyload"
                                         alt="">
                                 </a>
                             </div>
@@ -2477,7 +2477,7 @@
                         <div class="blog-box">
                             <div class="blog-box-image">
                                 <a href="blog-detail.html" class="blog-image">
-                                    <img src="../assets/images/vegetable/blog/2.jpg" class="bg-img blur-up lazyload"
+                                    <img src="{{ asset('assets/images/quan-jeans-slimfit-qj048-mau-xanh-16793.jpeg') }}" class="bg-img blur-up lazyload"
                                         alt="">
                                 </a>
                             </div>
@@ -2493,7 +2493,7 @@
                         <div class="blog-box">
                             <div class="blog-box-image">
                                 <a href="blog-detail.html" class="blog-image">
-                                    <img src="../assets/images/vegetable/blog/3.jpg" class="bg-img blur-up lazyload"
+                                    <img src="{{ asset('assets/images/ao-thun-tron-form-regular-trang-at043-16062.jpg') }}" class="bg-img blur-up lazyload"
                                         alt="">
                                 </a>
                             </div>
