@@ -78,7 +78,7 @@
                             </li>
 
                             <li>
-                                <a href="add-new-attributes.html">Add Thuộc tính</a>
+                                <a href="add-new-attributes.html">Thêm thuộc tính</a>
                             </li>
                         </ul>
                     </li>
@@ -93,7 +93,7 @@
                                 <a href="all-users.html">Người dùng</a>
                             </li>
                             <li>
-                                <a href="add-new-user.html">Add new Người dùng</a>
+                                <a href="add-new-user.html">Thêm mới người dùng</a>
                             </li>
                         </ul>
                     </li>
@@ -105,20 +105,20 @@
                         </a>
                         <ul class="sidebar-submenu">
                             <li>
-                                <a href="role.html">All roles</a>
+                                <a href="role.html">Tất cả các vai trò</a>
                             </li>
                             <li>
-                                <a href="create-role.html">Create Role</a>
+                                <a href="create-role.html">Tạo Vai trò</a>
                             </li>
                         </ul>
                     </li>
 
-                    <li class="sidebar-list">
+                    {{-- <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="media.html">
                             <i class="ri-price-tag-3-line"></i>
                             <span>Truyền thông</span>
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title" href="javascript:void(0)">
@@ -127,13 +127,13 @@
                         </a>
                         <ul class="sidebar-submenu">
                             <li>
-                                <a href="order-list.html">Order List</a>
+                                <a href="order-list.html">Danh sách đơn hàng</a>
                             </li>
                             <li>
-                                <a href="order-detail.html">Order Detail</a>
+                                <a href="order-detail.html">Chi tiết đơn hàng</a>
                             </li>
                             <li>
-                                <a href="order-tracking.html">Order Tracking</a>
+                                <a href="order-tracking.html">Theo dõi đơn hàng</a>
                             </li>
                         </ul>
                     </li>
@@ -161,35 +161,35 @@
                         </a>
                         <ul class="sidebar-submenu">
                             <li>
-                                <a href="coupon-list.html">Coupon List</a>
+                                <a href="coupon-list.html">Danh sách phiếu giảm giá</a>
                             </li>
 
                             <li>
-                                <a href="create-coupon.html">Create Coupon</a>
+                                <a href="create-coupon.html">Tạo phiếu giảm giá</a>
                             </li>
                         </ul>
                     </li>
 
-                    <li class="sidebar-list">
+                    {{-- <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="taxes.html">
                             <i class="ri-price-tag-3-line"></i>
                             <span>Thuế</span>
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="product-review.html">
                             <i class="ri-star-line"></i>
-                            <span>Đánh giá sản phẩm</span>
+                            <span>Quản lý đánh giá</span>
                         </a>
                     </li>
 
-                    <li class="sidebar-list">
+                    {{-- <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="support-ticket.html">
                             <i class="ri-phone-line"></i>
                             <span>Vé hỗ trợ</span>
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li class="sidebar-list">
                         <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
@@ -198,17 +198,17 @@
                         </a>
                         <ul class="sidebar-submenu">
                             <li>
-                                <a href="profile-setting.html">Profile Setting</a>
+                                <a href="profile-setting.html">Thiết lập hồ sơ</a>
                             </li>
                         </ul>
                     </li>
 
-                    <li class="sidebar-list">
+                    {{-- <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="reports.html">
                             <i class="ri-file-chart-line"></i>
                             <span>Báo cáo</span>
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="list-page.html">
