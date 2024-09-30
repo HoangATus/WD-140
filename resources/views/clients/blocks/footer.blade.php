@@ -68,7 +68,7 @@
                             </li>
                             <li>
                                 <i data-feather="mail"></i>
-                                <a href="javascript:void(0)">support@fastkart.com</a>
+                                <a href="javascript:void(0)">support@atus.com</a>
                             </li>
                         </ul>
                     </div>
@@ -179,7 +179,7 @@
                                 <i data-feather="mail"></i>
                                 <div class="contact-number">
                                     <h6 class="text-content">Email :</h6>
-                                    <h5>fastkart@hotmail.com</h5>
+                                    <h5>atus@hotmail.com</h5>
                                 </div>
                             </div>
                         </li>
@@ -216,30 +216,5 @@
             <img src="../assets/images/payment/1.png" class="blur-up lazyload" alt="">
         </div>
 
-        <div class="social-link">
-            <h6 class="text-content">Stay connected :</h6>
-            <ul>
-                <li>
-                    <a href="https://www.facebook.com/" target="_blank">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://twitter.com/" target="_blank">
-                        <i class="fa-brands fa-twitter"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://www.instagram.com/" target="_blank">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://in.pinterest.com/" target="_blank">
-                        <i class="fa-brands fa-pinterest-p"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
     </div>
 </div>
