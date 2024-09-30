@@ -106,7 +106,7 @@
                         <li>
                             <a href="support-ticket.html">
                                 <i data-feather="phone"></i>
-                                <span>Vé thể thao</span>
+                                <span>Liên hệ</span>
                             </a>
                         </li>
                         <li>
