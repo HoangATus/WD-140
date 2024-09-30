@@ -276,212 +276,58 @@
                                 <a href="javascript:void(0)" class="category-name">
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/vegetable.svg"
                                         alt="">
-                                    <h6>Rau củ quả và nước ép</h6>
+                                    <h6>Quần jean</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
 
                                 <div class="onhover-category-box">
                                     <div class="list-1">
                                         <div class="category-title-box">
-                                            <h5>Rau hữu cơ</h5>
+                                            <h5>quần jean</h5>
                                         </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">Khoai tây và cà chua</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Dưa chuột và ớt chuông</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Rau lá</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Rau củ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Đậu & đậu bắp</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bắp cải & Súp lơ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bầu và Đùi</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Chuyên ngành</a>
-                                            </li>
-                                        </ul>
 
                             <li class="onhover-category-list">
                                 <a href="javascript:void(0)" class="category-name">
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/cup.svg"
                                         alt="">
-                                    <h6>Đồ uống</h6>
+                                    <h6>Quần ống rộng</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
 
                                 <div class="onhover-category-box w-100">
                                     <div class="list-1">
                                         <div class="category-title-box">
-                                            <h5>Nước giải khát & năng lượng</h5>
+                                            <h5>Quần ống rộng</h5>
                                         </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">Khoai tây và cà chua</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Dưa chuột và ớt chuông</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Rau lá</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Rau củ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Đậu & đậu bắp</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bắp cải & Súp lơ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bầu và Đùi</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Chuyên ngành</a>
-                                            </li>
-                                        </ul>
+                    
                             <li class="onhover-category-list">
                                 <a href="javascript:void(0)" class="category-name">
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/meats.svg"
                                         alt="">
-                                    <h6>Thịt</h6>
+                                    <h6>Áo thun</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
 
                                 <div class="onhover-category-box">
                                     <div class="list-1">
                                         <div class="category-title-box">
-                                            <h5>Thịt</h5>
+                                            <h5>Áo thun</h5>
                                         </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">thịt bò</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Thịt gà</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Thịt lợn</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Thịt xông khói</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="list-2">
-                                        <div class="category-title-box">
-                                            <h5>Đồ ăn</h5>
-                                        </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">Khoai tây và cà chua</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Dưa chuột và ớt chuông</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Rau lá</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Rau củ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Đậu & đậu bắp</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bắp cải & Súp lơ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bầu và Đùi</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Chuyên ngành</a>
-                                            </li>
-                                        </ul>
 
                             <li class="onhover-category-list">
                                 <a href="javascript:void(0)" class="category-name">
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/breakfast.svg"
                                         alt="">
-                                    <h6>Bữa sáng & Sữa</h6>
+                                    <h6>Áo bomber</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
 
                                 <div class="onhover-category-box">
                                     <div class="list-1">
                                         <div class="category-title-box">
-                                            <h5>Bữa sáng </h5>
+                                            <h5>Áo bomber </h5>
                                         </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">Khoai tây và cà chua</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Dưa chuột và ớt chuông</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Rau lá</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Rau củ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Đậu & đậu bắp</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bắp cải & Súp lơ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bầu và Đùi</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Chuyên ngành</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="list-2">
-                                        <div class="category-title-box">
-                                            <h5>Sữa</h5>
-                                        </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">Sữa</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Sữa đông</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Paneer, Đậu phụ & Kem</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bơ & Bơ thực vật</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Sữa đặc, bột</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Sữa bơ & Lassi</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Sữa chua & Shrikhand</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Sữa đậu nành có hương vị</a>
-                                            </li>
-                                        </ul>
+                                        
                                     </div>
                                 </div>
                             </li>
@@ -490,33 +336,16 @@
                                 <a href="javascript:void(0)" class="category-name">
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/frozen.svg"
                                         alt="">
-                                    <h6>Thực phẩm đông lạnh</h6>
+                                    <h6>Áo jacket</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
 
                                 <div class="onhover-category-box w-100">
                                     <div class="list-1">
                                         <div class="category-title-box">
-                                            <h5>Mì, Mì ống</h5>
+                                            <h5>Áo jacket</h5>
                                         </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">Mì ăn liền</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Mì Hakka</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="javascript:void(0)">Mì cốc</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bún</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Mì ăn liền</a>
-                                            </li>
-                                        </ul>
+                                        
                                     </div>
                                 </div>
                             </li>
@@ -525,52 +354,16 @@
                                 <a href="javascript:void(0)" class="category-name">
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/biscuit.svg"
                                         alt="">
-                                    <h6>Bánh quy & Đồ ăn nhẹ</h6>
+                                    <h6>Quần tây</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
 
                                 <div class="onhover-category-box">
                                     <div class="list-1">
                                         <div class="category-title-box">
-                                            <h5>Bánh quy & Bánh quy</h5>
+                                            <h5>Quần tây</h5>
                                         </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">Bánh quy muối</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Marie, Sức khỏe, Tiêu hóa</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bánh quy kem & Bánh xốp</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bánh quy Glucose & Sữa</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bánh quy</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="list-2">
-                                        <div class="category-title-box">
-                                            <h5>Đồ ăn nhẹ từ bánh mì</h5>
-                                        </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">Bánh mì que & Lavash</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bánh mì phô mai & tỏi</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bánh phồng, bánh nướng, bánh sandwich</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Vụn bánh mì & bánh mì nướng</a>
-                                            </li>
-                                        </ul>
+                                        
                                     </div>
                                 </div>
                             </li>
@@ -579,62 +372,16 @@
                                 <a href="javascript:void(0)" class="category-name">
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/grocery.svg"
                                         alt="">
-                                    <h6>Thực phẩm & Hàng</h6>
+                                    <h6>Áo vest</h6>
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
 
                                 <div class="onhover-category-box">
                                     <div class="list-1">
                                         <div class="category-title-box">
-                                            <h5>Thực phẩm tạp hóa</h5>
+                                            <h5>Áo vest</h5>
                                         </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">Chanh, Gừng & Tỏi</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Thảo mộc Ấn Độ & Kỳ lạ</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="javascript:void(0)">Rau hữu cơ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Trái cây hữu cơ</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="list-2">
-                                        <div class="category-title-box">
-                                            <h5>Thực phẩm chính hữu cơ</h5>
-                                        </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">Trái cây khô hữu cơ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Đậu lăng & đậu hữu cơ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Kê & bột hữu cơ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Đường hữu cơ, Jaggery</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Gia vị & Masalas hữu cơ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Gạo hữu cơ, Gạo khác</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Bột hữu cơ</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">Dầu ăn hữu cơ, Ghee</a>
-                                            </li>
-                                        </ul>
+                                  
                                     </div>
                                 </div>
                             </li>
@@ -667,122 +414,32 @@
                                                 <div class="col-xl-3">
                                                     <div class="dropdown-column m-0">
                                                         <h5 class="dropdown-header">
-                                                            Trang sản phẩm </h5>
-                                                        <a class="dropdown-item"
-                                                            href="product-left-thumbnail.html">Hình thu nhỏ sản
-                                                            phẩm</a>
-                                                        <a class="dropdown-item" href="product-4-image.html">Hình ảnh
-                                                            sản phẩm</a>
-                                                        <a class="dropdown-item" href="product-slider.html">Thanh
-                                                            trượt sản phẩm</a>
-                                                        <a class="dropdown-item" href="product-sticky.html">Gắn sản
-                                                            phẩm</a>
-                                                        <a class="dropdown-item" href="product-accordion.html">Cấu
-                                                            trúc sản phẩm</a>
-                                                        <a class="dropdown-item" href="product-circle.html">Tab sản
-                                                            phẩm</a>
-                                                        <a class="dropdown-item" href="product-digital.html">Sản phẩm
-                                                            Kỹ thuật số</a>
-
-                                                        <h5 class="custom-mt dropdown-header">Tính năng sản phẩm
+                                                            Quần jean </h5>
+                                                        <h5 class="custom-mt dropdown-header">Quần tây
                                                         </h5>
-                                                        <a class="dropdown-item" href="product-circle.html">Gói
-                                                            (Bán chéo)</a>
-                                                        <a class="dropdown-item"
-                                                            href="product-left-thumbnail.html">Hàng tồn kho
-                                                            Tiến trình <label class="menu-label">Mới</label>
-                                                        </a>
-                                                        <a class="dropdown-item" href="product-sold-out.html">ĐÃ BÁN
-                                                            HẾT</a>
-                                                        <a class="dropdown-item" href="product-circle.html">
-                                                            Đếm ngược thời gian bán hàng</a>
+                                                        <h5 class="dropdown-header">
+                                                            Quần ống rộng </h5>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-3">
                                                     <div class="dropdown-column m-0">
-                                                        <h5 class="dropdown-header">
-                                                            Biến thể sản phẩm </h5>
-                                                        <a class="dropdown-item" href="product-rectangle.html">Biến
-                                                            thể
-                                                            Hình chữ nhật</a>
-                                                        <a class="dropdown-item" href="product-circle.html">Biến thể
-                                                            Hình tròn <label class="menu-label">Mới</label></a>
-                                                        <a class="dropdown-item" href="product-color-image.html">Biến
-                                                            thể Hình ảnh
-                                                            Mẫu</a>
-                                                        <a class="dropdown-item" href="product-color.html">Biến thể
-                                                            Màu sắc</a>
-                                                        <a class="dropdown-item" href="product-radio.html">Biến thể
-                                                            Nút chọn</a>
-                                                        <a class="dropdown-item" href="product-dropdown.html">Biến thể
-                                                            Thả xuống</a>
-                                                        <h5 class="custom-mt dropdown-header">Tính năng sản phẩm
+                                                        <h5 class=" dropdown-header">Áo thun
                                                         </h5>
-                                                        <a class="dropdown-item"
-                                                            href="product-left-thumbnail.html">Thanh toán
-                                                            cố định</a>
-                                                        <a class="dropdown-item" href="product-dynamic.html">Thanh
-                                                            toán
-                                                            động</a>
-                                                        <a class="dropdown-item" href="product-sticky.html">Thanh toán
-                                                            an toàn</a>
-                                                        <a class="dropdown-item" href="product-bundle.html">Hoạt động
-                                                            Xem sản phẩm</a>
-                                                        <a class="dropdown-item" href="product-bundle.html">
-                                                            Hoạt động
-                                                            Đơn hàng gần đây
-                                                        </a>
+                                                        <h5 class="dropdown-header">
+                                                            Jacket </h5>
+                                                            <h5 class="custom-mt dropdown-header">Bomber
+                                                            </h5>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-3">
                                                     <div class="dropdown-column m-0">
-                                                        <h5 class="dropdown-header">
-                                                            Tính năng sản phẩm </h5>
-                                                        <a class="dropdown-item" href="product-image.html">Sản phẩm
-                                                            Đơn giản</a>
-                                                        <a class="dropdown-item" href="product-rectangle.html">
-                                                            Sản phẩm được phân loại <label
-                                                                class="menu-label">Mới</label>
-                                                        </a>
-                                                        <a class="dropdown-item" href="product-size-chart.html">Biểu
-                                                            đồ
-                                                            Kích thước <label class="menu-label">Mới</label></a>
-                                                        <a class="dropdown-item" href="product-size-chart.html">Giao
-                                                            hàng &
-                                                            Trả hàng</a>
-                                                        <a class="dropdown-item" href="product-size-chart.html">Đánh
-                                                            giá sản phẩm</a>
-                                                        <a class="dropdown-item" href="product-expert.html">Hỏi
-                                                            một chuyên gia</a>
-                                                        <h5 class="custom-mt dropdown-header">Tính năng sản phẩm
-                                                        </h5>
-                                                        <a class="dropdown-item"
-                                                            href="product-bottom-thumbnail.html">Thẻ
-                                                            sản phẩm</a>
-                                                        <a class="dropdown-item" href="product-image.html">Thông tin
-                                                            cửa hàng</a>
-                                                        <a class="dropdown-item" href="product-image.html">Xã hội
-                                                            Chia sẻ <label class="menu-label warning-label">Hot</label>
-                                                        </a>
-                                                        <a class="dropdown-item"
-                                                            href="product-left-thumbnail.html">Sản phẩm liên quan
-                                                            <label class="menu-label warning-label">Hot</label>
-                                                        </a>
-                                                        <a class="dropdown-item"
-                                                            href="product-right-thumbnail.html">Danh sách mong muốn &
-                                                            So sánh</a>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 d-xl-block d-none">
+                                                <div class="col-xl-3">
                                                     <div class="dropdown-column m-0">
-                                                        <div class="menu-img-banner">
-                                                            <a class="text-title" href="product-circle.html">
-                                                                <img src="../assets/images/mega-menu.png"
-                                                                    alt="banner">
-                                                            </a>
-                                                        </div>
+                                                        <h5 class="dropdown-header">
+                                                            Áo vest </h5>
                                                     </div>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     </li>
