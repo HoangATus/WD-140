@@ -14,34 +14,35 @@
     <link rel="icon" href="../assets/images/favicon/1.png" type="image/x-icon">
     <title>On-demand last-mile delivery</title>
 
-    <!-- Google font -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com/">
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&amp;display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
 
-    <!-- bootstrap css -->
-    <link id="rtl-link" rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- wow css -->
+    <!-- Wow CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/animate.min.css') }}">
 
-    <!-- Iconly css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bulk-style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
+    <!-- Iconly CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bulk-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/vendors/animate.css') }}">
 
-    <!-- Template css -->
+    <!-- Ion Range Slider CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/ion-rangeslider/css/ion.rangeSlider.min.css" rel="stylesheet">
+
+    <!-- Template CSS -->
     <link id="color-link" rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
-    <!-- Thêm Bootstrap Icons -->
+    
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    {{-- @livewireStyles --}}
-    
+
 </head>
 
 <body class="bg-effect">
@@ -501,6 +502,34 @@
             }
         }
     </script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                            
+     <script src="https://cdn.jsdelivr.net/npm/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+ 
+     <script>
+     $(document).ready(function() {
+         var $range = $("#priceRange");
+         var $priceValue = $("#priceValue");
+ 
+         $range.ionRangeSlider({
+             skin: "round",  
+             type: "double",
+             min: 0,         
+             max: 1000000,  
+             from: 100000,   
+             to: 500000,     
+             prefix: "₫",    
+             grid: true,     
+             onStart: function (data) {
+
+                 $priceValue.text(data.from_pretty + " - " + data.to_pretty);
+             },
+             onChange: function (data) {
+                 $priceValue.text(data.from_pretty + " - " + data.to_pretty);
+             }
+         });
+     });
+     </script>
 
 </body>
 
