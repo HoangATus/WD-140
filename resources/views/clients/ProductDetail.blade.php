@@ -47,7 +47,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="breadcrumb-contain">
-                        <h2>Creamy Chocolate Cake</h2>
+                        <h2>Quần short kaki basic FSBK019</h2>
                         <nav>
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item">
@@ -56,7 +56,7 @@
                                     </a>
                                 </li>
 
-                                <li class="breadcrumb-item active">Creamy Chocolate Cake</li>
+                                <li class="breadcrumb-item active">Quần short kaki basic FSBK019</li>
                             </ol>
                         </nav>
                     </div>
@@ -79,51 +79,44 @@
                                         <div class="product-main-2 no-arrow">
                                             <div>
                                                 <div class="slider-image">
-                                                    <img src="../assets/images/product/category/1.jpg" id="img-1"
-                                                        data-zoom-image="../assets/images/product/category/1.jpg"
+                                                    <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px__c6ab90b8685f4d6d8b54ff3ef5403ee4_master.png" id="img-1"
+                                                        data-zoom-image="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px__c6ab90b8685f4d6d8b54ff3ef5403ee4_master.png"
                                                         class="img-fluid image_zoom_cls-0 blur-up lazyload" alt="">
                                                 </div>
                                             </div>
 
                                             <div>
                                                 <div class="slider-image">
-                                                    <img src="../assets/images/product/category/2.jpg"
-                                                        data-zoom-image="../assets/images/product/category/2.jpg"
+                                                    <img src="https://product.hstatic.net/200000690725/product/53736151526_8261f263a7_k_df12a36e9a6a43ee8ec380473b3b3f20_master.jpg"
+                                                        data-zoom-image="https://product.hstatic.net/200000690725/product/53736151526_8261f263a7_k_df12a36e9a6a43ee8ec380473b3b3f20_master.jpg"
                                                         class="img-fluid image_zoom_cls-1 blur-up lazyload" alt="">
                                                 </div>
                                             </div>
 
                                             <div>
                                                 <div class="slider-image">
-                                                    <img src="../assets/images/product/category/3.jpg"
-                                                        data-zoom-image="../assets/images/product/category/3.jpg"
+                                                    <img src="https://product.hstatic.net/200000690725/product/53736579775_d6365ea94c_k_a3615ab12f494289afe304da305a6f4e_master.jpg"
+                                                        data-zoom-image="https://product.hstatic.net/200000690725/product/53736579775_d6365ea94c_k_a3615ab12f494289afe304da305a6f4e_master.jpg"
                                                         class="img-fluid image_zoom_cls-2 blur-up lazyload" alt="">
                                                 </div>
                                             </div>
 
                                             <div>
                                                 <div class="slider-image">
-                                                    <img src="../assets/images/product/category/4.jpg"
-                                                        data-zoom-image="../assets/images/product/category/4.jpg"
+                                                    <img src="https://product.hstatic.net/200000690725/product/53735223382_656c80a56d_k_cddc7628915440c3b2b6f6a2487e0186_master.jpg"
+                                                        data-zoom-image="https://product.hstatic.net/200000690725/product/53735223382_656c80a56d_k_cddc7628915440c3b2b6f6a2487e0186_master.jpg"
                                                         class="img-fluid image_zoom_cls-3 blur-up lazyload" alt="">
                                                 </div>
                                             </div>
 
                                             <div>
                                                 <div class="slider-image">
-                                                    <img src="../assets/images/product/category/5.jpg"
-                                                        data-zoom-image="../assets/images/product/category/5.jpg"
+                                                    <img src="https://product.hstatic.net/200000690725/product/53736352273_d9cebfad75_k_580f799e41f840d9ae004837db4888fe_master.jpg"
+                                                        data-zoom-image="https://product.hstatic.net/200000690725/product/53736352273_d9cebfad75_k_580f799e41f840d9ae004837db4888fe_master.jpg"
                                                         class="img-fluid image_zoom_cls-4 blur-up lazyload" alt="">
                                                 </div>
                                             </div>
 
-                                            <div>
-                                                <div class="slider-image">
-                                                    <img src="../assets/images/product/category/6.jpg"
-                                                        data-zoom-image="../assets/images/product/category/6.jpg"
-                                                        class="img-fluid image_zoom_cls-5 blur-up lazyload" alt="">
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
 
@@ -131,45 +124,38 @@
                                         <div class="left-slider-image-2 left-slider no-arrow slick-top">
                                             <div>
                                                 <div class="sidebar-image">
-                                                    <img src="../assets/images/product/category/1.jpg"
+                                                    <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px__c6ab90b8685f4d6d8b54ff3ef5403ee4_master.png"
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </div>
                                             </div>
 
                                             <div>
                                                 <div class="sidebar-image">
-                                                    <img src="../assets/images/product/category/2.jpg"
+                                                    <img src="https://product.hstatic.net/200000690725/product/53736151526_8261f263a7_k_df12a36e9a6a43ee8ec380473b3b3f20_master.jpg"
                                                         class="img-fluid blur-up lazyload" alt="">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="sidebar-image">
+                                                    <img src="https://product.hstatic.net/200000690725/product/53736579775_d6365ea94c_k_a3615ab12f494289afe304da305a6f4e_master.jpg"
+                                                    class="img-fluid blur-up lazyload" alt="">
+                                                </div>
+                                            </div>
+                                            
+                                            <div>
+                                                <div class="sidebar-image">
+                                                    <img src="https://product.hstatic.net/200000690725/product/53735223382_656c80a56d_k_cddc7628915440c3b2b6f6a2487e0186_master.jpg"
+                                                    class="img-fluid blur-up lazyload" alt="">
                                                 </div>
                                             </div>
 
                                             <div>
                                                 <div class="sidebar-image">
-                                                    <img src="../assets/images/product/category/3.jpg"
+                                                    <img src="https://product.hstatic.net/200000690725/product/53736352273_d9cebfad75_k_580f799e41f840d9ae004837db4888fe_master.jpg"
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </div>
                                             </div>
 
-                                            <div>
-                                                <div class="sidebar-image">
-                                                    <img src="../assets/images/product/category/4.jpg"
-                                                        class="img-fluid blur-up lazyload" alt="">
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <div class="sidebar-image">
-                                                    <img src="../assets/images/product/category/5.jpg"
-                                                        class="img-fluid blur-up lazyload" alt="">
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <div class="sidebar-image">
-                                                    <img src="../assets/images/product/category/6.jpg"
-                                                        class="img-fluid blur-up lazyload" alt="">
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -178,11 +164,11 @@
 
                         <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="right-box-contain">
-                                <h6 class="offer-top">30% Off</h6>
-                                <h2 class="name">Creamy Chocolate Cake</h2>
+                                <h6 class="offer-top">Giảm giá 30%</h6>
+                                <h2 class="name">Quần short kaki basic FSBK019</h2>
                                 <div class="price-rating">
-                                    <h3 class="theme-color price">$49.50 <del class="text-content">$58.46</del> <span
-                                            class="offer theme-color">(8% off)</span></h3>
+                                    <h3 class="theme-color price">114.000 ₫ <del class="text-content">150.000 ₫</del> <span
+                                            class="offer theme-color">(giảm giá 8%)</span></h3>
                                     <div class="product-rating custom-rate">
                                         <ul class="rating">
                                             <li>
@@ -201,42 +187,52 @@
                                                 <i data-feather="star"></i>
                                             </li>
                                         </ul>
-                                        <span class="review">23 Customer Review</span>
+                                        {{-- <span class="review">23 Customer Review</span> --}}
                                     </div>
                                 </div>
 
                                 <div class="product-contain">
-                                    <p>Lollipop cake chocolate chocolate cake dessert jujubes. Shortbread sugar plum
-                                        dessert
-                                        powder cookie sweet brownie. Cake cookie apple pie dessert sugar plum muffin
-                                        cheesecake.
+                                    <p>Quần short kaki basic FSBK019 <span class="text-danger">HOT HIT</span> cả về chất
+                                         lượng lẫn thiết kế. Đây là một trong những mẫu short nam được ưa chuộng nhất hiện
+                                          nay. ATUS luôn mong muốn mang đến sản phẩm tốt nhất tới khách hàng.
                                     </p>
                                 </div>
 
                                 <div class="product-package">
                                     <div class="product-title">
-                                        <h4>Weight</h4>
+                                        <h4>Màu sắc:</h4>
                                     </div>
                                     <ul class="select-package">
                                         <li>
-                                            <a href="javascript:void(0)" class="active">1/2 KG</a>
+                                            <a href="javascript:void(0)" class="active">Đen</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">1 KG</a>
+                                            <a href="javascript:void(0)">Trắng</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">1.5 KG</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">Red Roses</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">With Pink Roses</a>
+                                            <a href="javascript:void(0)">Xanh than</a>
                                         </li>
                                     </ul>
                                 </div>
 
-                                <div class="time deal-timer product-deal-timer mx-md-0 mx-auto" id="clockdiv-1"
+                                <div class="product-package">
+                                    <div class="product-title">
+                                        <h4>Kích thước:</h4>
+                                    </div>
+                                    <ul class="select-package">
+                                        <li>
+                                            <a href="javascript:void(0)" class="active">S</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">M</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">L</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                {{-- <div class="time deal-timer product-deal-timer mx-md-0 mx-auto" id="clockdiv-1"
                                     data-hours="1" data-minutes="2" data-seconds="3">
                                     <div class="product-title">
                                         <h4>Hurry up! Sales Ends In</h4>
@@ -275,7 +271,7 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> --}}
 
                                 <div class="note-box product-package">
                                     <div class="cart_qty qty-box product-qty">
@@ -293,10 +289,12 @@
                                     </div>
 
                                     <button onclick="location.href = 'cart.html';"
-                                        class="btn btn-md bg-dark cart-button text-white w-100">Add To Cart</button>
+                                        class="btn btn-md bg-dark cart-button text-white w-50">Thêm vào giỏ</button>
+                                    <button onclick="location.href = 'cart.html';"
+                                        class="btn btn-md bg-danger cart-button text-white w-50">Mua ngay</button>
                                 </div>
 
-                                <div class="progress-sec">
+                                {{-- <div class="progress-sec">
                                     <div class="left-progressbar">
                                         <h6>Please hurry! Only 5 left in stock</h6>
                                         <div role="progressbar" class="progress warning-progress">
@@ -304,8 +302,8 @@
                                                 style="width: 50%;"></div>
                                         </div>
                                     </div>
-                                </div>
-
+                                </div> --}}
+{{-- 
                                 <div class="buy-box">
                                     <a href="wishlist.html">
                                         <i data-feather="heart"></i>
@@ -316,9 +314,9 @@
                                         <i data-feather="shuffle"></i>
                                         <span>Add To Compare</span>
                                     </a>
-                                </div>
+                                </div> --}}
 
-                                <div class="pickup-box">
+                                {{-- <div class="pickup-box">
                                     <div class="product-title">
                                         <h4>Store Information</h4>
                                     </div>
@@ -338,11 +336,11 @@
                                                     href="javascript:void(0)">Backery</a></li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="payment-option">
                                     <div class="product-title">
-                                        <h4>Guaranteed Safe Checkout</h4>
+                                        <h4>Đảm bảo thanh toán an toàn</h4>
                                     </div>
                                     <ul>
                                         <li>
@@ -385,156 +383,119 @@
                                 <ul class="nav nav-tabs custom-nav" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link active" id="description-tab" data-bs-toggle="tab"
-                                            data-bs-target="#description" type="button" role="tab">Description</button>
+                                            data-bs-target="#description" type="button" role="tab">Mô tả</button>
                                     </li>
 
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="info-tab" data-bs-toggle="tab"
-                                            data-bs-target="#info" type="button" role="tab">Additional info</button>
+                                            data-bs-target="#info" type="button" role="tab">Đánh giá từ khách hàng</button>
                                     </li>
 
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="care-tab" data-bs-toggle="tab"
-                                            data-bs-target="#care" type="button" role="tab">Care
-                                            Instructions</button>
+                                            data-bs-target="#care" type="button" role="tab">Chính sách đổi trả</button>
                                     </li>
 
-                                    <li class="nav-item" role="presentation">
+                                    {{-- <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="review-tab" data-bs-toggle="tab"
                                             data-bs-target="#review" type="button" role="tab">Review</button>
-                                    </li>
+                                    </li> --}}
                                 </ul>
 
                                 <div class="tab-content custom-tab" id="myTabContent">
                                     <div class="tab-pane fade show active" id="description" role="tabpanel">
                                         <div class="product-description">
                                             <div class="nav-desh">
-                                                <p>Jelly beans carrot cake icing biscuit oat cake gummi bears tart.
-                                                    Lemon drops carrot cake pudding sweet gummi bears. Chocolate cake
-                                                    tart cupcake donut topping liquorice sugar plum chocolate bar. Jelly
-                                                    beans tiramisu caramels jujubes biscuit liquorice chocolate. Pudding
-                                                    toffee jujubes oat cake sweet roll. Lemon drops dessert croissant
-                                                    danish cake cupcake. Sweet roll candy chocolate toffee jelly sweet
-                                                    roll halvah brownie topping. Marshmallow powder candy sesame snaps
-                                                    jelly beans candy canes marshmallow gingerbread pie.</p>
+                                                <p><strong>Áo Tshirt họa tiết in Speedhunters FSTS041</strong> chính hãng
+                                                     Torano là mẫu áo thun nam với chất vải cho độ dày dặn,
+                                                      co giãn tốt và quan trọng độ bền màu cao. Giặt không 
+                                                      đổ lông hay bay màu, thấm hút mồ hôi và thoải mái không
+                                                       gò bó khi vận động.
+                                                </p>
                                             </div>
 
                                             <div class="nav-desh">
                                                 <div class="desh-title">
-                                                    <h5>Organic:</h5>
+                                                    <h5></h5>
                                                 </div>
-                                                <p>vitae et leo duis ut diam quam nulla porttitor massa id neque aliquam
-                                                    vestibulum morbi blandit cursus risus at ultrices mi tempus
-                                                    imperdiet nulla malesuada pellentesque elit eget gravida cum sociis
-                                                    natoque penatibus et magnis dis parturient montes nascetur ridiculus
-                                                    mus mauris vitae ultricies leo integer malesuada nunc vel risus
-                                                    commodo viverra maecenas accumsan lacus vel facilisis volutpat est
-                                                    velit egestas dui id ornare arcu odio ut sem nulla pharetra diam sit
-                                                    amet nisl suscipit adipiscing bibendum est ultricies integer quis
-                                                    auctor elit sed vulputate mi sit amet mauris commodo quis imperdiet
-                                                    massa tincidunt nunc pulvinar sapien et ligula ullamcorper malesuada
-                                                    proin libero nunc consequat interdum varius sit amet mattis
-                                                    vulputate enim nulla aliquet porttitor lacus luctus accumsan.</p>
+                                                <p>📍Hướng dẫn sử dụng: <br>
+
+                                                    + Giặt máy với chu kỳ trung bình và vòng quay ngắn <br>
+                                                    
+                                                    + Giặt với nhiệt độ tối đa 30 độ C <br>
+                                                    
+                                                    + Sấy nhẹ ở nhiệt độ thường <br>
+                                                    
+                                                    + Là ủi không quá 110 độ C <br>
+                                                    
+                                                    + Phơi bằng móc dưới bóng râm <br>
+                                                    
+                                                    + Không sử dụng chất tẩy <br>
+                                                    
+                                                    📍 Lưu ý nhỏ: <br>
+                                                    
+                                                    + Không giặt chung với đồ dễ xước <br>
+                                                    
+                                                    + Cẩn thận vướng mắc khi phơi <br>
+                                                    
+                                                </p>
                                             </div>
 
                                             <div class="banner-contain nav-desh">
-                                                <img src="../assets/images/vegetable/banner/14.jpg"
-                                                    class="bg-img blur-up lazyload" alt="">
+                                                <img src="https://file.hstatic.net/200000690725/file/z4341084551984_7eb7d524487f0a688af347c79701f706_592820eb2f1d4e238c85c2b4301ca8fc_grande.jpg"
+                                                    class=" blur-up lazyload"  alt="">
                                                 <div class="banner-details p-center banner-b-space w-100 text-center">
-                                                    <div>
-                                                        <h6 class="ls-expanded theme-color mb-sm-3 mb-1">SUMMER</h6>
-                                                        <h2>VEGETABLE</h2>
-                                                        <p class="mx-auto mt-1">Save up to 5% OFF</p>
-                                                    </div>
+                                                    
                                                 </div>
-                                            </div>
-
-                                            <div class="nav-desh">
-                                                <div class="desh-title">
-                                                    <h5>From The Manufacturer:</h5>
-                                                </div>
-                                                <p>Jelly beans shortbread chupa chups carrot cake jelly-o halvah apple
-                                                    pie pudding gingerbread. Apple pie halvah cake tiramisu shortbread
-                                                    cotton candy croissant chocolate cake. Tart cupcake caramels gummi
-                                                    bears macaroon gingerbread fruitcake marzipan wafer. Marzipan
-                                                    dessert cupcake ice cream tootsie roll. Brownie chocolate cake
-                                                    pudding cake powder candy ice cream ice cream cake. Jujubes soufflé
-                                                    chupa chups cake candy halvah donut. Tart tart icing lemon drops
-                                                    fruitcake apple pie.</p>
-
-                                                <p>Dessert liquorice tart soufflé chocolate bar apple pie pastry danish
-                                                    soufflé. Gummi bears halvah gingerbread jelly icing. Chocolate cake
-                                                    chocolate bar pudding chupa chups bear claw pie dragée donut halvah.
-                                                    Gummi bears cookie ice cream jelly-o jujubes sweet croissant.
-                                                    Marzipan cotton candy gummi bears lemon drops lollipop lollipop
-                                                    chocolate. Ice cream cookie dragée cake sweet roll sweet roll.Lemon
-                                                    drops cookie muffin carrot cake chocolate marzipan gingerbread
-                                                    topping chocolate bar. Soufflé tiramisu pastry sweet dessert.</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="tab-pane fade" id="info" role="tabpanel">
                                         <div class="table-responsive">
-                                            <table class="table info-table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Specialty</td>
-                                                        <td>Vegetarian</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Ingredient Type</td>
-                                                        <td>Vegetarian</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Brand</td>
-                                                        <td>Lavian Exotique</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Form</td>
-                                                        <td>Bar Brownie</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Package Information</td>
-                                                        <td>Box</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Manufacturer</td>
-                                                        <td>Prayagh Nutri Product Pvt Ltd</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Item part number</td>
-                                                        <td>LE 014 - 20pcs Crème Bakes (Pack of 2)</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Net Quantity</td>
-                                                        <td>40.00 count</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                             
                                         </div>
                                     </div>
 
                                     <div class="tab-pane fade" id="care" role="tabpanel">
                                         <div class="information-box">
                                             <ul>
-                                                <li>Store cream cakes in a refrigerator. Fondant cakes should be
-                                                    stored in an air conditioned environment.</li>
+                                                <li><h4><b>1. CHÍNH SÁCH ÁP DỤNG</b></h4> 
 
-                                                <li>Slice and serve the cake at room temperature and make sure
-                                                    it is not exposed to heat.</li>
+                                                    Áp dụng từ ngày 01/09/2018. </br>
+                                                    
+                                                    Trong vòng 30 ngày kể từ ngày mua sản phẩm với các sản phẩm ATUS. </br>
+                                                    
+                                                    Áp dụng đối với sản phẩm nguyên giá và sản phẩm giảm giá ít hơn 50%. </br>
+                                                    
+                                                    Sản phẩm nguyên giá chỉ được đổi 01 lần duy nhất sang sản phẩm nguyên giá khác và không thấp hơn giá trị sản phẩm đã mua. </br>
+                                                    
+                                                    Sản phẩm giảm giá/khuyến mại ít hơn 50% được đổi 01 lần sang màu khác hoặc size khác trên cùng 1 mã trong điều kiện còn sản phẩm hoặc theo quy chế chương trình (nếu có). Nếu sản phẩm đổi đã hết hàng khi đó KH sẽ được đổi sang sản phẩm khác có giá trị ngang bằng hoặc cao hơn. Khách hàng sẽ thanh toán phần tiền chênh lệch nếu sản phẩm đổi có giá trị cao hơn sản phẩm đã mua. </br>
+                                                    
+                                                    Chính sách chỉ áp dụng khi sản phẩm còn hóa đơn mua hàng, còn nguyên nhãn mác, thẻ bài đính kèm sản phẩm và sản phẩm không bị dơ bẩn, hư hỏng bởi những tác nhân bên ngoài cửa hàng sau khi mua sản phẩm. </br>
+                                                    
+                                                    Sản phẩm đồ lót và phụ kiện không được đổi trả. </br>
+                                                </li>
 
-                                                <li>Use a serrated knife to cut a fondant cake.</li>
+                                                <li><h4><b>2. ĐIỀU KIỆN ĐỔI SẢN PHẨM</b></h4> 
 
-                                                <li>Sculptural elements and figurines may contain wire supports
-                                                    or toothpicks or wooden skewers for support.</li>
+                                                    Đổi hàng trong vòng 07 ngày kể từ ngày khách hàng nhận được sản phẩm. </br>
+                                                    
+                                                    Sản phẩm còn nguyên tem, mác và chưa qua sử dụng. </br>
+                                                </li>
 
-                                                <li>Please check the placement of these items before serving to
-                                                    small children.</li>
+                                                <li><h4><b>3. THỰC HIỆN ĐỔI SẢN PHẨM</b></h4> 
 
-                                                <li>The cake should be consumed within 24 hours.</li>
-
-                                                <li>Enjoy your cake!</li>
+                                                    Quý khách có thể đổi hàng Online tại hệ thống cửa hàng và đại lý ATUS trên toàn quốc . Lưu ý: vui lòng mang theo sản phẩm và phiếu giao hàng. </br>
+                                                    
+                                                    Nếu tại khu vực bạn không có cửa hàng ATUS hoặc sản phẩm bạn muốn đổi thì vui lòng làm theo các bước sau: </br>
+                                                    
+                                                    Bước 1: Gọi đến Tổng đài: 0964942121 các ngày trong tuần (trừ ngày lễ), cung cấp mã đơn hàng và mã sản phẩm cần đổi. </br>
+                                                    
+                                                    Bước 2: Vui lòng gửi hàng đổi về địa chỉ : Kho Online ATUS - 1165 Giải Phóng, Thịnh Liệt, Q. Hoàng Mai, Hà Nội. </br>
+                                                    
+                                                    Bước 3: ATUS gửi đổi sản phẩm mới khi nhận được hàng. Trong trường hợp hết hàng, ATUS sẽ liên hệ xác nhận. </br>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -912,7 +873,7 @@
                 </div>
 
                 <div class="col-xxl-3 col-xl-4 col-lg-5 d-none d-lg-block wow fadeInUp">
-                    <div class="right-sidebar-box">
+                    {{-- <div class="right-sidebar-box">
                         <div class="vendor-box">
                             <div class="vendor-contain">
                                 <div class="vendor-image">
@@ -966,28 +927,28 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-
+                        </div> --}}
+                              
                         <!-- Trending Product -->
                         <div class="pt-25">
                             <div class="category-menu">
-                                <h3>Trending Products</h3>
+                                {{-- <h3>Trending Products</h3> --}}
 
                                 <ul class="product-list product-right-sidebar border-0 p-0">
                                     <li>
                                         <div class="offer-product">
                                             <a href="product-left-thumbnail.html" class="offer-image">
-                                                <img src="../assets/images/vegetable/product/23.png"
+                                                <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px___1__6aa60b9ff93549b2910f6f832169d8dd_master.png"
                                                     class="img-fluid blur-up lazyload" alt="">
                                             </a>
 
                                             <div class="offer-detail">
                                                 <div>
                                                     <a href="product-left-thumbnail.html">
-                                                        <h6 class="name">Meatigo Premium Goat Curry</h6>
+                                                        <h6 class="name">Áo T shirt họa tiết in Determination phối lưới FSTS053</h6>
                                                     </a>
-                                                    <span>450 G</span>
-                                                    <h6 class="price theme-color">$ 70.00</h6>
+                                                    <span><del>224,000₫</del></span>
+                                                    <h6 class="price theme-color">224,000₫</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -996,17 +957,17 @@
                                     <li>
                                         <div class="offer-product">
                                             <a href="product-left-thumbnail.html" class="offer-image">
-                                                <img src="../assets/images/vegetable/product/24.png"
+                                                <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px__03d7292dbc8844f28182e02c5f72e73a_master.png"
                                                     class="blur-up lazyload" alt="">
                                             </a>
 
                                             <div class="offer-detail">
                                                 <div>
                                                     <a href="product-left-thumbnail.html">
-                                                        <h6 class="name">Dates Medjoul Premium Imported</h6>
+                                                        <h6 class="name">Áo polo dệt kẻ ngang FSTP023</h6>
                                                     </a>
-                                                    <span>450 G</span>
-                                                    <h6 class="price theme-color">$ 40.00</h6>
+                                                    <span><del>450,000₫</del></span>
+                                                    <h6 class="price theme-color">405,000₫</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -1015,17 +976,17 @@
                                     <li>
                                         <div class="offer-product">
                                             <a href="product-left-thumbnail.html" class="offer-image">
-                                                <img src="../assets/images/vegetable/product/25.png"
+                                                <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px___1__8d7dc794721943628c90f90c4db01096_master.png"
                                                     class="blur-up lazyload" alt="">
                                             </a>
 
                                             <div class="offer-detail">
                                                 <div>
                                                     <a href="product-left-thumbnail.html">
-                                                        <h6 class="name">Good Life Walnut Kernels</h6>
+                                                        <h6 class="name">Áo polo in tràn họa tiết TRN FSTP017</h6>
                                                     </a>
-                                                    <span>200 G</span>
-                                                    <h6 class="price theme-color">$ 52.00</h6>
+                                                    <span><del>450,000₫</del></span>
+                                                    <h6 class="price theme-color">360,000₫</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -1034,17 +995,17 @@
                                     <li class="mb-0">
                                         <div class="offer-product">
                                             <a href="product-left-thumbnail.html" class="offer-image">
-                                                <img src="../assets/images/vegetable/product/26.png"
+                                                <img src="https://product.hstatic.net/200000690725/product/53818949638_4c07aa0b47_k_14cc32aecb4246b1938f5d55ddc80f25_master.jpg"
                                                     class="blur-up lazyload" alt="">
                                             </a>
 
                                             <div class="offer-detail">
                                                 <div>
                                                     <a href="product-left-thumbnail.html">
-                                                        <h6 class="name">Apple Red Premium Imported</h6>
+                                                        <h6 class="name">Áo T shirt họa tiết in Speedhunters FSTS041</h6>
                                                     </a>
-                                                    <span>1 KG</span>
-                                                    <h6 class="price theme-color">$ 80.00</h6>
+                                                    <span><del>350,000₫</del></span>
+                                                    <h6 class="price theme-color">280,000₫</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -1054,11 +1015,11 @@
                         </div>
 
                         <!-- Banner Section -->
-                        <div class="ratio_156 pt-25">
+                        {{-- <div class="ratio_156 pt-25">
                             <div class="home-contain">
-                                <img src="../assets/images/vegetable/banner/8.jpg" class="bg-img blur-up lazyload"
+                                <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px___1__1d88fc770c294039bae8e7b9078db7a3_master.png" class="bg-img blur-up lazyload"
                                     alt="">
-                                <div class="home-detail p-top-left home-p-medium">
+                                {{-- <div class="home-detail p-top-left home-p-medium">
                                     <div>
                                         <h6 class="text-yellow home-banner">Seafood</h6>
                                         <h3 class="text-uppercase fw-normal"><span
@@ -1067,11 +1028,11 @@
                                         <button onclick="location.href = 'shop-left-sidebar.html';"
                                             class="btn btn-animation btn-md fw-bold mend-auto">Shop Now <i
                                                 class="fa-solid fa-arrow-right icon"></i></button>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div> 
+                    </div> 
                 </div>
             </div>
         </div>
@@ -1082,7 +1043,7 @@
     <section class="product-list-section section-b-space">
         <div class="container-fluid-lg">
             <div class="title">
-                <h2>Related Products</h2>
+                <h2>Sản phẩm liên quan</h2>
                 <span class="title-leaf">
                     <svg class="icon-width">
                         <use xlink:href="https://themes.pixelstrap.com/fastkart/assets/svg/leaf.svg#leaf"></use>
@@ -1097,7 +1058,7 @@
                                 <div class="product-header">
                                     <div class="product-image">
                                         <a href="product-left-2.html">
-                                            <img src="../assets/images/cake/product/11.png"
+                                            <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px___1__8b6c11f3d07043c9b9b897b0e499ee93_master.png"
                                                 class="img-fluid blur-up lazyload" alt="">
                                         </a>
 
@@ -1126,9 +1087,9 @@
 
                                 <div class="product-footer">
                                     <div class="product-detail">
-                                        <span class="span-name">Cake</span>
+                                        <span class="span-name"></span>
                                         <a href="product-left-thumbnail.html">
-                                            <h5 class="name">Chocolate Chip Cookies 250 g</h5>
+                                            <h5 class="name">Áo T shirt họa tiết in Freedom Peace FSTS047</h5>
                                         </a>
                                         <div class="product-rating mt-2">
                                             <ul class="rating">
@@ -1150,11 +1111,11 @@
                                             </ul>
                                             <span>(5.0)</span>
                                         </div>
-                                        <h6 class="unit">500 G</h6>
-                                        <h5 class="price"><span class="theme-color">$10.25</span> <del>$12.57</del>
+                                        <h5 class="price"><span class="theme-color">245,000₫
+                                        </span> <del>350,000₫</del>
                                         </h5>
                                         <div class="add-to-cart-box bg-white">
-                                            <button class="btn btn-add-cart addcart-button">Add
+                                            <button class="btn btn-add-cart addcart-button">Thêm vào giỏ
                                                 <span class="add-icon bg-light-gray">
                                                     <i class="fa-solid fa-plus"></i>
                                                 </span>
@@ -1184,7 +1145,7 @@
                                 <div class="product-header">
                                     <div class="product-image">
                                         <a href="product-left-thumbnail.html">
-                                            <img src="../assets/images/cake/product/2.png"
+                                            <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px___1__6aa60b9ff93549b2910f6f832169d8dd_master.png"
                                                 class="img-fluid blur-up lazyload" alt="">
                                         </a>
 
@@ -1212,9 +1173,9 @@
                                 </div>
                                 <div class="product-footer">
                                     <div class="product-detail">
-                                        <span class="span-name">Vegetable</span>
+                                        <span class="span-name"></span>
                                         <a href="product-left-thumbnail.html">
-                                            <h5 class="name">Fresh Bread and Pastry Flour 200 g</h5>
+                                            <h5 class="name">Áo T shirt họa tiết in Determination phối lưới FSTS053</h5>
                                         </a>
                                         <div class="product-rating mt-2">
                                             <ul class="rating">
@@ -1236,11 +1197,11 @@
                                             </ul>
                                             <span>(4.0)</span>
                                         </div>
-                                        <h6 class="unit">250 ml</h6>
-                                        <h5 class="price"><span class="theme-color">$08.02</span> <del>$15.15</del>
+                                        <h6 class="unit"></h6>
+                                        <h5 class="price"><span class="theme-color">224,000₫</span> <del>350,000₫</del>
                                         </h5>
                                         <div class="add-to-cart-box bg-white">
-                                            <button class="btn btn-add-cart addcart-button">Add
+                                            <button class="btn btn-add-cart addcart-button">Thêm vào giỏ
                                                 <span class="add-icon bg-light-gray">
                                                     <i class="fa-solid fa-plus"></i>
                                                 </span>
@@ -1270,7 +1231,7 @@
                                 <div class="product-header">
                                     <div class="product-image">
                                         <a href="product-left-thumbnail.html">
-                                            <img src="../assets/images/cake/product/3.png"
+                                            <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px___1__1d88fc770c294039bae8e7b9078db7a3_master.png"
                                                 class="img-fluid blur-up lazyload" alt="">
                                         </a>
 
@@ -1299,10 +1260,11 @@
 
                                 <div class="product-footer">
                                     <div class="product-detail">
-                                        <span class="span-name">Vegetable</span>
+                                        <span class="span-name"></span>
                                         <a href="product-left-thumbnail.html">
-                                            <h5 class="name">Peanut Butter Bite Premium Butter Cookies 600 g</h5>
+                                            <h5 class="name">Áo T shirt họa tiết in Overpowering FSTS046</h5>
                                         </a>
+
                                         <div class="product-rating mt-2">
                                             <ul class="rating">
                                                 <li>
@@ -1323,11 +1285,11 @@
                                             </ul>
                                             <span>(2.4)</span>
                                         </div>
-                                        <h6 class="unit">350 G</h6>
-                                        <h5 class="price"><span class="theme-color">$04.33</span> <del>$10.36</del>
+                                        <h6 class="unit"></h6>
+                                        <h5 class="price"><span class="theme-color">245,000₫</span> <del>350,000₫</del>
                                         </h5>
                                         <div class="add-to-cart-box bg-white">
-                                            <button class="btn btn-add-cart addcart-button">Add
+                                            <button class="btn btn-add-cart addcart-button">Thêm vào giỏ
                                                 <span class="add-icon bg-light-gray">
                                                     <i class="fa-solid fa-plus"></i>
                                                 </span>
@@ -1357,7 +1319,7 @@
                                 <div class="product-header">
                                     <div class="product-image">
                                         <a href="product-left-thumbnail.html">
-                                            <img src="../assets/images/cake/product/4.png"
+                                            <img src="https://product.hstatic.net/200000690725/product/fsts051-6_53810716657_o_c55e751d4f3740559afa2b74bef35cf1_master.jpg"
                                                 class="img-fluid blur-up lazyload" alt="">
                                         </a>
 
@@ -1386,9 +1348,9 @@
 
                                 <div class="product-footer">
                                     <div class="product-detail">
-                                        <span class="span-name">Snacks</span>
+                                        <span class="span-name"></span>
                                         <a href="product-left-thumbnail.html">
-                                            <h5 class="name">SnackAmor Combo Pack of Jowar Stick and Jowar Chips</h5>
+                                            <h5 class="name">Áo T shirt họa tiết in Toughness phối lưới FSTS051</h5>
                                         </a>
                                         <div class="product-rating mt-2">
                                             <ul class="rating">
@@ -1410,11 +1372,11 @@
                                             </ul>
                                             <span>(5.0)</span>
                                         </div>
-                                        <h6 class="unit">570 G</h6>
-                                        <h5 class="price"><span class="theme-color">$12.52</span> <del>$13.62</del>
+                                        <h6 class="unit"></h6>
+                                        <h5 class="price"><span class="theme-color">245,000₫</span> <del>350,000₫</del>
                                         </h5>
                                         <div class="add-to-cart-box bg-white">
-                                            <button class="btn btn-add-cart addcart-button">Add
+                                            <button class="btn btn-add-cart addcart-button">Thêm vào giỏ
                                                 <span class="add-icon bg-light-gray">
                                                     <i class="fa-solid fa-plus"></i>
                                                 </span>
@@ -1444,7 +1406,7 @@
                                 <div class="product-header">
                                     <div class="product-image">
                                         <a href="product-left-thumbnail.html">
-                                            <img src="../assets/images/cake/product/5.png"
+                                            <img src="https://product.hstatic.net/200000690725/product/448968128_873273321512917_5801099752762121552_n_31b0fbf1859747119f4a80fe0940da82_master.jpg"
                                                 class="img-fluid blur-up lazyload" alt="">
                                         </a>
 
@@ -1473,9 +1435,9 @@
 
                                 <div class="product-footer">
                                     <div class="product-detail">
-                                        <span class="span-name">Snacks</span>
+                                        <span class="span-name"></span>
                                         <a href="product-left-thumbnail.html">
-                                            <h5 class="name">Yumitos Chilli Sprinkled Potato Chips 100 g</h5>
+                                            <h5 class="name">Áo T shirt họa tiết in ốp túi ngực FSTS005</h5>
                                         </a>
                                         <div class="product-rating mt-2">
                                             <ul class="rating">
@@ -1497,11 +1459,11 @@
                                             </ul>
                                             <span>(3.8)</span>
                                         </div>
-                                        <h6 class="unit">100 G</h6>
-                                        <h5 class="price"><span class="theme-color">$10.25</span> <del>$12.36</del>
+                                        <h6 class="unit"></h6>
+                                        <h5 class="price"><span class="theme-color">240,000₫</span> <del>300,000₫</del>
                                         </h5>
                                         <div class="add-to-cart-box bg-white">
-                                            <button class="btn btn-add-cart addcart-button">Add
+                                            <button class="btn btn-add-cart addcart-button">Thêm vào giỏ
                                                 <span class="add-icon bg-light-gray">
                                                     <i class="fa-solid fa-plus"></i>
                                                 </span>
@@ -1531,7 +1493,7 @@
                                 <div class="product-header">
                                     <div class="product-image">
                                         <a href="product-left-thumbnail.html">
-                                            <img src="../assets/images/cake/product/6.png"
+                                            <img src="https://product.hstatic.net/200000690725/product/fstp019_53702174395_o_8a4a1b3c33e54ce2a05f6ca400afa252_master.jpg"
                                                 class="img-fluid blur-up lazyload" alt="">
                                         </a>
 
@@ -1560,9 +1522,9 @@
 
                                 <div class="product-footer">
                                     <div class="product-detail">
-                                        <span class="span-name">Vegetable</span>
+                                        <span class="span-name"></span>
                                         <a href="product-left-thumbnail.html">
-                                            <h5 class="name">Fantasy Crunchy Choco Chip Cookies</h5>
+                                            <h5 class="name">Áo Polo can phối thân có nắp túi FSTP019</h5>
                                         </a>
                                         <div class="product-rating mt-2">
                                             <ul class="rating">
@@ -1585,12 +1547,12 @@
                                             <span>(4.0)</span>
                                         </div>
 
-                                        <h6 class="unit">550 G</h6>
+                                        <h6 class="unit"></h6>
 
-                                        <h5 class="price"><span class="theme-color">$14.25</span> <del>$16.57</del>
+                                        <h5 class="price"><span class="theme-color">336,000₫</span> <del>420,000₫</del>
                                         </h5>
                                         <div class="add-to-cart-box bg-white">
-                                            <button class="btn btn-add-cart addcart-button">Add
+                                            <button class="btn btn-add-cart addcart-button">Thêm vào giỏ
                                                 <span class="add-icon bg-light-gray">
                                                     <i class="fa-solid fa-plus"></i>
                                                 </span>
