@@ -501,7 +501,7 @@
             }
         }
     </script>
-    @livewireScripts
+
 </body>
 
 
