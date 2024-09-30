@@ -1,5 +1,7 @@
 <?php
 
+
+
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Clients\ProfileController;
 use App\Http\Controllers\AuthController;
@@ -8,7 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PurchasedOrderDetailsController;
 use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\ProductController;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Clients\CartController;
+use App\Http\Controllers\Clients\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +29,8 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::resource('/',ShopController::class);
+Route::resource('/cart',CartController::class);
 Route::resource('/', ShopController::class);
 Route::resource('/purchased', PurchasedOrderDetailsController::class);
 Route::get('/admin/danhmucs', function () {

@@ -194,6 +194,10 @@
                                         </div>
 
                                         <div class="button-group">
+                                            <a href="{{route('cart.index')}}" class="btn btn-sm cart-button">View Cart</a>
+                                            <a href="checkout.html" class="btn btn-sm cart-button theme-bg-color
+                                            text-white">Checkout</a>
+
                                             <a href="cart.html" class="btn btn-sm cart-button">Xem giỏ hàng</a>
                                             <a href="checkout.html"
                                                 class="btn btn-sm cart-button theme-bg-color
