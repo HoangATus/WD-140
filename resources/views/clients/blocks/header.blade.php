@@ -217,6 +217,7 @@
 
                                 <div class="onhover-div onhover-div-login">
                                     <ul class="user-box-name">
+                                        @guest     
                                         <li class="product-box-contain">
                                             <i></i>
                                             <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Đăng
@@ -227,9 +228,9 @@
                                             <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i> Đăng
                                                 ký</a>
                                         </li>
-
+                                        @endguest
                                         <li class="product-box-contain">
-                                            <a href="forgot.html"><i class="fas fa-key"></i> Quên mậtkhẩu?</a>
+                                            <a href="{{ route('password.request') }}"><i class="fas fa-key"></i> Quên mật khẩu</a>
                                         </li>
 
                                         <li class="product-box-contain">
