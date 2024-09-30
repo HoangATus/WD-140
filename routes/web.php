@@ -29,7 +29,7 @@ Route::resource('/purchased', PurchasedOrderDetailsController::class);
 Route::get('/admin/danhmucs', function () {
     return view('admins.danhmucs.index');
 });
-Route::resource('/', ShopController::class);
+Route::resource('/home', ShopController::class);
 Route::resource('/profile', ProfileController::class);
 
 
