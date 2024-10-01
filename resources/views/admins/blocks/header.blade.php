@@ -86,7 +86,13 @@
                     <div class="media profile-media">
                         <img class="user-profile rounded-circle" src="{{ asset('admin/assets/images/users/4.jpg')}}" alt="">
                         <div class="user-name-hide media-body">
-                            <span>Emay Walter</span>
+                            <span>
+                                @if (Auth::check())
+                                   {{ Auth::user()->user_name }}
+                                @else
+                                    <p></p>
+                                @endif
+                            </span>
                             <p class="mb-0 font-roboto">Quản trị viên<i class="middle ri-arrow-down-s-line"></i></p>
                         </div>
                     </div>
@@ -106,7 +112,7 @@
                         <li>
                             <a href="support-ticket.html">
                                 <i data-feather="phone"></i>
-                                <span>Vé thể thao</span>
+                                <span>Liên hệ</span>
                             </a>
                         </li>
                         <li>
@@ -116,11 +122,15 @@
                             </a>
                         </li>
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                href="javascript:void(0)">
+                            <form id="logout-form" action="{{ route('admin.logout') }}" method="post">
+                                @csrf
+                                <a 
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                >
                                 <i data-feather="log-out"></i>
                                 <span>Đăng xuất</span>
                             </a>
+                        </form>
                         </li>
                     </ul>
                 </li>

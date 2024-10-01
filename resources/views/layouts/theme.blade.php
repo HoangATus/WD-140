@@ -3,6 +3,7 @@
 
 
 <!-- Mirrored from themes.pixelstrap.com/fastkart/front-end/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 25 Sep 2024 13:01:02 GMT -->
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,29 +14,29 @@
     <link rel="icon" href="../assets/images/favicon/1.png" type="image/x-icon">
     <title>On-demand last-mile delivery</title>
 
-    <!-- Google font -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com/">
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&amp;display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
 
-    <!-- bootstrap css -->
-    <link id="rtl-link" rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/bootstrap.css')}}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- wow css -->
-    <link rel="stylesheet" href="{{asset('assets/css/animate.min.css')}}">
+    <!-- Wow CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/animate.min.css') }}">
 
-    <!-- Iconly css -->
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bulk-style.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/animate.css')}}">
+    <!-- Iconly CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bulk-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/vendors/animate.css') }}">
+
+    <!-- Ion Range Slider CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/ion-rangeslider/css/ion.rangeSlider.min.css" rel="stylesheet">
 
     <!-- Template css -->
     <link id="color-link" rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
-    @livewireStyles
 </head>
 
 <body class="bg-effect">
@@ -58,8 +59,12 @@
     <!-- Header End -->
 
     <!-- mobile fix menu start -->
+
     
    @yield('content')
+   @yield('cart')
+    @yield('content')
+
 
     <!-- Newsletter Section End -->
 
@@ -430,54 +435,103 @@
     <!-- Bg overlay Start -->
     <div class="bg-overlay"></div>
     <!-- Bg overlay End -->
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- latest jquery-->
-    <script src="{{asset('assets/js/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 
     <!-- jquery ui-->
-    <script src="{{asset('assets/js/jquery-ui.min.js')}}"></script>
+    <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
     <!-- Bootstrap js-->
-    <script src="{{asset('assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap/bootstrap-notify.min.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap/popper.min.js')}}"></script>
+    <script src="{{ asset('assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap/bootstrap-notify.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
 
     <!-- feather icon js-->
-    <script src="{{asset('assets/js/feather/feather.min.js')}}"></script>
-    <script src="{{asset('assets/js/feather/feather-icon.js')}}"></script>
+    <script src="{{ asset('assets/js/feather/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/js/feather/feather-icon.js') }}"></script>
 
     <!-- Lazyload Js -->
-    <script src="{{asset('assets/js/lazysizes.min.js')}}"></script>
+    <script src="{{ asset('assets/js/lazysizes.min.js') }}"></script>
 
     <!-- Slick js-->
-    <script src="{{asset('assets/js/slick/slick.js')}}"></script>
-    <script src="{{asset('assets/js/slick/slick-animation.min.js')}}"></script>
-    <script src="{{asset('assets/js/slick/custom_slick.js')}}"></script>
+    <script src="{{ asset('assets/js/slick/slick.js') }}"></script>
+    <script src="{{ asset('assets/js/slick/slick-animation.min.js') }}"></script>
+    <script src="{{ asset('assets/js/slick/custom_slick.js') }}"></script>
 
     <!-- Auto Height Js -->
-    <script src="{{asset('assets/js/auto-height.js')}}"></script>
+    <script src="{{ asset('assets/js/auto-height.js') }}"></script>
 
     <!-- Timer Js -->
-    <script src="{{asset('assets/js/timer1.js')}}"></script>
+    <script src="{{ asset('assets/js/timer1.js') }}"></script>
 
     <!-- Fly Cart Js -->
-    <script src="{{asset('assets/js/fly-cart.js')}}"></script>
+    <script src="{{ asset('assets/js/fly-cart.js') }}"></script>
 
     <!-- Quantity js -->
-    <script src="{{asset('assets/js/quantity-2.js')}}"></script>
+    <script src="{{ asset('assets/js/quantity-2.js') }}"></script>
 
     <!-- WOW js -->
-    <script src="{{asset('assets/js/wow.min.js')}}"></script>
-    <script src="{{asset('assets/js/custom-wow.js')}}"></script>
+    <script src="{{ asset('assets/js/wow.min.js') }}"></script>
+    <script src="{{ asset('assets/js/custom-wow.js') }}"></script>
 
     <!-- script js -->
-    <script src="{{asset('assets/js/script.js')}}"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
 
     <!-- theme setting js -->
-    <script src="{{asset('assets/js/theme-setting.js')}}"></script>
-    @livewireScripts
+    <script src="{{ asset('assets/js/theme-setting.js') }}"></script>
+
+    <script>
+        function togglePasswordVisibility(passwordFieldId, iconId) {
+            // Lấy input mật khẩu
+            var passwordField = document.getElementById(passwordFieldId);
+            // Lấy icon mắt
+            var icon = document.getElementById(iconId);
+
+            // Kiểm tra kiểu của input mật khẩu và thay đổi nó
+            if (passwordField.type === "password") {
+                passwordField.type = "text"; // Hiện mật khẩu
+                icon.classList.remove('ri-eye-fill'); // Đổi icon thành mắt gạch chéo
+                icon.classList.add('ri-eye-off-fill');
+            } else {
+                passwordField.type = "password"; // Ẩn mật khẩu
+                icon.classList.remove('ri-eye-off-fill'); // Đổi lại icon thành mắt mở
+                icon.classList.add('ri-eye-fill');
+            }
+        }
+    </script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                            
+     <script src="https://cdn.jsdelivr.net/npm/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+ 
+     <script>
+     $(document).ready(function() {
+         var $range = $("#priceRange");
+         var $priceValue = $("#priceValue");
+ 
+         $range.ionRangeSlider({
+             skin: "round",  
+             type: "double",
+             min: 0,         
+             max: 1000000,  
+             from: 100000,   
+             to: 500000,     
+             prefix: "₫",    
+             grid: true,     
+             onStart: function (data) {
+
+                 $priceValue.text(data.from_pretty + " - " + data.to_pretty);
+             },
+             onChange: function (data) {
+                 $priceValue.text(data.from_pretty + " - " + data.to_pretty);
+             }
+         });
+     });
+     </script>
+
 </body>
 
 
 <!-- Mirrored from themes.pixelstrap.com/fastkart/front-end/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 25 Sep 2024 13:01:35 GMT -->
+
 </html>
