@@ -1,7 +1,6 @@
 <?php
 
-
-
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Clients\ProfileController;
 use App\Http\Controllers\AuthController;
@@ -13,7 +12,7 @@ use App\Http\Controllers\ProductController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Clients\CartController;
-use App\Http\Controllers\Clients\ShopController;
+// use App\Http\Controllers\Clients\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,9 +32,11 @@ Route::resource('/',ShopController::class);
 Route::resource('/cart',CartController::class);
 Route::resource('/', ShopController::class);
 Route::resource('/purchased', PurchasedOrderDetailsController::class);
-Route::get('/admin/danhmucs', function () {
-    return view('admins.danhmucs.index');
-});
+// Route::get('/admin/danhmucs', function () {
+//     return view('admins.danhmucs.index');
+//     Route::resource('categories', CategoryController::class);
+
+// });
 Route::resource('/home', ShopController::class);
 Route::resource('/profile', ProfileController::class);
 
@@ -61,4 +62,3 @@ Route::middleware('auth.admin')->group(function () {
         return view('admins.danhmucs.index');
     });
 });
-
