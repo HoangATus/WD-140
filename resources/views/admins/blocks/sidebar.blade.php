@@ -58,11 +58,11 @@
                         </a>
                         <ul class="sidebar-submenu">
                             <li>
-                                <a href="category.html">Quản lý danh mục</a>
+                                <a href="{{route('admins.categories.index')}}">Quản lý danh mục</a>
                             </li>
 
                             <li>
-                                <a href="add-new-category.html">Thêm mới danh mục</a>
+                                <a href="{{route('admins.categories.create')}}" >Thêm mới danh mục</a>
                             </li>
                         </ul>
                     </li>
