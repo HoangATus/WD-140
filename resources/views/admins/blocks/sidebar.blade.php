@@ -74,11 +74,11 @@
                         </a>
                         <ul class="sidebar-submenu">
                             <li>
-                                <a href="attributes.html">Thuộc tính</a>
+                                <a href="{{route('admins.colors.index')}}">Màu sắc</a>
                             </li>
 
                             <li>
-                                <a href="add-new-attributes.html">Thêm thuộc tính</a>
+                                <a href="add-new-attributes.html">Kích thước</a>
                             </li>
                         </ul>
                     </li>
