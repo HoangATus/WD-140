@@ -58,11 +58,11 @@
                         </a>
                         <ul class="sidebar-submenu">
                             <li>
-                                <a href="category.html">Quản lý danh mục</a>
+                                <a href="{{route('admins.categories.index')}}">Quản lý danh mục</a>
                             </li>
 
                             <li>
-                                <a href="add-new-category.html">Thêm mới danh mục</a>
+                                <a href="{{route('admins.categories.create')}}" >Thêm mới danh mục</a>
                             </li>
                         </ul>
                     </li>
@@ -74,11 +74,11 @@
                         </a>
                         <ul class="sidebar-submenu">
                             <li>
-                                <a href="attributes.html">Thuộc tính</a>
+                                <a href="{{route('admins.colors.index')}}">Màu sắc</a>
                             </li>
 
                             <li>
-                                <a href="add-new-attributes.html">Thêm thuộc tính</a>
+                                <a href="add-new-attributes.html">Kích thước</a>
                             </li>
                         </ul>
                     </li>
