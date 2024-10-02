@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -15,4 +17,5 @@ Route::prefix('admins')->as('admins.')->group(function () {
 
     Route::resource('categories', CategoryController::class);
     Route::resource('attributeSizes', SizeController::class);
+    Route::resource('products', ProductController::class);
 });
