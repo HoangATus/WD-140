@@ -43,7 +43,7 @@
 
                                 <tbody>
                                     @foreach($categories as $item)
-            <tr >
+                <tr >
                 <td>{{$item->id}}</td>
                 <td>{{$item->name}}</td>
                 <td >

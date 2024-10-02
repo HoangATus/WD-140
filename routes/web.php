@@ -28,8 +28,8 @@ use App\Http\Controllers\Clients\CartController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::resource('/',ShopController::class);
-Route::resource('/cart',CartController::class);
+Route::resource('/', ShopController::class);
+Route::resource('/cart', CartController::class);
 Route::resource('/', ShopController::class);
 Route::resource('/purchased', PurchasedOrderDetailsController::class);
 // Route::get('/admin/danhmucs', function () {
