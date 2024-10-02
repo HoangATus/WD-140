@@ -285,7 +285,7 @@
     <!-- Location Modal End -->
 
     <!-- Cookie Bar Box Start -->
-    <div class="cookie-bar-box">
+    {{-- <div class="cookie-bar-box">
         <div class="cookie-box">
             <div class="cookie-image">
                 <img src="../assets/images/cookie-bar.png" class="blur-up lazyload" alt="">
@@ -301,7 +301,7 @@
             <button class="btn privacy-button">Privacy Policy</button>
             <button class="btn ok-button">OK</button>
         </div>
-    </div>
+    </div> --}}
     <!-- Cookie Bar Box End -->
 
     <!-- Deal Box Modal Start -->

@@ -53,7 +53,7 @@
                 <div class="footer-logo">
                     <div class="theme-logo">
                         <a href="index.html">
-                            <img src="../assets/images/logo/1.png" class="blur-up lazyload" alt="">
+                            <img src="{{ asset('assets/images/logoatus.png') }}" class="blur-up lazyload" alt="">
                         </a>
                     </div>
 
@@ -142,7 +142,7 @@
                             <a href="order-success.html" class="text-content">Đơn hàng của bạn</a>
                         </li>
                         <li>
-                            <a href="user-dashboard.html" class="text-content">Tàif khoản của bạn</a>
+                            <a href="user-dashboard.html" class="text-content">Tài khoản của bạn</a>
                         </li>
                         <li>
                             <a href="order-tracking.html" class="text-content">Theo dõi đơn hàng</a>
