@@ -69,7 +69,6 @@
     
    @yield('content')
    @yield('cart')
-    @yield('content')
 
 
     <!-- Newsletter Section End -->
@@ -284,26 +283,6 @@
     </div>
     <!-- Location Modal End -->
 
-    <!-- Cookie Bar Box Start -->
-    <div class="cookie-bar-box">
-        <div class="cookie-box">
-            <div class="cookie-image">
-                <img src="../assets/images/cookie-bar.png" class="blur-up lazyload" alt="">
-                <h2>Cookies!</h2>
-            </div>
-
-            <div class="cookie-contain">
-                <h5 class="text-content">We use cookies to make your experience better</h5>
-            </div>
-        </div>
-
-        <div class="button-group">
-            <button class="btn privacy-button">Privacy Policy</button>
-            <button class="btn ok-button">OK</button>
-        </div>
-    </div>
-    <!-- Cookie Bar Box End -->
-
     <!-- Deal Box Modal Start -->
     <div class="modal fade theme-modal deal-modal" id="deal-box" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
@@ -489,19 +468,16 @@
 
     <script>
         function togglePasswordVisibility(passwordFieldId, iconId) {
-            // Lấy input mật khẩu
             var passwordField = document.getElementById(passwordFieldId);
-            // Lấy icon mắt
             var icon = document.getElementById(iconId);
 
-            // Kiểm tra kiểu của input mật khẩu và thay đổi nó
             if (passwordField.type === "password") {
-                passwordField.type = "text"; // Hiện mật khẩu
-                icon.classList.remove('ri-eye-fill'); // Đổi icon thành mắt gạch chéo
+                passwordField.type = "text"; 
+                icon.classList.remove('ri-eye-fill'); 
                 icon.classList.add('ri-eye-off-fill');
             } else {
-                passwordField.type = "password"; // Ẩn mật khẩu
-                icon.classList.remove('ri-eye-off-fill'); // Đổi lại icon thành mắt mở
+                passwordField.type = "password"; 
+                icon.classList.remove('ri-eye-off-fill'); 
                 icon.classList.add('ri-eye-fill');
             }
         }
@@ -534,6 +510,8 @@
          });
      });
      </script>
+     
+     
 
 </body>
 

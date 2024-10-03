@@ -122,15 +122,10 @@
                             </a>
                         </li>
                         <li>
-                            <form id="logout-form" action="{{ route('admin.logout') }}" method="post">
-                                @csrf
-                                <a 
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                >
+                            <a href="{{ route('home.index') }}">
                                 <i data-feather="log-out"></i>
-                                <span>Đăng xuất</span>
-                            </a>
-                        </form>
+                                <span>Trang người dùng</span>
+                            </a>            
                         </li>
                     </ul>
                 </li>
