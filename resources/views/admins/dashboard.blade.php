@@ -8,6 +8,8 @@
 
 @endsection
 @section('content')
+ 
+    
 <div class="container-fluid">
     <div class="row">
         <!-- chart caard section start -->
@@ -836,9 +838,9 @@
 
     </div>
 </div>
-    
+
 @endsection
 
 @section('js')
 
-@endsection
+@endsection    
