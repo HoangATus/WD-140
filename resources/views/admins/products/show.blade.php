@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('adminslayouts.admin')
 
 @section('title')
     Chi tiết sản phẩm
