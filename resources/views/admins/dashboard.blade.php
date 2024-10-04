@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('admins.layouts.admin')
 
 @section('title')
  Trang quản trị
@@ -9,835 +9,395 @@
 @endsection
 @section('content')
  
-    
-<div class="container-fluid">
-    <div class="row">
-        <!-- chart caard section start -->
-        <div class="col-sm-6 col-xxl-3 col-lg-6">
-            <div class="main-tiles border-5 border-0  card-hover card o-hidden">
-                <div class="custome-1-bg b-r-4 card-body">
-                    <div class="media align-items-center static-top-widget">
-                        <div class="media-body p-0">
-                            <span class="m-0">Tổng doanh thu</span>
-                            <h4 class="mb-0 counter">$6659
-                                <span class="badge badge-light-primary grow">
-                                    <i data-feather="trending-up"></i>8.5%</span>
-                            </h4>
-                        </div>
-                        <div class="align-self-center text-center">
-                            <i class="ri-database-2-line"></i>
-                        </div>
-                    </div>
-                </div>
+<div class="content">
+
+    <!-- Start Content-->
+    <div class="container-xxl">
+
+        <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
+            <div class="flex-grow-1">
+                <h4 class="fs-18 fw-semibold m-0">Dashboard</h4>
             </div>
         </div>
 
-        <div class="col-sm-6 col-xxl-3 col-lg-6">
-            <div class="main-tiles border-5 card-hover border-0 card o-hidden">
-                <div class="custome-2-bg b-r-4 card-body">
-                    <div class="media static-top-widget">
-                        <div class="media-body p-0">
-                            <span class="m-0">Tổng số đơn hàng</span>
-                            <h4 class="mb-0 counter">9856
-                                <span class="badge badge-light-danger grow">
-                                    <i data-feather="trending-down"></i>8.5%</span>
-                            </h4>
-                        </div>
-                        <div class="align-self-center text-center">
-                            <i class="ri-shopping-bag-3-line"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-xxl-3 col-lg-6">
-            <div class="main-tiles border-5 card-hover border-0  card o-hidden">
-                <div class="custome-3-bg b-r-4 card-body">
-                    <div class="media static-top-widget">
-                        <div class="media-body p-0">
-                            <span class="m-0">Tổng sản phẩm</span>
-                            <h4 class="mb-0 counter">893
-                                <a href="add-new-product.html" class="badge badge-light-secondary grow">
-                                    ADD NEW</a>
-                            </h4>
-                        </div>
-
-                        <div class="align-self-center text-center">
-                            <i class="ri-chat-3-line"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-xxl-3 col-lg-6">
-            <div class="main-tiles border-5 card-hover border-0 card o-hidden">
-                <div class="custome-4-bg b-r-4 card-body">
-                    <div class="media static-top-widget">
-                        <div class="media-body p-0">
-                            <span class="m-0">Tổng số khách hàng</span>
-                            <h4 class="mb-0 counter">4.6k
-                                <span class="badge badge-light-success grow">
-                                    <i data-feather="trending-down"></i>8.5%</span>
-                            </h4>
-                        </div>
-
-                        <div class="align-self-center text-center">
-                            <i class="ri-user-add-line"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12">
-            <div class="card o-hidden card-hover">
-                <div class="card-header border-0 pb-1">
-                    <div class="card-header-title p-0">
-                        <h4>Danh mục</h4>
-                    </div>
-                </div>
-                <div class="card-body p-0">
-                    <div class="category-slider no-arrow">
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/vegetable.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Vegetables & Fruit</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/cup.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Beverages</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/meats.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Meats & Seafood</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/breakfast.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Breakfast</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/frozen.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Frozen Foods</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/milk.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Milk & Dairies</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/pet.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Pet Food</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/vegetable.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Vegetables & Fruit</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/cup.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Beverages</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/meats.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Meats & Seafood</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/breakfast.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Breakfast</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/frozen.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Frozen Foods</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/milk.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Milk & Dairies</h6>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="dashboard-category">
-                                <a href="javascript:void(0)" class="category-image">
-                                    <img src="{{ asset('admin/assets/svg/pet.svg')}}" class="img-fluid" alt="">
-                                </a>
-                                <a href="javascript:void(0)" class="category-name">
-                                    <h6>Pet Food</h6>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- chart card section End -->
-
-
-        <!-- Earning chart star-->
-        <div class="col-xl-6">
-            <div class="card o-hidden card-hover">
-                <div class="card-header border-0 pb-1">
-                    <div class="card-header-title">
-                        <h4>Báo cáo doanh thu</h4>
-                    </div>
-                </div>
-                <div class="card-body p-0">
-                    <div id="report-chart"></div>
-                </div>
-            </div>
-        </div>
-        <!-- Earning chart  end-->
-
-
-        <!-- Best Selling Product Start -->
-        <div class="col-xl-6 col-md-12">
-            <div class="card o-hidden card-hover">
-                <div class="card-header card-header-top card-header--2 px-0 pt-0">
-                    <div class="card-header-title">
-                        <h4>Sản phẩm bán chạy nhất</h4>
-                    </div>
-
-                    <div class="best-selling-box d-sm-flex d-none">
-                        <span>Short By:</span>
-                        <div class="dropdown">
-                            <button class="btn p-0 dropdown-toggle" type="button"
-                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                data-bs-auto-close="true">Hôm nay</button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body p-0">
-                    <div>
-                        <div class="table-responsive">
-                            <table class="best-selling-table w-image
-                            w-image
-                            w-image table border-0">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="best-product-box">
-                                                <div class="product-image">
-                                                    <img src="{{ asset('admin/assets/images/product/1.png')}}"
-                                                        class="img-fluid" alt="Product">
-                                                </div>
-                                                <div class="product-name">
-                                                    <h5>Áo phông nam Gucci</h5>
-                                                    <h6>26-08-2022</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Giá</h6>
-                                                <h5>$29.00</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Đơn đặt hàng</h6>
-                                                <h5>62</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Cổ phần</h6>
-                                                <h5>510</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Số lượng</h6>
-                                                <h5>$1,798</h5>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <div class="best-product-box">
-                                                <div class="product-image">
-                                                    <img src="{{ asset('admin/assets/images/product/2.png')}}"
-                                                        class="img-fluid" alt="Product">
-                                                </div>
-                                                <div class="product-name">
-                                                    <h5>Quần âu</h5>
-                                                    <h6>26-08-2022</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Giá</h6>
-                                                <h5>$29.00</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Đơn hàng</h6>
-                                                <h5>62</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Cổ phần</h6>
-                                                <h5>510</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Số lượng</h6>
-                                                <h5>$1,798</h5>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <div class="best-product-box">
-                                                <div class="product-image">
-                                                    <img src="{{ asset('admin/assets/images/product/3.png')}}"
-                                                        class="img-fluid" alt="Product">
-                                                </div>
-                                                <div class="product-name">
-                                                    <h5>Quần bò</h5>
-                                                    <h6>26-08-2022</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Giá</h6>
-                                                <h5>$29.00</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Đơn hàng</h6>
-                                                <h5>62</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Cổ phần</h6>
-                                                <h5>510</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Số lượng</h6>
-                                                <h5>$1,798</h5>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Best Selling Product End -->
-
-
-        <!-- Recent orders start-->
-        <div class="col-xl-6">
-            <div class="card o-hidden card-hover">
-                <div class="card-header card-header-top card-header--2 px-0 pt-0">
-                    <div class="card-header-title">
-                        <h4>Đơn hàng gần đây</h4>
-                    </div>
-
-                    <div class="best-selling-box d-sm-flex d-none">
-                        <span>Short By:</span>
-                        <div class="dropdown">
-                            <button class="btn p-0 dropdown-toggle" type="button"
-                                id="dropdownMenuButton2" data-bs-toggle="dropdown"
-                                data-bs-auto-close="true">Hôm nay</button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body p-0">
-                    <div>
-                        <div class="table-responsive">
-                            <table class="best-selling-table table border-0">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="best-product-box">
-                                                <div class="product-name">
-                                                    <h5>Áo phông nam Gucci</h5>
-                                                    <h6>#64548</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Ngày đặt</h6>
-                                                <h5>5/1/22</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Giá</h6>
-                                                <h5>$250.00</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Trạng thái đơn hàng</h6>
-                                                <h5>Hoàn thành</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Payment</h6>
-                                                <h5 class="text-danger">Unpaid</h5>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <div class="best-product-box">
-                                                <div class="product-name">
-                                                    <h5>Áo phông nam Gucci</h5>
-                                                    <h6>26-08-2022</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Ngày đặt</h6>
-                                                <h5>5/1/22</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Giá</h6>
-                                                <h5>$250.00</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Trạng thái đơn hàng</h6>
-                                                <h5>Hoàn thành</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Payment</h6>
-                                                <h5 class="theme-color">Paid</h5>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <div class="best-product-box">
-                                                <div class="product-name">
-                                                    <h5>Áo phông nam Gucci</h5>
-                                                    <h6>26-08-2022</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Ngày đặt</h6>
-                                                <h5>5/1/22</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Giá</h6>
-                                                <h5>$250.00</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Trạng thái đơn hàng</h6>
-                                                <h5>Hoàn thành</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Sự chi trả</h6>
-                                                <h5 class="theme-color">Trả</h5>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <div class="best-product-box">
-                                                <div class="product-name">
-                                                    <h5>Quần nam bbr</h5>
-                                                    <h6>26-08-2022</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Ngày đặt</h6>
-                                                <h5>5/1/22</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Giá</h6>
-                                                <h5>$250.00</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Trạng thái đơn hàng</h6>
-                                                <h5>Hoàn thành</h5>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="product-detail-box">
-                                                <h6>Sự chi trả</h6>
-                                                <h5 class="theme-color">Trả</h5>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Recent orders end-->
-
-        <!-- Earning chart star-->
-        <div class="col-xl-6">
-            <div class="card o-hidden card-hover">
-                <div class="card-header border-0 mb-0">
-                    <div class="card-header-title">
-                        <h4>Thu nhập</h4>
-                    </div>
-                </div>
-                <div class="card-body p-0">
-                    <div id="bar-chart-earning"></div>
-                </div>
-            </div>
-        </div>
-        <!-- Earning chart end-->
-
-
-        <!-- Transactions start-->
-        <div class="col-xxl-4 col-md-6">
-            <div class="card o-hidden card-hover">
-                <div class="card-header border-0">
-                    <div class="card-header-title">
-                        <h4>Giao dịch</h4>
-                    </div>
-                </div>
-
-                <div class="card-body pt-0">
-                    <div>
-                        <div class="table-responsive">
-                            <table class="user-table transactions-table table border-0">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="transactions-icon">
-                                                <i class="ri-shield-line"></i>
-                                            </div>
-                                            <div class="transactions-name">
-                                                <h6>Ví</h6>
-                                                <p>Starbucks</p>
-                                            </div>
-                                        </td>
-
-                                        <td class="lost">-$74</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-color-1">
-                                            <div class="transactions-icon">
-                                                <i class="ri-check-line"></i>
-                                            </div>
-                                            <div class="transactions-name">
-                                                <h6>Chuyển khoản ngân hàng</h6>
-                                                <p>Add Money</p>
-                                            </div>
-                                        </td>
-
-                                        <td class="success">+$125</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-color-2">
-                                            <div class="transactions-icon">
-                                                <i class="ri-exchange-dollar-line"></i>
-                                            </div>
-                                            <div class="transactions-name">
-                                                <h6>Paypal</h6>
-                                                <p>Add Money</p>
-                                            </div>
-                                        </td>
-
-                                        <td class="lost">-$50</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-color-3">
-                                            <div class="transactions-icon">
-                                                <i class="ri-bank-card-line"></i>
-                                            </div>
-                                            <div class="transactions-name">
-                                                <h6>Thẻ Mastercard</h6>
-                                                <p>Ordered Food</p>
-                                            </div>
-                                        </td>
-
-                                        <td class="lost">-$40</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-color-4 pb-0">
-                                            <div class="transactions-icon">
-                                                <i class="ri-bar-chart-grouped-line"></i>
-                                            </div>
-                                            <div class="transactions-name">
-                                                <h6>Chuyển khoản</h6>
-                                                <p>Refund</p>
-                                            </div>
-                                        </td>
-
-                                        <td class="success pb-0">+$90</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Transactions end-->
-
-        <!-- visitors chart start-->
-        <div class="col-xxl-4 col-md-6">
-            <div class="h-100">
-                <div class="card o-hidden card-hover">
-                    <div class="card-header border-0">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="card-header-title">
-                                <h4>Khách thăm quan</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="pie-chart">
-                            <div id="pie-chart-visitors"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- visitors chart end-->
-
-
-        <!-- To Do List start-->
-        <div class="col-xxl-4 col-md-6">
-            <div class="card o-hidden card-hover">
-                <div class="card-header border-0">
-                    <div class="card-header-title">
-                        <h4>Danh sách việc cần làm</h4>
-                    </div>
-                </div>
-
-                <div class="card-body pt-0">
-                    <ul class="to-do-list">
-                        <li class="to-do-item">
-                            <div class="form-check user-checkbox">
-                                <input class="checkbox_animated check-it" type="checkbox" value=""
-                                    id="flexCheckDefault">
-                            </div>
-                            <div class="to-do-list-name">
-                                <strong>Đón trẻ em từ trường về</strong>
-                                <p>8 Hours</p>
-                            </div>
-                        </li>
-                        <li class="to-do-item">
-                            <div class="form-check user-checkbox">
-                                <input class="checkbox_animated check-it" type="checkbox" value=""
-                                    id="flexCheckDefault1">
-                            </div>
-                            <div class="to-do-list-name">
-                                <strong>Chuẩn bị hoặc trình bày.</strong>
-                                <p>8 Hours</p>
-                            </div>
-                        </li>
-                        <li class="to-do-item">
-                            <div class="form-check user-checkbox">
-                                <input class="checkbox_animated check-it" type="checkbox" value=""
-                                    id="flexCheckDefault2">
-                            </div>
-                            <div class="to-do-list-name">
-                                <strong>Tạo hóa đơn</strong>
-                                <p>8 Hours</p>
-                            </div>
-                        </li>
-                        <li class="to-do-item">
-                            <div class="form-check user-checkbox">
-                                <input class="checkbox_animated check-it" type="checkbox" value=""
-                                    id="flexCheckDefault3">
-                            </div>
-                            <div class="to-do-list-name">
-                                <strong>Gặp gỡ với Thọ</strong>
-                                <p>8 Hours</p>
-                            </div>
-                        </li>
-
-                        <li class="to-do-item">
-                            <form class="row g-2">
-                                <div class="col-8">
-                                    <input type="text" class="form-control" id="name"
-                                        placeholder="Enter Task Name">
+        <!-- start row -->
+        <div class="row">
+            <div class="col-md-12 col-xl-12">
+                <div class="row g-3">
+
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="fs-14 mb-1">Website Traffic</div>
                                 </div>
-                                <div class="col-4">
-                                    <button type="submit" class="btn btn-primary w-100 h-100">Thêm
-                                        nhiệm vụ</button>
+
+                                <div class="d-flex align-items-baseline mb-2">
+                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">91.6K</div>
+                                    <div class="me-auto">
+                                        <span class="text-primary d-inline-flex align-items-center">
+                                            15%
+                                            <i data-feather="trending-up" class="ms-1" style="height: 22px; width: 22px;"></i>
+                                        </span>
+                                    </div>
                                 </div>
-                            </form>
-                        </li>
-                    </ul>
+                                <div id="website-visitors" class="apex-charts"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="fs-14 mb-1">Conversion rate</div>
+                                </div>
+
+                                <div class="d-flex align-items-baseline mb-2">
+                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">15%</div>
+                                    <div class="me-auto">
+                                        <span class="text-danger d-inline-flex align-items-center">
+                                            10%
+                                            <i data-feather="trending-down" class="ms-1" style="height: 22px; width: 22px;"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="conversion-visitors" class="apex-charts"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="fs-14 mb-1">Session duration</div>
+                                </div>
+
+                                <div class="d-flex align-items-baseline mb-2">
+                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">90 Sec</div>
+                                    <div class="me-auto">
+                                        <span class="text-success d-inline-flex align-items-center">
+                                            25%
+                                            <i data-feather="trending-up" class="ms-1" style="height: 22px; width: 22px;"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="session-visitors" class="apex-charts"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="fs-14 mb-1">Active Users</div>
+                                </div>
+
+                                <div class="d-flex align-items-baseline mb-2">
+                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">2,986</div>
+                                    <div class="me-auto">
+                                        <span class="text-success d-inline-flex align-items-center">
+                                            4%
+                                            <i data-feather="trending-up" class="ms-1" style="height: 22px; width: 22px;"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="active-users" class="apex-charts"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end sales -->
+        </div> <!-- end row -->
+
+        <!-- Start Monthly Sales -->
+        <div class="row">
+            <div class="col-md-6 col-xl-8">
+                <div class="card">
+                    
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <div class="border border-dark rounded-2 me-2 widget-icons-sections">
+                                <i data-feather="bar-chart" class="widgets-icons"></i>
+                            </div>
+                            <h5 class="card-title mb-0">Monthly Sales</h5>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="monthly-sales" class="apex-charts"></div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <div class="card overflow-hidden">
+
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <div class="border border-dark rounded-2 me-2 widget-icons-sections">
+                                <i data-feather="tablet" class="widgets-icons"></i>
+                            </div>
+                            <h5 class="card-title mb-0">Best Traffic Source</h5>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-traffic mb-0">
+                                <tbody>
+                                    <thead>
+                                        <tr>
+                                            <th>Network</th>
+                                            <th colspan="2">Visitors</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tr>
+                                        <td>Instagram</td>
+                                        <td>3,550</td>
+                                        <td class="w-50">
+                                            <div class="progress progress-md mt-0">
+                                                <div class="progress-bar bg-danger" style="width: 80.0%"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Facebook</td>
+                                        <td>1,245</td>
+                                        <td class="w-50">
+                                            <div class="progress progress-md mt-0">
+                                                <div class="progress-bar bg-primary" style="width: 55.9%"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Twitter</td>
+                                        <td>1,798</td>
+                                        <td class="w-50">
+                                            <div class="progress progress-md mt-0">
+                                                <div class="progress-bar bg-secondary" style="width: 67.0%"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>YouTube</td>
+                                        <td>986</td>
+                                        <td class="w-50">
+                                            <div class="progress progress-md mt-0">
+                                                <div class="progress-bar bg-success" style="width: 38.72%"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Pinterest</td>
+                                        <td>854</td>
+                                        <td class="w-50">
+                                            <div class="progress progress-md mt-0">
+                                                <div class="progress-bar bg-danger" style="width: 45.08%"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Linkedin</td>
+                                        <td>650</td>
+                                        <td class="w-50">
+                                            <div class="progress progress-md mt-0">
+                                                <div class="progress-bar bg-warning" style="width: 68.0%"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Nextdoor</td>
+                                        <td>420</td>
+                                        <td class="w-50">
+                                            <div class="progress progress-md mt-0">
+                                                <div class="progress-bar bg-info" style="width: 56.4%"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-        <!-- To Do List end-->
+        <!-- End Monthly Sales -->
 
+        <div class="row">
+            <div class="col-md-6 col-xl-6">
+                <div class="card">
+                    
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <div class="border border-dark rounded-2 me-2 widget-icons-sections">
+                                <i data-feather="minus-square" class="widgets-icons"></i>
+                            </div>
+                            <h5 class="card-title mb-0">Audiences By Time Of Day</h5>
+                        </div>
+                    </div>
 
-    </div>
-</div>
+                    <div class="card-body">
+                        <div id="audiences-daily" class="apex-charts mt-n3"></div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-6">
+                <div class="card overflow-hidden">
+                    
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <div class="border border-dark rounded-2 me-2 widget-icons-sections">
+                                <i data-feather="table" class="widgets-icons"></i>
+                            </div>
+                            <h5 class="card-title mb-0">Most Visited Pages</h5>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-traffic mb-0">
+                                <tbody>
+
+                                    <thead>
+                                        <tr>
+                                            <th>Page name</th>
+                                            <th>Visitors</th>
+                                            <th>Unique</th>
+                                            <th colspan="2">Bounce rate</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tr>
+                                        <td>
+                                            /home
+                                            <a href="#" class="ms-1" aria-label="Open website">
+                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
+                                            </a>
+                                        </td>
+                                        <td>5,896</td>
+                                        <td>3,654</td>
+                                        <td>82.54%</td>
+                                        <td class="w-25">
+                                            <div id="sparkline-bounce-1" class="apex-charts"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            /about.html
+                                            <a href="#" class="ms-1" aria-label="Open website">
+                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
+                                            </a>
+                                        </td>
+                                        <td>3,898</td>
+                                        <td>3,450</td>
+                                        <td>76.29%</td>
+                                        <td class="w-25">
+                                            <div id="sparkline-bounce-2" class="apex-charts"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            /index.html 
+                                            <a href="#" class="ms-1" aria-label="Open website">
+                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
+                                            </a>
+                                        </td>
+                                        <td>3,057</td>
+                                        <td>2,589</td>
+                                        <td>72.68%</td>
+                                        <td class="w-25">
+                                            <div id="sparkline-bounce-3" class="apex-charts"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            /invoice.html
+                                            <a href="#" class="ms-1" aria-label="Open website">
+                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
+                                            </a>
+                                        </td>
+                                        <td>867</td>
+                                        <td>795</td>
+                                        <td>44.78%</td>
+                                        <td class="w-25">
+                                            <div id="sparkline-bounce-4" class="apex-charts"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            /docs/
+                                            <a href="#" class="ms-1" aria-label="Open website">
+                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
+                                            </a>
+                                        </td>
+                                        <td>958</td>
+                                        <td>801</td>
+                                        <td>41.15%</td>
+                                        <td class="w-25">
+                                            <div id="sparkline-bounce-5" class="apex-charts"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            /service.html
+                                            <a href="#" class="ms-1" aria-label="Open website">
+                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
+                                            </a>
+                                        </td>
+                                        <td>658</td>
+                                        <td>589</td>
+                                        <td>32.65%</td>
+                                        <td class="w-25">
+                                            <div id="sparkline-bounce-6" class="apex-charts"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            /analytical.html
+                                            <a href="#" class="ms-1" aria-label="Open website">
+                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
+                                            </a>
+                                        </td>
+                                        <td>457</td>
+                                        <td>859</td>
+                                        <td>32.65%</td>
+                                        <td class="w-25">
+                                            <div id="sparkline-bounce-7" class="apex-charts"></div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- container-fluid -->
+</div> <!-- content -->
 
 @endsection
 

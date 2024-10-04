@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('admins.layouts.admin')
 
 @section('title')
     Trang quản trị
@@ -61,7 +61,7 @@
 
                                         <div class="row">
                                             <div class="col-sm-9 offset-sm-3">
-                                                <button type="submit" class="btn btn-theme">Thêm mới</button>
+                                                <button type="submit" class="btn btn-success">Thêm mới</button>
                                             </div>
                                         </div>
 

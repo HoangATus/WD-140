@@ -30,13 +30,8 @@ use App\Http\Controllers\Clients\CartController;
 // });
 Route::resource('/', ShopController::class);
 Route::resource('/cart', CartController::class);
-Route::resource('/', ShopController::class);
 Route::resource('/purchased', PurchasedOrderDetailsController::class);
-// Route::get('/admin/danhmucs', function () {
-//     return view('admins.danhmucs.index');
-//     Route::resource('categories', CategoryController::class);
 
-// });
 Route::resource('/home', ShopController::class);
 Route::resource('/profile', ProfileController::class);
 
@@ -52,13 +47,4 @@ Route::get('/password/reset', [AuthController::class, 'showformRequest'])->name(
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::resource('/product', ProductController::class);
 
-// admin
-Route::get('/admin/login', [AuthController::class, 'showFormLoginAdmin'])->name('admin.login'); // Đặt tên route hợp lệ
-Route::post('/admin/login', [AuthController::class, 'loginAdmin'])->name('admin.login.post'); // Đặt tên route hợp lệ
-Route::post('/admin/logout', [AuthController::class, 'logoutAdmin'])->name('admin.logout');
 
-Route::middleware('auth.admin')->group(function () {
-    Route::get('/admin/danhmucs', function () {
-        return view('admins.danhmucs.index');
-    });
-});
