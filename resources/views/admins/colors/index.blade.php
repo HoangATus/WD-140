@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('admins.layouts.admin')
 
 @section('title')
 Trang quản trị
@@ -16,13 +16,13 @@ Trang quản trị
                 <div class="card-body">
                     <div class="title-header option-title">
                         <h5>Danh sách màu sắc</h5>
-                        <form class="d-inline-flex">
-                            <a href="{{ route('admins.colors.create') }}" class="align-items-center btn btn-theme d-flex">
-                                <i data-feather="plus-square"></i>Thêm màu mới
-                            </a>
-                        </form>
                     </div>
-
+                    
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ route('admins.colors.create') }}" class="align-items-center btn btn-success d-flex">
+                            <i data-feather="plus-square"></i>Thêm màu mới
+                        </a>
+                    </div>
                     <div class="table-responsive category-table">
                         <table class="table all-package theme-table" id="table_id">
                             <thead>
