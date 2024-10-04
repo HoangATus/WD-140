@@ -20,55 +20,149 @@
                             <a class="btn btn-success" href="{{ route('admins.products.create') }}"><i data-feather="plus-square"></i> Thêm sản phẩm</a>
                         </div>
                         <div>
-                            <div class="table-responsive">
-                                <table class="table all-package theme-table table-product" id="table_id">
-                                    <thead>
-                                        <tr>
+                            <div>
+                                <div class="table-responsive">
+                                    <table class="table all-package theme-table table-product" id="table_id">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tên</th>
+                                                <th>Danh mục</th>
+                                                <th>Giá</th>
+                                                <th>Giá sale</th>
+                                                <th>Ảnh</th>
+                                                <th>Số lượng</th>
+                                                <th>Trạng thái</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
 
-                                            <th>Ảnh sản phẩm</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>Danh mục</th>
-                                            <th>Option</th>
-                                        </tr>
-                                    </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Áo nam đẹp</td>
+                                                <td>Áo nam</td>
+                                                <td class="td-price">300.000 VNĐ</td>
+                                                <td class="td-price">200.000 VNĐ</td>
+                                                <td>
+                                                    <div class="table-image">
+                                                        <img src="{{ asset('admin/assets/images/product/1.png') }}" class="img-fluid"
+                                                            alt="">
+                                                    </div>
+                                                </td>
+                                                
+                                                <td>12</td>
+                                                <td class="">
+                                                    <span class="text-danger">Không còn hàng</span>
+                                                </td>
 
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="table-image">
-                                                    <img src=" {{ asset('admin/assets/images/product/1.png') }}"
-                                                        class="img-fluid" alt="">
-                                                </div>
-                                            </td>
+                                                <td class="d-flex ms-2">
+                                                    <a href="" class="btn btn-info me-3">Xem</a>
+                                                    <a href="" class="btn btn-success me-3">Sửa</a>
+                                                    <form action="" method="POST"
+                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                                    </form>
+                                                </td>
+                                                
+                                            </tr>
 
-                                            <td>Aata Buscuit</td>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Áo nam đẹp</td>
+                                                <td>Áo nam</td>
+                                                <td class="td-price">300.000 VNĐ</td>
+                                                <td class="td-price">200.000 VNĐ</td>
+                                                <td>
+                                                    <div class="table-image">
+                                                        <img src="{{ asset('admin/assets/images/product/1.png') }}" class="img-fluid"
+                                                            alt="">
+                                                    </div>
+                                                </td>
+                                                
+                                                <td>12</td>
+                                                <td class="">
+                                                    <span class="text-danger">Không còn hàng</span>
+                                                </td>
 
-                                            <td>Buscuit</td>
-                                            <td>
-                                                <ul>
-                                                    <li>
-                                                        <a href="">
-                                                            <i class="ri-eye-line"></i>
-                                                        </a>
-                                                    </li>
+                                                <td class="d-flex ms-2">
+                                                    <a href="" class="btn btn-info me-3">Xem</a>
+                                                    <a href="" class="btn btn-success me-3">Sửa</a>
+                                                    <form action="" method="POST"
+                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                                    </form>
+                                                </td>
+                                                
+                                            </tr>
 
-                                                    <li>
-                                                        <a href="javascript:void(0)">
-                                                            <i class="ri-pencil-line"></i>
-                                                        </a>
-                                                    </li>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>Áo nam đẹp</td>
+                                                <td>Áo nam</td>
+                                                <td class="td-price">300.000 VNĐ</td>
+                                                <td class="td-price">200.000 VNĐ</td>
+                                                <td>
+                                                    <div class="table-image">
+                                                        <img src="{{ asset('admin/assets/images/product/1.png') }}" class="img-fluid"
+                                                            alt="">
+                                                    </div>
+                                                </td>
+                                                
+                                                <td>12</td>
+                                                <td class="">
+                                                    <span class="text-danger">Không còn hàng</span>
+                                                </td>
 
-                                                    <li>
-                                                        <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModalToggle">
-                                                            <i class="ri-delete-bin-line"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </td>
+                                                <td class="d-flex ms-2">
+                                                    <a href="" class="btn btn-info me-3">Xem</a>
+                                                    <a href="" class="btn btn-success me-3">Sửa</a>
+                                                    <form action="" method="POST"
+                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                                    </form>
+                                                </td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td>10</td>
+                                                <td>Áo nam đẹp</td>
+                                                <td>Áo nam</td>
+                                                <td class="td-price">300.000 VNĐ</td>
+                                                <td class="td-price">200.000 VNĐ</td>
+                                                <td>
+                                                    <div class="table-image">
+                                                        <img src="{{ asset('admin/assets/images/product/1.png') }}" class="img-fluid"
+                                                            alt="">
+                                                    </div>
+                                                </td>
+                                                
+                                                <td>12</td>
+                                                <td class="">
+                                                    <span class="text-danger">Không còn hàng</span>
+                                                </td>
 
-                                    </tbody>
-                                </table>
+                                                <td class="d-flex ms-2">
+                                                    <a href="" class="btn btn-info me-3">Xem</a>
+                                                    <a href="" class="btn btn-success me-3">Sửa</a>
+                                                    <form action="" method="POST"
+                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                                    </form>
+                                                </td>
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
