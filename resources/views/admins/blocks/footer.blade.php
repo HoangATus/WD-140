@@ -1,9 +1,9 @@
-<div class="container-fluid">
-    <footer class="footer">
+<footer class="footer">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 footer-copyright text-center">
-                <p class="mb-0">Copyright 2022 © Fastkart theme by pixelstrap</p>
+            <div class="col fs-13 text-muted text-center">
+                &copy; <script>document.write(new Date().getFullYear())</script> - Made with <span class="mdi mdi-heart text-danger"></span> by <a href="#!" class="text-reset fw-semibold">Zoyothemes</a> 
             </div>
         </div>
-    </footer>
-</div>
+    </div>
+</footer>

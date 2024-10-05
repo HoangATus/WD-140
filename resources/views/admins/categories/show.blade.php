@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('admins.layouts.admin')
 
 @section('title')
     Chi tiết Category
