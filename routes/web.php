@@ -10,8 +10,7 @@ use App\Http\Controllers\PurchasedOrderDetailsController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Clients\CartController;
-
-
+use App\Http\Controllers\Clients\ShopController;
 
 // use App\Http\Controllers\Clients\ShopController;
 

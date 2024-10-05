@@ -150,15 +150,19 @@
 
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="{{ asset('assets/admins/images/users/user-11.jpg ') }}" alt="user-image" class="rounded-circle">
+                        {{-- <img src="{{ asset('assets/admins/images/users/user-11.jpg ') }}" alt="user-image" class="rounded-circle"> --}}
                         <span class="pro-user-name ms-1">
-                            Christian <i class="mdi mdi-chevron-down"></i> 
+                            @if (Auth::check())
+                              {{ Auth::user()->user_name }}<i class="mdi mdi-chevron-down"></i> 
+                            @else
+                                
+                            @endif 
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
                         <!-- item-->
                         <div class="dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome !</h6>
+                            <h6 class="text-overflow m-0">Chào mừng !</h6>
                         </div>
 
                         <!-- item-->
@@ -178,7 +182,7 @@
                         <!-- item-->
                         <a class='dropdown-item notify-item' href='auth-logout.html'>
                             <i class="mdi mdi-location-exit fs-16 align-middle"></i>
-                            <span>Logout</span>
+                            <span>Trang người dùng</span>
                         </a>
 
                     </div>

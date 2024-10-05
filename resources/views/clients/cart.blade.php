@@ -1,4 +1,4 @@
-@extends('layouts.theme')
+@extends('clients.layouts.client')
 
 @section('cart')
 <section class="breadcrumb-section pt-0">
