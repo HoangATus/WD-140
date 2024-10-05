@@ -1,7 +1,5 @@
 <?php
 
-
-
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Clients\ProfileController;
 use App\Http\Controllers\AuthController;
@@ -13,7 +11,6 @@ use App\Http\Controllers\ProductController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Clients\CartController;
-use App\Http\Controllers\Clients\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,17 +26,14 @@ use App\Http\Controllers\Clients\ShopController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::resource('/',ShopController::class);
-Route::resource('/cart',CartController::class);
 Route::resource('/', ShopController::class);
+Route::resource('/cart',CartController::class); 
 Route::resource('/purchased', PurchasedOrderDetailsController::class);
 Route::get('/admin/danhmucs', function () {
     return view('admins.danhmucs.index');
 });
-Route::resource('/home', ShopController::class);
+
 Route::resource('/profile', ProfileController::class);
-
-
 Route::resource('/checkout', CheckoutController::class);
 Route::resource('/orderSuccess', OrdersuccessController::class);
 
