@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+            {{-- <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                 <div class="footer-title">
                     <h4>Thể loại</h4>
                 </div>
@@ -103,9 +103,9 @@
 
                     </ul>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="col-xl col-lg-2 col-sm-3">
+            {{-- <div class="col-xl col-lg-2 col-sm-3">
                 <div class="footer-title">
                     <h4>Liên kết</h4>
                 </div>
@@ -129,9 +129,9 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="col-xl-2 col-sm-3">
+            {{-- <div class="col-xl-2 col-sm-3">
                 <div class="footer-title">
                     <h4>Trung tâm trợ giúp</h4>
                 </div>
@@ -155,9 +155,9 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="col-xl-3 col-lg-4 col-sm-6">
+            <div class="col-xl-3 col-lg-4 col-sm-6 container">
                 <div class="footer-title">
                     <h4>Liên hệ</h4>
                 </div>
