@@ -194,8 +194,10 @@
                                         </div>
 
                                         <div class="button-group">
-                                            <a href="{{route('cart.index')}}" class="btn btn-sm cart-button">View Cart</a>
-                                            <a href="checkout.html" class="btn btn-sm cart-button theme-bg-color
+                                            <a href="{{ route('cart.index') }}" class="btn btn-sm cart-button">View
+                                                Cart</a>
+                                            <a href="checkout.html"
+                                                class="btn btn-sm cart-button theme-bg-color
                                             text-white">Checkout</a>
 
                                             <a href="cart.html" class="btn btn-sm cart-button">Xem giỏ hàng</a>
@@ -221,20 +223,27 @@
 
                                 <div class="onhover-div onhover-div-login">
                                     <ul class="user-box-name">
-                                        @guest     
-                                        <li class="product-box-contain">
-                                            <i></i>
-                                            <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Đăng
-                                                nhập</a>
-                                        </li>
+                                        @guest
+                                            <li class="product-box-contain">
+                                                <i></i>
+                                                <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Đăng
+                                                    nhập</a>
+                                            </li>
 
-                                        <li class="product-box-contain">
-                                            <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i> Đăng
-                                                ký</a>
-                                        </li>
+                                            <li class="product-box-contain">
+                                                <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i> Đăng
+                                                    ký</a>
+                                            </li>
                                         @endguest
+                                        @if (Auth::check() && Auth::user()->role == 'Admin')
+                                            <li class="product-box-contain">
+                                                <a href="{{ route('admins.dashboard') }}"><i class="fas fa-key"></i>
+                                                    Trang quản trị</a>
+                                            </li>
+                                        @endif
                                         <li class="product-box-contain">
-                                            <a href="{{ route('password.request') }}"><i class="fas fa-key"></i> Quên mật khẩu</a>
+                                            <a href="{{ route('password.request') }}"><i class="fas fa-key"></i> Quên
+                                                mật khẩu</a>
                                         </li>
 
                                         <li class="product-box-contain">
@@ -303,7 +312,7 @@
                                         <div class="category-title-box">
                                             <h5>Quần ống rộng</h5>
                                         </div>
-                    
+
                             <li class="onhover-category-list">
                                 <a href="javascript:void(0)" class="category-name">
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/1/meats.svg"
@@ -331,7 +340,7 @@
                                         <div class="category-title-box">
                                             <h5>Áo bomber </h5>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </li>
@@ -349,7 +358,7 @@
                                         <div class="category-title-box">
                                             <h5>Áo jacket</h5>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </li>
@@ -367,7 +376,7 @@
                                         <div class="category-title-box">
                                             <h5>Quần tây</h5>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </li>
@@ -385,7 +394,7 @@
                                         <div class="category-title-box">
                                             <h5>Áo vest</h5>
                                         </div>
-                                  
+
                                     </div>
                                 </div>
                             </li>
@@ -405,10 +414,10 @@
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="javascript:void(0)"
                                             data-bs-toggle="dropdown">Trang chủ</a>
-                                            <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="javascript:void(0)"
-                                                    data-bs-toggle="dropdown">Giới thiệu</a>
-                                            </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+                                            data-bs-toggle="dropdown">Giới thiệu</a>
+                                    </li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="javascript:void(0)"
                                             data-bs-toggle="dropdown">Sản phẩm</a>
@@ -431,21 +440,21 @@
                                                         </h5>
                                                         <h5 class="dropdown-header">
                                                             Jacket </h5>
-                                                            <h5 class="custom-mt dropdown-header">Bomber
-                                                            </h5>
+                                                        <h5 class="custom-mt dropdown-header">Bomber
+                                                        </h5>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-3">
                                                     <div class="dropdown-column m-0">
-                                                <div class="col-xl-3">
-                                                    <div class="dropdown-column m-0">
-                                                        <h5 class="dropdown-header">
-                                                            Áo vest </h5>
+                                                        <div class="col-xl-3">
+                                                            <div class="dropdown-column m-0">
+                                                                <h5 class="dropdown-header">
+                                                                    Áo vest </h5>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
-                                                
-                                            </div>
-                                        </div>
                                     </li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="javascript:void(0)"
@@ -469,12 +478,12 @@
                                             <li>
                                                 <a class="dropdown-item" href="seller-grid-2.html">Sản phẩm 1</a>
                                             </li>
-                                            
+
                                         </ul>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="javascript:void(0)"
-                                                data-bs-toggle="dropdown">Liên hệ</a>
-                                        </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+                                            data-bs-toggle="dropdown">Liên hệ</a>
+                                    </li>
                                     </li>
                                 </ul>
 
