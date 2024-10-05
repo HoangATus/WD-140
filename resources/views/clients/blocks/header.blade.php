@@ -13,7 +13,7 @@
                     <div class="notification-slider">
                         <div>
                             <div class="timer-notification">
-                                <h6><strong class="me-1">Chào mừng bạn đến với Fastkart!</strong>Chúc bạn một ngày mới
+                                <h6><strong class="me-1">Chào mừng bạn đến với ATUS!</strong>Chúc bạn một ngày mới
                                     vui vẻ.
 
 
@@ -39,7 +39,7 @@
                         <div class="dropdown theme-form-select">
                             <button class="btn dropdown-toggle" type="button" id="select-language"
                                 data-bs-toggle="dropdown">
-                                <img src="../assets/images/country/united-states.png" class="img-fluid blur-up lazyload"
+                                <img src="{{ asset('assets/images/covietnam.webp') }}" class="img-fluid blur-up lazyload"
                                     alt="">
                                 <span>Tiếng Việt</span>
                             </button>
@@ -85,7 +85,7 @@
                         </span>
                     </button>
                     <a href="index.html" class="web-logo nav-logo">
-                        <img src="../assets/images/logo/1.png" class="img-fluid blur-up lazyload" alt="">
+                        <img src="{{ asset('assets/images/logoatus.png') }}" class="img-fluid blur-up lazyload" alt="" style="width: 100px">
                     </a>
 
                     <div class="middle-box">

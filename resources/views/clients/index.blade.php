@@ -2520,8 +2520,6 @@
         </div>
     </div>
 </section>
-<!-- Product Section End -->
-
 <!-- Newsletter Section Start -->
 <section class="newsletter-section section-b-space">
     <div class="container-fluid-lg">
