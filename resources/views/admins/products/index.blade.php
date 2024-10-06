@@ -7,6 +7,9 @@
 @section('css')
 @endsection
 @section('content')
+    @if (session('message'))
+        <h4>{{ session('message') }}</h4>
+    @endif
     <!-- All User Table Start -->
     <div class="container-fluid">
         <div class="row">
@@ -17,7 +20,8 @@
                             <h5>Danh sách sản phẩm</h5>
                         </div>
                         <div class="d-flex justify-content-end">
-                            <a class="btn btn-success" href="{{ route('admins.products.create') }}"><i data-feather="plus-square"></i> Thêm sản phẩm</a>
+                            <a class="btn btn-success" href="{{ route('admins.products.create') }}"><i
+                                    data-feather="plus-square"></i> Thêm sản phẩm</a>
                         </div>
                         <div>
                             <div>
@@ -26,11 +30,11 @@
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
+                                                <th>Ảnh</th>
                                                 <th>Tên</th>
                                                 <th>Danh mục</th>
                                                 <th>Giá</th>
                                                 <th>Giá sale</th>
-                                                <th>Ảnh</th>
                                                 <th>Số lượng</th>
                                                 <th>Trạng thái</th>
                                                 <th>Hành động</th>
@@ -38,131 +42,50 @@
                                         </thead>
 
                                         <tbody>
+                                            @foreach ($products as $item) 
                                             <tr>
+                                                <td>{{$item->id}}</td>
+                                                <td>
+                                                    <div style="width: 80px;height: 80px;">
+                                                        @if (str_contains($item->product_image_url, 'products/'))
+                                                            <img src="{{ Storage::url($item->product_image_url) }}" alt=""
+                                                                style="max-width: 100%; max-height: 100%">
+                                                        @else
+                                                            <img src="{{ $item->product_image_url}}" alt=""
+                                                                style="max-width: 100%; max-height: 100%">
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                                <td>{{$item->product_name}}</td>
+                                                <td>{{$item->category->name }}</td>
                                                 <td>1</td>
-                                                <td>Áo nam đẹp</td>
-                                                <td>Áo nam</td>
-                                                <td class="td-price">300.000 VNĐ</td>
+                                                {{-- <td>{{$item->variants->variant_listed_price}}</td> --}}
                                                 <td class="td-price">200.000 VNĐ</td>
-                                                <td>
-                                                    <div class="table-image">
-                                                        <img src="{{ asset('admin/assets/images/product/1.png') }}" class="img-fluid"
-                                                            alt="">
-                                                    </div>
-                                                </td>
-                                                
                                                 <td>12</td>
-                                                <td class="">
-                                                    <span class="text-danger">Không còn hàng</span>
+                                                <td>
+                                                    {!! $item->is_active
+                                                        ? '<span class="badge bg-success text-white">Hoạt động</span>'
+                                                        : '<span class="badge bg-danger text-white">Không hoạt động</span>' !!}
                                                 </td>
 
                                                 <td class="d-flex ms-2">
-                                                    <a href="" class="btn btn-info me-3">Xem</a>
-                                                    <a href="" class="btn btn-success me-3">Sửa</a>
-                                                    <form action="" method="POST"
-                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')" style="display:inline;">
+                                                    <a href="{{ route('admins.products.show', $item) }}" class="btn btn-info me-3">Xem</a>
+                                                    <a href="{{ route('admins.products.edit', $item) }}" class="btn btn-success me-3">Sửa</a>
+                                                    <form action="{{route('admins.products.destroy', $item) }}" method="POST"
+                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')"
+                                                        style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger">Xóa</button>
                                                     </form>
                                                 </td>
-                                                
+
                                             </tr>
-
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Áo nam đẹp</td>
-                                                <td>Áo nam</td>
-                                                <td class="td-price">300.000 VNĐ</td>
-                                                <td class="td-price">200.000 VNĐ</td>
-                                                <td>
-                                                    <div class="table-image">
-                                                        <img src="{{ asset('admin/assets/images/product/1.png') }}" class="img-fluid"
-                                                            alt="">
-                                                    </div>
-                                                </td>
-                                                
-                                                <td>12</td>
-                                                <td class="">
-                                                    <span class="text-danger">Không còn hàng</span>
-                                                </td>
-
-                                                <td class="d-flex ms-2">
-                                                    <a href="" class="btn btn-info me-3">Xem</a>
-                                                    <a href="" class="btn btn-success me-3">Sửa</a>
-                                                    <form action="" method="POST"
-                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Xóa</button>
-                                                    </form>
-                                                </td>
-                                                
-                                            </tr>
-
-                                            <tr>
-                                                <td>5</td>
-                                                <td>Áo nam đẹp</td>
-                                                <td>Áo nam</td>
-                                                <td class="td-price">300.000 VNĐ</td>
-                                                <td class="td-price">200.000 VNĐ</td>
-                                                <td>
-                                                    <div class="table-image">
-                                                        <img src="{{ asset('admin/assets/images/product/1.png') }}" class="img-fluid"
-                                                            alt="">
-                                                    </div>
-                                                </td>
-                                                
-                                                <td>12</td>
-                                                <td class="">
-                                                    <span class="text-danger">Không còn hàng</span>
-                                                </td>
-
-                                                <td class="d-flex ms-2">
-                                                    <a href="" class="btn btn-info me-3">Xem</a>
-                                                    <a href="" class="btn btn-success me-3">Sửa</a>
-                                                    <form action="" method="POST"
-                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Xóa</button>
-                                                    </form>
-                                                </td>
-                                                
-                                            </tr>
-                                            <tr>
-                                                <td>10</td>
-                                                <td>Áo nam đẹp</td>
-                                                <td>Áo nam</td>
-                                                <td class="td-price">300.000 VNĐ</td>
-                                                <td class="td-price">200.000 VNĐ</td>
-                                                <td>
-                                                    <div class="table-image">
-                                                        <img src="{{ asset('admin/assets/images/product/1.png') }}" class="img-fluid"
-                                                            alt="">
-                                                    </div>
-                                                </td>
-                                                
-                                                <td>12</td>
-                                                <td class="">
-                                                    <span class="text-danger">Không còn hàng</span>
-                                                </td>
-
-                                                <td class="d-flex ms-2">
-                                                    <a href="" class="btn btn-info me-3">Xem</a>
-                                                    <a href="" class="btn btn-success me-3">Sửa</a>
-                                                    <form action="" method="POST"
-                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Xóa</button>
-                                                    </form>
-                                                </td>
-                                                
-                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
+
                             </div>
                         </div>
                     </div>
