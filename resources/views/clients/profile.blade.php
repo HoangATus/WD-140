@@ -1,4 +1,5 @@
-@extends('layouts.theme')
+@extends('clients.layouts.client')
+
 @section('content')
 <!-- Phần Điều Hướng Bắt Đầu -->
 <section class="breadcrumb-section pt-0">

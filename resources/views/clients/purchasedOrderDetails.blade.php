@@ -1,4 +1,5 @@
-@extends('layouts.theme');
+@extends('clients.layouts.client')
+
 @section('content')
     <!-- User Dashboard Section Start -->
     <section class="user-dashboard-section section-b-space">
