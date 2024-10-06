@@ -46,20 +46,11 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                          <div class="mb-4 row align-items-center">
-                                            <label class="form-label-title col-sm-3 mb-0">Trạng thái</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-check-input" type="checkbox" name="is_active" id="is_active" value="1" @checked(old('is_active', $category->is_active))>
-                                                <label for="is_active" class="form-check-label">Kích hoạt</label>
-                                                @error('is_active')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                         
                                        
                                         <div class="row">
                                             <div class="col-sm-9 offset-sm-3">
-                                                <button type="submit" class="btn btn-theme">Cập nhật </button>
+                                                <button type="submit" class="btn btn-success">Cập nhật </button>
                                             </div>
                                         </div>
 
