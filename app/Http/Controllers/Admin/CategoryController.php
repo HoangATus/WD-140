@@ -40,7 +40,6 @@ class CategoryController extends Controller
     {
         $data = $request->except('cover');
     
-        $data['is_active'] = $request->has('is_active') ? 1 : 0;
     
         $data['slug'] = $data['slug'] ?? Str::slug($request->name);
     
@@ -78,7 +77,6 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $data = $request->except('cover');
-        $data['is_active'] ??= 0;
         if ($request->hasFile('cover')) {
             $data['cover'] = Storage::put(self::PATH_UPLOAD, $request->file('cover'));
             if (!empty($category->cover) && Storage::exists($category->cover)) {

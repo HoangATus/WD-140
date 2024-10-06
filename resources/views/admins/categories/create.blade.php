@@ -50,14 +50,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="mb-4 row align-items-center">
-                                            <label class="col-sm-3 form-label-title">Trạng thái:</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-check-input" type="checkbox" value="1" name="is_active" id="is_active" {{ old('is_active', 1) ? 'checked' : '' }}>
-                                                <label for="is_active" class="form-check-label">Kích hoạt</label>
-                                               
-                                            </div>
-                                        </div>
+                                      
 
                                         <div class="row">
                                             <div class="col-sm-9 offset-sm-3">

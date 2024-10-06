@@ -12,10 +12,7 @@ class Category extends Model
         'name',
         'slug',
         'cover',
-        'is_active',
     ];
 
-    protected $casts = [
-        'is_active' => 'boolean'
-    ];
+   
 }
