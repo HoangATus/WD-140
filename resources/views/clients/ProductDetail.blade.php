@@ -1,4 +1,5 @@
-@extends('layouts.theme')
+@extends('clients.layouts.client')
+
 @section('content')
      <!-- mobile fix menu start -->
      <div class="mobile-menu d-md-none d-block mobile-cart">
@@ -164,11 +165,10 @@
 
                         <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="right-box-contain">
-                                <h6 class="offer-top">Giảm giá 30%</h6>
+                                {{-- <h6 class="offer-top">Giảm giá 30%</h6> --}}
                                 <h2 class="name">Quần short kaki basic FSBK019</h2>
                                 <div class="price-rating">
-                                    <h3 class="theme-color price">114.000 ₫ <del class="text-content">150.000 ₫</del> <span
-                                            class="offer theme-color">(giảm giá 8%)</span></h3>
+                                    <h3 class="theme-color price">114.000 ₫ <del class="text-content">150.000 ₫</del>       
                                     <div class="product-rating custom-rate">
                                         <ul class="rating">
                                             <li>
@@ -299,9 +299,9 @@
 
                                 <div class="payment-option">
                                     <div class="product-title">
-                                        <h4>Đảm bảo thanh toán an toàn</h4>
+                                        {{-- <h4>Đảm bảo thanh toán an toàn</h4> --}}
                                     </div>
-                                    <ul>
+                                    {{-- <ul>
                                         <li>
                                             <a href="javascript:void(0)">
                                                 <img src="https://themes.pixelstrap.com/fastkart/assets/images/product/payment/1.svg"
@@ -332,7 +332,7 @@
                                                     class="blur-up lazyload" alt="">
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul> --}}
                                 </div>
                             </div>
                         </div>
