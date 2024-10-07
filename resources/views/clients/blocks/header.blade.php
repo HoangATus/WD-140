@@ -3,10 +3,7 @@
         <div class="container-fluid-lg">
             <div class="row">
                 <div class="col-xxl-3 d-xxl-block d-none">
-                    <div class="top-left-header">
-                        <i class="iconly-Location icli text-white"></i>
-                        <span class="text-white">1418 Riverwood Drive, CA 96052, US</span>
-                    </div>
+  
                 </div>
 
                 <div class="col-xxl-6 col-lg-9 d-lg-block d-none">
@@ -14,18 +11,28 @@
                         <div class="notification-slider">
                             <div>
                                 <div class="timer-notification">
+
                                     <h6><strong class="me-1">Chào mừng đến với Fastkart!</strong>Nhận ưu đãi/quà tặng mới
                                         mỗi ngày cuối tuần.<strong class="ms-1">Mã giảm giá mới: Fast024
                                         </strong>
                                     </h6>
+
+                                    <h6><strong class="me-1">Chào mừng bạn đến với ATUS!</strong> Chúng tôi mang
+                                        đến những ưu đãi/gifts mới mỗi ngày vào cuối tuần. <strong class="ms-1"></strong></h6>
+
                                 </div>
                             </div>
 
                             <div>
                                 <div class="timer-notification">
+
                                     <h6>Một thứ bạn yêu thích đang được giảm giá!
                                         <a href="shop-left-sidebar.html" class="text-white">Mua ngay
                                             !</a>
+
+                                    <h6>Điều gì đó bạn yêu thích hiện đang được giảm giá!
+                                        <a href="shop-left-sidebar.html" class="text-white">Mua ngay!</a>
+
                                     </h6>
                                 </div>
                             </div>
@@ -39,8 +46,9 @@
                             <div class="dropdown theme-form-select">
                                 <button class="btn dropdown-toggle" type="button" id="select-language"
                                     data-bs-toggle="dropdown">
-                                    <img src="{{ asset('assets/clients/images/country/united-states.png') }}"
+                                    <img src="{{ asset('assets/clients/images/covietnam.webp') }}"
                                         class="img-fluid blur-up lazyload" alt="">
+
                                     <span>Tiếng Anh</span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -66,25 +74,18 @@
                                         </a>
                                     </li>
                                 </ul>
+
+                                    <span>Tiếng Việt</span>
+                                </button>
+
                             </div>
                         </li>
                         <li class="right-nav-list">
                             <div class="dropdown theme-form-select">
                                 <button class="btn dropdown-toggle" type="button" id="select-dollar"
                                     data-bs-toggle="dropdown">
-                                    <span>USD</span>
+                                    <span>VND</span>
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-end sm-dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" id="aud" href="javascript:void(0)">AUD</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" id="eur" href="javascript:void(0)">EUR</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" id="cny" href="javascript:void(0)">CNY</a>
-                                    </li>
-                                </ul>
                             </div>
                         </li>
                     </ul>
@@ -105,8 +106,17 @@
                             </span>
                         </button>
                         <a href="index.html" class="web-logo nav-logo">
-                            <img src="{{ asset('assets/clients/images/logo/6.png') }}" class="img-fluid blur-up lazyload" alt="">
+                            <img src="{{ asset('assets/images/logoatus.png') }}" class="img-fluid blur-up lazyload"
+                                alt="">
                         </a>
+                        <div class="search-box">
+                            <div class="input-group">
+                                <input type="search" class="form-control" placeholder="Tìm kiếm.......">
+                                <button class="btn" type="button" id="button-addon2">
+                                    <i data-feather="search"></i>
+                                </button>
+                            </div>
+                        </div>
 
                         <div class="header-nav-middle">
                             <div class="main-nav navbar navbar-expand-xl navbar-light navbar-sticky">
@@ -120,6 +130,7 @@
                                         <ul class="navbar-nav">
                                             <li class="nav-item dropdown dropdown-mega">
                                                 <a class="nav-link dropdown-toggle ps-xl-2 ps-0"
+
                                                     href="javascript:void(0)" data-bs-toggle="dropdown">Trang chủ</a>
 
                                                 <ul class="dropdown-menu">
@@ -187,11 +198,17 @@
                                                         <a class="dropdown-item" href="shop-top-filter.html">Bộ Lọc Trên Cửa Hàng</a>
                                                     </li>
                                                 </ul>
-                                            </li>
 
+                                                href="javascript:void(0)" data-bs-toggle="dropdown">Trang chủ</a>
+                                            <li class="nav-item dropdown">
+                                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+                                                        data-bs-toggle="dropdown">Giới thiệu</a>
+
+                                            </li>
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="javascript:void(0)"
                                                     data-bs-toggle="dropdown">Sản phẩm</a>
+
 
                                                 <div class="dropdown-menu dropdown-menu-3 dropdown-menu-2">
                                                     <div class="row">
@@ -522,6 +539,12 @@
                                                         <a class="dropdown-item" href="seller-grid-2.html">Lưới Người Bán 2</a>
                                                     </li>
                                                 </ul>
+
+                                            </li>
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+                                                    data-bs-toggle="dropdown">Liên hệ</a>
+
                                             </li>
                                         </ul>
                                     </div>
@@ -535,7 +558,12 @@
                                     <span class="input-group-text">
                                         <i data-feather="search" class="font-light"></i>
                                     </span>
+
                                     <input type="text" class="form-control search-type" placeholder="Tìm kiếm ở đây..">
+
+                                    <input type="text" class="form-control search-type"
+                                        placeholder="Tìm kiếm ở đây..">
+
                                     <span class="input-group-text close-search">
                                         <i data-feather="x" class="font-light"></i>
                                     </span>
@@ -576,7 +604,11 @@
 
                                                         <div class="drop-contain">
                                                             <a href="product-left-thumbnail.html">
+
                                                                 <h5>Bánh Quy Choco Chip Crunchy Fantasy</h5>
+
+                                                                <h5>Bánh quy Choco Chip Giòn Hương Vị Thần Kỳ</h5>
+
                                                             </a>
                                                             <h6><span>1 x</span> $80.58</h6>
                                                             <button class="close-button close_button">
@@ -595,7 +627,11 @@
 
                                                         <div class="drop-contain">
                                                             <a href="product-left-thumbnail.html">
+
                                                                 <h5>Bánh Quy Bơ Lạc Premium Butter 600 g</h5>
+
+                                                                <h5>Bánh quy Bơ Đậu Phộng Premium 600 g</h5>
+
                                                             </a>
                                                             <h6><span>1 x</span> $25.68</h6>
                                                             <button class="close-button close_button">
@@ -605,16 +641,25 @@
                                                     </div>
                                                 </li>
                                             </ul>
-
                                             <div class="price-box">
+
                                                 <h5>Tổng :</h5>
+
+                                                <h5>Tổng cộng :</h5>
+
                                                 <h4 class="theme-color fw-bold">$106.58</h4>
                                             </div>
 
                                             <div class="button-group">
                                                 <a href="cart.html" class="btn btn-sm cart-button">Xem Giỏ Hàng</a>
+
                                                 <a href="checkout.html" class="btn btn-sm cart-button theme-bg-color
                                                 text-white">Thanh Toán</a>
+
+                                                <a href="checkout.html"
+                                                    class="btn btn-sm cart-button theme-bg-color text-white">Thanh
+                                                    Toán</a>
+
                                             </div>
                                         </div>
                                     </div>
@@ -630,7 +675,11 @@
                                             <p>Bạn chưa đăng nhập.</p>
                                         @endif
                                     </div>
+
                                 
+
+
+
                                     <div class="onhover-div onhover-div-login">
                                         <ul class="user-box-name">
                                             @guest
@@ -639,25 +688,39 @@
                                                     <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Đăng
                                                         nhập</a>
                                                 </li>
+
                                 
+
+
+
                                                 <li class="product-box-contain">
-                                                    <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i> Đăng
-                                                        ký</a>
+                                                    <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i>
+                                                        Đăng ký</a>
                                                 </li>
                                             @endguest
                                             @if (Auth::check() && Auth::user()->role == 'Admin')
                                                 <li class="product-box-contain">
+
                                                     <a href="{{ route('admins.dashboard') }}"><i class="fas fa-key"></i>
                                                         Trang Quản Trị</a>
+
+                                                    <a href="{{ route('admins.dashboard') }}"><i
+                                                            class="fas fa-key"></i> Trang quản trị</a>
+
                                                 </li>
                                             @endif
                                             <li class="product-box-contain">
-                                                <a href="{{ route('password.request') }}"><i class="fas fa-key"></i> Quên
-                                                    mật khẩu</a>
+                                                <a href="{{ route('password.request') }}"><i class="fas fa-key"></i>
+                                                    Quên mật khẩu</a>
                                             </li>
+
                                 
+
+
+
                                             <li class="product-box-contain">
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                                <form id="logout-form" action="{{ route('logout') }}"
+                                                    method="POST">
                                                     @csrf
                                                     <a href="#"
                                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -673,6 +736,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
         <!-- mobile fix menu start -->
@@ -715,4 +779,46 @@
             </ul>
         </div>
         <!-- mobile fix menu end -->
+
+            <!-- mobile fix menu start -->
+            <div class="mobile-menu d-md-none d-block mobile-cart">
+                <ul>
+                    <li class="active">
+                        <a href="index.html">
+                            <i class="iconly-Home icli"></i>
+                            <span>Trang Chủ</span>
+                        </a>
+                    </li>
+
+                    <li class="mobile-category">
+                        <a href="javascript:void(0)">
+                            <i class="iconly-Category icli js-link"></i>
+                            <span>Danh Mục</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="search.html" class="search-box">
+                            <i class="iconly-Search icli"></i>
+                            <span>Tìm Kiếm</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="wishlist.html" class="notifi-wishlist">
+                            <i class="iconly-Heart icli"></i>
+                            <span>Danh Sách Yêu Thích</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="cart.html">
+                            <i class="iconly-Bag-2 icli fly-cate"></i>
+                            <span>Giỏ Hàng</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- mobile fix menu end -->
+
 </header>

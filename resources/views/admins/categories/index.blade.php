@@ -14,7 +14,7 @@
                 <div class="card card-table">
                     <div class="card-body">
                         <div class="title-header option-title">
-                            <h5>Danh sách danh mục</h5>
+                            <h1>Danh sách danh mục</h1>
                             @if (session('message'))
                                 <h4 class="text-primary">{{ session('message') }}</h4>
                             @endif
@@ -29,66 +29,49 @@
                             <div>
                                 <table class="table all-package theme-table" id="table_id">
                                     <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th> Tên</th>
-                                            <th>Ảnh</th>
-                                            <th>Trạng thái</th>
-                                            {{-- <th>Slug</th> --}}
-                                            <th>Hành động</th>
+                                        <tr class="text-center">
+                                            <th class="align-middle">ID</th>
+                                            <th class="align-middle">Tên</th>
+                                            <th class="align-middle">Ảnh</th>
+                                            <th class="align-middle">Hành động</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         @foreach ($categories as $item)
+
                                             <tr>
                                                 <td>{{ $item->id }}</td>
                                                 <td>{{ $item->name }}</td>
                                                 <td>
                                                     <div style="width: 80px;height: 80px;">
                                                         <img src="{{ asset('storage/' . $item->cover) }}"
+
+                                            <tr class="text-center">
+                                                <td class="align-middle">{{ $item->id }}</td>
+                                                <td class="align-middle">{{ $item->name }}</td>
+                                                <td class="align-middle">
+                                                    <div style="width: 80px;height: 80px; margin: 0 auto;">
+                                                        <img src="{{ Storage::url($item->cover) }}"
+
                                                             style="max-width: 100%; max-height: 100%;" alt="">
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    {!! $item->is_active
-                                                        ? '<span class="badge bg-success text-white">Hoạt động</span>'
-                                                        : '<span class="badge bg-danger text-white">Không hoạt động</span>' !!}
-                                                </td>
-                                                {{-- 
-                                     <td>
-                                        {{$item->slug}}
-                                     </td> --}}
+                                              
 
-                                                <td>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="{{ route('admins.categories.show', $item) }}">
-                                                                <i class="ri-eye-line"></i>
-                                                            </a>
-                                                        </li>
-
-                                                        <li>
-                                                            <a href="{{ route('admins.categories.edit', $item) }}">
-                                                                <i class="ri-pencil-line"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <form action="{{ route('admins.categories.destroy', $item) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-primary"
-                                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"><i
-                                                                        class="ri-delete-bin-line"></i></button>
-                                                            </form>
-
-                                                        </li>
-                                                    </ul>
+                                                <td class="align-middle">
+                                                    <div class="d-flex justify-content-center">
+                                                        <a href="{{ route('admins.categories.show', $item) }}" class="btn btn-info mx-1">Xem</a>
+                                                        <a href="{{ route('admins.categories.edit', $item) }}" class="btn btn-success mx-1">Sửa</a>
+                                                        <form action="{{ route('admins.categories.destroy', $item) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger mx-1" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">Xóa</button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach
-
                                     </tbody>
                                 </table>
                             </div>
