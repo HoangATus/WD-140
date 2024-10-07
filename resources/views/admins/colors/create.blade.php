@@ -44,7 +44,7 @@ Trang quản trị
                                 </div>
                             </div>
 
-                            <div class="mb-4 row align-items-center">
+                            <!-- <div class="mb-4 row align-items-center">
                                 <label class="form-label-title col-sm-3 mb-0">Số Lượng
                                 </label>
                                 <div class="col-sm-9">
@@ -53,7 +53,7 @@ Trang quản trị
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="mb-4 row align-items-start">
                                 <!-- <label class="col-sm-3 col-form-label form-label-title">Attribute

@@ -23,13 +23,23 @@ Trang quản trị
                             <i data-feather="plus-square"></i>Thêm màu mới
                         </a>
                     </div>
+
+                    @if (session('success'))
+                            <div class="alert alert-success mt-3">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('message'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
+                            </div>
+                        @endif
                     <div class="table-responsive category-table">
                         <table class="table all-package theme-table" id="table_id">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên</th>
-                                    <th>Số lượng</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -39,18 +49,17 @@ Trang quản trị
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
-                                    <td>{{ $item->quantity }}</td>
                                     <td>
                                             <ul>
                                                 <li>
                                                     <a href="{{route('admins.colors.show',$item)}}">
-                                                        <i class="ri-eye-line"></i>
+                                                        <button class="btn btn-secondary"><i class="ri-eye-line"></i></button>
                                                     </a>
                                                 </li>
 
                                                 <li>
                                                     <a href="{{route('admins.colors.edit',$item)}}">
-                                                   <i class="ri-pencil-line"></i> 
+                                                   <button class="btn btn-warning"><i class="ri-pencil-line"></i> </button>
                                                     </a>
                                                 </li>
                                                 <li>
