@@ -7,6 +7,9 @@
 @section('css')
 @endsection
 @section('content')
+    @if (session('message'))
+        <h4>{{ session('message') }}</h4>
+    @endif
     <!-- All User Table Start -->
     <div class="container-fluid">
         <div class="row">
@@ -17,58 +20,72 @@
                             <h5>Danh sách sản phẩm</h5>
                         </div>
                         <div class="d-flex justify-content-end">
-                            <a class="btn btn-success" href="{{ route('admins.products.create') }}"><i data-feather="plus-square"></i> Thêm sản phẩm</a>
+                            <a class="btn btn-success" href="{{ route('admins.products.create') }}"><i
+                                    data-feather="plus-square"></i> Thêm sản phẩm</a>
                         </div>
                         <div>
-                            <div class="table-responsive">
-                                <table class="table all-package theme-table table-product" id="table_id">
-                                    <thead>
-                                        <tr>
+                            <div>
+                                <div class="table-responsive">
+                                    <table class="table all-package theme-table table-product" id="table_id">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Ảnh</th>
+                                                <th>Tên</th>
+                                                <th>Danh mục</th>
+                                                <th>Giá</th>
+                                                <th>Giá sale</th>
+                                                <th>Số lượng</th>
+                                                <th>Trạng thái</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
 
-                                            <th>Ảnh sản phẩm</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>Danh mục</th>
-                                            <th>Option</th>
-                                        </tr>
-                                    </thead>
+                                        <tbody>
+                                            @foreach ($products as $item) 
+                                            <tr>
+                                                <td>{{$item->id}}</td>
+                                                <td>
+                                                    <div style="width: 80px;height: 80px;">
+                                                        @if (str_contains($item->product_image_url, 'products/'))
+                                                            <img src="{{ Storage::url($item->product_image_url) }}" alt=""
+                                                                style="max-width: 100%; max-height: 100%">
+                                                        @else
+                                                            <img src="{{ $item->product_image_url}}" alt=""
+                                                                style="max-width: 100%; max-height: 100%">
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                                <td>{{$item->product_name}}</td>
+                                                <td>{{$item->category->name }}</td>
+                                                <td>1</td>
+                                                {{-- <td>{{$item->variants->variant_listed_price}}</td> --}}
+                                                <td class="td-price">200.000 VNĐ</td>
+                                                <td>12</td>
+                                                <td>
+                                                    {!! $item->is_active
+                                                        ? '<span class="badge bg-success text-white">Hoạt động</span>'
+                                                        : '<span class="badge bg-danger text-white">Không hoạt động</span>' !!}
+                                                </td>
 
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="table-image">
-                                                    <img src=" {{ asset('admin/assets/images/product/1.png') }}"
-                                                        class="img-fluid" alt="">
-                                                </div>
-                                            </td>
+                                                <td class="d-flex ms-2">
+                                                    <a href="{{ route('admins.products.show', $item) }}" class="btn btn-info me-3">Xem</a>
+                                                    <a href="{{ route('admins.products.edit', $item) }}" class="btn btn-success me-3">Sửa</a>
+                                                    <form action="{{route('admins.products.destroy', $item) }}" method="POST"
+                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')"
+                                                        style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                                    </form>
+                                                </td>
 
-                                            <td>Aata Buscuit</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
 
-                                            <td>Buscuit</td>
-                                            <td>
-                                                <ul>
-                                                    <li>
-                                                        <a href="">
-                                                            <i class="ri-eye-line"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="javascript:void(0)">
-                                                            <i class="ri-pencil-line"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModalToggle">
-                                                            <i class="ri-delete-bin-line"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </td>
-
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                     </div>

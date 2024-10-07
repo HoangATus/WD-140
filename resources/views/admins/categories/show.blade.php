@@ -28,13 +28,7 @@
                                 </div>
                             </div>
 
-                            <div class="mb-4 row align-items-center">
-                                <label class="form-label-title col-sm-3 mb-0">Trạng thái</label>
-                                <div class="col-sm-9">
-                                    <p> {!! $category->is_active ? '<span class="badge bg-success text-white">Hoạt động</span>'
-                        : '<span class="badge bg-danger text-white">Không hoạt động</span>' !!}</p>
-                                </div>
-                            </div>
+                          
 
                             <div class="mb-4 row align-items-center">
                                 <label class="form-label-title col-sm-3 mb-0">Ảnh </label>

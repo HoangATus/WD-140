@@ -18,62 +18,84 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $user = $request->validate([
-            'user_email' => 'required|string|email|max:255',
-            'user_password' => 'required|string'
-        ], [
-            'user_email.required' => 'Vui lòng điền vào mục này.',
-            'user_email.email' => 'Email không hợp lệ.',
-            'user_password.required' => 'Vui lòng điền vào mục này.'
+        $request->validate([
+            'login_identifier' => 'required|string',
+            'user_password' => 'required|string',
         ]);
 
-        $userRecord = User::where('user_email', $user['user_email'])->first();
+        $field = filter_var($request->login_identifier, FILTER_VALIDATE_EMAIL) ? 'user_email' : 'user_phone_number';
+        $user = User::where($field, $request->login_identifier)->first();
 
-        if (!$userRecord) {
-            return back()->withErrors([
-                'loginError' => 'Lỗi rồi! Tài khoản không tồn tại, bạn cần kiểm tra lại thông tin tài khoản của mình. Nếu bạn chưa có tài khoản, hãy <a href="' . route('register') . '">bấm vào đây để Đăng Ký</a>! Xin cảm ơn!',
-            ])->onlyInput('user_email');
+        if ($user && Hash::check($request->user_password, $user->user_password)) {
+            Auth::login($user); 
+            return redirect('/'); 
         }
 
-        if (Hash::check($user['user_password'], $userRecord->user_password)) {
-            Auth::login($userRecord);
-            return redirect()->intended('/');
-        }
-
-        return back()->withErrors([
-            'loginError' => 'Lỗi rồi! Mật khẩu bạn vừa nhập không chính xác, bạn vui lòng kiểm tra lại mật khẩu của mình. Nếu bạn quên mật khẩu hãy bấm vào <a href="' . route('password.request') . '">Quên mật khẩu?</a> để đặt lại mật khẩu mới! Xin cảm ơn!',
-        ])->onlyInput('user_email');
+        // Đăng nhập thất bại
+        return back()->withErrors(['loginError' => 'Thông tin đăng nhập không đúng']);
     }
+
+
 
     public function showFormRegister()
     {
         return view('auth.clients.register');
     }
 
-    public function register(RegisterRequest $request)
+    public function register(Request $request)
     {
-        $data = $request->validated();
-        $user = User::query()->create($data);
+        $request->validate([
+            'user_name' => 'required|string|max:255',
+            'user_email' => 'nullable|email|max:255|unique:users,user_email',
+            'user_phone_number' => 'nullable|regex:/^[0-9]{10,15}$/|unique:users,user_phone_number',
+            'user_password' => 'required|string|confirmed|min:8',
+        ], [
+            'user_email.unique' => 'Email đã được sử dụng.',
+            'user_phone_number.unique' => 'Số điện thoại đã được sử dụng.',
+            'user_phone_number.regex' => 'Số điện thoại không hợp lệ.',
+            'user_contact.required' => 'Vui lòng nhập Email hoặc Số điện thoại.',
+        ]);
+
+
+        if (!$request->filled('user_email') && !$request->filled('user_phone_number')) {
+            return back()->withErrors(['user_contact' => 'Vui lòng nhập Email hoặc Số điện thoại.'])->withInput();
+        }
+
+
+        $user = User::create([
+            'user_name' => $request->user_name,
+            'user_email' => $request->user_email,
+            'user_phone_number' => $request->user_phone_number,
+            'user_password' => Hash::make($request->user_password),
+            'role' => User::ROLE_USER,
+        ]);
+
+
         Auth::login($user);
-        return redirect()->intended('/');
+
+        return redirect('/');
     }
 
-    public function showformRequest() {
+    public function showformRequest()
+    {
         return view('auth.clients.forgotPassword');
     }
 
-    public function logout() {
+    public function logout()
+    {
         Auth::logout();
         return redirect('/');
     }
 
     // admin
 
-    public function showFormLoginAdmin() {
+    public function showFormLoginAdmin()
+    {
         return view('auth.admins.login');
     }
 
-    public function loginAdmin(Request $request) {
+    public function loginAdmin(Request $request)
+    {
         $user = $request->validate([
             'user_email' => 'required|string|email|max:255',
             'user_password' => 'required|string'
@@ -101,10 +123,9 @@ class AuthController extends Controller
         ])->onlyInput('user_email');
     }
 
-    public function logoutAdmin() {
+    public function logoutAdmin()
+    {
         Auth::logout();
         return redirect()->route('admin.login');
     }
-
-
 }
