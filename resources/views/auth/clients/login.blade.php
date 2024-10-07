@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="breadcrumb-contain">
-                            <h2 class="mb-2">Đăng Nhập</h2>
+                            
                             <nav>
                                 <ol class="breadcrumb mb-0">
                                     <li class="breadcrumb-item">

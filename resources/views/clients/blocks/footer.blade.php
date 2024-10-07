@@ -4,11 +4,9 @@
             <div class="row g-md-4 gy-sm-5">
                 <div class="col-xxl-3 col-xl-4 col-sm-6">
                     <a href="index.html" class="foot-logo theme-logo">
-                        <img src="{{ asset('assets/clients/images/logo/4.png') }}" class="img-fluid blur-up lazyload" alt="">
+                        <img src="{{ asset('assets/clients/images/logo/4.png') }}" class="img-fluid blur-up lazyload" alt="Logo Fastkart">
                     </a>
-                    <p class="information-text information-text-2">it is a long established fact that a reader
-                        will
-                        be distracted by the readable content.</p>
+                    <p class="information-text information-text-2">Đây là một sự thật đã được xác lập lâu dài rằng người đọc sẽ bị phân tâm bởi nội dung có thể đọc được.</p>
                     <ul class="social-icon">
                         <li class="light-bg">
                             <a href="https://www.facebook.com/" class="footer-link-color">
@@ -41,83 +39,83 @@
 
                 <div class="col-xxl-2 col-xl-4 col-sm-6">
                     <div class="footer-title">
-                        <h4 class="text-white">About Fastkart</h4>
+                        <h4 class="text-white">Về Fastkart</h4>
                     </div>
                     <ul class="footer-list footer-contact footer-list-light">
                         <li>
-                            <a href="about-us.html" class="light-text">About Us</a>
+                            <a href="about-us.html" class="light-text">Giới Thiệu</a>
                         </li>
                         <li>
-                            <a href="contact-us.html" class="light-text">Contact Us</a>
+                            <a href="contact-us.html" class="light-text">Liên Hệ</a>
                         </li>
                         <li>
-                            <a href="term_condition.html" class="light-text">Terms & Conditions</a>
+                            <a href="term_condition.html" class="light-text">Điều Khoản & Điều Kiện</a>
                         </li>
                         <li>
-                            <a href="careers.html" class="light-text">Careers</a>
+                            <a href="careers.html" class="light-text">Sự Nghiệp</a>
                         </li>
                         <li>
-                            <a href="blog-list.html" class="light-text">Latest Blog</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-xxl-2 col-xl-4 col-sm-6">
-                    <div class="footer-title">
-                        <h4 class="text-white">Useful Link</h4>
-                    </div>
-                    <ul class="footer-list footer-list-light footer-contact">
-                        <li>
-                            <a href="order-success.html" class="light-text">Your Order</a>
-                        </li>
-                        <li>
-                            <a href="user-dashboard.html" class="light-text">Your Account</a>
-                        </li>
-                        <li>
-                            <a href="order-tracking.html" class="light-text">Track Orders</a>
-                        </li>
-                        <li>
-                            <a href="wishlist.html" class="light-text">Your Wishlist</a>
-                        </li>
-                        <li>
-                            <a href="faq.html" class="light-text">FAQs</a>
+                            <a href="blog-list.html" class="light-text">Blog Mới Nhất</a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="col-xxl-2 col-xl-4 col-sm-6">
                     <div class="footer-title">
-                        <h4 class="text-white">Categories</h4>
+                        <h4 class="text-white">Liên Kết Hữu Ích</h4>
                     </div>
                     <ul class="footer-list footer-list-light footer-contact">
                         <li>
-                            <a href="vegetables-demo.html" class="light-text">Fresh Vegetables</a>
+                            <a href="order-success.html" class="light-text">Đơn Hàng Của Bạn</a>
                         </li>
                         <li>
-                            <a href="spice-demo.html" class="light-text">Hot Spice</a>
+                            <a href="user-dashboard.html" class="light-text">Tài Khoản Của Bạn</a>
                         </li>
                         <li>
-                            <a href="bags-demo.html" class="light-text">Brand New Bags</a>
+                            <a href="order-tracking.html" class="light-text">Theo Dõi Đơn Hàng</a>
                         </li>
                         <li>
-                            <a href="bakery-demo.html" class="light-text">New Bakery</a>
+                            <a href="wishlist.html" class="light-text">Danh Sách Ưa Thích</a>
                         </li>
                         <li>
-                            <a href="grocery-demo.html" class="light-text">New Grocery</a>
+                            <a href="faq.html" class="light-text">Câu Hỏi Thường Gặp</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-xxl-2 col-xl-4 col-sm-6">
+                    <div class="footer-title">
+                        <h4 class="text-white">Danh Mục</h4>
+                    </div>
+                    <ul class="footer-list footer-list-light footer-contact">
+                        <li>
+                            <a href="vegetables-demo.html" class="light-text">Rau Tươi</a>
+                        </li>
+                        <li>
+                            <a href="spice-demo.html" class="light-text">Gia Vị Cay</a>
+                        </li>
+                        <li>
+                            <a href="bags-demo.html" class="light-text">Túi Mới Thương Hiệu</a>
+                        </li>
+                        <li>
+                            <a href="bakery-demo.html" class="light-text">Tiệm Bánh Mới</a>
+                        </li>
+                        <li>
+                            <a href="grocery-demo.html" class="light-text">Thực Phẩm Mới</a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="col-xxl-3 col-xl-4 col-sm-6">
                     <div class="footer-title">
-                        <h4 class="text-white">Store information</h4>
+                        <h4 class="text-white">Thông Tin Cửa Hàng</h4>
                     </div>
                     <ul class="footer-address footer-contact">
                         <li>
                             <a href="javascript:void(0)" class="light-text">
                                 <div class="inform-box flex-start-box">
                                     <i data-feather="map-pin"></i>
-                                    <p>Fastkart Demo Store, Demo store india 345 - 659</p>
+                                    <p>Cửa hàng Demo Fastkart, 345 - 659 Demo Store, Ấn Độ</p>
                                 </div>
                             </a>
                         </li>
@@ -126,7 +124,7 @@
                             <a href="javascript:void(0)" class="light-text">
                                 <div class="inform-box">
                                     <i data-feather="phone"></i>
-                                    <p>Call us: 123-456-7890</p>
+                                    <p>Gọi cho chúng tôi: 123-456-7890</p>
                                 </div>
                             </a>
                         </li>
@@ -135,7 +133,7 @@
                             <a href="javascript:void(0)" class="light-text">
                                 <div class="inform-box">
                                     <i data-feather="mail"></i>
-                                    <p>Email Us: Support@Fastkart.com</p>
+                                    <p>Email cho chúng tôi: Support@Fastkart.com</p>
                                 </div>
                             </a>
                         </li>
@@ -155,24 +153,24 @@
 
         <div class="sub-footer sub-footer-lite section-b-space section-t-space">
             <div class="left-footer">
-                <p class="light-text">2022 Copyright By Themeforest Powered By Pixelstrap</p>
+                <p class="light-text">2022 Bản quyền thuộc về Themeforest Được cung cấp bởi Pixelstrap</p>
             </div>
 
             <ul class="payment-box">
                 <li>
-                    <img src="{{ asset('assets/clients/images/icon/paymant/visa.png') }}" class="blur-up lazyload" alt="">
+                    <img src="{{ asset('assets/clients/images/icon/paymant/visa.png') }}" class="blur-up lazyload" alt="Visa">
                 </li>
                 <li>
-                    <img src="{{ asset('assets/clients/images/icon/paymant/discover.png') }}" alt="" class="blur-up lazyload">
+                    <img src="{{ asset('assets/clients/images/icon/paymant/discover.png') }}" alt="Discover" class="blur-up lazyload">
                 </li>
                 <li>
-                    <img src="{{ asset('assets/clients/images/icon/paymant/american.png') }}" alt="" class="blur-up lazyload">
+                    <img src="{{ asset('assets/clients/images/icon/paymant/american.png') }}" alt="American Express" class="blur-up lazyload">
                 </li>
                 <li>
-                    <img src="{{ asset('assets/clients/images/icon/paymant/master-card.png') }}" alt="" class="blur-up lazyload">
+                    <img src="{{ asset('assets/clients/images/icon/paymant/master-card.png') }}" alt="MasterCard" class="blur-up lazyload">
                 </li>
                 <li>
-                    <img src="{{ asset('assets/clients/images/icon/paymant/giro-pay.png') }}" alt="" class="blur-up lazyload">
+                    <img src="{{ asset('assets/clients/images/icon/paymant/giro-pay.png') }}" alt="Giro Pay" class="blur-up lazyload">
                 </li>
             </ul>
         </div>

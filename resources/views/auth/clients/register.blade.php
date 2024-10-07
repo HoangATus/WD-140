@@ -1,4 +1,4 @@
-@extends('layouts.theme')
+@extends('clients.layouts.client')
 @section('content')
     <!-- Breadcrumb Section Start -->
     <section class="breadcrumb-section pt-0">
@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="breadcrumb-contain">
-                        <h2>Đăng ký</h2>
+                       
                         <nav>
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item">
