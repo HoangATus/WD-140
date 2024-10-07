@@ -56,7 +56,7 @@
                                 <label class="col-sm-3 col-form-label form-label-title">Mã sản phẩm</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="product_code"
-                                        value="{{ $product->product_code }}">
+                                        value="{{ $product->product_code }}" disabled>
                                 </div>
                             </div>
                             <div class="mb-4 row align-items-center">
@@ -66,6 +66,16 @@
                                     {!! $product->is_active
                                         ? '<span class="badge bg-success text-white">Hoạt động</span>'
                                         : '<span class="badge bg-danger text-white">Không hoạt động</span>' !!}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row mb-3">
+                                        <label class="form-label-title col-sm-3 mb-0">Mô tả sản phẩm</label>
+                                        <div class="col-sm-9">
+                                            <textarea id="ckeditor-classic" class="form-control" name="description" disabled>{{ old('description', $product->description) }}</textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -111,27 +121,6 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    {{-- <div class="d-flex justify-content-end mt-3">
-                                        <button type="button" id="addVariantButton" class="btn btn-info">Thêm biến
-                                            thể</button>
-                                    </div> --}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-header-2">
-                                <h5>Mô tả</h5>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="row mb-3">
-                                        <label class="form-label-title col-sm-3 mb-0">Mô tả sản phẩm</label>
-                                        <div class="col-sm-9">
-                                            <textarea id="ckeditor-classic" class="form-control" name="description" disabled>{{ old('description', $product->description) }}</textarea>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +131,7 @@
     </div>
     <div class="d-flex justify-content-end">
         <a href="{{ route('admins.products.index') }}" class="btn btn-secondary me-2">Quay lại</a>
-        <button type="submit" class="btn btn-primary">Sửa</button>
+        {{-- <button type="submit" class="btn btn-primary">Sửa</button> --}}
     </div>
     <!-- New Product Add End -->
     </form>

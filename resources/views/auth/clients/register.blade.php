@@ -1,4 +1,4 @@
-@extends('layouts.theme')
+@extends('clients.layouts.client')
 @section('content')
     <!-- Breadcrumb Section Start -->
     <section class="breadcrumb-section pt-0">
@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="breadcrumb-contain">
-                        <h2>Đăng ký</h2>
+                       
                         <nav>
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item">
@@ -110,30 +110,6 @@
                             </form>
 
                         </div>
-
-                        {{-- <div class="other-log-in">
-                                <h6>or</h6>
-                            </div>
-    
-                            <div class="log-in-button">
-                                <ul>
-                                    <li>
-                                        <a href="https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin"
-                                            class="btn google-button w-100">
-                                            <img src="../assets/images/inner-page/google.png" class="blur-up lazyload"
-                                                alt="">
-                                            Sign up with Google
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://www.facebook.com/" class="btn google-button w-100">
-                                            <img src="../assets/images/inner-page/facebook.png" class="blur-up lazyload"
-                                                alt=""> Sign up with Facebook
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div> --}}
-
                         <div class="other-log-in">
                             <h6></h6>
                         </div>

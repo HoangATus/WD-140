@@ -284,7 +284,6 @@
             </div>
         </div>
     </div>
-    <!-- Location Modal End -->
 
     <!-- Deal Box Modal Start -->
     <div class="modal fade theme-modal deal-modal" id="deal-box" tabindex="-1">
