@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function () {
+Route::prefix('admins')->as('admins.')->group(function () {
     // Dashboard cho Admin
     Route::get('/', function () {
         return view('admins.dashboard');
