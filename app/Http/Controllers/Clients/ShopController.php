@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
@@ -13,8 +12,7 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->take(10)->get();
-        return view('clients.index',compact('products'));
+        return view('clients.index');
     }
 
     /**

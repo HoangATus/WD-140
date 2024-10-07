@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Clients\CartController;
 use App\Http\Controllers\Clients\ShopController;
 
-
 // use App\Http\Controllers\Clients\ShopController;
 
 
@@ -30,10 +29,11 @@ use App\Http\Controllers\Clients\ShopController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::resource('/', ShopController::class);
 Route::resource('/cart', CartController::class);
 Route::resource('/purchased', PurchasedOrderDetailsController::class);
 
-Route::resource('/home', ShopController::class);
+
 Route::resource('/profile', ProfileController::class);
 
 
@@ -50,5 +50,3 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/password/reset', [AuthController::class, 'showformRequest'])->name('password.request');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::resource('/product', ProductController::class);
-
-
