@@ -12,4 +12,9 @@ class Color extends Model
         'name', 
         // 'quantity',
     ];
+
+    public function variants()
+    {
+        return $this->hasMany(Variant::class, 'attribute_color_id');
+    }
 }
