@@ -94,6 +94,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        if ($category->product()->count() > 0) {
+            return back()->with(['message' => 'Không thể xóa danh mục này vì nó đã được liên kết với sản phẩm.']);
+        }
         $category->delete();
         return back()->with('message', 'Xóa thành công');
     }

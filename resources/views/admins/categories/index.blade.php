@@ -15,9 +15,16 @@
                     <div class="card-body">
                         <div class="title-header option-title">
                             <h1>Danh sách danh mục</h1>
-                            @if (session('message'))
-                                <h4 class="text-primary">{{ session('message') }}</h4>
-                            @endif
+                            @if (session('success'))
+                            <div class="alert alert-success mt-3">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('message'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
+                            </div>
+                        @endif
                         </div>
                         <div class="d-flex align-items-end justify-content-end">
                             <a href="{{ route('admins.categories.create') }}" class="d-flex align-items-end btn btn-success">
