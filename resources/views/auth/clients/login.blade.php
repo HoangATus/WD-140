@@ -1,4 +1,4 @@
-@extends('layouts.theme')
+@extends('clients.layouts.client')
 @section('content')
         <!-- Breadcrumb Section Start -->
         <section class="breadcrumb-section pt-0">
@@ -54,9 +54,9 @@
                                 
                                     <div class="col-12">
                                         <div class="form-floating theme-form-floating">
-                                            <input type="email" class="form-control" id="email" name="user_email" placeholder="Email Address">
-                                            <label for="email">Email </label>
-                                            @error('user_email')
+                                            <input type="text" class="form-control" id="login_identifier" name="login_identifier" placeholder="Email hoặc Số điện thoại">
+                                            <label for="login_identifier">Email hoặc Số điện thoại</label>
+                                            @error('login_identifier')
                                                 <p class="text-danger">{{ $message }}</p>
                                             @enderror
                                         </div>
@@ -64,7 +64,7 @@
                                 
                                     <div class="col-12">
                                         <div class="form-floating theme-form-floating position-relative">
-                                            <input type="password" class="form-control" id="user_password" name="user_password" placeholder="Password" >
+                                            <input type="password" class="form-control" id="user_password" name="user_password" placeholder="Password">
                                             <label for="user_password">Mật khẩu</label>
                                             <button type="button" class="btn btn-link position-absolute end-0 top-0 mt-2 me-2 text-muted" onclick="togglePasswordVisibility('user_password')">
                                                 <i class="ri-eye-fill align-middle" id="toggle-password-icon"></i>
@@ -84,9 +84,8 @@
                                     <div class="col-12">
                                         <button class="btn btn-animation w-100 justify-content-center" type="submit">Đăng Nhập</button>
                                     </div>
-                                </form>
-                                
-                                
+                                </form>                                
+                                         
                             </div>
     
                             {{-- <div class="other-log-in">
