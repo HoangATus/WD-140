@@ -17,7 +17,11 @@ Trang quản trị
                     <div class="title-header option-title">
                         <h5>Danh sách màu sắc</h5>
                     </div>
-                    
+                    @if (session('success'))
+                    <div class="alert alert-success mt-3">
+                        {{ session('success') }}
+                    </div>
+                    @endif
                     <div class="d-flex justify-content-end">
                         <a href="{{ route('admins.colors.create') }}" class="align-items-center btn btn-success d-flex">
                             <i data-feather="plus-square"></i>Thêm màu mới
@@ -29,7 +33,6 @@ Trang quản trị
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên</th>
-                                    <th>Số lượng</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -39,31 +42,20 @@ Trang quản trị
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
-                                    <td>{{ $item->quantity }}</td>
-                                    <td>
-                                            <ul>
-                                                <li>
-                                                    <a href="{{route('admins.colors.show',$item)}}">
-                                                        <i class="ri-eye-line"></i>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="{{route('admins.colors.edit',$item)}}">
-                                                   <i class="ri-pencil-line"></i> 
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <form action="{{route('admins.colors.destroy',$item)}}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"><i class="ri-delete-bin-line"></i></button>
-                                                    <!-- <button type="submit">Xoa</button> -->
-                                                    </form>
-                                                   
-                                                </li>
-                                            </ul>
-                                        </td>
+                                    <td class="d-flex ms-2">
+                                        <a href="{{ route('admins.colors.show', $item) }}"
+                                            class="btn btn-info me-3">Xem</a>
+                                        <a href="{{ route('admins.colors.edit', $item) }}"
+                                            class="btn btn-success me-3">Sửa</a>
+                                        <form action="{{ route('admins.colors.destroy', $item) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Xóa</button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

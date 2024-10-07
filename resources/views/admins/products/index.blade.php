@@ -7,9 +7,6 @@
 @section('css')
 @endsection
 @section('content')
-    @if (session('message'))
-        <h4>{{ session('message') }}</h4>
-    @endif
     <!-- All User Table Start -->
     <div class="container-fluid">
         <div class="row">
@@ -19,11 +16,21 @@
                         <div class="title-header option-title d-sm-flex d-block">
                             <h5>Danh sách sản phẩm</h5>
                         </div>
+                        @if (session('message'))
+                        <div class="alert alert-success mt-3">
+                            {{ session('message') }}
+                        </div>
+                        @endif
+                        @if (session('success'))
+                            <div class="alert alert-success mt-3">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <div class="d-flex justify-content-end">
                             <a class="btn btn-success" href="{{ route('admins.products.create') }}"><i
                                     data-feather="plus-square"></i> Thêm sản phẩm</a>
                         </div>
-                        <div>
+                        <div class="mt-3">
                             <div>
                                 <div class="table-responsive">
                                     <table class="table all-package theme-table table-product" id="table_id">
@@ -42,45 +49,47 @@
                                         </thead>
 
                                         <tbody>
-                                            @foreach ($products as $item) 
-                                            <tr>
-                                                <td>{{$item->id}}</td>
-                                                <td>
-                                                    <div style="width: 80px;height: 80px;">
-                                                        @if (str_contains($item->product_image_url, 'products/'))
-                                                            <img src="{{ Storage::url($item->product_image_url) }}" alt=""
-                                                                style="max-width: 100%; max-height: 100%">
-                                                        @else
-                                                            <img src="{{ $item->product_image_url}}" alt=""
-                                                                style="max-width: 100%; max-height: 100%">
-                                                        @endif
-                                                    </div>
-                                                </td>
-                                                <td>{{$item->product_name}}</td>
-                                                <td>{{$item->category->name }}</td>
-                                                <td>1</td>
-                                                {{-- <td>{{$item->variants->variant_listed_price}}</td> --}}
-                                                <td class="td-price">200.000 VNĐ</td>
-                                                <td>12</td>
-                                                <td>
-                                                    {!! $item->is_active
-                                                        ? '<span class="badge bg-success text-white">Hoạt động</span>'
-                                                        : '<span class="badge bg-danger text-white">Không hoạt động</span>' !!}
-                                                </td>
+                                            @foreach ($products as $item)
+                                                <tr>
+                                                    <td>{{ $item->id }}</td>
+                                                    <td>
+                                                        <div style="width: 80px;height: 80px;">
+                                                            @if (str_contains($item->product_image_url, 'products/'))
+                                                                <img src="{{ Storage::url($item->product_image_url) }}"
+                                                                    alt=""
+                                                                    style="max-width: 100%; max-height: 100%">
+                                                            @else
+                                                                <img src="{{ $item->product_image_url }}" alt=""
+                                                                    style="max-width: 100%; max-height: 100%">
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ $item->product_name }}</td>
+                                                    <td>{{ $item->category->name }}</td>
+                                                    <td>{{ number_format($item->variants->min('variant_listed_price'), 0, ',', '.') }} VNĐ</td>
+                                                    <td>{{ number_format($item->variants->min('variant_sale_price'), 0, ',', '.') }} VNĐ</td>
+                                                    <td>{{ $item->variants->sum('quantity') }}</td>
+                                                    <td>
+                                                        {!! $item->is_active
+                                                            ? '<span class="badge bg-success text-white">Hoạt động</span>'
+                                                            : '<span class="badge bg-danger text-white">Không hoạt động</span>' !!}
+                                                    </td>
 
-                                                <td class="d-flex ms-2">
-                                                    <a href="{{ route('admins.products.show', $item) }}" class="btn btn-info me-3">Xem</a>
-                                                    <a href="{{ route('admins.products.edit', $item) }}" class="btn btn-success me-3">Sửa</a>
-                                                    <form action="{{route('admins.products.destroy', $item) }}" method="POST"
-                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')"
-                                                        style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Xóa</button>
-                                                    </form>
-                                                </td>
-
-                                            </tr>
+                                                    <td class="d-flex ms-2">
+                                                        <a href="{{ route('admins.products.show', $item) }}"
+                                                            class="btn btn-info me-3">Xem</a>
+                                                        <a href="{{ route('admins.products.edit', $item) }}"
+                                                            class="btn btn-success me-3">Sửa</a>
+                                                        <form action="{{ route('admins.products.destroy', $item) }}"
+                                                            method="POST"
+                                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')"
+                                                            style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Xóa</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
