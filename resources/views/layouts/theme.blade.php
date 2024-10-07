@@ -69,7 +69,8 @@
     
    @yield('content')
    @yield('cart')
-    
+    @yield('content')
+
 
     <!-- Newsletter Section End -->
 
