@@ -406,11 +406,7 @@
         </div>
     </div>
 </section> --}}
-<!-- Deal Section End -->
 
-<!-- banner section start -->
-
-<!-- banner section end -->
 
  <div class="container">
     
