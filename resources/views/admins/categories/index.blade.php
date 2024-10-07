@@ -39,12 +39,21 @@
 
                                     <tbody>
                                         @foreach ($categories as $item)
+
+                                            <tr>
+                                                <td>{{ $item->id }}</td>
+                                                <td>{{ $item->name }}</td>
+                                                <td>
+                                                    <div style="width: 80px;height: 80px;">
+                                                        <img src="{{ asset('storage/' . $item->cover) }}"
+
                                             <tr class="text-center">
                                                 <td class="align-middle">{{ $item->id }}</td>
                                                 <td class="align-middle">{{ $item->name }}</td>
                                                 <td class="align-middle">
                                                     <div style="width: 80px;height: 80px; margin: 0 auto;">
                                                         <img src="{{ Storage::url($item->cover) }}"
+
                                                             style="max-width: 100%; max-height: 100%;" alt="">
                                                     </div>
                                                 </td>
