@@ -166,7 +166,7 @@
                         </div>
 
                         <!-- item-->
-                        <a class='dropdown-item notify-item' href='pages-profile.html'>
+                        {{-- <a class='dropdown-item notify-item' href='pages-profile.html'>
                             <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
                             <span>My Account</span>
                         </a>
@@ -175,12 +175,12 @@
                         <a class='dropdown-item notify-item' href='auth-lock-screen.html'>
                             <i class="mdi mdi-lock-outline fs-16 align-middle"></i>
                             <span>Lock Screen</span>
-                        </a>
+                        </a> --}}
 
                         <div class="dropdown-divider"></div>
 
                         <!-- item-->
-                        <a class='dropdown-item notify-item' href='auth-logout.html'>
+                        <a class='dropdown-item notify-item' href="{{ route('admins.dashboard') }}">
                             <i class="mdi mdi-location-exit fs-16 align-middle"></i>
                             <span>Trang người dùng</span>
                         </a>
