@@ -22,7 +22,7 @@ class UpdateSizeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'attribute_size_name' => 'required|string|max:255||unique:attribute_sizes,attribute_size_name',
+            'attribute_size_name' => 'required|string|max:255|unique:attribute_sizes,attribute_size_name',
         ];
     }
     public function messages()
