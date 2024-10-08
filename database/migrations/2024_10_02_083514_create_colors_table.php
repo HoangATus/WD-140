@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('colors', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->unsignedInteger('quantity')->default(0);
             $table->timestamps();
         });
     }

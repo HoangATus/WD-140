@@ -34,15 +34,8 @@ class ColorController extends Controller
      */
     public function store(StoreColorRequest $request)
     {
-        $request->validate(
-            [
-                'name' => 'required|string|max:255',
-                'quantity' => 'required|numeric|min:0',
-            ]
-        );
         Color::query()->create([
             'name' => $request->name,
-            'quantity' => $request->quantity,
         ]);
         return redirect()->route('admins.colors.index')->with('success', ' Thêm mới thành công');
     }
@@ -68,17 +61,10 @@ class ColorController extends Controller
      */
     public function update(UpdateColorRequest $request, Color $color)
     {
-        $request->validate(
-            [
-                'name' => 'required|string|max:255',
-                'quantity' => 'required|numeric|min:0',
-            ]
-        );
       $color->update([
         'name' => $request->name,
-        'quantity' => $request->quantity,
     ]);
-    return redirect()->route('admins.colors.index')->with('message', 'Cập nhật thành công');
+    return redirect()->route('admins.colors.index')->with('success', 'Cập nhật thành công');
     }
 
     /**
@@ -87,6 +73,6 @@ class ColorController extends Controller
     public function destroy(Color $color)
     {
         $color->delete();
-        return back()->with('message', 'Xóa thành công');
+        return back()->with('success', 'Xóa thành công');
     }
 }
