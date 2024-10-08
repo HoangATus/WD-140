@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Clients; // Cập nhật namespace
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller; // Đảm bảo rằng Controller được sử dụng đúng
 
 class ProductController extends Controller
 {
+    // ... các phương thức ở đây ...
     /**
      * Display a listing of the resource.
      */
