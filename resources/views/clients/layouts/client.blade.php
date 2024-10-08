@@ -407,10 +407,5 @@
 </body>
 
 
-<<<<<<< HEAD:resources/views/layouts/theme.blade.php
-<!-- Mirrored from themes.pixelstrap.com/fastkart/front-end/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 25 Sep 2024 13:01:35 GMT -->
-
-=======
 <!-- Mirrored from themes.pixelstrap.com/fastkart/front-end/index-9.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Sep 2024 12:27:22 GMT -->
->>>>>>> 6d7191fa40da0a84d16143c5c510d702b2ffd5ba:resources/views/clients/layouts/client.blade.php
 </html>
