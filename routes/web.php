@@ -7,9 +7,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrdersuccessController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PurchasedOrderDetailsController;
-use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Clients\CartController;
+use App\Http\Controllers\Clients\ProductController as ClientsProductController;
 use App\Http\Controllers\Clients\ShopController;
 
 // use App\Http\Controllers\Clients\ShopController;
@@ -29,10 +29,12 @@ use App\Http\Controllers\Clients\ShopController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::resource('/', ShopController::class);
+
+// Route cho trang chủ
+Route::get('/', [ShopController::class, 'index'])->name('home.index');
+
 Route::resource('/cart', CartController::class);
 Route::resource('/purchased', PurchasedOrderDetailsController::class);
-
 
 Route::resource('/profile', ProfileController::class);
 
@@ -49,4 +51,6 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 // Route::resource('/detailProduct', ProductDetailController::class);
 Route::get('/password/reset', [AuthController::class, 'showformRequest'])->name('password.request');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::resource('/product', ProductController::class);
+Route::resource('/product', ClientsProductController::class)->parameters([
+    'products'=> 'slug'
+]);

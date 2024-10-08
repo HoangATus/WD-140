@@ -164,7 +164,76 @@
     font-size: 14px;
 }
 
+{
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 20px;
+}
 
+.product-options {
+    margin-bottom: 20px;
+}
 
+.option-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.option-list {
+    display: flex;
+    gap: 10px;
+}
+
+.option-item {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.option-item:hover {
+    background-color: #e2e6ea;
+}
+
+.option-item.active {
+    background-color: #009966; /* Màu xanh active */
+    color: white;
+    border-color: #27ae60;
+}
+
+.option-item-color {
+    padding: 8px 20px;
+    text-align: center;
+}
+
+.option-item-size {
+    padding: 8px 16px;
+    text-align: center;
+}
+.product-image img {
+    width: 100%;
+    min-height: 200px; /* Chiều cao tối thiểu */
+    object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+}
+
+.product-status .badge {
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.product-status .bg-danger {
+    background-color: #dc3545; /* Màu đỏ cho "Hết hàng" */
+}
+
+.product-status .bg-warning {
+    background-color: #ffc107; /* Màu vàng cho "Sắp hết hàng" */
+}
+
+.product-status .bg-success {
+    background-color: #28a745; /* Màu xanh cho "Còn hàng" */
+}
 
 /*# sourceMappingURL=style.css.map */

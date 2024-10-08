@@ -408,6 +408,55 @@
 
     <!-- theme setting js -->
     <script src="{{ asset('assets/clients/js/theme-setting.js') }}"></script>
+
+    <script>
+        const colorOptions = document.querySelectorAll('#color-options .option-item');
+        colorOptions.forEach(item => {
+            item.addEventListener('click', function() {
+                colorOptions.forEach(option => option.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    
+        const sizeOptions = document.querySelectorAll('#size-options .option-item');
+        sizeOptions.forEach(item => {
+            item.addEventListener('click', function() {
+                sizeOptions.forEach(option => option.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const qtyInputs = document.querySelectorAll('.qty-box');
+    
+            qtyInputs.forEach(qtyInput => {
+                const plusButton = qtyInput.querySelector('.qty-right-plus');
+                const minusButton = qtyInput.querySelector('.qty-left-minus');
+                const inputField = qtyInput.querySelector('.qty-input');
+    
+                // Tăng số lượng
+                plusButton.addEventListener('click', function () {
+                    let currentValue = parseInt(inputField.value);
+                    if (!isNaN(currentValue)) {
+                        inputField.value = currentValue + 1;
+                    } else {
+                        inputField.value = 1; // Nếu giá trị không hợp lệ, đặt về 1
+                    }
+                });
+    
+                // Giảm số lượng
+                minusButton.addEventListener('click', function () {
+                    let currentValue = parseInt(inputField.value);
+                    if (!isNaN(currentValue) && currentValue > 0) {
+                        inputField.value = currentValue - 1;
+                    } 
+                    // Không giảm dưới 0
+                });
+            });
+        });
+    </script>
+    
 </body>
 
 

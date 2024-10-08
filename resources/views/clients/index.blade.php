@@ -433,13 +433,13 @@
                     @foreach ($products as $product)
                         <div class="product-box">
                             <div class="product-image">
-                                <a href="{{ url('product/' . $product->slug) }}">
+                                <a href="{{ route('product.show', $product->slug) }}">
                                     <img src="{{ Storage::url($product->product_image_url) }}" class="img-fluid"
                                         alt="{{ $product->product_name }}">
                                 </a>
                             </div>
                             <div class="product-detail mt-2">
-                                <a href="{{ url('product/' . $product->slug) }}">
+                                <a href="{{ route('product.index' , $product->slug) }}">
                                     <h5 class="product-name">{{ $product->product_name }}</h5>
                                 </a>
                                 @foreach ($product->variants as $variant)
@@ -451,7 +451,7 @@
                                 @endforeach
                                 <!-- Nút "Xem ngay" -->
                                 <div class="mt-3">
-                                    <a href="{{ url('product/' . $product->slug) }}" class="btn btn-secondary">Thêm giỏ hàng</a>
+                                    <a href="{{ route('product.index' , $product->slug) }}" class="btn btn-secondary">Thêm giỏ hàng</a>
                                 </div>
                             </div>
                         </div>

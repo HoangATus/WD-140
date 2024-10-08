@@ -32,4 +32,17 @@ class Product extends Model
     public function galleries() {
         return $this->hasMany(ProductGallery::class);
     }
+
+    public function getStockStatusAttribute()
+    {
+        $totalQuantity = $this->variants->sum('quantity');
+
+        if ($totalQuantity <= 0) {
+            return 'Hết hàng';
+        } elseif ($totalQuantity < 5) {
+            return 'Sắp hết hàng';
+        } else {
+            return 'Còn hàng';
+        }
+    }
 }
