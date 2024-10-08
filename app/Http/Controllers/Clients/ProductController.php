@@ -1,14 +1,21 @@
 <?php
 
+
 namespace App\Http\Controllers\Clients;
+
+
 
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
+
+
 
 class ProductController extends Controller
 {
+    // ... các phương thức ở đây ...
     /**
      * Display a listing of the resource.
      */
@@ -71,9 +78,11 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($slug)
     {
-        return view('clients.productDetail');
+        $products = Product::with('variants')->where('slug', $slug)->firstOrFail();
+        $datas = Product::with('variants')->take(7)->get();
+        return view('clients.productDetail', compact('products', 'datas'));
     }
 
     /**

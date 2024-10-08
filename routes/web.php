@@ -1,10 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Clients\CartController;
+use App\Http\Controllers\Clients\ProductController as ClientsProductController;
 use App\Http\Controllers\Clients\ShopController;
 use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -23,6 +26,7 @@ use App\Http\Controllers\PurchasedOrderDetailsController;
 |
 */
 
+
 // Route cho trang chủ
 Route::get('/', [ShopController::class, 'index'])->name('home'); // Giả định phương thức index cho ShopController
 
@@ -31,10 +35,12 @@ Route::resource('/product', ProductController::class);
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 // Route cho giỏ hàng
+
 Route::resource('/cart', CartController::class);
 
 // Route cho đơn hàng đã mua
 Route::resource('/purchased', PurchasedOrderDetailsController::class);
+
 
 // Route cho trang admin
 Route::get('/admin/danhmucs', function () {
@@ -42,6 +48,7 @@ Route::get('/admin/danhmucs', function () {
 });
 
 // Route cho hồ sơ người dùng
+
 Route::resource('/profile', ProfileController::class);
 
 // Route cho thanh toán
@@ -61,4 +68,10 @@ Route::get('/password/reset', [AuthController::class, 'showformRequest'])->name(
 
 // Route cho đăng xuất
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+
+Route::resource('/product', ClientsProductController::class)->parameters([
+    'products'=> 'slug'
+]);
 

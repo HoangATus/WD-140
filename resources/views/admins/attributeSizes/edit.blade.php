@@ -35,7 +35,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-9 offset-sm-3">
-                                                <button type="submit" class="btn btn-theme">Cập nhật</button>
+                                                <button type="submit" class="btn btn-success">Cập nhật</button>
                                             </div>
                                         </div>
 
