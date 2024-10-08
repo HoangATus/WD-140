@@ -150,8 +150,8 @@
                                 <div class="price-rating">
                                     @foreach ($products->variants as $variant)
                                         <h3 class="theme-color price">
-                                            {{ number_format($variant->variant_listed_price, 0, ',', '.') }} ₫<del
-                                                class="text-content">{{ number_format($variant->variant_sale_price, 0, ',', '.') }}
+                                            {{ number_format($variant->variant_sale_price, 0, ',', '.') }} ₫<del
+                                                class="text-content">{{ number_format($variant->variant_listed_price, 0, ',', '.') }}
                                                 ₫</del>
                                     @endforeach
                                     <div class="product-rating custom-rate">
