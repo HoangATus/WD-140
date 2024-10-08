@@ -51,7 +51,7 @@ class ProductController extends Controller
         if (!empty($request->hasFile('product_image_url'))) {
             $data['product_image_url'] = Storage::put('products', $request->file('product_image_url'));
         }
-        try {
+        try { 
             DB::beginTransaction();
             // tạo dữ liệu bảng product
             $product = Product::query()->create($data);
@@ -84,7 +84,7 @@ class ProductController extends Controller
             return back();
         }
     }
-    public function show(Product $product)
+    public function show(Product $product) 
     {
         //
         $product->load(['variants.size', 'variants.color', 'galleries']);
