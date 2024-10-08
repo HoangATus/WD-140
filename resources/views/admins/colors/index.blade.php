@@ -17,16 +17,22 @@ Trang quản trị
                     <div class="title-header option-title">
                         <h5>Danh sách màu sắc</h5>
                     </div>
-                    @if (session('success'))
-                    <div class="alert alert-success mt-3">
-                        {{ session('success') }}
-                    </div>
-                    @endif
                     <div class="d-flex justify-content-end">
                         <a href="{{ route('admins.colors.create') }}" class="align-items-center btn btn-success d-flex">
                             <i data-feather="plus-square"></i>Thêm màu mới
                         </a>
                     </div>
+
+                    @if (session('success'))
+                            <div class="alert alert-success mt-3">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('message'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
+                            </div>
+                        @endif
                     <div class="table-responsive category-table">
                         <table class="table all-package theme-table" id="table_id">
                             <thead>

@@ -38,4 +38,5 @@ class UpdateColorRequest extends FormRequest
             // 'quantity.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
         ];
     }
+
 }

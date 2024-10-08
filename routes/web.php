@@ -51,4 +51,6 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 // Route::resource('/detailProduct', ProductDetailController::class);
 Route::get('/password/reset', [AuthController::class, 'showformRequest'])->name('password.request');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::resource('/products', ClientsProductController::class);
+Route::resource('/product', ClientsProductController::class)->parameters([
+    'products'=> 'slug'
+]);
