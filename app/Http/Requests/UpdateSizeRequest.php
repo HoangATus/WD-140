@@ -22,13 +22,15 @@ class UpdateSizeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'attribute_size_name' => 'required|string|max:255'
+            'attribute_size_name' => 'required|string|max:255|unique:attribute_sizes,attribute_size_name',
         ];
     }
     public function messages()
     {
         return [
             'attribute_size_name.required' => 'Tên size không được bỏ trống.',
+            'attribute_size_name.unique' => 'Tên size đã tồn tại',
+
         ];
     }
 }
