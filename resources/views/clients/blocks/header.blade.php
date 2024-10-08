@@ -89,14 +89,13 @@
                                         <ul class="navbar-nav">
                                             <li class="nav-item dropdown dropdown-mega">
                                                 <a class="nav-link dropdown-toggle ps-xl-2 ps-0"
-                                                href="javascript:void(0)" data-bs-toggle="dropdown">Trang chủ</a>
+                                                href="{{url('/')}}">Trang chủ</a>
                                             <li class="nav-item dropdown">
                                                     <a class="nav-link dropdown-toggle" href="javascript:void(0)"
                                                         data-bs-toggle="dropdown">Giới thiệu</a>
                                             </li>
                                             <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="javascript:void(0)"
-                                                    data-bs-toggle="dropdown">Sản phẩm</a>
+                                                <a class="nav-link dropdown-toggle" href="{{url('/product')}}">Sản phẩm</a>
                                             </li>
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="javascript:void(0)"
