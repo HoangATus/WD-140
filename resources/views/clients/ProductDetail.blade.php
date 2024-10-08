@@ -1,4 +1,5 @@
-@extends('layouts.theme')
+@extends('clients.layouts.client')
+
 @section('content')
      <!-- mobile fix menu start -->
      <div class="mobile-menu d-md-none d-block mobile-cart">
@@ -47,7 +48,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="breadcrumb-contain">
-                        <h2>Quần short kaki basic FSBK019</h2>
+                        
                         <nav>
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item">
@@ -164,11 +165,10 @@
 
                         <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="right-box-contain">
-                                <h6 class="offer-top">Giảm giá 30%</h6>
+                                {{-- <h6 class="offer-top">Giảm giá 30%</h6> --}}
                                 <h2 class="name">Quần short kaki basic FSBK019</h2>
                                 <div class="price-rating">
-                                    <h3 class="theme-color price">114.000 ₫ <del class="text-content">150.000 ₫</del> <span
-                                            class="offer theme-color">(giảm giá 8%)</span></h3>
+                                    <h3 class="theme-color price">114.000 ₫ <del class="text-content">150.000 ₫</del>       
                                     <div class="product-rating custom-rate">
                                         <ul class="rating">
                                             <li>
@@ -204,75 +204,34 @@
                                     </div>
                                     <ul class="select-package">
                                         <li>
-                                            <a href="javascript:void(0)" class="active">Đen</a>
+                                            <a href="javascript:void(0)" class="color-option active" data-color="black">Đen</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">Trắng</a>
+                                            <a href="javascript:void(0)" class="color-option" data-color="white">Trắng</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">Xanh than</a>
+                                            <a href="javascript:void(0)" class="color-option" data-color="navy">Xanh than</a>
                                         </li>
                                     </ul>
                                 </div>
-
+                                
                                 <div class="product-package">
                                     <div class="product-title">
                                         <h4>Kích thước:</h4>
                                     </div>
                                     <ul class="select-package">
                                         <li>
-                                            <a href="javascript:void(0)" class="active">S</a>
+                                            <a href="javascript:void(0)" class="size-option active" data-size="S">S</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">M</a>
+                                            <a href="javascript:void(0)" class="size-option" data-size="M">M</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">L</a>
+                                            <a href="javascript:void(0)" class="size-option" data-size="L">L</a>
                                         </li>
                                     </ul>
                                 </div>
-
-                                {{-- <div class="time deal-timer product-deal-timer mx-md-0 mx-auto" id="clockdiv-1"
-                                    data-hours="1" data-minutes="2" data-seconds="3">
-                                    <div class="product-title">
-                                        <h4>Hurry up! Sales Ends In</h4>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            <div class="counter d-block">
-                                                <div class="days d-block">
-                                                    <h5></h5>
-                                                </div>
-                                                <h6>Days</h6>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="counter d-block">
-                                                <div class="hours d-block">
-                                                    <h5></h5>
-                                                </div>
-                                                <h6>Hours</h6>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="counter d-block">
-                                                <div class="minutes d-block">
-                                                    <h5></h5>
-                                                </div>
-                                                <h6>Min</h6>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="counter d-block">
-                                                <div class="seconds d-block">
-                                                    <h5></h5>
-                                                </div>
-                                                <h6>Sec</h6>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div> --}}
-
+                                
                                 <div class="note-box product-package">
                                     <div class="cart_qty qty-box product-qty">
                                         <div class="input-group">
@@ -340,9 +299,9 @@
 
                                 <div class="payment-option">
                                     <div class="product-title">
-                                        <h4>Đảm bảo thanh toán an toàn</h4>
+                                        {{-- <h4>Đảm bảo thanh toán an toàn</h4> --}}
                                     </div>
-                                    <ul>
+                                    {{-- <ul>
                                         <li>
                                             <a href="javascript:void(0)">
                                                 <img src="https://themes.pixelstrap.com/fastkart/assets/images/product/payment/1.svg"
@@ -373,7 +332,7 @@
                                                     class="blur-up lazyload" alt="">
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul> --}}
                                 </div>
                             </div>
                         </div>
@@ -872,168 +831,7 @@
                     </div>
                 </div>
 
-                <div class="col-xxl-3 col-xl-4 col-lg-5 d-none d-lg-block wow fadeInUp">
-                    {{-- <div class="right-sidebar-box">
-                        <div class="vendor-box">
-                            <div class="vendor-contain">
-                                <div class="vendor-image">
-                                    <img src="../assets/images/product/vendor.png" class="blur-up lazyload" alt="">
-                                </div>
-
-                                <div class="vendor-name">
-                                    <h5 class="fw-500">Noodles Co.</h5>
-
-                                    <div class="product-rating mt-1">
-                                        <ul class="rating">
-                                            <li>
-                                                <i data-feather="star" class="fill"></i>
-                                            </li>
-                                            <li>
-                                                <i data-feather="star" class="fill"></i>
-                                            </li>
-                                            <li>
-                                                <i data-feather="star" class="fill"></i>
-                                            </li>
-                                            <li>
-                                                <i data-feather="star" class="fill"></i>
-                                            </li>
-                                            <li>
-                                                <i data-feather="star"></i>
-                                            </li>
-                                        </ul>
-                                        <span>(36 Reviews)</span>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <p class="vendor-detail">Noodles & Company is an American fast-casual
-                                restaurant that offers international and American noodle dishes and pasta.</p>
-
-                            <div class="vendor-list">
-                                <ul>
-                                    <li>
-                                        <div class="address-contact">
-                                            <i data-feather="map-pin"></i>
-                                            <h5>Address: <span class="text-content">1288 Franklin Avenue</span></h5>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="address-contact">
-                                            <i data-feather="headphones"></i>
-                                            <h5>Contact Seller: <span class="text-content">(+1)-123-456-789</span></h5>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div> --}}
-                              
-                        <!-- Trending Product -->
-                        <div class="pt-25">
-                            <div class="category-menu">
-                                {{-- <h3>Trending Products</h3> --}}
-
-                                <ul class="product-list product-right-sidebar border-0 p-0">
-                                    <li>
-                                        <div class="offer-product">
-                                            <a href="product-left-thumbnail.html" class="offer-image">
-                                                <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px___1__6aa60b9ff93549b2910f6f832169d8dd_master.png"
-                                                    class="img-fluid blur-up lazyload" alt="">
-                                            </a>
-
-                                            <div class="offer-detail">
-                                                <div>
-                                                    <a href="product-left-thumbnail.html">
-                                                        <h6 class="name">Áo T shirt họa tiết in Determination phối lưới FSTS053</h6>
-                                                    </a>
-                                                    <span><del>224,000₫</del></span>
-                                                    <h6 class="price theme-color">224,000₫</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="offer-product">
-                                            <a href="product-left-thumbnail.html" class="offer-image">
-                                                <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px__03d7292dbc8844f28182e02c5f72e73a_master.png"
-                                                    class="blur-up lazyload" alt="">
-                                            </a>
-
-                                            <div class="offer-detail">
-                                                <div>
-                                                    <a href="product-left-thumbnail.html">
-                                                        <h6 class="name">Áo polo dệt kẻ ngang FSTP023</h6>
-                                                    </a>
-                                                    <span><del>450,000₫</del></span>
-                                                    <h6 class="price theme-color">405,000₫</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="offer-product">
-                                            <a href="product-left-thumbnail.html" class="offer-image">
-                                                <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px___1__8d7dc794721943628c90f90c4db01096_master.png"
-                                                    class="blur-up lazyload" alt="">
-                                            </a>
-
-                                            <div class="offer-detail">
-                                                <div>
-                                                    <a href="product-left-thumbnail.html">
-                                                        <h6 class="name">Áo polo in tràn họa tiết TRN FSTP017</h6>
-                                                    </a>
-                                                    <span><del>450,000₫</del></span>
-                                                    <h6 class="price theme-color">360,000₫</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="mb-0">
-                                        <div class="offer-product">
-                                            <a href="product-left-thumbnail.html" class="offer-image">
-                                                <img src="https://product.hstatic.net/200000690725/product/53818949638_4c07aa0b47_k_14cc32aecb4246b1938f5d55ddc80f25_master.jpg"
-                                                    class="blur-up lazyload" alt="">
-                                            </a>
-
-                                            <div class="offer-detail">
-                                                <div>
-                                                    <a href="product-left-thumbnail.html">
-                                                        <h6 class="name">Áo T shirt họa tiết in Speedhunters FSTS041</h6>
-                                                    </a>
-                                                    <span><del>350,000₫</del></span>
-                                                    <h6 class="price theme-color">280,000₫</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Banner Section -->
-                        {{-- <div class="ratio_156 pt-25">
-                            <div class="home-contain">
-                                <img src="https://product.hstatic.net/200000690725/product/avt_web_1150_x_1475_px___1__1d88fc770c294039bae8e7b9078db7a3_master.png" class="bg-img blur-up lazyload"
-                                    alt="">
-                                {{-- <div class="home-detail p-top-left home-p-medium">
-                                    <div>
-                                        <h6 class="text-yellow home-banner">Seafood</h6>
-                                        <h3 class="text-uppercase fw-normal"><span
-                                                class="theme-color fw-bold">Freshes</span> Products</h3>
-                                        <h3 class="fw-light">every hour</h3>
-                                        <button onclick="location.href = 'shop-left-sidebar.html';"
-                                            class="btn btn-animation btn-md fw-bold mend-auto">Shop Now <i
-                                                class="fa-solid fa-arrow-right icon"></i></button>
-                                    </div> --}}
-                                </div>
-                            </div>
-                        </div> 
-                    </div> 
-                </div>
+                
             </div>
         </div>
     </section>

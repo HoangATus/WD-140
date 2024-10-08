@@ -1,220 +1,216 @@
-<div class="container-fluid-lg">
-    <div class="service-section">
-        <div class="row g-3">
-            <div class="col-12">
-                <div class="service-contain">
-                    <div class="service-box">
-                        <div class="service-image">
-                            <img src="https://themes.pixelstrap.com/fastkart/assets/svg/product.svg" class="blur-up lazyload" alt="">
-                        </div>
+<footer class="section-t-space footer-section-2 footer-color-3">
+    <div class="container-fluid-lg">
+        <div class="main-footer">
+            <div class="row g-md-4 gy-sm-5">
+                <div class="col-xxl-3 col-xl-4 col-sm-6">
+                    <a href="index.html" class="foot-logo theme-logo">
 
-                        <div class="service-detail">
-                            <h5>Hàng chất lượng tốt</h5>
-                        </div>
-                    </div>
-
-                    <div class="service-box">
-                        <div class="service-image">
-                            <img src="https://themes.pixelstrap.com/fastkart/assets/svg/delivery.svg" class="blur-up lazyload" alt="">
-                        </div>
-
-                        <div class="service-detail">
-                            <h5>Miễn phí ship từ 3 sản phầm</h5>
-                        </div>
-                    </div>
-
-                    <div class="service-box">
-                        <div class="service-image">
-                            <img src="https://themes.pixelstrap.com/fastkart/assets/svg/discount.svg" class="blur-up lazyload" alt="">
-                        </div>
-
-                        <div class="service-detail">
-                            <h5>Nhiều ưu đãi hấp dẫn</h5>
-                        </div>
-                    </div>
-
-                    <div class="service-box">
-                        <div class="service-image">
-                            <img src="https://themes.pixelstrap.com/fastkart/assets/svg/market.svg" class="blur-up lazyload" alt="">
-                        </div>
-
-                        <div class="service-detail">
-                            <h5>Uy tín tạo nên chất lượng</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="main-footer section-b-space section-t-space">
-        <div class="row g-md-4 g-3">
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-                <div class="footer-logo">
-                    <div class="theme-logo">
-                        <a href="index.html">
-                            <img src="../assets/images/logo/1.png" class="blur-up lazyload" alt="">
-                        </a>
-                    </div>
-
-                    <div class="footer-logo-contain">
-                        <p>Chúng tôi chuyên cung cấp các sản phẩm thời 
-                            trang từ áo thun, áo sơ mi, quần dài, đến phụ kiện thời thượng, giúp phái mạnh tự tin thể hiện phong cách riêng.</p>
-
-                        <ul class="address">
-                            <li>
-                                <i data-feather="home"></i>
-                                <a href="javascript:void(0)">Số 1 Trịnh Văn Bô</a>
-                            </li>
-                            <li>
-                                <i data-feather="mail"></i>
-                                <a href="javascript:void(0)">support@atus.com</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                <div class="footer-title">
-                    <h4>Thể loại</h4>
-                </div>
-
-                <div class="footer-contain">
-                    <ul>
-                        <li>
-                            <a href="shop-left-sidebar.html" class="text-content">Quần jean</a>
+                        <img src="{{ asset('assets/clients/images/logo/4.png') }}" class="img-fluid blur-up lazyload" alt="Logo Fastkart">
+                    </a>
+                    <p class="information-text information-text-2">Đây là một sự thật đã được xác lập lâu dài rằng người đọc sẽ bị phân tâm bởi nội dung có thể đọc được.</p>
+                    <ul class="social-icon">
+                        <li class="light-bg">
+                            <a href="https://www.facebook.com/" class="footer-link-color">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
                         </li>
-                        <li>
-                            <a href="shop-left-sidebar.html" class="text-content">Quần ống rộng</a>
+                        <li class="light-bg">
+                            <a href="https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin"
+                                class="footer-link-color">
+                                <i class="fab fa-google"></i>
+                            </a>
                         </li>
-                        <li>
-                            <a href="shop-left-sidebar.html" class="text-content">Áo thun</a>
+                        <li class="light-bg">
+                            <a href="https://twitter.com/i/flow/login" class="footer-link-color">
+                                <i class="fab fa-twitter"></i>
+                            </a>
                         </li>
-                        <li>
-                            <a href="shop-left-sidebar.html" class="text-content">Áo bomber</a>
+                        <li class="light-bg">
+                            <a href="https://www.instagram.com/" class="footer-link-color">
+                                <i class="fab fa-instagram"></i>
+                            </a>
                         </li>
-                        <li>
-                            <a href="shop-left-sidebar.html" class="text-content">Áo jacket</a>
-                        </li>
-                        <li>
-                            <a href="shop-left-sidebar.html" class="text-content">Áo vest</a>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-xl col-lg-2 col-sm-3">
-                <div class="footer-title">
-                    <h4>Liên kết</h4>
-                </div>
-
-                <div class="footer-contain">
-                    <ul>
-                        <li>
-                            <a href="index.html" class="text-content">Trang chủ</a>
-                        </li>
-                        <li>
-                            <a href="shop-left-sidebar.html" class="text-content">Giới thiệu</a>
-                        </li>
-                        <li>
-                            <a href="about-us.html" class="text-content">Sản phẩm</a>
-                        </li>
-                        <li>
-                            <a href="blog-list.html" class="text-content">Bán chạy nhất</a>
-                        </li>
-                        <li>
-                            <a href="contact-us.html" class="text-content">Liên hệ với chúng tôi</a>
+                        <li class="light-bg">
+                            <a href="https://in.pinterest.com/" class="footer-link-color">
+                                <i class="fab fa-pinterest-p"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>
-            </div>
 
-            <div class="col-xl-2 col-sm-3">
-                <div class="footer-title">
-                    <h4>Trung tâm trợ giúp</h4>
-                </div>
-
-                <div class="footer-contain">
-                    <ul>
+                <div class="col-xxl-2 col-xl-4 col-sm-6">
+                    <div class="footer-title">
+                        <h4 class="text-white">Về Fastkart</h4>
+                    </div>
+                    <ul class="footer-list footer-contact footer-list-light">
                         <li>
-                            <a href="order-success.html" class="text-content">Đơn hàng của bạn</a>
+                            <a href="about-us.html" class="light-text">Giới Thiệu</a>
                         </li>
                         <li>
-                            <a href="user-dashboard.html" class="text-content">Tàif khoản của bạn</a>
+                            <a href="contact-us.html" class="light-text">Liên Hệ</a>
                         </li>
                         <li>
-                            <a href="order-tracking.html" class="text-content">Theo dõi đơn hàng</a>
+                            <a href="term_condition.html" class="light-text">Điều Khoản & Điều Kiện</a>
                         </li>
                         <li>
-                            <a href="search.html" class="text-content">Tìm kiếm</a>
+                            <a href="careers.html" class="light-text">Sự Nghiệp</a>
                         </li>
                         <li>
-                            <a href="faq.html" class="text-content">Câu hỏi thường gặp </a>
+                            <a href="blog-list.html" class="light-text">Blog Mới Nhất</a>
                         </li>
                     </ul>
                 </div>
-            </div>
 
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-                <div class="footer-title">
-                    <h4>Liên hệ</h4>
+                <div class="col-xxl-2 col-xl-4 col-sm-6">
+                    <div class="footer-title">
+                        <h4 class="text-white">Liên Kết Hữu Ích</h4>
+                    </div>
+                    <ul class="footer-list footer-list-light footer-contact">
+                        <li>
+                            <a href="order-success.html" class="light-text">Đơn Hàng Của Bạn</a>
+                        </li>
+                        <li>
+                            <a href="user-dashboard.html" class="light-text">Tài Khoản Của Bạn</a>
+                        </li>
+                        <li>
+                            <a href="order-tracking.html" class="light-text">Theo Dõi Đơn Hàng</a>
+                        </li>
+                        <li>
+                            <a href="wishlist.html" class="light-text">Danh Sách Ưa Thích</a>
+                        </li>
+                        <li>
+                            <a href="faq.html" class="light-text">Câu Hỏi Thường Gặp</a>
+                        </li>
+                    </ul>
+
+                        <img src="{{ asset('assets/images/logoatus.png') }}" class="img-fluid blur-up lazyload" alt="">
+                    </a>
+                    <p class="information-text information-text-2">Đây là một sự thật đã được thiết lập từ lâu rằng người đọc sẽ bị phân tâm bởi nội dung có thể đọc được.</p>
+
+
                 </div>
 
-                <div class="footer-contact">
-                    <ul>
+                <div class="col-xxl-2 col-xl-4 col-sm-6">
+                    <div class="footer-title">
+
+                        <h4 class="text-white">Danh Mục</h4>
+                    </div>
+                    <ul class="footer-list footer-list-light footer-contact">
                         <li>
-                            <div class="footer-number">
-                                <i data-feather="phone"></i>
-                                <div class="contact-number">
-                                    <h6 class="text-content">Hotline 24/7 :</h6>
-                                    <h5>+84 345174327</h5>
+                            <a href="vegetables-demo.html" class="light-text">Rau Tươi</a>
+                        </li>
+                        <li>
+                            <a href="spice-demo.html" class="light-text">Gia Vị Cay</a>
+                        </li>
+                        <li>
+                            <a href="bags-demo.html" class="light-text">Túi Mới Thương Hiệu</a>
+                        </li>
+                        <li>
+                            <a href="bakery-demo.html" class="light-text">Tiệm Bánh Mới</a>
+                        </li>
+                        <li>
+                            <a href="grocery-demo.html" class="light-text">Thực Phẩm Mới</a>
+                        </li>
+
+                        <h4 class="text-white"> ATUS</h4>
+                    </div>
+                    <ul class="footer-list footer-contact footer-list-light">
+                        <li>
+                            <a href="about-us.html" class="light-text">Về chúng tôi</a>
+                        </li>
+                        <li>
+                            <a href="contact-us.html" class="light-text">Liên hệ với chúng tôi</a>
+                        </li>>
+
+                    </ul>
+                </div>
+                <div class="col-xxl-3 col-xl-4 col-sm-6">
+                    <div class="footer-title">
+
+                        <h4 class="text-white">Thông Tin Cửa Hàng</h4>
+
+                        <h4 class="text-white">Thông tin cửa hàng</h4>
+
+                    </div>
+                    <ul class="footer-address footer-contact">
+                        <li>
+                            <a href="javascript:void(0)" class="light-text">
+                                <div class="inform-box flex-start-box">
+                                    <i data-feather="map-pin"></i>
+
+                                    <p>Cửa hàng Demo Fastkart, 345 - 659 Demo Store, Ấn Độ</p>
+
+                                    <p>Cửa hàng mẫu Atus, cửa hàng số 1 Việt Nam</p>
+
                                 </div>
-                            </div>
+                            </a>
                         </li>
 
                         <li>
-                            <div class="footer-number">
-                                <i data-feather="mail"></i>
-                                <div class="contact-number">
-                                    <h6 class="text-content">Email :</h6>
-                                    <h5>atus@hotmail.com</h5>
+                            <a href="javascript:void(0)" class="light-text">
+                                <div class="inform-box">
+                                    <i data-feather="phone"></i>
+
+                                    <p>Gọi cho chúng tôi: 123-456-7890</p>
+
+                                    <p> 123-456-7890</p>
+
                                 </div>
-                            </div>
+                            </a>
                         </li>
 
-                        <li class="social-app mb-0">
-                            <h5 class="mb-2 text-content">Tải APP :</h5>
-                            <ul>
-                                <li class="mb-0">
-                                    <a href="https://play.google.com/store/apps" target="_blank">
-                                        <img src="https://themes.pixelstrap.com/fastkart/assets/images/playstore.svg" class="blur-up lazyload"
-                                            alt="">
-                                    </a>
-                                </li>
-                                <li class="mb-0">
-                                    <a href="https://www.apple.com/in/app-store/" target="_blank">
-                                        <img src="https://themes.pixelstrap.com/fastkart/assets/images/appstore.svg" class="blur-up lazyload"
-                                            alt="">
-                                    </a>
-                                </li>
-                            </ul>
+                        <li>
+                            <a href="javascript:void(0)" class="light-text">
+                                <div class="inform-box">
+                                    <i data-feather="mail"></i>
+
+                                    <p>Email cho chúng tôi: Support@Fastkart.com</p>
+
+                                    <p> Support@Atus.com</p>
+
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)" class="light-text">
+                                <div class="inform-box">
+                                    <i data-feather="printer"></i>
+                                    <p>Fax: 123456</p>
+                                </div>
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="sub-footer section-small-space">
-        <div class="reserve">
-            <h6 class="text-content">Website đáng tin cậy năm ©2024 </h6>
+        <div class="sub-footer sub-footer-lite section-b-space section-t-space">
+            <div class="left-footer">
+
+                <p class="light-text">2022 Bản quyền thuộc về Themeforest Được cung cấp bởi Pixelstrap</p>
+
+                <p class="light-text">Bản quyền 2022 Bởi Themeforest Được phát triển bởi Pixelstrap</p>
+
+            </div>
+
+            <ul class="payment-box">
+                <li>
+                    <img src="{{ asset('assets/clients/images/icon/paymant/visa.png') }}" class="blur-up lazyload" alt="Visa">
+                </li>
+                <li>
+                    <img src="{{ asset('assets/clients/images/icon/paymant/discover.png') }}" alt="Discover" class="blur-up lazyload">
+                </li>
+                <li>
+                    <img src="{{ asset('assets/clients/images/icon/paymant/american.png') }}" alt="American Express" class="blur-up lazyload">
+                </li>
+                <li>
+                    <img src="{{ asset('assets/clients/images/icon/paymant/master-card.png') }}" alt="MasterCard" class="blur-up lazyload">
+                </li>
+                <li>
+                    <img src="{{ asset('assets/clients/images/icon/paymant/giro-pay.png') }}" alt="Giro Pay" class="blur-up lazyload">
+                </li>
+            </ul>
         </div>
-
-        <div class="payment">
-            <img src="../assets/images/payment/1.png" class="blur-up lazyload" alt="">
-        </div>
-
     </div>
-</div>
+</footer>

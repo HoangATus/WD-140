@@ -1,0 +1,83 @@
+[33m5c5a756[m[33m ([m[1;36mHEAD -> [m[1;32mph41989[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #26 from HoangATus/ph42116
+[33mb58e281[m Merge branch 'main' into ph42116
+[33m50452e2[m giao dien chinh
+[33m9b6edd6[m Merge pull request #23 from HoangATus/ph41989
+[33m5462055[m[33m ([m[1;31morigin/ph41989[m[33m)[m lai
+[33m5fe523b[m Merge branch 'main' of https://github.com/HoangATus/WD-140 into ph41989
+[33m9ed69d8[m daylai
+[33mbc9855c[m Merge pull request #25 from HoangATus/ph44041
+[33m31e9038[m[33m ([m[1;31morigin/ph44041[m[33m)[m update dm
+[33m3b23852[m Merge pull request #24 from HoangATus/ph44031
+[33mb25f7a9[m Merge branch 'main' into ph44031
+[33mced4703[m[33m ([m[1;32mmain[m[33m)[m viethoatc
+[33m25d5598[m admin san pham
+[33mc6ab568[m Merge pull request #22 from HoangATus/ph42116
+[33mfbaacd5[m[33m ([m[1;31morigin/ph42116[m[33m)[m giao dien
+[33macbf4af[m Merge branch 'ph41989' of https://github.com/HoangATus/WD-140 into ph41989
+[33me779e41[m Merge pull request #18 from HoangATus/ph41989
+[33mb69ace3[m Merge branch 'main' into ph41989
+[33ma2db112[m xd
+[33m12979d4[m v
+[33m88e90ed[m Merge pull request #21 from HoangATus/ph44031
+[33m026b1d6[m code giao diện sản phẩm admin
+[33m890e8f4[m Merge branch 'main' of https://github.com/HoangATus/WD-140 into ph44031
+[33m84ad1bb[m Merge pull request #20 from HoangATus/ph42116
+[33m4e77c9e[m chinhsua theme admin
+[33ma6b4991[m Merge branch 'main' of https://github.com/HoangATus/WD-140 into ph44031
+[33ma3b1f1e[m day code chi tiet
+[33maf335c4[m Merge branch 'main' of https://github.com/HoangATus/WD-140 into ph41989
+[33m817c7ff[m Merge pull request #19 from HoangATus/ph37482
+[33m4218745[m[33m ([m[1;31morigin/ph37482[m[33m)[m Merge branch 'main' into ph37482
+[33m3cf9ce1[m thuộc tính kích thước
+[33mef5d80e[m thuoc tinh kich thuoc
+[33m0653807[m  update
+[33m7b673b5[m sua lai
+[33mabf6652[m Merge pull request #17 from HoangATus/ph44043
+[33m4dcc5f1[m[33m ([m[1;31morigin/ph44043[m[33m)[m thuoc tinh mau sac
+[33m9ca9d2c[m Merge pull request #16 from HoangATus/ph44041
+[33md73e826[m quản lý danh mục
+[33m1671e23[m Merge branch 'main' of https://github.com/HoangATus/WD-140 into ph44031
+[33m8f9fc92[m sửa lại giao diện
+[33m1cf1d63[m update cart
+[33mccdea68[m Merge pull request #15 from HoangATus/ph42107
+[33ma519441[m[33m ([m[1;31morigin/ph42107[m[33m)[m Merge branch 'main' into ph42107
+[33m8c12473[m Merge pull request #14 from HoangATus/ph41989
+[33me8ee1ab[m update
+[33m1100f31[m Merge pull request #13 from HoangATus/ph41989
+[33m4805906[m update
+[33mf3477dd[m Merge pull request #12 from HoangATus/ph42116
+[33m16fd1bc[m Chuẩn hóa ký tự kết thúc dòng
+[33m82e7d18[m Merge pull request #11 from HoangATus/ph44043
+[33mfd00350[m update
+[33m7ada8b6[m update lai
+[33m57580a6[m Merge pull request #10 from HoangATus/ph42116
+[33md9afbfa[m Merge pull request #9 from HoangATus/ph37482
+[33m8f0c690[m sua giao dien admin
+[33m5988de7[m vietsub giao dien chi tiet san pham
+[33mbde5ac8[m Merge pull request #7 from HoangATus/ph44041
+[33m4a96e49[m Merge pull request #8 from HoangATus/ph41989
+[33m2598363[m trang chu tieng viet
+[33mecceb51[m update profile
+[33m0e433af[m Merge pull request #6 from HoangATus/ph42116
+[33m0b50e00[m Giải quyết xung đột trong theme.blade.php
+[33mb480626[m code login,logout, register,web
+[33md7f2a9c[m Merge pull request #5 from HoangATus/ph44031
+[33mbad3c9c[m Merge branch 'main' into ph44031
+[33md33962a[m giao dien chi tiet đơn hàng đã mua
+[33m496ef34[m Merge pull request #1 from HoangATus/ph37482
+[33m4f8e289[m Merge branch 'main' into ph37482
+[33mf0b0d93[m giao diện đơn hàng đã mua
+[33m9457008[m Merge branch 'main' of github.com:HoangATus/WD-140 into ph37482
+[33m0ef5632[m Merge pull request #4 from HoangATus/ph44043
+[33m9cc47a8[m Merge branch 'main' of https://github.com/HoangATus/WD-140 into ph44043
+[33m90cbacf[m Merge pull request #2 from HoangATus/ph44041
+[33mdbd4fe9[m Merge branch 'main' of https://github.com/HoangATus/WD-140 into ph44041
+[33m3295fa3[m Merge pull request #3 from HoangATus/ph42116
+[33mc9596fe[m giao dien checkout va ordersuccess
+[33mca1df17[m giao diện registerchi tiết sản  phẩm, login , register
+[33m0ef3a5e[m login
+[33m8a22aa9[m lịch sử đặt hànghàng
+[33m139535b[m giao dien cart
+[33m9ddf28b[m giao dien admin
+[33ma4a94b4[m cat xong giao dien
+[33m3c55224[m all souce code

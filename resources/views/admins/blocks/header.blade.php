@@ -1,140 +1,196 @@
-<div class="page-header">
-    <div class="header-wrapper m-0">
-        <div class="header-logo-wrapper p-0">
-            <div class="logo-wrapper">
-                <a href="index.html">
-                    <img class="img-fluid main-logo" src="{{ asset('admin/assets/images/logo/1.png')}}" alt="logo">
-                    <img class="img-fluid white-logo" src="{{ asset('admin/assets/images/logo/1-white.png')}}" alt="logo">
-                </a>
-            </div>
-            <div class="toggle-sidebar">
-                <i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i>
-                <a href="index.html">
-                    <img src="{{ asset('admin/assets/images/logo/1.png')}}" class="img-fluid" alt="">
-                </a>
-            </div>
-        </div>
-
-        <form class="form-inline search-full" action="javascript:void(0)" method="get">
-            <div class="form-group w-100">
-                <div class="Typeahead Typeahead--twitterUsers">
-                    <div class="u-posRelative">
-                        <input class="demo-input Typeahead-input form-control-plaintext w-100" type="text"
-                            placeholder="Search Fastkart .." name="q" title="" autofocus>
-                        <i class="close-search" data-feather="x"></i>
-                        <div class="spinner-border Typeahead-spinner" role="status">
-                            <span class="sr-only">Đang tải...</span>
-                        </div>
-                    </div>
-                    <div class="Typeahead-menu"></div>
-                </div>
-            </div>
-        </form>
-        <div class="nav-right col-6 pull-right right-header p-0">
-            <ul class="nav-menus">
+<div class="topbar-custom">
+    <div class="container-xxl">
+        <div class="d-flex justify-content-between">
+            <ul class="list-unstyled topnav-menu mb-0 d-flex align-items-center">
                 <li>
-                    <span class="header-search">
-                        <i class="ri-search-line"></i>
-                    </span>
+                    <button class="button-toggle-menu nav-link ps-0">
+                        <i data-feather="menu" class="noti-icon"></i>
+                    </button>
                 </li>
-                <li class="onhover-dropdown">
-                    <div class="notification-box">
-                        <i class="ri-notification-line"></i>
-                        <span class="badge rounded-pill badge-theme">4</span>
+                <li class="d-none d-lg-block">
+                    <div class="position-relative topbar-search">
+                        <input type="text" class="form-control bg-light bg-opacity-75 border-light ps-4" placeholder="Search...">
+                        <i class="mdi mdi-magnify fs-16 position-absolute text-muted top-50 translate-middle-y ms-2"></i>
                     </div>
-                    <ul class="notification-dropdown onhover-show-div">
-                        <li>
-                            <i class="ri-notification-line"></i>
-                            <h6 class="f-18 mb-0">Thông báo</h6>
-                        </li>
-                        <li>
-                            <p>
-                                <i class="fa fa-circle me-2 font-primary"></i>Xử lý giao hàng <span
-                                    class="pull-right">10 phút</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                <i class="fa fa-circle me-2 font-success"></i>Đơn hàng hoàn tất<span
-                                    class="pull-right">1 hr</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                <i class="fa fa-circle me-2 font-info"></i>Vé được tạo ra<span
-                                    class="pull-right">3 hr</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                <i class="fa fa-circle me-2 font-danger"></i>Giao hàng hoàn tất<span
-                                    class="pull-right">6 hr</span>
-                            </p>
-                        </li>
-                        <li>
-                            <a class="btn btn-primary" href="javascript:void(0)">Kiểm tra tất cả thông báo</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <div class="mode">
-                        <i class="ri-moon-line"></i>
-                    </div>
-                </li>
-                <li class="profile-nav onhover-dropdown pe-0 me-0">
-                    <div class="media profile-media">
-                        <img class="user-profile rounded-circle" src="{{ asset('admin/assets/images/users/4.jpg')}}" alt="">
-                        <div class="user-name-hide media-body">
-                            <span>
-                                @if (Auth::check())
-                                   {{ Auth::user()->user_name }}
-                                @else
-                                    <p></p>
-                                @endif
-                            </span>
-                            <p class="mb-0 font-roboto">Quản trị viên<i class="middle ri-arrow-down-s-line"></i></p>
-                        </div>
-                    </div>
-                    <ul class="profile-dropdown onhover-show-div">
-                        <li>
-                            <a href="all-users.html">
-                                <i data-feather="users"></i>
-                                <span>Người dùng</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="order-list.html">
-                                <i data-feather="archive"></i>
-                                <span>Đơn hàng</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="support-ticket.html">
-                                <i data-feather="phone"></i>
-                                <span>Liên hệ</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="profile-setting.html">
-                                <i data-feather="settings"></i>
-                                <span>Cài đặt</span>
-                            </a>
-                        </li>
-                        <li>
-                            <form id="logout-form" action="{{ route('admin.logout') }}" method="post">
-                                @csrf
-                                <a 
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                >
-                                <i data-feather="log-out"></i>
-                                <span>Đăng xuất</span>
-                            </a>
-                        </form>
-                        </li>
-                    </ul>
                 </li>
             </ul>
+
+            <ul class="list-unstyled topnav-menu mb-0 d-flex align-items-center">
+
+                <li class="d-none d-sm-flex">
+                    <button type="button" class="btn nav-link" data-toggle="fullscreen">
+                        <i data-feather="maximize" class="align-middle fullscreen noti-icon"></i>
+                    </button>
+                </li>
+
+                <li class="dropdown notification-list topbar-dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        <i data-feather="bell" class="noti-icon"></i>
+                        <span class="badge bg-danger rounded-circle noti-icon-badge">9</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end dropdown-lg">
+
+                        <!-- item-->
+                        <div class="dropdown-item noti-title">
+                            <h5 class="m-0">
+                                <span class="float-end">
+                                    <a href="#" class="text-dark">
+                                        <small>Clear All</small>
+                                    </a>
+                                </span>Notification
+                            </h5>
+                        </div>
+
+                        <div class="noti-scroll" data-simplebar>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary active">
+                                <div class="notify-icon">
+                                    <img src="{{ asset('assets/admins/images/users/user-12.jpg') }}" class="img-fluid rounded-circle" alt="" />
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <p class="notify-details">Carl Steadham</p>
+                                    <small class="text-muted">5 min ago</small>
+                                </div>
+                                <p class="mb-0 user-msg">
+                                    <small class="fs-14">Completed <span class="text-reset">Improve workflow in Figma</span></small>
+                                </p>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
+                                <div class="notify-icon">
+                                    <img src="{{ asset('assets/admins/images/users/user-2.jpg ') }}" class="img-fluid rounded-circle" alt="" />
+                                </div>
+                                <div class="notify-content">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <p class="notify-details">Olivia McGuire</p>
+                                        <small class="text-muted">1 min ago</small>
+                                    </div>
+                        
+                                    <div class="d-flex mt-2 align-items-center">
+                                        <div class="notify-sub-icon">
+                                            <i class="mdi mdi-download-box text-dark"></i>
+                                        </div>
+
+                                        <div>
+                                            <p class="notify-details mb-0">dark-themes.zip</p>
+                                            <small class="text-muted">2.4 MB</small>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
+                                <div class="notify-icon">
+                                    <img src="{{ asset('assets/admins/images/users/user-3.jpg ') }}" class="img-fluid rounded-circle" alt="" /> 
+                                </div>
+                                <div class="notify-content">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <p class="notify-details">Travis Williams</p>
+                                        <small class="text-muted">7 min ago</small>
+                                    </div>
+                                    <p class="noti-mentioned p-2 rounded-2 mb-0 mt-2"><span class="text-primary">@Patryk</span> Please make sure that you're....</p>
+                                </div>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
+                                <div class="notify-icon">
+                                    <img src="{{ asset('assets/admins/images/users/user-8.jpg ') }}" class="img-fluid rounded-circle" alt="" />
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <p class="notify-details">Violette Lasky</p>
+                                    <small class="text-muted">5 min ago</small>
+                                </div>
+                                <p class="mb-0 user-msg">
+                                    <small class="fs-14">Completed <span class="text-reset">Create new components</span></small>
+                                </p>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
+                                <div class="notify-icon">
+                                    <img src="{{ asset('assets/admins/images/users/user-5.jpg ') }}" class="img-fluid rounded-circle" alt="" />
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <p class="notify-details">Ralph Edwards</p>
+                                    <small class="text-muted">5 min ago</small>
+                                </div>
+                                <p class="mb-0 user-msg">
+                                    <small class="fs-14">Completed <span class="text-reset">Improve workflow in React</span></small>
+                                </p>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
+                                <div class="notify-icon">
+                                    <img src="{{ asset('assets/admins/images/users/user-6.jpg ') }}" class="img-fluid rounded-circle" alt="" /> 
+                                </div>
+                                <div class="notify-content">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <p class="notify-details">Jocab jones</p>
+                                        <small class="text-muted">7 min ago</small>
+                                    </div>
+                                    <p class="noti-mentioned p-2 rounded-2 mb-0 mt-2"><span class="text-reset">@Patryk</span> Please make sure that you're....</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- All-->
+                        <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
+                            View all
+                            <i class="fe-arrow-right"></i>
+                        </a>
+
+                    </div>
+                </li>
+
+                <li class="dropdown notification-list topbar-dropdown">
+                    <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        {{-- <img src="{{ asset('assets/admins/images/users/user-11.jpg ') }}" alt="user-image" class="rounded-circle"> --}}
+                        <span class="pro-user-name ms-1">
+                            @if (Auth::check())
+                              {{ Auth::user()->user_name }}<i class="mdi mdi-chevron-down"></i> 
+                            @else
+                                
+                            @endif 
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
+                        <!-- item-->
+                        <div class="dropdown-header noti-title">
+                            <h6 class="text-overflow m-0">Chào mừng !</h6>
+                        </div>
+
+                        <!-- item-->
+                        {{-- <a class='dropdown-item notify-item' href='pages-profile.html'>
+                            <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
+                            <span>My Account</span>
+                        </a>
+
+                        <!-- item-->
+                        <a class='dropdown-item notify-item' href='auth-lock-screen.html'>
+                            <i class="mdi mdi-lock-outline fs-16 align-middle"></i>
+                            <span>Lock Screen</span>
+                        </a> --}}
+
+                        <div class="dropdown-divider"></div>
+
+                        <!-- item-->
+                        <a class='dropdown-item notify-item' href="{{ route('home.index') }}">
+                            <i class="mdi mdi-location-exit fs-16 align-middle"></i>
+                            <span>Trang người dùng</span>
+                        </a>
+
+                    </div>
+                </li>
+
+            </ul>
         </div>
+
     </div>
+   
 </div>
