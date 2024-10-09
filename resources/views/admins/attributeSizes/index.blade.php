@@ -47,31 +47,20 @@
                                             <tr>
                                                 <td>{{ $item->id }}</td>
                                                 <td>{{ $item->attribute_size_name }}</td>
-                                                <td>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="{{ route('admins.attributeSizes.edit', $item) }}">
-                                                                <i class="ri-pencil-line"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <form
-                                                                action="{{ route('admins.attributeSizes.destroy', $item) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-primary"
-                                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"><i
-                                                                        class="ri-delete-bin-line"></i></button>
-
-                                                            </form>
-
-                                                        </li>
-                                                    </ul>
+                                                <td class="d-flex ms-2">
+                                                            <a href="{{ route('admins.attributeSizes.edit', $item) }}"
+                                                            class="btn btn-success me-3">Sửa</a>
+                                                            <form action="{{ route('admins.attributeSizes.destroy', $item) }}"
+                                                            method="POST"
+                                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')"
+                                                            style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Xóa</button>
+                                                        </form>
                                                 </td>
                                             </tr>
                                         @endforeach
-
                                     </tbody>
                                 </table>
                             </div>

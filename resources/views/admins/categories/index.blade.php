@@ -15,9 +15,16 @@
                     <div class="card-body">
                         <div class="title-header option-title">
                             <h1>Danh sách danh mục</h1>
-                            @if (session('message'))
-                                <h4 class="text-primary">{{ session('message') }}</h4>
-                            @endif
+                            @if (session('success'))
+                            <div class="alert alert-success mt-3">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('message'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
+                            </div>
+                        @endif
                         </div>
                         <div class="d-flex align-items-end justify-content-end">
                             <a href="{{ route('admins.categories.create') }}" class="d-flex align-items-end btn btn-success">
@@ -40,12 +47,12 @@
                                     <tbody>
                                         @foreach ($categories as $item)
 
-                                            <tr>
+                                            {{-- <tr>
                                                 <td>{{ $item->id }}</td>
                                                 <td>{{ $item->name }}</td>
                                                 <td>
                                                     <div style="width: 80px;height: 80px;">
-                                                        <img src="{{ asset('storage/' . $item->cover) }}"
+                                                        <img src="{{ asset('storage/' . $item->cover) }}" --}}
 
                                             <tr class="text-center">
                                                 <td class="align-middle">{{ $item->id }}</td>
