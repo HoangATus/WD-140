@@ -7,7 +7,7 @@
 @section('css')
 @endsection
 @section('content')
-    {{ $product }}
+    {{-- {{ $product }} --}}
     {{-- {{$variants}} --}}
     <form method="POST" action="{{ route('admins.products.update', $product->id) }}" enctype="multipart/form-data">
         @csrf
@@ -77,9 +77,14 @@
                                 <div class="mb-4 row align-items-center">
                                     <label class="col-sm-3 col-form-label form-label-title">Thư viện ảnh</label>
                                     <div class="col-sm-9">
-                                        @foreach ($product->galleries as $gallery)
-                                            <img src="{{ Storage::url($gallery->image) }}" width="70px" height="70px">
-                                        @endforeach
+                                        @if ($product->galleries && $product->galleries->isNotEmpty())
+                                            @foreach ($product->galleries as $gallery)
+                                                <img src="{{ Storage::url($gallery->image) }}" width="70px"
+                                                    height="70px">
+                                            @endforeach
+                                        @else
+                                            <p>Không có ảnh</p>
+                                        @endif
                                         <input type="file" name="product_galleries[]" multiple
                                             class="form-control @error('product_galleries') is-invalid @enderror">
                                     </div>
