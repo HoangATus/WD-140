@@ -8,7 +8,7 @@
     {{-- <form method="POST" action="" enctype="multipart/form-data">
         @csrf --}}
     <!-- New Product Add Start -->
-    {{ $product }}
+    {{-- {{ $product }} --}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -36,20 +36,28 @@
                                 <label class="col-sm-3 col-form-label form-label-title">Ảnh
                                     chính</label>
                                 <div class="col-sm-9">
-                                    <div style="width: 80px;height: 80px;">
-                                        <img src="{{ Storage::url($product->product_image_url) }}" alt="Ảnh sản phẩm"
-                                            class="img-fluid mb-3" style="max-width: 100%; max-height: 100%">
-                                    </div>
-                                    {{-- <input type="file" name="product_image_url" id="product_image_url"
-                                        class="form-control" value="{{ $product->product_image_url }}"> --}}
+                                    @if ($product->product_image_url)
+                                        <div style="width: 80px;height: 80px;">
+                                            <img src="{{ Storage::url($product->product_image_url) }}" alt="Ảnh sản phẩm"
+                                                class="img-fluid mb-3" style="max-width: 100%; max-height: 100%">
+                                        </div>
+                                    @else
+                                        <p>Không có ảnh</p>
+                                    @endif
                                 </div>
                             </div>
                             <div class="mb-4 row align-items-center">
                                 <label class="col-sm-3 col-form-label form-label-title">Thư viện ảnh</label>
                                 <div class="col-sm-9">
-                                    @foreach ($product->galleries as $gallery)
-                                        <img src="{{ Storage::url($gallery->image) }}" width="70px" height="70px">
-                                    @endforeach
+                                    @if ($product->galleries && $product->galleries->isNotEmpty())
+                                        @foreach ($product->galleries as $gallery)
+                                            <img src="{{ Storage::url($gallery->image) }}" width="70px" height="70px"
+                                                alt="Gallery Image">
+                                        @endforeach
+                                    @else
+                                        <p>Không có ảnh</p>
+                                    @endif
+
                                 </div>
                             </div>
                             <div class="mb-4 row align-items-center">
@@ -106,7 +114,7 @@
                                                 <tr>
                                                     <td>{{ $variant->size->attribute_size_name ?? 'Không xác định' }}</td>
                                                     <td>{{ $variant->color->name ?? 'Không xác định' }}</td>
-                                                    <td>{{ $variant->quantity}}</td>
+                                                    <td>{{ $variant->quantity }}</td>
                                                     <td>
                                                         @if ($variant->image)
                                                             <img src="{{ Storage::url($variant->image) }}"
@@ -114,9 +122,9 @@
                                                                 height="70px">
                                                         @endif
                                                     </td>
-                                                    <td>{{number_format($variant->variant_import_price)}} VND</td>
-                                                    <td>{{number_format($variant->variant_sale_price)}} VND</td>
-                                                    <td>{{number_format($variant->variant_listed_price)}} VND</td>
+                                                    <td>{{ number_format($variant->variant_import_price) }} VND</td>
+                                                    <td>{{ number_format($variant->variant_sale_price) }} VND</td>
+                                                    <td>{{ number_format($variant->variant_listed_price) }} VND</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
