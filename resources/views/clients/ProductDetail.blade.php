@@ -133,17 +133,16 @@
                             <div class="right-box-contain">
                                 {{-- <h6 class="offer-top">Giảm giá 30%</h6> --}}
                                 <h2 class="name">{{ $products->product_name }}</h2>
-                    
+
                                 <p>Mã sản phẩm <b>:{{ $products->product_code }}</b></p>
                                 <div class="product-status">
-                                    <span class="badge 
-                                        @if($products->stock_status == 'Hết hàng') 
-                                            bg-danger 
+                                    <span
+                                        class="badge 
+                                        @if ($products->stock_status == 'Hết hàng') bg-danger 
                                         @elseif($products->stock_status == 'Sắp hết hàng') 
                                             bg-warning text-dark 
                                         @else 
-                                            bg-success 
-                                        @endif">
+                                            bg-success @endif">
                                         {{ $products->stock_status }}
                                     </span>
                                 </div>
@@ -184,7 +183,14 @@
                                     <div class="option-title">Màu sắc:</div>
                                     @foreach ($products->variants as $variant)
                                         <div class="option-list" id="color-options">
-                                            <div class="option-item option-item-color">{{ $variant->color->name ?? '' }}
+                                            <div class="option-item option-item-color"
+                                                style="{{ $variant->quantity > 0 ? '' : 'color: red; pointer-events: none;' }}">
+                                                {{ $variant->color->name ?? '' }}
+                                                @if ($variant->quantity > 0)
+                                                    <span class="stock-quantity">({{ $variant->quantity }})</span>
+                                                @else
+                                                    <span class="stock-status">(Hết)</span>
+                                                @endif
                                             </div>
                                         </div>
                                 </div>
@@ -192,11 +198,19 @@
                                 <div class="product-options">
                                     <div class="option-title">Kích thước:</div>
                                     <div class="option-list" id="size-options">
-                                        <div class="option-item option-item-size">
-                                            {{ $variant->size->attribute_size_name ?? '' }}</div>
+                                        <div class="option-item option-item-size"
+                                            style="{{ $variant->quantity > 0 ? '' : 'color: red; pointer-events: none;' }}">
+                                            {{ $variant->size->attribute_size_name ?? '' }}
+                                            @if ($variant->quantity > 0)
+                                                <span class="stock-quantity">({{ $variant->quantity }})</span>
+                                            @else
+                                                <span class="stock-status">(Hết)</span>
+                                            @endif
+                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
-                                @endforeach
+
 
                                 <div class="note-box product-package">
                                     <div class="cart_qty qty-box product-qty">
@@ -204,13 +218,15 @@
                                             <button type="button" class="qty-left-minus" data-type="minus" data-field="">
                                                 <i class="fa fa-minus"></i>
                                             </button>
-                                            <input class="form-control input-number qty-input" type="text" name="quantity" value="0" min="1" >
-                                            <button type="button" class="qty-right-plus" data-type="plus" data-field="">
+                                            <input class="form-control input-number qty-input" type="text"
+                                                name="quantity" value="0" min="1">
+                                            <button type="button" class="qty-right-plus" data-type="plus"
+                                                data-field="">
                                                 <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
                                     </div>
-                                    
+
 
                                     <button onclick="location.href = 'cart.html';"
                                         class="btn btn-md bg-dark cart-button text-white w-50">Thêm vào giỏ</button>
@@ -273,11 +289,6 @@
                                         hàng</button>
                                 </li>
 
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="care-tab" data-bs-toggle="tab" data-bs-target="#care"
-                                        type="button" role="tab">Chính sách đổi
-                                        trả</button>
-                                </li>
 
                                 {{-- <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="review-tab" data-bs-toggle="tab"
@@ -317,67 +328,7 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-pane fade" id="care" role="tabpanel">
-                                    <div class="information-box">
-                                        <ul>
-                                            <li>
-                                                <h4><b>1. CHÍNH SÁCH ÁP DỤNG</b></h4>
-
-                                                Áp dụng từ ngày 01/09/2018. </br>
-
-                                                Trong vòng 30 ngày kể từ ngày mua sản phẩm với các sản phẩm ATUS. </br>
-
-                                                Áp dụng đối với sản phẩm nguyên giá và sản phẩm giảm giá ít hơn 50%.
-                                                </br>
-
-                                                Sản phẩm nguyên giá chỉ được đổi 01 lần duy nhất sang sản phẩm nguyên
-                                                giá khác và không thấp hơn giá trị sản phẩm đã mua. </br>
-
-                                                Sản phẩm giảm giá/khuyến mại ít hơn 50% được đổi 01 lần sang màu khác
-                                                hoặc size khác trên cùng 1 mã trong điều kiện còn sản phẩm hoặc theo quy
-                                                chế chương trình (nếu có). Nếu sản phẩm đổi đã hết hàng khi đó KH sẽ
-                                                được đổi sang sản phẩm khác có giá trị ngang bằng hoặc cao hơn. Khách
-                                                hàng sẽ thanh toán phần tiền chênh lệch nếu sản phẩm đổi có giá trị cao
-                                                hơn sản phẩm đã mua. </br>
-
-                                                Chính sách chỉ áp dụng khi sản phẩm còn hóa đơn mua hàng, còn nguyên
-                                                nhãn mác, thẻ bài đính kèm sản phẩm và sản phẩm không bị dơ bẩn, hư hỏng
-                                                bởi những tác nhân bên ngoài cửa hàng sau khi mua sản phẩm. </br>
-
-                                                Sản phẩm đồ lót và phụ kiện không được đổi trả. </br>
-                                            </li>
-
-                                            <li>
-                                                <h4><b>2. ĐIỀU KIỆN ĐỔI SẢN PHẨM</b></h4>
-
-                                                Đổi hàng trong vòng 07 ngày kể từ ngày khách hàng nhận được sản phẩm.
-                                                </br>
-
-                                                Sản phẩm còn nguyên tem, mác và chưa qua sử dụng. </br>
-                                            </li>
-
-                                            <li>
-                                                <h4><b>3. THỰC HIỆN ĐỔI SẢN PHẨM</b></h4>
-
-                                                Quý khách có thể đổi hàng Online tại hệ thống cửa hàng và đại lý ATUS
-                                                trên toàn quốc . Lưu ý: vui lòng mang theo sản phẩm và phiếu giao hàng.
-                                                </br>
-
-                                                Nếu tại khu vực bạn không có cửa hàng ATUS hoặc sản phẩm bạn muốn đổi
-                                                thì vui lòng làm theo các bước sau: </br>
-
-                                                Bước 1: Gọi đến Tổng đài: 0964942121 các ngày trong tuần (trừ ngày lễ),
-                                                cung cấp mã đơn hàng và mã sản phẩm cần đổi. </br>
-
-                                                Bước 2: Vui lòng gửi hàng đổi về địa chỉ : Kho Online ATUS - 1165 Giải
-                                                Phóng, Thịnh Liệt, Q. Hoàng Mai, Hà Nội. </br>
-
-                                                Bước 3: ATUS gửi đổi sản phẩm mới khi nhận được hàng. Trong trường hợp
-                                                hết hàng, ATUS sẽ liên hệ xác nhận. </br>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -400,18 +351,18 @@
                     </svg>
                 </span>
             </div>
-            <div class="row">
+            <div class="row">   
                 <div class="col-12">
                     <div class="slider-6_1 product-wrapper">
                         {{--  --}}
-                        @foreach ($datas as $item)
+                        @foreach ($relatedProducts as $relatedProduct)
                             <div>
                                 <div class="product-box-3 wow fadeInUp">
                                     <div class="product-header">
-                                        <div class="product-image" >
+                                        <div class="product-image">
                                             <a href="product-left-2.html">
-                                                <img src="{{ Storage::url($item->product_image_url) }}"
-                                                    class="img-fluid blur-up lazyload"  alt="">
+                                                <img src="{{ Storage::url($relatedProduct->product_image_url) }}"
+                                                    class="img-fluid blur-up lazyload" alt="">
                                             </a>
 
                                         </div>
@@ -421,7 +372,7 @@
                                         <div class="product-detail">
                                             <span class="span-name"></span>
                                             <a href="product-left-thumbnail.html">
-                                                <h5 class="name">{{ $item->product_name }}</h5>
+                                                <h5 class="name">{{ $relatedProduct->product_name }}</h5>
                                             </a>
                                             <div class="product-rating mt-2">
                                                 <ul class="rating">
@@ -443,7 +394,7 @@
                                                 </ul>
                                                 {{-- <span>(5.0)</span> --}}
                                             </div>
-                                            @foreach ($item->variants as $variant)
+                                            @foreach ($relatedProduct->variants as $variant)
                                                 <h5 class="price"><span
                                                         class="theme-color">{{ number_format($variant->variant_sale_price, 0, ',', '.') }}₫
                                                     </span>
@@ -452,7 +403,9 @@
                                                 </h5>
                                             @endforeach
                                             <div class="add-to-cart-box bg-white">
-                                                <button class="btn btn-add-cart addcart-button"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Thêm vào giỏ</button>
+                                                <button class="btn btn-add-cart addcart-button"><i
+                                                        class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Thêm vào
+                                                    giỏ</button>
                                                 <div class="cart_qty qty-box">
                                                     <div class="input-group bg-white">
                                                         <button type="button" class="qty-left-minus bg-gray"

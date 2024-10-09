@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Clients; // Cập nhật namespace
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; // Đảm bảo rằng Controller được sử dụng đúng
 use App\Models\Product;
+use App\Models\Variant;
 
 class ProductController extends Controller
 {
@@ -39,8 +40,12 @@ class ProductController extends Controller
     public function show($slug)
     {
         $products = Product::with('variants')->where('slug', $slug)->firstOrFail();
-        $datas = Product::with('variants')->take(7)->get();
-        return view('clients.productDetail', compact('products', 'datas'));
+        $relatedProducts = Product::with('variants')
+        ->where('category_id', $products->category_id)
+        ->where('id', '!=', $products->id )
+        ->take(7)
+        ->get();
+        return view('clients.productDetail', compact('products', 'relatedProducts'));
     }
 
     /**
