@@ -25,4 +25,17 @@
         .price-output {
             margin-top: 10px;
         }
+    .out-of-stock {
+    color: red;
+    font-weight: bold;
+}
+.out-of-stock {
+    color: red;
+    font-weight: bold;
+    opacity: 0.5; /* Giảm độ sáng để người dùng nhận ra đây là tùy chọn không khả dụng */
+    pointer-events: none; /* Ngăn chặn click */
+}
+
+
+
 /*# sourceMappingURL=style.css.map */

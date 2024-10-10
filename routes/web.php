@@ -31,8 +31,10 @@ use App\Http\Controllers\PurchasedOrderDetailsController;
 Route::get('/', [ShopController::class, 'index'])->name('home'); // Giả định phương thức index cho ShopController
 
 // Route cho sản phẩm
-Route::resource('/product', ProductController::class);
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::resource('/products', ProductController::class)->parameters([
+    'products'=> 'slug'
+]);
+
 
 // Route cho giỏ hàng
 
@@ -70,8 +72,4 @@ Route::get('/password/reset', [AuthController::class, 'showformRequest'])->name(
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-
-Route::resource('/product', ClientsProductController::class)->parameters([
-    'products'=> 'slug'
-]);
 

@@ -3,6 +3,7 @@
 
 
 <!-- Mirrored from themes.pixelstrap.com/fastkart/front-end/index-9.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Sep 2024 12:27:18 GMT -->
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,10 +31,10 @@
 
     <!-- Bootstrap CSS -->
     <!-- Latest compiled and minified CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Latest compiled JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Wow CSS -->
     <link rel="stylesheet" href="{{ asset('assets/clients/css/animate.min.css') }}">
@@ -46,7 +47,7 @@
     <link href="https://cdn.jsdelivr.net/npm/ion-rangeslider/css/ion.rangeSlider.min.css" rel="stylesheet">
 
     <!-- Template css -->
-    <link id="color-link" rel="stylesheet" type="text/css" href="{{asset('assets/clients/css/style.css')}}">
+    <link id="color-link" rel="stylesheet" type="text/css" href="{{ asset('assets/clients/css/style.css') }}">
 
     <!-- Icons -->
     <link href="{{ asset('assets/clients/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
@@ -54,13 +55,15 @@
     <!--Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/remixicon@2.5.0/fonts/remixicon.css">
-    
+
     {{-- Bootstrap 5 --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+
     
 
     <!-- Bootstrap JS (for dropdowns) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </head>
 
@@ -76,7 +79,7 @@
         <span></span>
     </div>
     <!-- Loader End -->
-    
+
     <!-- Header Start -->
     @include('clients.blocks.header')
     <!-- Header End -->
@@ -84,7 +87,7 @@
 
 
     <!-- Home Section Start -->
-     @yield('content')
+    @yield('content')
     <!-- Home Section End -->
 
 
@@ -105,8 +108,8 @@
                     <div class="row g-sm-4 g-2">
                         <div class="col-lg-6">
                             <div class="slider-image">
-                                <img src="{{ asset('assets/clients/images/product/category/1.jpg') }}" class="img-fluid blur-up lazyload"
-                                    alt="">
+                                <img src="{{ asset('assets/clients/images/product/category/1.jpg') }}"
+                                    class="img-fluid blur-up lazyload" alt="">
                             </div>
                         </div>
 
@@ -316,8 +319,8 @@
                             <li class="list-1">
                                 <div class="deal-offer-contain">
                                     <a href="shop-left-sidebar.html" class="deal-image">
-                                        <img src="{{ asset('assets/clients/images/vegetable/product/10.png') }}" class="blur-up lazyload"
-                                            alt="">
+                                        <img src="{{ asset('assets/clients/images/vegetable/product/10.png') }}"
+                                            class="blur-up lazyload" alt="">
                                     </a>
 
                                     <a href="shop-left-sidebar.html" class="deal-contain">
@@ -330,8 +333,8 @@
                             <li class="list-2">
                                 <div class="deal-offer-contain">
                                     <a href="shop-left-sidebar.html" class="deal-image">
-                                        <img src="{{ asset('assets/clients/images/vegetable/product/11.png') }}" class="blur-up lazyload"
-                                            alt="">
+                                        <img src="{{ asset('assets/clients/images/vegetable/product/11.png') }}"
+                                            class="blur-up lazyload" alt="">
                                     </a>
 
                                     <a href="shop-left-sidebar.html" class="deal-contain">
@@ -344,8 +347,8 @@
                             <li class="list-3">
                                 <div class="deal-offer-contain">
                                     <a href="shop-left-sidebar.html" class="deal-image">
-                                        <img src="{{ asset('assets/clients/images/vegetable/product/12.png') }}" class="blur-up lazyload"
-                                            alt="">
+                                        <img src="{{ asset('assets/clients/images/vegetable/product/12.png') }}"
+                                            class="blur-up lazyload" alt="">
                                     </a>
 
                                     <a href="shop-left-sidebar.html" class="deal-contain">
@@ -358,8 +361,8 @@
                             <li class="list-1">
                                 <div class="deal-offer-contain">
                                     <a href="shop-left-sidebar.html" class="deal-image">
-                                        <img src="{{ asset('assets/clients/images/vegetable/product/13.png') }}" class="blur-up lazyload"
-                                            alt="">
+                                        <img src="{{ asset('assets/clients/images/vegetable/product/13.png') }}"
+                                            class="blur-up lazyload" alt="">
                                     </a>
 
                                     <a href="shop-left-sidebar.html" class="deal-contain">
@@ -425,7 +428,7 @@
                 this.classList.add('active');
             });
         });
-    
+
         const sizeOptions = document.querySelectorAll('#size-options .option-item');
         sizeOptions.forEach(item => {
             item.addEventListener('click', function() {
@@ -435,16 +438,16 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const qtyInputs = document.querySelectorAll('.qty-box');
-    
+
             qtyInputs.forEach(qtyInput => {
                 const plusButton = qtyInput.querySelector('.qty-right-plus');
                 const minusButton = qtyInput.querySelector('.qty-left-minus');
                 const inputField = qtyInput.querySelector('.qty-input');
-    
+
                 // Tăng số lượng
-                plusButton.addEventListener('click', function () {
+                plusButton.addEventListener('click', function() {
                     let currentValue = parseInt(inputField.value);
                     if (!isNaN(currentValue)) {
                         inputField.value = currentValue + 1;
@@ -452,21 +455,27 @@
                         inputField.value = 1; // Nếu giá trị không hợp lệ, đặt về 1
                     }
                 });
-    
+
                 // Giảm số lượng
-                minusButton.addEventListener('click', function () {
+                minusButton.addEventListener('click', function() {
                     let currentValue = parseInt(inputField.value);
                     if (!isNaN(currentValue) && currentValue > 0) {
                         inputField.value = currentValue - 1;
-                    } 
+                    }
                     // Không giảm dưới 0
                 });
             });
         });
     </script>
-    
+
+
+
+
+
+
 </body>
 
 
 <!-- Mirrored from themes.pixelstrap.com/fastkart/front-end/index-9.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Sep 2024 12:27:22 GMT -->
+
 </html>
