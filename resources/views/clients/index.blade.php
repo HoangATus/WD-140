@@ -39,12 +39,14 @@
                             <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp">
                                 <div>
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/t-shirt.svg"
-                                        class="blur-up lazyload" alt="">
-                                    <h5>Áo thun</h5>
+                                    class="blur-up lazyload" alt="">
+                                    <h5>Tất cả sản phẩm</h5>
                                 </div>
                             </a>
                         </div>
+
                         <!-- Các danh mục khác... -->
+
                     </div>
                 </div>
             </div>
@@ -53,6 +55,7 @@
 
     <!-- Sản phẩm Section Start -->
     <div class="container">
+
         <div class="container-fluid-lg">
             <div class="section-b-space">
                 <div class="title">
@@ -83,6 +86,7 @@
                                     <div class="mt-3">
                                         <a href="{{ route('products.show', $product->slug) }}" class="btn btn-secondary">Thêm giỏ hàng</a>
                                     </div>
+
                                 </div>
                             </div>
                         @endforeach
@@ -149,8 +153,10 @@
         </div>
     </section>
 
+
     <!-- Sản phẩm bán chạy Section Start -->
     <section class="product-section product-section-3">
+
         <div class="container-fluid-lg">
             <div class="title">
                 <h2>SẢN PHẨM BÁN CHẠY</h2>
@@ -186,8 +192,10 @@
                 </div>
             </div>
         </div>
+
     </section>
     <!-- Sản phẩm bán chạy Section End -->
+
 
     <!-- Newsletter Section Start -->
     <section class="newsletter-section section-b-space">
