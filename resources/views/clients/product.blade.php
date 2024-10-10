@@ -116,7 +116,7 @@
                                                         <input class="checkbox_animated" id="fruit" type="checkbox" name="price_range[]" value="200000-500000"
                                                             {{ in_array('200000-500000', request('price_range', [])) ? 'checked' : '' }}>
                                                             <label class="form-check-label" for="fruit">
-                                                                <span class="name"> 200k - 500k</span>
+                                                                <span class="name"> 300k - 500k</span>
                                                             </label>
                                                     </div>
                                                 
@@ -376,14 +376,14 @@
                     </div>
                     @foreach ($item->variants as $variant)
                     <h5 class="price">
-                        <span class="theme-color">{{ number_format($variant->variant_sale_price, 0, ',', '.') }}</span>
+                        <span class="text-danger">{{ number_format($variant->variant_sale_price, 0, ',', '.') }}</span>
                         <del>{{ number_format($variant->variant_listed_price, 0, ',', '.') }}</del>
                     </h5>
                     @endforeach
                     <div class="add-to-cart-box bg-white">
-                        <button class="btn btn-add-cart addcart-button">Thêm vào giỏ
+                        <button class="btn btn-add-cart addcart-button btn-secondary">Thêm vào giỏ
                             <span class="add-icon bg-light-gray">
-                                <i class="fa-solid fa-plus"></i>
+                                <i class="bi bi-cart"></i>
                             </span>
                         </button>
                     </div>

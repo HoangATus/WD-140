@@ -41,61 +41,66 @@
                             <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp">
                                 <div>
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/t-shirt.svg"
-                                        class="blur-up lazyload" alt="">
+                                    class="blur-up lazyload" alt="">
+                                    <h5>Tất cả sản phẩm</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp">
+                                <div>
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/t-shirt.svg"
+                                    class="blur-up lazyload" alt="">
                                     <h5>Áo thun</h5>
                                 </div>
                             </a>
                         </div>
-
-                        <div>
-                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp"
-                                data-wow-delay="0.05s">
-                                <div>
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/jeans.svg"
-                                        class="blur-up lazyload" alt="">
-                                    <h5>Bomber</h5>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div>
-                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp"
-                                data-wow-delay="0.1s">
-                                <div>
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/cords.svg"
-                                        class="blur-up lazyload" alt="">
-                                    <h5>Vest</h5>
-                                </div>
-                            </a>
-                        </div>
-
                         <div>
                             <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp"
                                 data-wow-delay="0.15s">
                                 <div>
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/jacket.svg"
                                         class="blur-up lazyload" alt="">
-                                    <h5>jacket</h5>
+                                    <h5>Bomber</h5>
                                 </div>
                             </a>
                         </div>
-
+                        
+                        <div>
+                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp"
+                                data-wow-delay="0.1s">
+                                <div>
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/blzer.svg"
+                                        class="blur-up lazyload" alt="">
+                                    <h5>Vest</h5>
+                                </div>
+                            </a>
+                        </div>
                         <div>
                             <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp"
                                 data-wow-delay="0.2s">
                                 <div>
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/blzer.svg"
                                         class="blur-up lazyload" alt="">
-                                    <h5>Quần tây</h5>
+                                    <h5>Jacket</h5>
                                 </div>
                             </a>
                         </div>
-
+                        <div>
+                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp"
+                            data-wow-delay="0.05s">
+                            <div>
+                                <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/jeans.svg"
+                                class="blur-up lazyload" alt="">
+                                <h5>Quần tây</h5>
+                            </div>
+                        </a>
+                    </div>
                         <div>
                             <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp"
                                 data-wow-delay="0.25s">
                                 <div>
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/shapewear.svg"
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/jeans.svg"
                                         class="blur-up lazyload" alt="">
                                     <h5>Quần jean</h5>
                                 </div>
@@ -106,7 +111,7 @@
                             <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp"
                                 data-wow-delay="0.3s">
                                 <div>
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/sleepwear.svg"
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/jeans.svg"
                                         class="blur-up lazyload" alt="">
                                     <h5>Quần ống rộng</h5>
                                 </div>
@@ -442,16 +447,29 @@
                                 <a href="{{ route('product.index' , $product->slug) }}">
                                     <h5 class="product-name">{{ $product->product_name }}</h5>
                                 </a>
+                                <div class="product-rating mt-2">
+                                    <ul class="rating">
+                                        <li><i data-feather="star" class="fill"></i></li>
+                                        <li><i data-feather="star" class="fill"></i></li>
+                                        <li><i data-feather="star" class="fill"></i></li>
+                                        <li><i data-feather="star" class="fill"></i></li>
+                                        <li><i data-feather="star"></i></li>
+                                    </ul>
+                                    <span>(4.0)</span>
+                                </div>
                                 @foreach ($product->variants as $variant)
-                                    <del> {{ number_format($variant->variant_listed_price, 0, ',', '.') }} VND
-                                    </del>
-                                    <a class="text-danger"> {{ number_format($variant->variant_sale_price, 0, ',', '.') }}
-                                        VND
-                                    </a>
+                                <h5 class="price">
+                                    <span class="text-danger">{{ number_format($variant->variant_sale_price, 0, ',', '.') }}</span>
+                                    <del>{{ number_format($variant->variant_listed_price, 0, ',', '.') }}</del>
+                                </h5>
                                 @endforeach
                                 <!-- Nút "Xem ngay" -->
-                                <div class="mt-3">
-                                    <a href="{{ route('product.index' , $product->slug) }}" class="btn btn-secondary">Thêm giỏ hàng</a>
+                                <div class="add-to-cart-box btn-custom">
+                                    <button class="btn btn-add-cart addcart-button btn-secondary">Thêm vào giỏ
+                                        <span class="add-icon bg-light-gray">
+                                            <i class="bi bi-cart"></i>
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -542,7 +560,7 @@
         </div>
     </section>
     <!-- Deal Section Start -->
-    <section class="product-section product-section-3">
+    {{-- <section class="product-section product-section-3">
         <div class="container-fluid-lg">
             <div class="title">
                 <h2>SẢN PHẨM BÁN CHẠY</h2>
@@ -579,7 +597,7 @@
             </div>
 
         </div>
-    </section>
+    </section> --}}
     <!-- Deal Section End -->
 
     <!-- Newsletter Section Start -->
