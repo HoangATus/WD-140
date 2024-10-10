@@ -74,43 +74,81 @@
                             <div class="accordion custom-accordion" id="accordionExample">
                                 <div class="accordion-item">
                                     <h4 class="accordion-header" id="headingOne">
-                                        <span><strong>Chọn danh mục:</strong></span>
+                                        <span><strong>Chọn Danh Mục:</strong></span>
                                     </h4>
                                     <div id="collapseOne" class="accordion-collapse collapse show">
-                                        <form method="GET" action="{{ route('products.index') }}">
-                                            <div class="category-filter">
-                                               
-                                                @foreach ($listCategory as $category)
-                                                    <label>
-                                                        <input type="checkbox" name="category_ids[]" value="{{ $category->id }}" 
+                                        <div class="accordion-body">
+                                            <form method="GET" action="{{ route('products.index') }}">
+                                                <ul class="category-list custom-padding custom-height">
+                                                    @foreach ($listCategory as $category)
+                                                    <li>
+                                                        <div class="form-check ps-0 m-0 category-list-box">
+                                                            <input class="checkbox_animated" type="checkbox" id="fruit" name="category_ids[]" value="{{ $category->id }}" 
                                                             {{ in_array($category->id, request()->input('category_ids', [])) ? 'checked' : '' }}>
-                                                        {{ $category->name }}
-                                                    </label>
-                                                @endforeach
+                                                            <label class="form-check-label" for="fruit">
+                                                                <span class="name"> {{ $category->name }}</span>
+                                                                <span class="number">({{$category->products_count}})</span>
+                                                                
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    @endforeach
+                                                </ul>
+                                                <h4 class="accordion-header mt-3" id="headingOne">
+                                                    <span><strong>Khoảng Giá:</strong></span>
+                                                </h4>
+                                                
+                                                    <div class="form-check ps-0 m-0 category-list-box mt-3">
+                                                        <input class="checkbox_animated" id="fruit" type="checkbox" name="price_range[]" value="0-100000"
+                                                        {{ in_array('0-100000', request('price_range', [])) ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="fruit">
+                                                            <span class="name"> 0 - 100k</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check ps-0 m-0 category-list-box mt-2">
+                                                        <input class="checkbox_animated" id="fruit" type="checkbox" name="price_range[]" value="100000-200000"
+                                                            {{ in_array('100000-200000', request('price_range', [])) ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="fruit">
+                                                                <span class="name"> 100k - 200k</span>
+                                                            </label>
+                                                    </div>
+                                                    <div class="form-check ps-0 m-0 category-list-box mt-2">
+                                                        <input class="checkbox_animated" id="fruit" type="checkbox" name="price_range[]" value="200000-500000"
+                                                            {{ in_array('200000-500000', request('price_range', [])) ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="fruit">
+                                                                <span class="name"> 300k - 500k</span>
+                                                            </label>
+                                                    </div>
+                                                
+                                                
+                                            <div class="mt-3">
+                                                <button class="btn btn-sm" type="submit" style=" background-color: green; color: white; width:100%;">Lọc</button>
                                             </div>
-                                        
-                                            <button type="submit">Lọc</button>
-                                        </form>
-                                                                        
+                                            </form>
+                                        </div>                              
                                     </div>
                                 </div>
-                                <div class="accordion-item">
+                                {{-- <div class="accordion-item">
                                     <h4 class="accordion-header" id="headingThree">
-                                        <span><strong>Giá</strong></span>
+                                        <span><strong>Giá: </strong></span>
                                     </h4>
                                     <div id="collapseThree" class="accordion-collapse collapse show">
                                         <div class="accordion-body">
-                                            <div class="range-slider">
-                                                <input type="text" id="priceRange" class="js-range-slider" value="">
-                                                <div class="price-output">
-                                                    Giá đã chọn: <span id="priceValue">₫0 - ₫0</span>
-                                                </div>
-                                            </div>
+                                            <form action="{{ route('products.index') }}" method="GET">
+                                                <select name="price_range" class="form-select" onchange="this.form.submit()">
+                                                    <option value="">Chọn khoảng giá</option>
+                                                    <option value="0-100" {{ request('price_range') == '0-100' ? 'selected' : '' }}>0 - 100</option>
+                                                    <option value="100-200" {{ request('price_range') == '100-200' ? 'selected' : '' }}>100 - 200</option>
+                                                    <option value="200-300" {{ request('price_range') == '200-300' ? 'selected' : '' }}>200 - 300</option>
+                                                    <option value="300-400" {{ request('price_range') == '300-400' ? 'selected' : '' }}>300 - 400</option>
+                                                    <option value="400+" {{ request('price_range') == '400+' ? 'selected' : '' }}>400+</option>
+                                                </select>
+                                            </form>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             
-                               
+                               {{-- Lọc theo đánh giá
                                 <div class="accordion-item">
                                     <h4 class="accordion-header" id="headingSix">
                                         <span><strong>Xếp hạng</strong></span>
@@ -250,9 +288,11 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -279,10 +319,10 @@
                                                     Giá cao - thấp
                                                     @break
                                                 @case('aToz')
-                                                    A - Z
+                                                    Tên từ A - Z
                                                     @break
                                                 @case('zToa')
-                                                    Z - A
+                                                    Tên từ Z - A
                                                     @break
                                                 @default
                                                     Chọn sắp xếp
@@ -291,101 +331,71 @@
                                         <i class="fa-solid fa-angle-down"></i>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" href="{{ route('products.index', array_merge(request()->all(), ['sort' => 'low'])) }}">Low - High Price</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('products.index', array_merge(request()->all(), ['sort' => 'high'])) }}">High - Low Price</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('products.index', array_merge(request()->all(), ['sort' => 'aToz'])) }}">A - Z Order</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('products.index', array_merge(request()->all(), ['sort' => 'zToa'])) }}">Z - A Order</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('products.index', array_merge(request()->all(), ['sort' => 'low'])) }}">Giá thấp - cao</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('products.index', array_merge(request()->all(), ['sort' => 'high'])) }}">Giá cao - thấp</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('products.index', array_merge(request()->all(), ['sort' => 'aToz'])) }}">Tên từ A - Z</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('products.index', array_merge(request()->all(), ['sort' => 'zToa'])) }}">Tên từ Z - A</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        
                         
                     
                     </div>
 
                     <div
                         class="row g-sm-4 g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-3 row-cols-2 product-list-section">
-                        @foreach ($listProduct as $item)
-                        <div>
-                           
-                                
-                            <div class="product-box-3 h-100 wow fadeInUp">
-                                <div class="product-header">
-                                    <div class="product-image">
-                                        <a href="product-left-thumbnail.html">
-                                            <img src="{{Storage::url($item->product_image_url)}}"
-                                                class="img-fluid blur-up lazyload"  alt="">
-                                        </a>
+                        @if($listProduct->isEmpty())
+    <p>Không có sản phẩm nào được tìm thấy.</p>
+@else
+    @foreach ($listProduct as $item)
+    <div>
+        <div class="product-box-3 h-100 wow fadeInUp">
+            <div class="product-header">
+                <div class="product-image">
+                    <a href="product-left-thumbnail.html">
+                        <img src="{{ Storage::url($item->product_image_url) }}"
+                             class="img-fluid blur-up lazyload" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="product-footer">
+                <div class="product-detail">
+                    <a href="product-left-thumbnail.html">
+                        <h5 class="name">{{ $item->product_name }}</h5>
+                    </a>
+                    <div class="product-rating mt-2">
+                        <ul class="rating">
+                            <li><i data-feather="star" class="fill"></i></li>
+                            <li><i data-feather="star" class="fill"></i></li>
+                            <li><i data-feather="star" class="fill"></i></li>
+                            <li><i data-feather="star" class="fill"></i></li>
+                            <li><i data-feather="star"></i></li>
+                        </ul>
+                        <span>(4.0)</span>
+                    </div>
+                    @foreach ($item->variants as $variant)
+                    <h5 class="price">
+                        <span class="text-danger">{{ number_format($variant->variant_sale_price, 0, ',', '.') }}</span>
+                        <del>{{ number_format($variant->variant_listed_price, 0, ',', '.') }}</del>
+                    </h5>
+                    @endforeach
+                    <div class="add-to-cart-box bg-white">
+                        <button class="btn btn-add-cart addcart-button btn-secondary">Thêm vào giỏ
+                            <span class="add-icon bg-light-gray">
+                                <i class="bi bi-cart"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+@endif
+    
 
-                                        <ul class="product-option">
-                                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Xem">
-                                                <a href="" >
-                                                    <i data-feather="eye"></i>
-                                                </a>
-                                            </li>
-
-                                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="So sánh">
-                                                <a href="compare.html">
-                                                    <i data-feather="refresh-cw"></i>
-                                                </a>
-                                            </li>
-
-                                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Danh sách mong muốn">
-                                                <a href="wishlist.html" class="notifi-wishlist">
-                                                    <i data-feather="heart"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="product-footer">
-                                    <div class="product-detail">
-                                       
-                                        <a href="product-left-thumbnail.html">
-                                            <h5 class="name">{{$item->product_name}}</h5>
-                                        </a>
-                                        
-                                        <div class="product-rating mt-2">
-                                            <ul class="rating">
-                                                <li>
-                                                    <i data-feather="star" class="fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i data-feather="star" class="fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i data-feather="star" class="fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i data-feather="star" class="fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i data-feather="star"></i>
-                                                </li>
-                                            </ul>
-                                            <span>(4.0)</span>
-                                        </div>
-                                        @foreach ($item->variants as $variant)
-                                            
-                                        <h5 class="price"><span class="theme-color">{{number_format($variant->variant_sale_price, 0, ',', '.')}}</span> <del>{{number_format($variant->variant_listed_price, 0, ',', '.')}}</del>
-                                        </h5>
-                                        @endforeach
-                                        <div class="add-to-cart-box bg-white">
-                                            <button class="btn btn-add-cart addcart-button">Thêm vào giỏ
-                                                <span class="add-icon bg-light-gray">
-                                                    <i class="fa-solid fa-plus"></i>
-                                                </span>
-                                            </button>
-                                           
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                        @endforeach
+                       
                     </div>
 
                     {{-- <nav class="custom-pagination">
@@ -411,6 +421,10 @@
                             </li>
                         </ul>
                     </nav> --}}
+
+                    <div class="pagination-area text-center mt-3">
+                        {{$listProduct->links('pagination::bootstrap-5')}}
+                    </div>
                 </div>
             </div>
         </div>
