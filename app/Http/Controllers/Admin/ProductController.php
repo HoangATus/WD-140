@@ -41,9 +41,55 @@ class ProductController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'colors', 'sizes'));
     }
 
-    public function store(StoreProductRequest $request)
+    // public function store(StoreProductRequest $request)
+    // {
+    //     // dd($request->all());
+    //     // dd($request->variants);
+    //     $data = $request->except(['variants', 'product_image_url', 'product_galleries']);
+    //     $data['product_code'] = $request->product_code;
+    //     // $data['product_code'] = $request->input('product_code');
+    //     $data['slug'] = Str::slug($data['product_name'] . '-' . $data['product_code']);
+    //     if (!empty($request->hasFile('product_image_url'))) {
+    //         $data['product_image_url'] = Storage::put('products', $request->file('product_image_url'));
+    //     }
+    //     try {
+    //         DB::beginTransaction();
+    //         $product = Product::query()->create($data);
+    //         // tạo dữ liệu cho bảng product variants
+    //         foreach ($request->variants as $item) {
+    //             Variant::query()->create([
+    //                 'attribute_size_id' => $item['attribute_size_name'],
+    //                 'attribute_color_id' => $item['name'],
+    //                 'variant_listed_price' => !empty($item['variant_listed_price']) ? $item['variant_listed_price'] : 0,
+    //                 'variant_sale_price' => !empty($item['variant_sale_price']) ? $item['variant_sale_price'] : 0,
+    //                 'variant_import_price' => !empty($item['variant_import_price']) ? $item['variant_import_price'] : 0,
+    //                 'image' => !empty($item['image']) ? Storage::put('variants', $item['image']) : '',
+    //                 'quantity' => !empty($item['quantity']) ? $item['quantity'] : 0,
+    //                 'product_id' => $product->id
+    //             ]);
+    //         }
+    //         // tạo dữ liệu cho bảng product gallery
+    //         foreach ($request->product_galleries as $item) {
+    //             ProductGallery::query()->create([
+    //                 'image' => Storage::put('product_galleries', $item),
+    //                 'product_id' => $product->id
+    //             ]);
+    //         }
+    //         DB::commit();
+    //         return redirect()->route('admins.products.index')->with('message', 'Thêm mới thành công');
+    //     } catch (\Exception $exception) {
+    //         DB::rollBack();
+    //         dd($exception->getMessage());
+    //         // thực hiện xóa ảnh trong storage
+    //         return back();
+    //     }
+    // }
+
+
+      public function store(StoreProductRequest $request)
     {
         // dd($request->all());
+        // dd($request->variants);
         $data = $request->except(['variants', 'product_image_url', 'product_galleries']);
         $data['product_code'] = $request->product_code;
         // $data['product_code'] = $request->input('product_code');
@@ -53,27 +99,31 @@ class ProductController extends Controller
         }
         try { 
             DB::beginTransaction();
-            // tạo dữ liệu bảng product
             $product = Product::query()->create($data);
             // tạo dữ liệu cho bảng product variants
-            foreach ($request->variants as $item) {
-                Variant::query()->create([
-                    'attribute_size_id' => $item['attribute_size_name'],
-                    'attribute_color_id' => $item['name'],
-                    'variant_listed_price' => !empty($item['variant_listed_price']) ? $item['variant_listed_price'] : 0,
-                    'variant_sale_price' => !empty($item['variant_sale_price']) ? $item['variant_sale_price'] : 0,
-                    'variant_import_price' => !empty($item['variant_import_price']) ? $item['variant_import_price'] : 0,
-                    'image' => !empty($item['image']) ? Storage::put('variants', $item['image']) : '',
-                    'quantity' => !empty($item['quantity']) ? $item['quantity'] : 0,
-                    'product_id' => $product->id
-                ]);
+            if (!is_null($request->variants) && is_array($request->variants)) {
+                foreach ($request->variants as $item) {
+                    Variant::query()->create([
+                        'attribute_size_id' => $item['attribute_size_name'],
+                        'attribute_color_id' => $item['name'],
+                        'variant_listed_price' => $item['variant_listed_price'] ?? 0,
+                        'variant_sale_price' => $item['variant_sale_price'] ?? 0,
+                        'variant_import_price' => $item['variant_import_price'] ?? 0,
+                        'image' => $item['image'] ? Storage::put('variants', $item['image']) : '',
+                        'quantity' => $item['quantity'] ?? 0,
+                        'product_id' => $product->id,
+                    ]);
+                }
             }
-            // tạo dữ liệu cho bảng product gallery
-            foreach ($request->product_galleries as $item) {
-                ProductGallery::query()->create([
-                    'image' => Storage::put('product_galleries', $item),
-                    'product_id' => $product->id
-                ]);
+    
+            // Kiểm tra nếu product_galleries không phải là null và là mảng
+            if (!is_null($request->product_galleries) && is_array($request->product_galleries)) {
+                foreach ($request->product_galleries as $item) {
+                    ProductGallery::query()->create([
+                        'image' => Storage::put('product_galleries', $item),
+                        'product_id' => $product->id,
+                    ]);
+                }
             }
             DB::commit();
             return redirect()->route('admins.products.index')->with('message', 'Thêm mới thành công');
@@ -84,7 +134,10 @@ class ProductController extends Controller
             return back();
         }
     }
-    public function show(Product $product) 
+
+
+    
+    public function show(Product $product)
     {
         //
         $product->load(['variants.size', 'variants.color', 'galleries']);

@@ -55,6 +55,7 @@
 
     {{-- Bootstrap 5 --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+
 </head>
 
 <body class="theme-color-5">
@@ -459,25 +460,10 @@
     </script>
 
 
-    <script>
-        const addToCartButton = document.querySelector('.addcart-button');
-        const colorOptions = document.querySelectorAll('.option-item-color');
-        const sizeOptions = document.querySelectorAll('.option-item-size');
 
-        addToCartButton.addEventListener('click', function() {
-            // Kiểm tra xem có tùy chọn màu hoặc kích thước nào khả dụng không
-            const availableColor = Array.from(colorOptions).some(option => !option.classList.contains(
-                'out-of-stock'));
-            const availableSize = Array.from(sizeOptions).some(option => !option.classList.contains(
-            'out-of-stock'));
 
-            if (!availableColor || !availableSize) {
-                alert('Vui lòng chọn màu và kích thước khả dụng!');
-            } else {
-                // Logic thêm vào giỏ hàng
-            }
-        });
-    </script>
+
+
 </body>
 
 

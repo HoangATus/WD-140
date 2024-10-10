@@ -1,11 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Clients; // Cập nhật namespace
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller; // Đảm bảo rằng Controller được sử dụng đúng
+namespace App\Http\Controllers\Clients;
+
+
+
 use App\Models\Product;
-use App\Models\Variant;
+use App\Models\Category;
+use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
+
+
 
 class ProductController extends Controller
 {
@@ -13,10 +19,45 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   
+    public function index(Request $request)
     {
-        return view('clients.product');
+        $query = Product::query(); // Khởi tạo query cho sản phẩm
+    
+        // Xử lý lọc theo danh mục
+        if ($request->has('category_ids')) {
+            $categoryIds = $request->input('category_ids'); // Lấy danh sách category_id từ request
+            $query->whereIn('category_id', $categoryIds); // Lọc theo nhiều danh mục
+        }
+    
+        // Xử lý sắp xếp
+        if ($request->has('sort')) {
+            switch ($request->sort) {
+                case 'low':
+                    $query->orderBy('price', 'asc'); // Giá từ thấp tới cao
+                    break;
+                case 'high':
+                    $query->orderBy('price', 'desc'); // Giá từ cao tới thấp
+                    break;
+                case 'aToz':
+                    $query->orderBy('product_name', 'asc'); // Tên từ A-Z
+                    break;
+                case 'zToa':
+                    $query->orderBy('product_name', 'desc'); // Tên từ Z-A
+                    break;
+            }
+        }
+    
+        // Lấy danh sách sản phẩm sau khi lọc và sắp xếp
+        $listProduct = $query->get();
+        $listCategory = Category::withCount('products')->get(); // Lấy danh sách danh mục
+    
+        return view('clients.product', compact('listProduct', 'listCategory'));
     }
+    
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -47,6 +88,8 @@ class ProductController extends Controller
         ->get();
         return view('clients.productDetail', compact('products', 'relatedProducts'));
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.

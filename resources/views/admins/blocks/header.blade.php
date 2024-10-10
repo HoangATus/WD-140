@@ -180,7 +180,7 @@
                         <div class="dropdown-divider"></div>
 
                         <!-- item-->
-                        <a class='dropdown-item notify-item' href="{{ route('home.index') }}">
+                        <a class='dropdown-item notify-item' href="{{ route('home') }}">
                             <i class="mdi mdi-location-exit fs-16 align-middle"></i>
                             <span>Trang người dùng</span>
                         </a>
