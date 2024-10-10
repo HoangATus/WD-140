@@ -160,13 +160,13 @@
                                                 $color = $variant->color->name;
                                                 $size = $variant->size->attribute_size_name;
                                                 $quantity = $variant->quantity;
-
+                                
                                                 // Đếm số lượng sản phẩm theo màu
                                                 if (!isset($colorCounts[$color])) {
                                                     $colorCounts[$color] = 0;
                                                 }
                                                 $colorCounts[$color] += $quantity; // Cộng dồn số lượng sản phẩm theo màu
-
+                                
                                                 // Đếm số lượng sản phẩm theo kích thước (không phân biệt màu)
                                                 if (!isset($sizeCounts[$size])) {
                                                     $sizeCounts[$size] = 0;
@@ -174,16 +174,17 @@
                                                 $sizeCounts[$size] += $quantity; // Cộng dồn số lượng sản phẩm theo kích thước
                                             }
                                         @endphp
-
+                                
                                         <!-- Hiển thị màu sắc và tổng số lượng -->
                                         @foreach ($colorCounts as $color => $totalQuantity)
                                             <button class="option-item-color btn-color" data-color="{{ $color }}"
                                                 data-quantity="{{ $totalQuantity }}">
-                                                {{ $color }} ({{ $totalQuantity }})
+                                                <span class="color-name">{{ $color }} ({{ $totalQuantity }})</span>
+                                                <span class="checkmark" style="display: none;"><i class="fa-solid fa-check"></i></span>
                                             </button>
                                         @endforeach
                                     </div>
-
+                                
                                     <!-- Kích thước -->
                                     <div class="option-title">Kích thước:</div>
                                     <div class="option-list" id="size-options">
@@ -191,11 +192,13 @@
                                             <!-- Hiển thị kích thước và tổng số lượng -->
                                             <button class="option-item-size btn-size" data-size="{{ $size }}"
                                                 data-total-quantity="{{ $totalQuantity }}">
-                                                {{ $size }} ({{ $totalQuantity }})
+                                                <span class="size-name">{{ $size }} ({{ $totalQuantity }})</span>
+                                                <span class="checkmark" style="display: none;"><i class="fa-solid fa-check"></i></span>
                                             </button>
                                         @endforeach
                                     </div>
                                 </div>
+                                
 
                                 <!-- Thêm Trường Hiển Thị Số Lượng Có Sẵn -->
                                 <div class="available-quantity" id="available-quantity" style="margin-top: 10px;">

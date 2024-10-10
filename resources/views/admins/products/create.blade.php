@@ -143,7 +143,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @php $rows = old('variants') ? count(old('variants')) : 2; @endphp
+                                                @php $rows = old('variants') ? count(old('variants')) : 1; @endphp
                                                 @for ($index = 1; $index <= $rows; $index++)
                                                     <tr>
                                                         <td>
