@@ -209,7 +209,7 @@
                                     <div class="product-box-3 h-100 wow fadeInUp">
                                         <div class="product-header">
                                             <div class="product-image">
-                                                <a href="product-left-thumbnail.html">
+                                                <a href="{{ route('products.show', $item->slug) }}">
                                                     <img src="{{ Storage::url($item->product_image_url) }}"
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
@@ -220,7 +220,7 @@
                                                 <a href="product-left-thumbnail.html">
                                                     <h5 class="name">{{ $item->product_name }}</h5>
                                                 </a>
-                                                <div class="product-rating mt-2">
+                                                {{-- <div class="product-rating mt-2">
                                                     <ul class="rating">
                                                         <li><i data-feather="star" class="fill"></i></li>
                                                         <li><i data-feather="star" class="fill"></i></li>
@@ -229,16 +229,19 @@
                                                         <li><i data-feather="star"></i></li>
                                                     </ul>
                                                     <span>(4.0)</span>
-                                                </div>
-                                                @foreach ($item->variants as $variant)
+                                                </div> --}}
+                                                @if ($item->variants->isNotEmpty())
+                                                    @php
+                                                        $firstVariant = $item->variants->first();
+                                                    @endphp
                                                     <h5 class="price">
                                                         <span
-                                                            class="text-danger">{{ number_format($variant->variant_sale_price, 0, ',', '.') }}</span>
-                                                        <del>{{ number_format($variant->variant_listed_price, 0, ',', '.') }}</del>
+                                                            class="text-danger">{{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }}</span>
+                                                        <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }}</del>
                                                     </h5>
-                                                @endforeach
+                                                @endif
                                                 <div class="add-to-cart-box bg-white">
-                                                    <button class="btn btn-add-cart addcart-button btn-secondary">Thêm vào
+                                                    <button class="btn btn-add-cart addcart-button ">Thêm vào
                                                         giỏ
                                                         <span class="add-icon bg-light-gray">
                                                             <i class="bi bi-cart"></i>
@@ -253,7 +256,7 @@
                         @endif
 
 
-                   </div>
+                    </div>
 
                     <div class="pagination-area text-center mt-3">
                         {{ $listProduct->links('pagination::bootstrap-5') }}
