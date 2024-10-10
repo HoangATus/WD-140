@@ -17,7 +17,8 @@
                                             <h1 class="heding-2">Chất Lượng Cao Cấp</h1>
                                             <h5 class="text-content">Quần áo chất lượng có sẵn ở đây!</h5>
                                             <button onclick="location.href = 'shop-left-sidebar.html';"
-                                                class="btn theme-bg-color btn-md text-white fw-bold mt-md-4 mt-2 mend-auto">Xem ngay <i class="fa-solid fa-arrow-right icon"></i></button>
+                                                class="btn theme-bg-color btn-md text-white fw-bold mt-md-4 mt-2 mend-auto">Xem
+                                                ngay <i class="fa-solid fa-arrow-right icon"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -39,7 +40,7 @@
                             <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp">
                                 <div>
                                     <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/t-shirt.svg"
-                                    class="blur-up lazyload" alt="">
+                                        class="blur-up lazyload" alt="">
                                     <h5>Tất cả sản phẩm</h5>
                                 </div>
                             </a>
@@ -76,15 +77,21 @@
                                         <h5 class="product-name">{{ $product->product_name }}</h5>
                                     </a>
                                     @if ($product->variants->isNotEmpty())
-                                        @foreach ($product->variants as $variant)
-                                            <del>{{ number_format($variant->variant_listed_price, 0, ',', '.') }} VND</del>
-                                            <a class="text-danger">{{ number_format($variant->variant_sale_price, 0, ',', '.') }} VND</a>
-                                        @endforeach
-                                    @else
-                                        <p>Không có biến thể nào</p>
+                                        @php
+                                            $firstVariant = $product->variants->first();
+                                        @endphp
+                                        <h5 class="price">
+                                            <span
+                                                class="text-danger">{{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }}</span>
+                                            <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }}</del>
+                                        </h5>
                                     @endif
-                                    <div class="mt-3">
-                                        <a href="{{ route('products.show', $product->slug) }}" class="btn btn-secondary">Thêm giỏ hàng</a>
+                                    <div class="add-to-cart-box $gray-900">
+                                        <button class="btn btn-add-cart addcart-button ">Thêm vào giỏ
+                                            <span class="add-icon bg-light-gray">
+                                                <i class="bi bi-cart"></i>
+                                            </span>
+                                        </button>
                                     </div>
 
                                 </div>
@@ -126,7 +133,8 @@
             <div class="row g-md-4 g-3">
                 <div class="col-xxl-8 col-xl-12 col-md-7">
                     <div class="banner-contain hover-effect">
-                        <img src="{{ asset('assets/clients/images/fashion/banner/1.jpg') }}" class="bg-img blur-up lazyload" alt="">
+                        <img src="{{ asset('assets/clients/images/fashion/banner/1.jpg') }}" class="bg-img blur-up lazyload"
+                            alt="">
                         <div class="banner-details p-center-left p-4">
                             <div>
                                 <h2 class="text-kaushan fw-normal theme-color">Chúng tôi có</h2>
@@ -140,7 +148,8 @@
                 </div>
 
                 <div class="col-xxl-4 col-xl-12 col-md-5">
-                    <img src="{{ asset('assets/clients/images/fashion/banner/2.jpg') }}" class="bg-img blur-up lazyload" alt="">
+                    <img src="{{ asset('assets/clients/images/fashion/banner/2.jpg') }}" class="bg-img blur-up lazyload"
+                        alt="">
                     <div class="banner-details p-center-left p-4 h-100">
                         <div>
                             <h2 class="text-kaushan fw-normal text-danger">Thiết kế hiện đại và hợp thời </h2>
@@ -155,7 +164,7 @@
 
 
     <!-- Sản phẩm bán chạy Section Start -->
-    <section class="product-section product-section-3">
+    {{-- <section class="product-section product-section-3">
 
         <div class="container-fluid-lg">
             <div class="title">
@@ -193,7 +202,7 @@
             </div>
         </div>
 
-    </section>
+    </section> --}}
     <!-- Sản phẩm bán chạy Section End -->
 
 
@@ -204,10 +213,11 @@
 @endsection
 
 @section('scripts')
-<script>
-    const variants = @json($products->map(function($product) {
-        return $product->variants;
-    }));
-    console.log(variants);
-</script>
+    <script>
+        const variants = @json(
+            $products->map(function ($product) {
+                return $product->variants;
+            }));
+        console.log(variants);
+    </script>
 @endsection
