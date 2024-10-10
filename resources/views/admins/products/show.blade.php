@@ -99,8 +99,8 @@
                                     <table class="table" id="variantTable">
                                         <thead>
                                             <tr>
-                                                <th>Size</th>
                                                 <th>Màu</th>
+                                                <th>Size</th>
                                                 <th>Số lượng</th>
                                                 <th>Ảnh</th>
                                                 <th>Giá nhập</th>
@@ -112,8 +112,8 @@
                                         <tbody>
                                             @foreach ($product->variants as $variant)
                                                 <tr>
-                                                    <td>{{ $variant->size->attribute_size_name ?? 'Không xác định' }}</td>
                                                     <td>{{ $variant->color->name ?? 'Không xác định' }}</td>
+                                                    <td>{{ $variant->size->attribute_size_name ?? 'Không xác định' }}</td>
                                                     <td>{{ $variant->quantity }}</td>
                                                     <td>
                                                         @if ($variant->image)
