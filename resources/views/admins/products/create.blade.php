@@ -156,6 +156,11 @@
                                                                         {{ $name }}</option>
                                                                 @endforeach
                                                             </select>
+                                                            @error("variants.{$index}")
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
                                                             @error("variants.$index.name")
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
@@ -174,6 +179,11 @@
                                                                     </option>
                                                                 @endforeach
                                                             </select>
+                                                            @error("variants.$index")
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
                                                             @error("variants.{$index}.attribute_size_name")
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
@@ -253,7 +263,6 @@
                                                     {{ $message }}
                                                 </div>
                                             @enderror
-
                                         </table>
                                         <div class="d-flex justify-content-end mt-3">
                                             <button type="button" id="addVariantButton"
@@ -264,7 +273,6 @@
                                 </div>
                             </div>
                         </div>
-
                         {{-- <script>
                             document.getElementById('addVariantButton').addEventListener('click', function() {
                                 // Get the variant table body
@@ -429,8 +437,6 @@
                                 });
                             });
                         </script>
-
-
                     </div>
                 </div>
             </div>
