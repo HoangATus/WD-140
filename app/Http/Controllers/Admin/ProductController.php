@@ -40,7 +40,7 @@ class ProductController extends Controller
         $colors = Color::query()->pluck('name', 'id')->all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'colors', 'sizes'));
     }
-    
+
     public function store(StoreProductRequest $request)
     {
         // dd($request->all());
@@ -89,9 +89,6 @@ class ProductController extends Controller
             return back();
         }
     }
-
-
-    
     public function show(Product $product)
     {
         //
@@ -99,8 +96,6 @@ class ProductController extends Controller
         $categories = Category::query()->pluck('name', 'id')->all();
         $sizes = AttributeSize::query()->pluck('attribute_size_name', 'id')->all();
         $colors = Color::query()->pluck('name', 'id')->all();
-
-        // Pass the data to the view
         return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'sizes', 'colors'));
     }
 
