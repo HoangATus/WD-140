@@ -115,7 +115,6 @@ class ProductController extends Controller
     public function show($slug)
     {
         $products = Product::with('variants')->where('slug', $slug)->firstOrFail();
-        $stockStatus = $this->getStockStatus($products);
         $relatedProducts = Product::with('variants')
         ->where('category_id', $products->category_id)
         ->where('id', '!=', $products->id )
