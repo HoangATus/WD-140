@@ -42,7 +42,7 @@ Route::resource('/cart', CartController::class);
 
 // Route cho đơn hàng đã mua
 Route::resource('/purchased', PurchasedOrderDetailsController::class);
-
+Route::get('/shop/category/{id}', [ShopController::class, 'listByCategory'])->name('shop.category');
 
 // Route cho trang admin
 Route::get('/admin/danhmucs', function () {
