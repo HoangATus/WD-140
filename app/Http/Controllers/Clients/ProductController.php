@@ -123,7 +123,7 @@ class ProductController extends Controller
         return view('clients.productDetail', compact('products', 'relatedProducts'));
     }
 
-    
+
 
     /**
      * Show the form for editing the specified resource.

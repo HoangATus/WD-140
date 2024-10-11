@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('user_phone_number')->nullable()->unique();
             $table->enum('role', [User::ROLE_ADMIN, User::ROLE_USER])->default(User::ROLE_USER);
             $table->rememberToken();
+            $table->boolean('is_banned')->default(false); 
+            $table->timestamp('banned_until')->nullable(); 
             $table->timestamps();
         });
     }

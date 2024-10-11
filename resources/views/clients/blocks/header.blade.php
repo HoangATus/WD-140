@@ -97,7 +97,7 @@
                                                         data-bs-toggle="dropdown">Giới thiệu</a>
                                             </li>
                                             <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="{{url('/product')}}">Sản phẩm</a>
+                                                <a class="nav-link dropdown-toggle" href="{{url('/products')}}">Sản phẩm</a>
                                             </li>
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="javascript:void(0)"
