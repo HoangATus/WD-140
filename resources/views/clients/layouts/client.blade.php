@@ -63,7 +63,18 @@
 
     <!-- Bootstrap JS (for dropdowns) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+<style>
+    .button-custom{
+    background-color: #417394; 
+    color: #fff; 
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    display: inline-block; 
+    font-size: 16px; 
+    font-weight: bold; 
+}
+</style>
 
 </head>
 
