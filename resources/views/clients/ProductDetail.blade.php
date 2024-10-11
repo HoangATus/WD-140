@@ -179,7 +179,7 @@
                                         @foreach ($colorCounts as $color => $totalQuantity)
                                             <button class="option-item-color btn-color" data-color="{{ $color }}"
                                                 data-quantity="{{ $totalQuantity }}">
-                                                <span class="color-name">{{ $color }} ({{ $totalQuantity }})</span>
+                                                <span class="color-name">{{ $color }} </span>
                                                 <span class="checkmark" style="display: none;"><i class="fa-solid fa-check"></i></span>
                                             </button>
                                         @endforeach
@@ -192,7 +192,7 @@
                                             <!-- Hiển thị kích thước và tổng số lượng -->
                                             <button class="option-item-size btn-size" data-size="{{ $size }}"
                                                 data-total-quantity="{{ $totalQuantity }}">
-                                                <span class="size-name">{{ $size }} ({{ $totalQuantity }})</span>
+                                                <span class="size-name">{{ $size }} </span>
                                                 <span class="checkmark" style="display: none;"><i class="fa-solid fa-check"></i></span>
                                             </button>
                                         @endforeach
@@ -327,7 +327,7 @@
                                             <a href="product-left-thumbnail.html">
                                                 <h5 class="name">{{ $relatedProduct->product_name }}</h5>
                                             </a>
-                                            <div class="product-rating mt-2">
+                                            {{-- <div class="product-rating mt-2">
                                                 <ul class="rating">
                                                     <li>
                                                         <i data-feather="star" class="fill"></i>
@@ -346,14 +346,14 @@
                                                     </li>
                                                 </ul>
                                                 {{-- <span>(5.0)</span> --}}
-                                            </div>
+                                            {{-- </div>  --}}
                                             <div class="product-detail">
                                                 <h3 class="theme-color price" id="current-price">
-                                                    {{ number_format($products->variants->first()->variant_sale_price, 0, ',', '.') }}
+                                                    {{ number_format($relatedProduct->variants->first()->variant_sale_price, 0, ',', '.') }}
                                                     ₫
                                                 </h3>
                                                 <del id="current-listed-price" class="text-content">
-                                                    {{ number_format($products->variants->first()->variant_listed_price, 0, ',', '.') }}
+                                                    {{ number_format($relatedProduct->variants->first()->variant_listed_price, 0, ',', '.') }}
                                                     ₫
                                                 </del>
                                             </div>
