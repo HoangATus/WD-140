@@ -22,7 +22,6 @@
 
                                     <div class="theme-form theme-form-2 mega-form">
 
-                                        <!-- Tiêu đề -->
                                         <div class="mb-4 row align-items-center">
                                             <label class="form-label-title col-sm-3 mb-0">Tiêu đề</label>
                                             <div class="col-sm-9">
@@ -33,7 +32,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- Ảnh -->
+                            
                                         <div class="mb-4 row align-items-center">
                                             <label class="form-label-title col-sm-3 mb-0">Ảnh</label>
                                             <div class="col-sm-9">
@@ -49,7 +48,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- Đường dẫn -->
+                 
                                         <div class="mb-4 row align-items-center">
                                             <label class="form-label-title col-sm-3 mb-0">Đường dẫn</label>
                                             <div class="col-sm-9">
@@ -71,18 +70,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Mô tả -->
-                                        <div class="mb-4 row align-items-center">
-                                            <label class="form-label-title col-sm-3 mb-0">Mô tả</label>
-                                            <div class="col-sm-9">
-                                                <textarea class="form-control" name="description">{{ old('description', $banner->description) }}</textarea>
-                                                @error('description')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <!-- Nút cập nhật -->
                                         <div class="row">
                                             <div class="col-sm-9 offset-sm-3">
                                                 <button type="submit" class="btn btn-primary">Cập nhật</button>
