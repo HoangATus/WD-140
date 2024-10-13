@@ -5,62 +5,109 @@ namespace App\Http\Controllers;
 use App\Models\Checkout;
 use App\Http\Requests\StoreCheckoutRequest;
 use App\Http\Requests\UpdateCheckoutRequest;
+use App\Mail\OrderConfirmationMail;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Variant;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        return view('clients.checkout.checkout');
+        $cart = session()->get('cart', []);
+        $total = 0;
+
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['quantity'];
+        }
+
+        return view('clients.checkout.index', compact('cart', 'total'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Xử lý đơn hàng
      */
-    public function create()
+    public function process(Request $request)
     {
-        //
+        $request->validate([
+            'name'    => 'required|string|max:255',
+            'phone'   => 'required|string|max:20',
+            'address' => 'required|string|max:500',
+            'notes'   => 'nullable|string|max:1000',
+        ]);
+
+        $cart = session()->get('cart', []);
+
+        if (empty($cart)) {
+            return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống.');
+        }
+
+        // Tính tổng tiền
+        $total = 0;
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['quantity'];
+        }
+
+        $params['order_code'] = $this->generateUniqueOrderCode();
+
+        // Tạo đơn hàng
+        $order = Order::create([
+            'user_id' => auth()->id(),
+            'order_code' => $params['order_code'],
+            'name'    => $request->name,
+            'phone'   => $request->phone,
+            'address' => $request->address,
+            'notes'   => $request->notes,
+            'total'   => $total,
+            'status'  => 'pending',
+            'payment_method' => $request->payment_method,
+        ]);
+
+        // Tạo các mục đơn hàng
+        foreach ($cart as $variant_id => $item) {
+            $variant = Variant::find($variant_id);
+
+            // Kiểm tra tồn kho
+            if ($variant->quantity < $item['quantity']) {
+                // Xử lý khi tồn kho không đủ
+                return redirect()->route('cart.index')->with('error', 'Số lượng sản phẩm ' . $item['product_name'] . ' không đủ.');
+            }
+
+            // Giảm tồn kho
+            $variant->quantity -= $item['quantity'];
+            $variant->save();
+
+            // Tạo mục đơn hàng
+            OrderItem::create([
+                'order_id'    => $order->id,
+                'variant_id'  => $variant_id,
+                'product_id'  => $item['product_id'],
+                'product_name'=> $item['product_name'],
+                'variant_name'=> $item['variant_name'],
+                'price'       => $item['price'],
+                'quantity'    => $item['quantity'],
+                'image'       => $item['image'],
+            ]);
+        }
+
+        // Xóa giỏ hàng sau khi đặt hàng thành công
+        session()->forget('cart');
+
+        return redirect()->route('checkout')->with('success', 'Đơn hàng của bạn đã được đặt thành công!');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCheckoutRequest $request)
+    function generateUniqueOrderCode()
     {
-        //
+        do {
+            $orderCode = 'ORD-' . Auth::id() . '-' . now()->timestamp;
+        } while (Order::where('order_code', $orderCode)->exists());
+
+        return $orderCode;
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Checkout $checkout)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Checkout $checkout)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCheckoutRequest $request, Checkout $checkout)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Checkout $checkout)
-    {
-        //
-    }
+   
 }
