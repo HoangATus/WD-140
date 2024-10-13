@@ -49,6 +49,7 @@
                             <tr align="center">
                                 <th>Mã Đơn Hàng</th>
                                 <th>Khách Hàng</th>
+                                <th>SDT</th>
                                 <th>Trạng Thái</th>
                                 <th>Tổng Tiền</th>
                                 <th>Phương Thức Thanh Toán</th>
@@ -60,6 +61,8 @@
                                 <tr align="center">
                                     <td>{{ $order->order_code }}</td>
                                     <td>{{ $order->name }}</td>
+                                    <td>{{ $order->phone }}</td>
+
                                     <td>
                                         @switch($order->status)
                                             @case('pending')

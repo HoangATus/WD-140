@@ -15,7 +15,19 @@ class Order extends Model
     const STATUS_COMPLETED = 'completed';
     const STATUS_CANCELED = 'canceled';
     const STATUS_FAILED = 'failed';
+    public static $statuss = [
+        'pending' => 'Chờ Xác Nhận',
+        'confirmed' => 'Đã Xác Nhận',
+        'shipped' => 'Đang Giao Hàng',
+        'completed' => 'Đã Hoàn Thành',
+        'canceled' => 'Đã Hủy',
+        'failed' => 'Giao Hàng Thất Bại',
+    ];
 
+    public function getStatussAttribute()
+    {
+        return self::$statuss[$this->status] ?? $this->status;
+    }
     protected $fillable = [
         'user_id',
         'order_code',
