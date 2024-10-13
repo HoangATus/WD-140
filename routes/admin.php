@@ -26,7 +26,6 @@ Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function
     Route::resource('attributeSizes', SizeController::class);
     Route::resource('products', ProductController::class);
     Route::resource('colors', ColorController::class);
-    Route::get('orders', [OrderController::class, 'index'])->name('admins.orders.index');
-    Route::get('orders', [OrderController::class, 'show'])->name('admins.orders.show');
+    Route::resource('orders', OrderController::class);
     Route::post('logout', [AuthController::class, 'logoutAdmin'])->name('logout');
 });
