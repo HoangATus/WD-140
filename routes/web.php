@@ -12,6 +12,7 @@ use App\Http\Controllers\Clients\ShopController;
 use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Clients\ProductController;
+use App\Http\Controllers\DetailsofpurchaseorderController;
 use App\Http\Controllers\Clients\ProfileController;
 use App\Http\Controllers\PurchasedOrderDetailsController;
 
@@ -32,7 +33,7 @@ Route::get('/', [ShopController::class, 'index'])->name('home'); // Giả địn
 
 // Route cho sản phẩm
 Route::resource('/products', ProductController::class)->parameters([
-    'products'=> 'slug'
+    'products' => 'slug'
 ]);
 
 
@@ -48,6 +49,8 @@ Route::get('/shop/category/{id}', [ShopController::class, 'listByCategory'])->na
 Route::get('/admin/danhmucs', function () {
     return view('admins.danhmucs.index');
 });
+// Route chi tiết 1 đơn hàng đã mua
+Route::resource('/detailsOrder', DetailsofpurchaseorderController::class);
 
 // Route cho hồ sơ người dùng
 
@@ -70,6 +73,3 @@ Route::get('/password/reset', [AuthController::class, 'showformRequest'])->name(
 
 // Route cho đăng xuất
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
-
