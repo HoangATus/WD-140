@@ -18,7 +18,7 @@
                         <img src="{{ asset('assets/admins/images/logo-sm.png') }}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('assets/admins/images/logo-dark.png') }}" alt="" height="24">
+                        <img src="{{ asset('assets/images/logoatus.png') }}" alt="" height="50">
                     </span>
                 </a>
             </div>
@@ -114,7 +114,7 @@
                     </div>
                 </li>
                 <li>
-                    <a class='tp-link' href="">
+                    <a class='tp-link' href="{{ route('admins.orders.index') }}">
                         <i data-feather="briefcase"></i>
 
                         <span>  Quản lý đơn hàng  </span>

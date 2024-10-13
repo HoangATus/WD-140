@@ -14,6 +14,7 @@ class Order extends Model
     const STATUS_SHIPPED = 'shipped';
     const STATUS_COMPLETED = 'completed';
     const STATUS_CANCELED = 'canceled';
+    const STATUS_FAILED = 'failed';
 
     protected $fillable = [
         'user_id',
@@ -42,7 +43,11 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
-
+    public function statusChanges()
+    {
+        return $this->hasMany(OrderStatusChange::class);
+    }
+    
     public function cancel()
     {
         if (in_array($this->status, [self::STATUS_PENDING, self::STATUS_CONFIRMED])) {
@@ -61,5 +66,18 @@ class Order extends Model
         }
 
         return false;
+    }
+    public function updateStatus($newStatus, $notes = null)
+    {
+        $oldStatus = $this->status;
+        $this->status = $newStatus; 
+        $this->save(); 
+
+        $this->statusChanges()->create([
+            'old_status' => $oldStatus,
+            'new_status' => $newStatus,
+            'notes' => $notes,
+            'changed_by' => auth()->id(), 
+        ]);
     }
 }

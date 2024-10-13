@@ -36,7 +36,7 @@ return new class extends Migration
             $table->bigInteger('total');
             // Tạo trường 'total' với kiểu dữ liệu số nguyên lớn (bigInteger), dùng để lưu tổng giá trị đơn hàng.
         
-            $table->enum('status', ['pending', 'confirmed', 'shipped', 'completed', 'canceled'])->default('pending');
+            $table->enum('status', ['pending', 'confirmed', 'shipped', 'completed', 'canceled','failed'])->default('pending');
             // Tạo trường 'status' với kiểu dữ liệu enum, chứa các trạng thái của đơn hàng.
             // Giá trị mặc định của trường này là 'pending', tức là đơn hàng đang chờ xử lý.
         
