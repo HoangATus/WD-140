@@ -19,8 +19,7 @@ class BannerController extends Controller
     {
         //
         $banners = Banner::query()->latest('id')->get();
-        return view(self::PATH_VIEW.__FUNCTION__,compact('banners'));
-
+        return view(self::PATH_VIEW . __FUNCTION__, compact('banners'));
     }
 
     /**
@@ -28,7 +27,7 @@ class BannerController extends Controller
      */
     public function create()
     {
-        return view(self::PATH_VIEW.__FUNCTION__);
+        return view(self::PATH_VIEW . __FUNCTION__);
     }
 
     /**
@@ -37,28 +36,27 @@ class BannerController extends Controller
     public function store(StoreBannerRequest $request)
     {
         $data = $request->except('image');
-    
+
         $data['is_active'] = $request->has('is_active') ? 1 : 0;
-        
+
         if ($request->hasFile('image')) {
             $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
         } else {
-            $data['image'] = '';  
+            $data['image'] = '';
         }
-    
+
         Banner::query()->create($data);
-    
+
         return redirect()->route('admins.banners.index')->with('message', 'Thêm mới thành công');
     }
-    
+
 
     /**
      * Display the specified resource.
      */
     public function show(Banner $banner)
     {
-        return view(self::PATH_VIEW.__FUNCTION__, compact('banner'));
-
+        return view(self::PATH_VIEW . __FUNCTION__, compact('banner'));
     }
 
     /**
@@ -66,8 +64,7 @@ class BannerController extends Controller
      */
     public function edit(Banner $banner)
     {
-        return view(self::PATH_VIEW.__FUNCTION__, compact('banner'));
-
+        return view(self::PATH_VIEW . __FUNCTION__, compact('banner'));
     }
 
     /**
@@ -76,6 +73,10 @@ class BannerController extends Controller
     public function update(UpdateBannerRequest $request, Banner $banner)
     {
         $data = $request->except('image');
+        $activeBannersCount = Banner::where('is_active', 1)->count();
+        if ($activeBannersCount == 1 && $request->is_active == 0 && $banner->is_active == 1) {
+            return redirect()->route('admins.banners.index')->with('success', 'Không thể tắt banner này vì đây là banner hoạt động duy nhất.');
+        }
         $data['is_active'] ??= 0;
         if ($request->hasFile('image')) {
             $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
@@ -88,13 +89,17 @@ class BannerController extends Controller
         $banner->update($data);
         return redirect()->route('admins.banners.index')->with('message', 'Cập nhật thành công');
     }
-    
+
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Banner $banner)
     {
-        //
+        $activeBannersCount = Banner::where('is_active', 1)->count();
+        if ($activeBannersCount == 1 && $banner->is_active == 1) {
+            return redirect()->back()->with('success', 'Không thể xóa banner này vì đây là banner hoạt động duy nhất.');
+        }
         $banner->delete();
         return back()->with('message', 'Xóa thành công');
     }

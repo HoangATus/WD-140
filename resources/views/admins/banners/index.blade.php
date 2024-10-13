@@ -29,7 +29,7 @@
                 <div class="card-header d-flex justify-content-between">
                     <h5 class="card-title mb-0">Danh sách</h5>
                     @if (session('success'))
-                    <div class="alert alert-success mt-3">
+                    <div class="alert alert-danger mt-3">
                         {{ session('success') }}
                     </div>
                 @endif
@@ -37,7 +37,7 @@
                     <div class="alert alert-success">
                         {{ session('message') }}
                     </div>
-                @endif
+                @endif 
                     <a href="{{ route('admins.banners.create') }}" class="btn btn-primary mb-3">Thêm mới</a>
                 </div>
                 <div class="card-body">
@@ -51,7 +51,6 @@
                                 <th>Ảnh</th>
                                 <th>Đường dẫn</th>
                                 <th>Trạng thái</th>
-                                <th>Mô tả</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -73,11 +72,6 @@
                                             ? '<span class="badge bg-success text-white">Hoạt động</span>'
                                             : '<span class="badge bg-danger text-white">Không hoạt động</span>' !!}
                                     </td>
-                                    <td class="align-middle">{{ $item->description }}</td>
-
-
-
-
                                     <td class="align-middle">
                                         <div class="d-flex justify-content-center">
                                             <a href="{{ route('admins.banners.show', $item) }}"

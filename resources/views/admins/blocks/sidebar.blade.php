@@ -18,7 +18,7 @@
                         <img src="{{ asset('assets/admins/images/logo-sm.png') }}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('assets/admins/images/logo-dark.png') }}" alt="" height="24">
+                        <img src="{{ asset('assets/images/logoatus.png') }}" alt="" height="50">
                     </span>
                 </a>
             </div>
@@ -32,7 +32,23 @@
                         <i data-feather="home"></i>Bảng điều khiển
                     </a>
                 </li>
-
+                <li>
+                    <a href="#sidebarError" data-bs-toggle="collapse">
+                        <i class="fa-solid fa-list"></i>
+                        <span> Danh Mục </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarError">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='tp-link' href="{{route('admins.categories.index')}}">- Quản lý danh mục</a>
+                            </li>
+                            <li>
+                                <a class='tp-link' href="{{route('admins.categories.create')}}">- Thêm mới danh mục</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <li>
                     <a href="#sidebarAuth" data-bs-toggle="collapse">
                         <i data-feather="package"></i>
@@ -52,23 +68,7 @@
                     </div>
                 </li>
 
-                <li>
-                    <a href="#sidebarError" data-bs-toggle="collapse">
-                        <i class="fa-solid fa-list"></i>
-                        <span> Danh Mục </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarError">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a class='tp-link' href="{{route('admins.categories.index')}}">- Quản lý danh mục</a>
-                            </li>
-                            <li>
-                                <a class='tp-link' href="{{route('admins.categories.create')}}">- Thêm mới danh mục</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+             
 
                 <li>
                     <a href="#sidebarExpages" data-bs-toggle="collapse">
@@ -94,23 +94,34 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#sidebarError" data-bs-toggle="collapse">
-                        <i class="fa-solid fa-list"></i>
-                        <span> Quản lý banner
-                        </span>
+                    <a href="#sidebarAdvancedUI" data-bs-toggle="collapse">
+                        <i data-feather="cpu"></i>
+                        <span>Quản lý banner </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarError">
+                    <div class="collapse" id="sidebarAdvancedUI">
                         <ul class="nav-second-level">
                             <li>
                                 <a class='tp-link' href="{{ route('admins.banners.index') }}">- Quản lý Banner</a>
+
                             </li>
                             <li>
                                 <a class='tp-link' href="{{ route('admins.banners.create') }}">- Thêm mới Banner</a>
+
                             </li>
+                           
                         </ul>
                     </div>
                 </li>
+                <li>
+                    <a class='tp-link' href="{{ route('admins.orders.index') }}">
+                        <i data-feather="briefcase"></i>
+
+                        <span>  Quản lý đơn hàng  </span>
+                    </a>
+                </li>
+               
+
             </ul>
 
         </div>

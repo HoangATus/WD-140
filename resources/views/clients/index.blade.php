@@ -17,7 +17,6 @@
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center" style="z-index: 2;">
                             <div class="p-3" style="max-width: 700px;">
                                 <h4 class="text-light text-uppercase font-weight-medium mb-3">{{ $banner->title }}</h4>
-                                <h3 class="display-4 text-white font-weight-semi-bold mb-4">{{ $banner->description }}</h3>
                                 @if($banner->link)
                                     <a href="{{ $banner->link }}" class="button-custom">Xem Ngay</a>
                                 @endif
@@ -35,16 +34,14 @@
         </div>
     </div>
     @else
-    <p class="text-center text-white">Hiện tại không có banner nào đang hoạt động.</p>
+    <p class="text-center text-success">Hiện tại không có banner nào đang hoạt động.</p>
     @endif
 </section>
 <!-- Home Section End -->
     <!-- Category Section Start -->
     <section>
         <div class="container-fluid-lg">
-            <div class="title">
-                <h2 class="mb-3">Danh mục</h2>
-            </div>
+         
             <div class="row">
                 <div class="col-12">
                     <div class="slider-9">
@@ -98,7 +95,7 @@
                                         </h5>
                                     @endif
                                     <div class="add-to-cart-box $gray-900">
-                                        <button class="btn btn-add-cart addcart-button ">Thêm vào giỏ
+                                        <button class="btn btn-add-cart addcart-button " onclick="addToCart()">Thêm vào giỏ
                                             <span class="add-icon bg-light-gray">
                                                 <i class="bi bi-cart"></i>
                                             </span>

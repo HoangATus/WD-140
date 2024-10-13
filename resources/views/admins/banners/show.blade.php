@@ -48,10 +48,7 @@
                                 </div>
                             </div>
 
-                            <!-- Ảnh -->
-                           
-
-                            <!-- Nút quay lại -->
+                            
                             <div class="row">
                                 <div class="col-sm-9 offset-sm-3">
                                     <a href="{{ route('admins.banners.index') }}" class="btn btn-primary">Quay lại</a>
