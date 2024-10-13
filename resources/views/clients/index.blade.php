@@ -95,7 +95,7 @@
                                         </h5>
                                     @endif
                                     <div class="add-to-cart-box $gray-900">
-                                        <button class="btn btn-add-cart addcart-button ">Thêm vào giỏ
+                                        <button class="btn btn-add-cart addcart-button " onclick="addToCart()">Thêm vào giỏ
                                             <span class="add-icon bg-light-gray">
                                                 <i class="bi bi-cart"></i>
                                             </span>
