@@ -44,6 +44,69 @@
                                 </div>
                             </a>
                         </div>
+                        <div>
+                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp">
+                                <div>
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/t-shirt.svg"
+                                    class="blur-up lazyload" alt="">
+                                    <h5>Áo thun</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp">
+                                <div>
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/t-shirt.svg"
+                                    class="blur-up lazyload" alt="">
+                                    <h5>Bomber</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp">
+                                <div>
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/t-shirt.svg"
+                                    class="blur-up lazyload" alt="">
+                                    <h5>Vest</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp">
+                                <div>
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/t-shirt.svg"
+                                    class="blur-up lazyload" alt="">
+                                    <h5>Quần tây</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp">
+                                <div>
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/t-shirt.svg"
+                                    class="blur-up lazyload" alt="">
+                                    <h5>Quần jean</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp">
+                                <div>
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/t-shirt.svg"
+                                    class="blur-up lazyload" alt="">
+                                    <h5>Quần tây</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="shop-left-sidebar.html" class="category-box category-dark wow fadeInUp">
+                                <div>
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/svg/fashion/t-shirt.svg"
+                                    class="blur-up lazyload" alt="">
+                                    <h5>Quần ống rộng</h5>
+                                </div>
+                            </a>
+                        </div>
 
                         <!-- Các danh mục khác... -->
 
@@ -52,10 +115,10 @@
             </div>
         </div>
     </section>
+    <br><br><br>
 
     <!-- Sản phẩm Section Start -->
     <div class="container">
-
         <div class="container-fluid-lg">
             <div class="section-b-space">
                 <div class="title">
@@ -75,16 +138,32 @@
                                     <a href="{{ route('products.show', $product->slug) }}">
                                         <h5 class="product-name">{{ $product->product_name }}</h5>
                                     </a>
+                                    <div class="product-rating mt-2">
+                                        <ul class="rating">
+                                            <li><i data-feather="star" class="fill"></i></li>
+                                            <li><i data-feather="star" class="fill"></i></li>
+                                            <li><i data-feather="star" class="fill"></i></li>
+                                            <li><i data-feather="star" class="fill"></i></li>
+                                            <li><i data-feather="star"></i></li>
+                                        </ul>
+                                        <span>(4.0)</span>
+                                    </div>
                                     @if ($product->variants->isNotEmpty())
                                         @foreach ($product->variants as $variant)
-                                            <del>{{ number_format($variant->variant_listed_price, 0, ',', '.') }} VND</del>
-                                            <a class="text-danger">{{ number_format($variant->variant_sale_price, 0, ',', '.') }} VND</a>
+                                        <h5 class="price">
+                                            <span class="text-danger">{{ number_format($variant->variant_sale_price, 0, ',', '.') }}</span>
+                                            <del>{{ number_format($variant->variant_listed_price, 0, ',', '.') }}</del>
+                                        </h5>
                                         @endforeach
                                     @else
                                         <p>Không có biến thể nào</p>
                                     @endif
-                                    <div class="mt-3">
-                                        <a href="{{ route('products.show', $product->slug) }}" class="btn btn-secondary">Thêm giỏ hàng</a>
+                                    <div class="add-to-cart-box $gray-900">
+                                        <button class="btn btn-add-cart addcart-button btn-secondary">Thêm vào giỏ
+                                            <span class="add-icon bg-light-gray">
+                                                <i class="bi bi-cart"></i>
+                                            </span>
+                                        </button>
                                     </div>
 
                                 </div>
@@ -155,7 +234,7 @@
 
 
     <!-- Sản phẩm bán chạy Section Start -->
-    <section class="product-section product-section-3">
+    {{-- <section class="product-section product-section-3">
 
         <div class="container-fluid-lg">
             <div class="title">
@@ -193,7 +272,7 @@
             </div>
         </div>
 
-    </section>
+    </section> --}}
     <!-- Sản phẩm bán chạy Section End -->
 
 
