@@ -9,7 +9,7 @@
 @section('content')
     {{-- {{ $product }} --}}
     {{-- {{$variants}} --}}
-    <form method="POST" action="{{ route('admins.products.update', $product->id) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('admins.products.update', $product->id) }}" id="product-form" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <!-- New Product Add Start -->
@@ -23,9 +23,9 @@
                                     <h5>Thông tin sản phẩm</h5>
                                 </div>
                                 @if (session('error'))
-                                <div class="alert alert-danger mt-3">
-                                    {{ session('error') }}
-                                </div>
+                                    <div class="alert alert-danger mt-3">
+                                        {{ session('error') }}
+                                    </div>
                                 @endif
                                 <div class="mb-4 row align-items-center mt-4">
                                     <label class="form-label-title col-sm-3 mb-0">Tên sản phẩm</label>
@@ -233,13 +233,14 @@
                                                                 </div>
                                                             @enderror
                                                         </td>
-
                                                         <td>
-                                                            <input type="number"
+                                                            <input type="text"
                                                                 name="variants[{{ $index }}][variant_import_price]"
+                                                                id="variant-import-price-{{ $index }}"
                                                                 class="form-control @error('variants.*.variant_import_price') is-invalid @enderror"
-                                                                step="0.01" min="0"
-                                                                value="{{ old("variants.$index.variant_import_price", $product->variants[$index]->variant_import_price) }}">
+                                                                value="{{ old("variants.$index.variant_import_price", number_format($product->variants[$index]->variant_import_price, 0, ',', '.')) }} VNĐ"
+                                                                onfocus="removeCurrencyFormat('import', {{ $index }})"
+                                                                onblur="formatCurrency('import', {{ $index }})">
                                                             @error("variants.$index.variant_import_price")
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
@@ -247,29 +248,63 @@
                                                             @enderror
                                                         </td>
                                                         <td>
-                                                            <input type="number"
+                                                            <input type="text"
                                                                 name="variants[{{ $index }}][variant_sale_price]"
+                                                                id="variant-sale-price-{{ $index }}"
                                                                 class="form-control @error('variants.*.variant_sale_price') is-invalid @enderror"
-                                                                step="0.01" min="0"
-                                                                value="{{ old("variants.$index.variant_sale_price", $product->variants[$index]->variant_sale_price) }}">
+                                                                value="{{ old("variants.$index.variant_sale_price", number_format($product->variants[$index]->variant_sale_price, 0, ',', '.')) }} VNĐ"
+                                                                onfocus="removeCurrencyFormat('sale', {{ $index }})"
+                                                                onblur="formatCurrency('sale', {{ $index }})">
                                                             @error("variants.$index.variant_sale_price")
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
                                                                 </div>
                                                             @enderror
                                                         </td>
+
                                                         <td>
-                                                            <input type="number"
+                                                            <input type="text"
                                                                 name="variants[{{ $index }}][variant_listed_price]"
+                                                                id="variant-listed-price-{{ $index }}"
                                                                 class="form-control @error('variants.*.variant_listed_price') is-invalid @enderror"
-                                                                step="0.01" min="0"
-                                                                value="{{ old("variants.$index.variant_listed_price", $product->variants[$index]->variant_listed_price) }}">
+                                                                value="{{ old("variants.$index.variant_listed_price", number_format($product->variants[$index]->variant_listed_price, 0, ',', '.')) }} VNĐ"
+                                                                onfocus="removeCurrencyFormat('listed', {{ $index }})"
+                                                                onblur="formatCurrency('listed', {{ $index }})">
                                                             @error("variants.$index.variant_listed_price")
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
                                                                 </div>
                                                             @enderror
                                                         </td>
+                                                        <script>
+                                                            document.getElementById('product-form').addEventListener('submit', function(event) {
+                                                                document.querySelectorAll('input[id^="variant-import-price-"]').forEach(function(input) {
+                                                                    let value = input.value.replace(/\./g, '').replace(' VNĐ', '').trim(); // Xóa định dạng VNĐ
+                                                                    input.value = value; // Gán lại giá trị đã xóa định dạng
+                                                                });
+                                                        
+                                                                // Lặp qua các trường khác nếu có
+                                                                document.querySelectorAll('input[id^="variant-sale-price-"], input[id^="variant-listed-price-"]').forEach(function(input) {
+                                                                    let value = input.value.replace(/\./g, '').replace(' VNĐ', '').trim(); // Xóa định dạng VNĐ
+                                                                    input.value = value; // Gán lại giá trị đã xóa định dạng
+                                                                });
+                                                            });
+                                                        
+                                                            function removeCurrencyFormat(type, index) {
+                                                                let input = document.getElementById('variant-' + type + '-price-' + index);
+                                                                let value = input.value.replace(/\./g, '').replace(' VNĐ', '').trim();
+                                                                input.value = value;
+                                                            }
+                                                        
+                                                            function formatCurrency(type, index) {
+                                                                let input = document.getElementById('variant-' + type + '-price-' + index);
+                                                                let value = parseFloat(input.value.replace(/\./g, '').replace(',', '.'));
+                                                                if (!isNaN(value)) {
+                                                                    input.value = new Intl.NumberFormat('vi-VN').format(value) + ' VNĐ';
+                                                                }
+                                                            }
+                                                        </script>
+                                                        
                                                         <td>
                                                             <button type="button"
                                                                 class="btn btn-danger remove-variant-button">Xóa</button>
@@ -396,7 +431,7 @@
                                             `variants[${i}][variant_listed_price]`;
                                     }
                                 }
-                        
+
                                 function addVariantRow() {
                                     var variantTable = document.getElementById('variantTable').getElementsByTagName('tbody')[0];
                                     var rowCount = variantTable.rows.length;
@@ -409,7 +444,7 @@
                                     var cellSalePrice = newRow.insertCell(5);
                                     var cellListedPrice = newRow.insertCell(6);
                                     var cellAction = newRow.insertCell(7);
-                        
+
                                     cellColor.innerHTML = `
                                         <select name="variants[${rowCount}][name]" class="form-select">
                                             <option selected>Màu</option>
@@ -418,7 +453,7 @@
                                             @endforeach
                                         </select>
                                     `;
-                        
+
                                     cellSize.innerHTML = `
                                         <select name="variants[${rowCount}][attribute_size_name]" class="form-select">
                                             <option selected>Size</option>
@@ -427,27 +462,27 @@
                                             @endforeach
                                         </select>
                                     `;
-                        
+
                                     cellQuantity.innerHTML = `
                                         <input type="number" name="variants[${rowCount}][quantity]" class="form-control" min="0" placeholder="Nhập số lượng...">
                                     `;
-                        
+
                                     cellImage.innerHTML = `
                                         <input type="file" name="variants[${rowCount}][image]" class="form-control">
                                     `;
-                        
+
                                     cellImportPrice.innerHTML = `
                                         <input type="number" name="variants[${rowCount}][variant_import_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá nhập...">
                                     `;
-                        
+
                                     cellSalePrice.innerHTML = `
                                         <input type="number" name="variants[${rowCount}][variant_sale_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá bán...">
                                     `;
-                        
+
                                     cellListedPrice.innerHTML = `
                                         <input type="number" name="variants[${rowCount}][variant_listed_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá niêm yết...">
                                     `;
-                        
+
                                     cellAction.innerHTML = `
                                         <button type="button" class="btn btn-danger remove-variant-button">Xóa</button>
                                     `;
@@ -456,7 +491,7 @@
                                         updateRowIndices(); // Cập nhật chỉ số sau khi xóa
                                     });
                                 }
-                        
+
                                 document.getElementById('addVariantButton').addEventListener('click', addVariantRow);
                                 document.querySelectorAll('.remove-variant-button').forEach(function(button) {
                                     button.addEventListener('click', function() {
@@ -466,7 +501,7 @@
                                 });
                             });
                         </script>
-                        
+
                     </div>
                 </div>
             </div>
