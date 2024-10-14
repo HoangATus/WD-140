@@ -45,7 +45,24 @@ class OrderController extends Controller
         return view('clients.orders.show', compact('order'));
     }
 
-    
+
+
+    /**
+     * Hiển thị form hủy đơn hàng
+     */
+    public function showCancelForm(Order $order)
+    {
+        if ($order->user_id !== Auth::user()->user_id) {
+            abort(403, 'Bạn không có quyền hủy đơn hàng này.');
+        }
+
+        // Kiểm tra trạng thái đơn hàng có thể hủy không
+        if (!in_array($order->status, ['pending', 'confirmed'])) {
+            return redirect()->route('orders.index')->with('error', 'Bạn chỉ có thể hủy các đơn hàng đang chờ xử lý hoặc đã xác nhận.');
+        }
+
+        return view('clients.myorder.cancel', compact('order'));
+    }
 
     /**
      * Xử lý hủy đơn hàng
@@ -75,5 +92,4 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được hủy thành công và tồn kho đã được phục hồi.');
     }
-
 }
