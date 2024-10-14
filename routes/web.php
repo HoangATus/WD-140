@@ -13,6 +13,7 @@ use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Clients\OrderController;
 use App\Http\Controllers\Clients\ProductController;
+use App\Http\Controllers\DetailsofpurchaseorderController;
 use App\Http\Controllers\Clients\ProfileController;
 use App\Http\Controllers\MyOrderController;
 use App\Http\Controllers\PurchasedOrderDetailsController;
@@ -57,11 +58,13 @@ Route::middleware(['web'])->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-        Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+
         Route::post('/orders/{id}/repurchase', [OrderController::class, 'repurchase'])->name('orders.repurchase');
 
         Route::get('/my-orders', [MyOrderController::class, 'index'])->name('orders.index');
         Route::get('/my-orders/{order}', [MyOrderController::class, 'show'])->name('orders.show');
+
+        // Route DELETE cho cancel
         Route::post('/my-orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
         Route::post('/my-orders/{order}/reorder', [OrderController::class, 'reorder'])->name('orders.reorder');
         Route::get('/my-orders/{order}/cancel', [OrderController::class, 'showCancelForm'])->name('orders.cancel.form');
