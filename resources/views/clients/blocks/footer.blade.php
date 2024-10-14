@@ -3,7 +3,7 @@
         <div class="main-footer">
             <div class="row g-md-4 gy-sm-5">
                 <div class="col-xxl-3 col-xl-4 col-sm-6">
-                    <a href="index.html" class="foot-logo theme-logo">
+                    <a href="{{ url('/') }}" class="foot-logo theme-logo">
                         <img src="{{ asset('assets/images/logoatus.png') }}" class="img-fluid blur-up lazyload" alt="">
                     </a>
                     <p class="information-text information-text-2">Đây là một sự thật đã được thiết lập từ lâu rằng người đọc sẽ bị phân tâm bởi nội dung có thể đọc được.</p>
