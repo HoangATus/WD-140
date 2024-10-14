@@ -374,12 +374,15 @@
                         </ul>
                         <span>(4.0)</span>
                     </div>
-                    @foreach ($item->variants as $variant)
+                    @if ($item->variants->isNotEmpty())
+                    @php
+                        $firstVariant = $item->variants->first();
+                    @endphp
                     <h5 class="price">
-                        <span class="theme-color">{{ number_format($variant->variant_sale_price, 0, ',', '.') }}</span>
-                        <del>{{ number_format($variant->variant_listed_price, 0, ',', '.') }}</del>
+                        <span class="theme-color">{{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }}</span>
+                        <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }}</del>
                     </h5>
-                    @endforeach
+                @endif
                     <div class="add-to-cart-box bg-white">
                         <button class="btn btn-add-cart addcart-button">Thêm vào giỏ
                             <span class="add-icon bg-light-gray">
