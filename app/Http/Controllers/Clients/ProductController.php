@@ -10,8 +10,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
-
-
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -89,10 +88,6 @@ class ProductController extends Controller
 
 
 
-
-
-
-
     /**
      * Show the form for creating a new resource.
      */
@@ -112,16 +107,33 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($slug)
-    {
-        $products = Product::with('variants')->where('slug', $slug)->firstOrFail();
-        $relatedProducts = Product::with('variants')
-        ->where('category_id', $products->category_id)
-        ->where('id', '!=', $products->id )
-        ->take(7)
-        ->get();
-        return view('clients.productDetail', compact('products', 'relatedProducts'));
-    }
+
+     public function show($slug)
+     {
+         $product = Product::with(['galleries', 'variants.color', 'variants.size'])->where('slug', $slug)->firstOrFail();
+         $relatedProducts = Product::where('category_id', $product->category_id)
+                                   ->where('id', '!=', $product->id)
+                                   ->take(10)
+                                   ->get();
+     
+         // Prepare variants data
+         $variants = $product->variants->map(function($variant) {
+             return [
+                 'id' => $variant->id,
+                 'color' => $variant->color->name,
+                 'size' => $variant->size->attribute_size_name,
+                 'listed_price' => $variant->variant_listed_price,
+                 'sale_price' => $variant->variant_sale_price,
+                 'import_price' => $variant->variant_import_price,
+                 'quantity' => $variant->quantity ?? 0,
+                 'image' => Storage::url($variant->image),
+             ];
+         });
+     
+         return view('clients.productDetail', compact('product', 'relatedProducts', 'variants'));
+     }
+     
+
 
 
 

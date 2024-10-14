@@ -1,4 +1,4 @@
-<script>
+{{-- <script>
     window.variants = @json($products->variants ?? []);
     window.baseUrl = "{{ Storage::url('') }}";
 
@@ -182,4 +182,4 @@
             });
         });
     });
-</script>
+</script> --}}
