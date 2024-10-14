@@ -82,35 +82,40 @@
         </div>
     </div>
 
-<div class="card mb-4">
-    <div class="card-header">
-        <h4>#3. Lịch Sử Thay Đổi Trạng Thái</h4>
-    </div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Trạng Thái Thay Đổi</th>
-                    <th>Ghi Chú</th>
-                    <th>Người Thay Đổi</th>
-                    <th>Thời Gian</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($order->statusChanges as $key => $statusChange)
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>#3. Lịch Sử Thay Đổi Trạng Thái</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>{{ $statusChange->old_status }} --> {{ $statusChange->new_status }}</td>
-                        <td>{{ $statusChange->notes }}</td>
-                        <td>{{ $statusChange->user->user_name }}</td>
-                        <td>{{ $statusChange->created_at->format('H:i d/m/Y') }}</td> 
+                        <th>STT</th>
+                        <th>Trạng Thái Thay Đổi</th>
+                        <th>Ghi Chú</th>
+                        <th>Người Thay Đổi</th>
+                        <th>Thời Gian</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach($order->statusChanges as $key => $statusChange)
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td>
+                                {{ \App\Models\Order::$statuss[$statusChange->old_status] ?? $statusChange->old_status }} 
+                                --> 
+                                {{ \App\Models\Order::$statuss[$statusChange->new_status] ?? $statusChange->new_status }}
+                            </td>
+                            <td>{{ $statusChange->notes }}</td>
+                            <td>{{ $statusChange->user->user_name }}</td>
+                            <td>{{ $statusChange->created_at->format('H:i d/m/Y') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+    
 
 <div class="card mb-4">
     <div class="card-header">
