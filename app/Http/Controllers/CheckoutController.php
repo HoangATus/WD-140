@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Checkout;
-use App\Http\Requests\StoreCheckoutRequest;
-use App\Http\Requests\UpdateCheckoutRequest;
-use App\Mail\OrderConfirmationMail;
+use PayOS\PayOS;
 use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\Variant;
+use App\Models\Checkout;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use App\Mail\OrderConfirmationMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\StoreCheckoutRequest;
+use App\Http\Requests\UpdateCheckoutRequest;
 
 class CheckoutController extends Controller
 {
@@ -33,27 +34,32 @@ class CheckoutController extends Controller
      */
     public function process(Request $request)
     {
+        // Kiểm tra nếu có yêu cầu hủy đơn hàng
+        if ($request->has('cancel_order')) {
+            return $this->cancelOrder($request->input('order_id'));
+        }
+    
         $request->validate([
             'name'    => 'required|string|max:255',
             'phone'   => 'required|string|max:20',
             'address' => 'required|string|max:500',
             'notes'   => 'nullable|string|max:1000',
+            'payment_method' => 'required|in:cod,online',  // Chỉ chấp nhận COD hoặc online
         ]);
-
+    
         $cart = session()->get('cart', []);
-
+    
         if (empty($cart)) {
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống.');
         }
-
+    
         // Tính tổng tiền
-        $total = 0;
-        foreach ($cart as $item) {
-            $total += $item['price'] * $item['quantity'];
-        }
-
+        $total = array_reduce($cart, function ($carry, $item) {
+            return $carry + ($item['price'] * $item['quantity']);
+        }, 0);
+    
         $params['order_code'] = $this->generateUniqueOrderCode();
-
+    
         // Tạo đơn hàng
         $order = Order::create([
             'user_id' => auth()->id(),
@@ -66,21 +72,20 @@ class CheckoutController extends Controller
             'status'  => 'pending',
             'payment_method' => $request->payment_method,
         ]);
-
+    
         // Tạo các mục đơn hàng
         foreach ($cart as $variant_id => $item) {
             $variant = Variant::find($variant_id);
-
+    
             // Kiểm tra tồn kho
             if ($variant->quantity < $item['quantity']) {
-                // Xử lý khi tồn kho không đủ
                 return redirect()->route('cart.index')->with('error', 'Số lượng sản phẩm ' . $item['product_name'] . ' không đủ.');
             }
-
+    
             // Giảm tồn kho
             $variant->quantity -= $item['quantity'];
             $variant->save();
-
+    
             // Tạo mục đơn hàng
             OrderItem::create([
                 'order_id'    => $order->id,
@@ -93,21 +98,73 @@ class CheckoutController extends Controller
                 'image'       => $item['image'],
             ]);
         }
-
+    
         // Xóa giỏ hàng sau khi đặt hàng thành công
         session()->forget('cart');
-
-        return redirect()->route('checkout')->with('success', 'Đơn hàng của bạn đã được đặt thành công!');
+    
+        // Kiểm tra phương thức thanh toán
+        if ($request->payment_method == 'online') {
+            // Gọi createPaymentLink để tạo link thanh toán nếu người dùng chọn thanh toán online
+            return $this->createPaymentLink($order);
+        }
+    
+        // Nếu chọn COD (Cash on Delivery), chuyển hướng đến trang xác nhận đơn hàng
+        return redirect()->route('checkout', ['order' => $order->id])->with('success', 'Đơn hàng của bạn đã được đặt thành công! Phương thức thanh toán: COD');
     }
+    
+    
+    
 
-    function generateUniqueOrderCode()
-    {
-        do {
-            $orderCode = 'ORD-' . Auth::id() . '-' . now()->timestamp;
-        } while (Order::where('order_code', $orderCode)->exists());
 
-        return $orderCode;
-    }
+function generateUniqueOrderCode()
+{
+    do {
+        // Tạo mã đơn hàng là một số nguyên dương ngẫu nhiên trong khoảng an toàn
+        $orderCode = random_int(1, 9007199254740991);
+    } while (Order::where('order_code', $orderCode)->exists());
+
+    return $orderCode; // Trả về mã đơn hàng dưới dạng số
+}
+
+public function success(){
+    return view('clients.checkout.orderSuccess');
+}   
+
+
+public function createPaymentLink($order)
+{
+    // Lấy thông tin từ file .env
+    $payOSClientId = env('PAYOS_CLIENT_ID');
+    $payOSApiKey = env('PAYOS_API_KEY');
+    $payOSChecksumKey = env('PAYOS_CHECKSUM_KEY');
+
+    // Khởi tạo PayOS
+    $payOS = new PayOS($payOSClientId, $payOSApiKey, $payOSChecksumKey);
+
+    $YOUR_DOMAIN = 'http://127.0.0.1:8000';  // Hoặc domain của bạn
+
+    // Dữ liệu order để tạo link thanh toán
+    $data = [
+        "orderCode" => $this->generateUniqueOrderCode(), 
+        "amount" => $order->total,
+        "description" => substr("TTĐH #" . $order->order_code, 0, 25), 
+        "items" => $order->orderItems->map(function ($item) {
+            return [
+                'name' => $item->product_name,
+                'price' => $item->price,
+                'quantity' => $item->quantity
+            ];
+        })->toArray(),
+        "returnUrl" => $YOUR_DOMAIN . "/",
+        "cancelUrl" => $YOUR_DOMAIN . "/"
+    ];
+
+    // Tạo link thanh toán
+    $response = $payOS->createPaymentLink($data);
+
+    // Chuyển hướng người dùng đến link thanh toán
+    return redirect()->away($response['checkoutUrl']);
+}
 
    
 }
