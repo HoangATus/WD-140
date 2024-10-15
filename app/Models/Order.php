@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,13 +11,16 @@ class Order extends Model
     const STATUS_PENDING = 'pending';
     const STATUS_CONFIRMED = 'confirmed';
     const STATUS_SHIPPED = 'shipped';
+    const STATUS_DELIVERED = 'delivered';
     const STATUS_COMPLETED = 'completed';
     const STATUS_CANCELED = 'canceled';
     const STATUS_FAILED = 'failed';
+
     public static $statuss = [
         'pending' => 'Chờ Xác Nhận',
         'confirmed' => 'Đã Xác Nhận',
         'shipped' => 'Đang Giao Hàng',
+        'delivered' => 'Giao Hàng Thành Công',
         'completed' => 'Đã Hoàn Thành',
         'canceled' => 'Đã Hủy',
         'failed' => 'Giao Hàng Thất Bại',
@@ -55,41 +57,57 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
     public function statusChanges()
     {
         return $this->hasMany(OrderStatusChange::class);
     }
-    
-    public function cancel()
+
+    public function cancel($reason = null)
     {
         if (in_array($this->status, [self::STATUS_PENDING, self::STATUS_CONFIRMED])) {
+            $oldStatus = $this->status; 
             $this->status = self::STATUS_CANCELED;
+            $this->cancellation_reason = $reason; 
             $this->save();
 
-            foreach ($this->items as $item) {
-                $variant = $item->variant;
-                if ($variant) {
-                    $variant->quantity += $item->quantity;
-                    $variant->save();
-                }
-            }
+         
+
+            $this->statusChanges()->create([
+                'old_status' => $oldStatus,
+                'new_status' => self::STATUS_CANCELED,
+                'notes' => $reason, 
+                'changed_by' => auth()->id(), 
+            ]);
 
             return true;
         }
 
         return false;
     }
+
     public function updateStatus($newStatus, $notes = null)
     {
         $oldStatus = $this->status;
-        $this->status = $newStatus; 
-        $this->save(); 
-
+    
+        if ($newStatus === self::STATUS_FAILED) {
+            foreach ($this->orderItems as $orderItem) {
+                $variant = Variant::find($orderItem->variant_id);
+                if ($variant) {
+                    $variant->quantity += $orderItem->quantity; 
+                }
+            }
+        }
+    
+        $this->status = $newStatus;
+        $this->save();
+    
         $this->statusChanges()->create([
             'old_status' => $oldStatus,
             'new_status' => $newStatus,
             'notes' => $notes,
-            'changed_by' => auth()->id(), 
+            //'changed_by' => auth()->id(),
+            'changed_by' => auth()->id() ?? 0, 
         ]);
     }
 }

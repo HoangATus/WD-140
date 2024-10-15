@@ -98,3 +98,4 @@ Route::get('/password/reset', [AuthController::class, 'showformRequest'])->name(
 
 // Route cho đăng xuất
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirmReceipt'])->name('orders.confirm-receipt');
