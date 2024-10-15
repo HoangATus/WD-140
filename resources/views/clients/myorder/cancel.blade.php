@@ -32,13 +32,15 @@
                             </div>
 
                             <div class="d-flex justify-content-between mt-4">
-                                <button type="submit" class="btn btn-danger btn-lg">
+                                <button type="submit" class="btn btn-danger" style="font-size: 14px; padding: 8px 16px;">
                                     <i class="fas fa-times-circle"></i> Hủy Đơn Hàng
                                 </button>
-                                <a href="{{ route('orders.index') }}" class="btn btn-secondary btn-lg">
+                                <a href="{{ route('orders.index') }}" class="btn btn-secondary"
+                                    style="font-size: 14px; padding: 8px 16px;">
                                     <i class="fas fa-arrow-left"></i> Quay Lại
                                 </a>
                             </div>
+
                         </form>
                     </div>
                 </div>
