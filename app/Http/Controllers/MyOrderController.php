@@ -36,6 +36,7 @@ class MyOrderController extends Controller
         // Lấy các mục đơn hàng
         $orderItems = $order->orderItems;
 
+
         return view('clients.myorder.show', compact('order', 'orderItems'));
     }
 

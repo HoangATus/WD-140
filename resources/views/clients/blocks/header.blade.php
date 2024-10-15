@@ -64,7 +64,7 @@
                                 <i class="fa-solid fa-bars"></i>
                             </span>
                         </button>
-                        <a href="index.html" class="web-logo nav-logo">
+                        <a href="{{ url('/') }}" class="web-logo nav-logo">
                             <img src="{{ asset('assets/images/logoatus.png') }}" class="img-fluid blur-up lazyload"
                                 alt="">
                         </a>
@@ -165,30 +165,29 @@
                                         </div>
 
                                         <div class="onhover-div onhover-div-login">
-                                            <ul class="user-box-name">
-                                                @guest
-                                                    <li class="product-box-contain">
-                                                        <i></i>
-                                                        <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Đăng
-                                                            nhập</a>
-                                                    </li>
+                                        <ul class="user-box-name">
+                                            @guest
+                                                <li class="product-box-contain">
+                                                    <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i>
+                                                        Đăng nhập</a>
+                                                </li>
+                                                <li class="product-box-contain">
+                                                    <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i>
+                                                        Đăng ký</a>
+                                                </li>
+                                            @endguest
 
-                                                    <li class="product-box-contain">
-                                                        <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i>
-                                                            Đăng ký</a>
-                                                    </li>
-                                                @endguest
-                                                @if (Auth::check() && Auth::user()->role == 'Admin')
+                                            @auth
+                                                <li class="product-box-contain">
+                                                    <a href="{{ route('profile.index') }}"><i class="fa-solid fa-user"></i>
+                                                        Tài khoản</a>
+                                                </li>
+                                                @if (Auth::user()->role == 'Admin')
                                                     <li class="product-box-contain">
                                                         <a href="{{ route('admins.dashboard') }}"><i
                                                                 class="fas fa-key"></i> Trang quản trị</a>
                                                     </li>
                                                 @endif
-                                                <li class="product-box-contain">
-                                                    <a href="{{ route('password.request') }}"><i class="fas fa-key"></i>
-                                                        Quên mật khẩu</a>
-                                                </li>
-
                                                 <li class="product-box-contain">
                                                     <form id="logout-form" action="{{ route('logout') }}"
                                                         method="POST">
@@ -199,8 +198,9 @@
                                                         </a>
                                                     </form>
                                                 </li>
-                                            </ul>
-                                        </div>
+                                            @endauth
+                                        </ul>
+                                    </div>
                                     </li>
                                 </ul>
                             
