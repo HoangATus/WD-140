@@ -39,5 +39,32 @@ class MyOrderController extends Controller
         return view('clients.myorder.show', compact('order', 'orderItems'));
     }
 
-   
+    public function cancel($id)
+    {
+        // Lấy người dùng hiện tại
+        $user = Auth::user();
+
+        // Lấy đơn hàng theo ID và kiểm tra quyền sở hữu
+        $order = $user->orders()->find($id);
+        // dd($order);
+        if ($order->user_id !== Auth::user()->user_id) {
+            abort(403, 'Bạn không có quyền truy cập đơn hàng này.');
+        }
+
+        if (!$order) {
+            return redirect()->route('orders.index')->with('error', 'Đơn hàng không tồn tại.');
+        }
+
+        // Kiểm tra trạng thái đơn hàng trước khi hủy
+        if ($order->status === 'cancelled') {
+            return redirect()->route('orders.index')->with('error', 'Đơn hàng đã được hủy.');
+        }
+
+        // Cập nhật trạng thái đơn hàng thành 'cancelled'
+        $order->status = 'cancelled';
+        $order->save();
+
+        // dd($order)->all();
+        return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được hủy.');
+    }
 }

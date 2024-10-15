@@ -260,21 +260,29 @@ class ProductController extends Controller
 
             //abum ảnh
             if ($request->has('product_galleries')) {
-                $Galleries = ProductGallery::where('product_id', $product->id)->get();
-                foreach ($Galleries as $gallery) {
-                    if (Storage::exists($gallery->image)) {
-                        Storage::delete($gallery->image);
-                    }
-                    $gallery->delete();
-                }
                 foreach ($request->product_galleries as $item) {
-                    $imagePath = Storage::put('product_galleries', $item);  // Store the new image
                     ProductGallery::create([
-                        'image' => $imagePath,
+                        'image' => Storage::put('product_galleries', $item),
                         'product_id' => $product->id,
                     ]);
                 }
             }
+            // if ($request->has('product_galleries')) {
+            //     $Galleries = ProductGallery::where('product_id', $product->id)->get();
+            //     foreach ($Galleries as $gallery) {
+            //         if (Storage::exists($gallery->image)) {
+            //             Storage::delete($gallery->image);
+            //         }
+            //         $gallery->delete();
+            //     }
+            //     foreach ($request->product_galleries as $item) {
+            //         $imagePath = Storage::put('product_galleries', $item);
+            //         ProductGallery::create([
+            //             'image' => $imagePath,
+            //             'product_id' => $product->id,
+            //         ]);
+            //     }
+            // }
 
             DB::commit();
             return redirect()->route('admins.products.index')->with('message', 'Cập nhật thành công');
