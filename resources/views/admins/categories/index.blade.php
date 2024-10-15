@@ -16,7 +16,7 @@
                         <div class="title-header option-title">
                             <h1>Danh sách danh mục</h1>
                             @if (session('success'))
-                            <div class="alert alert-success mt-3">
+                            <div class="alert alert-danger mt-3">
                                 {{ session('success') }}
                             </div>
                         @endif

@@ -7,7 +7,7 @@
 @section('css')
 @endsection
 @section('content')
-    {{ $product }}
+    {{-- {{ $product }} --}}
     {{-- {{$variants}} --}}
     <form method="POST" action="{{ route('admins.products.update', $product->id) }}" enctype="multipart/form-data">
         @csrf
@@ -22,7 +22,12 @@
                                 <div class="card-header-2">
                                     <h5>Thông tin sản phẩm</h5>
                                 </div>
-                                <div class="mb-4 row align-items-center">
+                                @if (session('error'))
+                                <div class="alert alert-danger mt-3">
+                                    {{ session('error') }}
+                                </div>
+                                @endif
+                                <div class="mb-4 row align-items-center mt-4">
                                     <label class="form-label-title col-sm-3 mb-0">Tên sản phẩm</label>
                                     <div class="col-sm-9">
                                         <input class="form-control @error('product_name') is-invalid @enderror"
@@ -77,9 +82,14 @@
                                 <div class="mb-4 row align-items-center">
                                     <label class="col-sm-3 col-form-label form-label-title">Thư viện ảnh</label>
                                     <div class="col-sm-9">
-                                        @foreach ($product->galleries as $gallery)
-                                            <img src="{{ Storage::url($gallery->image) }}" width="70px" height="70px">
-                                        @endforeach
+                                        @if ($product->galleries && $product->galleries->isNotEmpty())
+                                            @foreach ($product->galleries as $gallery)
+                                                <img src="{{ Storage::url($gallery->image) }}" width="70px"
+                                                    height="70px">
+                                            @endforeach
+                                        @else
+                                            <p>Không có ảnh</p>
+                                        @endif
                                         <input type="file" name="product_galleries[]" multiple
                                             class="form-control @error('product_galleries') is-invalid @enderror">
                                     </div>
@@ -141,8 +151,8 @@
                                         <table class="table" id="variantTable">
                                             <thead>
                                                 <tr>
-                                                    <th>Size</th>
                                                     <th>Màu</th>
+                                                    <th>Size</th>
                                                     <th>Số lượng</th>
                                                     <th>Ảnh</th>
                                                     <th>Giá nhập</th>
@@ -158,6 +168,22 @@
                                                 @for ($index = 0; $index < $rows; $index++)
                                                     <tr>
                                                         <td>
+                                                            <select name="variants[{{ $index }}][name]"
+                                                                class="form-select @error('variants.*.name') is-invalid @enderror">
+                                                                @foreach ($colors as $id => $name)
+                                                                    <option value="{{ $id }}"
+                                                                        {{ old("variants.$index.name", $product->variants[$index]->attribute_color_id ?? '') == $id ? 'selected' : '' }}>
+                                                                        {{ $name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error("variants.$index.name")
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </td>
+                                                        <td>
                                                             <select
                                                                 class="form-select @error("variants.$index.attribute_size_name") is-invalid @enderror"
                                                                 name="variants[{{ $index }}][attribute_size_name]">
@@ -171,22 +197,6 @@
                                                                 @endforeach
                                                             </select>
                                                             @error("variants.$index.attribute_size_name")
-                                                                <div class="invalid-feedback">
-                                                                    {{ $message }}
-                                                                </div>
-                                                            @enderror
-                                                        </td>
-                                                        <td>
-                                                            <select name="variants[{{ $index }}][name]"
-                                                                class="form-select @error('variants.*.name') is-invalid @enderror">
-                                                                @foreach ($colors as $id => $name)
-                                                                    <option value="{{ $id }}"
-                                                                        {{ old("variants.$index.name", $product->variants[$index]->attribute_color_id ?? '') == $id ? 'selected' : '' }}>
-                                                                        {{ $name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                            @error("variants.$index.name")
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
                                                                 </div>
@@ -208,17 +218,22 @@
                                                             <input type="file"
                                                                 name="variants[{{ $index }}][image]"
                                                                 class="form-control @error('variants.*.image') is-invalid @enderror">
-                                                            @if ($product->variants[$index]->image)
+
+                                                            @if (!empty($product->variants[$index]->image))
                                                                 <img src="{{ Storage::url($product->variants[$index]->image) }}"
                                                                     alt="{{ $product->variants[$index]->name }}"
                                                                     width="70px" height="70px">
+                                                            @else
+                                                                <p>Chưa có ảnh.</p>
                                                             @endif
+
                                                             @error("variants.$index.image")
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
                                                                 </div>
                                                             @enderror
                                                         </td>
+
                                                         <td>
                                                             <input type="number"
                                                                 name="variants[{{ $index }}][variant_import_price]"
@@ -272,80 +287,186 @@
                                 </div>
                             </div>
                         </div>
-                        <script>
-                            document.getElementById('addVariantButton').addEventListener('click', function() {
-                                // Get the variant table body
-                                var variantTable = document.getElementById('variantTable').getElementsByTagName('tbody')[0];
-                                var rowCount = variantTable.rows.length; // Get current row count
-                                var newRow = variantTable.insertRow(rowCount); // Insert a new row at the end
+                        {{-- <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                function updateRowIndices() {
+                                    var variantTable = document.getElementById('variantTable').getElementsByTagName('tbody')[0];
+                                    for (var i = 0; i < variantTable.rows.length; i++) {
+                                        var row = variantTable.rows[i];
+                                        row.querySelector('select[name^="variants["]').name = `variants[${i + 1}][name]`;
+                                        row.querySelector('select[name^="variants["][attribute_size_name]').name =
+                                            `variants[${i + 1}][attribute_size_name]`;
+                                        row.querySelector('input[name^="variants["][quantity]').name = `variants[${i + 1}][quantity]`;
+                                        row.querySelector('input[name^="variants["][image]').name = `variants[${i + 1}][image]`;
+                                        row.querySelector('input[name^="variants["][variant_import_price]').name =
+                                            `variants[${i + 1}][variant_import_price]`;
+                                        row.querySelector('input[name^="variants["][variant_sale_price]').name =
+                                            `variants[${i + 1}][variant_sale_price]`;
+                                        row.querySelector('input[name^="variants["][variant_listed_price]').name =
+                                            `variants[${i + 1}][variant_listed_price]`;
+                                    }
+                                }
 
-                                // Create the new cells
-                                var cellSize = newRow.insertCell(0);
-                                var cellColor = newRow.insertCell(1);
-                                var cellQuantity = newRow.insertCell(2);
-                                var cellImage = newRow.insertCell(3);
-                                var cellImportPrice = newRow.insertCell(4);
-                                var cellSalePrice = newRow.insertCell(5);
-                                var cellListedPrice = newRow.insertCell(6);
-                                var cellAction = newRow.insertCell(7);
+                                function addVariantRow() {
+                                    var variantTable = document.getElementById('variantTable').getElementsByTagName('tbody')[0];
+                                    var rowCount = variantTable.rows.length;
+                                    var newRow = variantTable.insertRow(rowCount);
+                                    var cellColor = newRow.insertCell(0);
+                                    var cellSize = newRow.insertCell(1);
+                                    var cellQuantity = newRow.insertCell(2);
+                                    var cellImage = newRow.insertCell(3);
+                                    var cellImportPrice = newRow.insertCell(4);
+                                    var cellSalePrice = newRow.insertCell(5);
+                                    var cellListedPrice = newRow.insertCell(6);
+                                    var cellAction = newRow.insertCell(7);
 
-                                // Populate the cells with input fields and select options
-                                cellSize.innerHTML = `
-                                    <select name="attribute_sizes[${rowCount + 1}][size]" class="form-select">
-                                         <option selected>Size</option>
-                                        @foreach ($sizes as $size_id => $size_name)
-                                            <option value="{{ $size_id }}">{{ $size_name }}</option>
-                                        @endforeach
-                                    </select>
-                                `;
+                                    cellColor.innerHTML = `
+                                        <select name="variants[${rowCount + 1}][name]" class="form-select">
+                                            <option selected>Màu</option>
+                                            @foreach ($colors as $id => $name)
+                                                <option value="{{ $id }}">{{ $name }}</option>
+                                            @endforeach
+                                        </select>
+                                    `;
 
-                                cellColor.innerHTML = `
-                                    <select name="variants[${rowCount + 1}][color]" class="form-select">
-                                        <option selected>Màu</option>
-                                        @foreach ($colors as $color_id => $color_name)
-                                            <option value="{{ $color_id }}">{{ $color_name }}</option>
-                                        @endforeach
-                                    </select>
-                                `;
+                                    cellSize.innerHTML = `
+                                        <select name="variants[${rowCount + 1}][attribute_size_name]" class="form-select">
+                                            <option selected>Size</option>
+                                            @foreach ($sizes as $size_id => $attribute_size_name)
+                                                <option value="{{ $size_id }}">{{ $attribute_size_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    `;
 
-                                cellQuantity.innerHTML = `
-                                    <input type="number" name="variants[${rowCount + 1}][quantity]" class="form-control" min="0">
-                                `;
+                                    cellQuantity.innerHTML = `
+                                        <input type="number" name="variants[${rowCount + 1}][quantity]" class="form-control" min="0" placeholder="Nhập số lượng...">
+                                    `;
 
-                                cellImage.innerHTML = `
-                                    <input type="file" name="variants[${rowCount + 1}][image]" class="form-control">
-                                `;
+                                    cellImage.innerHTML = `
+                                        <input type="file" name="variants[${rowCount + 1}][image]" class="form-control">
+                                    `;
 
-                                cellImportPrice.innerHTML = `
-                                    <input type="number" name="variants[${rowCount + 1}][variant_import_price]" class="form-control" step="0.01" min="0">
-                                `;
+                                    cellImportPrice.innerHTML = `
+                                        <input type="number" name="variants[${rowCount + 1}][variant_import_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá nhập...">
+                                    `;
 
-                                cellSalePrice.innerHTML = `
-                                    <input type="number" name="variants[${rowCount + 1}][variant_sale_price]" class="form-control" step="0.01" min="0">
-                                `;
+                                    cellSalePrice.innerHTML = `
+                                        <input type="number" name="variants[${rowCount + 1}][variant_sale_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá bán...">
+                                    `;
 
-                                cellListedPrice.innerHTML = `
-                                    <input type="number" name="variants[${rowCount + 1}][variant_listed_price]" class="form-control" step="0.01" min="0">
-                                `;
+                                    cellListedPrice.innerHTML = `
+                                        <input type="number" name="variants[${rowCount + 1}][variant_listed_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá niêm yết...">
+                                    `;
 
-                                // Add remove button
-                                cellAction.innerHTML = `
-                                    <button type="button" class="btn btn-danger remove-variant-button">Xóa</button>
-                                `;
+                                    cellAction.innerHTML = `
+                                        <button type="button" class="btn btn-danger remove-variant-button">Xóa</button>
+                                    `;
+                                    newRow.querySelector('.remove-variant-button').addEventListener('click', function() {
+                                        newRow.remove();
+                                        updateRowIndices();
+                                    });
+                                }
 
-                                // Attach event listener to remove the row when the "Xóa" button is clicked
-                                newRow.querySelector('.remove-variant-button').addEventListener('click', function() {
-                                    this.closest('tr').remove();
+                                document.getElementById('addVariantButton').addEventListener('click', addVariantRow);
+                                document.querySelectorAll('.remove-variant-button').forEach(function(button) {
+                                    button.addEventListener('click', function() {
+                                        this.closest('tr').remove();
+                                        updateRowIndices();
+                                    });
                                 });
                             });
+                        </script> --}}
 
-                            // Add event listener to all existing remove buttons on page load
-                            document.querySelectorAll('.remove-variant-button').forEach(function(button) {
-                                button.addEventListener('click', function() {
-                                    this.closest('tr').remove();
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                function updateRowIndices() {
+                                    var variantTable = document.getElementById('variantTable').getElementsByTagName('tbody')[0];
+                                    for (var i = 0; i < variantTable.rows.length; i++) {
+                                        var row = variantTable.rows[i];
+                                        row.querySelector('select[name^="variants["][name]').name = `variants[${i}][name]`;
+                                        row.querySelector('select[name^="variants["][attribute_size_name]').name =
+                                            `variants[${i}][attribute_size_name]`;
+                                        row.querySelector('input[name^="variants["][quantity]').name = `variants[${i}][quantity]`;
+                                        row.querySelector('input[name^="variants["][image]').name = `variants[${i}][image]`;
+                                        row.querySelector('input[name^="variants["][variant_import_price]').name =
+                                            `variants[${i}][variant_import_price]`;
+                                        row.querySelector('input[name^="variants["][variant_sale_price]').name =
+                                            `variants[${i}][variant_sale_price]`;
+                                        row.querySelector('input[name^="variants["][variant_listed_price]').name =
+                                            `variants[${i}][variant_listed_price]`;
+                                    }
+                                }
+                        
+                                function addVariantRow() {
+                                    var variantTable = document.getElementById('variantTable').getElementsByTagName('tbody')[0];
+                                    var rowCount = variantTable.rows.length;
+                                    var newRow = variantTable.insertRow(rowCount);
+                                    var cellColor = newRow.insertCell(0);
+                                    var cellSize = newRow.insertCell(1);
+                                    var cellQuantity = newRow.insertCell(2);
+                                    var cellImage = newRow.insertCell(3);
+                                    var cellImportPrice = newRow.insertCell(4);
+                                    var cellSalePrice = newRow.insertCell(5);
+                                    var cellListedPrice = newRow.insertCell(6);
+                                    var cellAction = newRow.insertCell(7);
+                        
+                                    cellColor.innerHTML = `
+                                        <select name="variants[${rowCount}][name]" class="form-select">
+                                            <option selected>Màu</option>
+                                            @foreach ($colors as $id => $name)
+                                                <option value="{{ $id }}">{{ $name }}</option>
+                                            @endforeach
+                                        </select>
+                                    `;
+                        
+                                    cellSize.innerHTML = `
+                                        <select name="variants[${rowCount}][attribute_size_name]" class="form-select">
+                                            <option selected>Size</option>
+                                            @foreach ($sizes as $size_id => $attribute_size_name)
+                                                <option value="{{ $size_id }}">{{ $attribute_size_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    `;
+                        
+                                    cellQuantity.innerHTML = `
+                                        <input type="number" name="variants[${rowCount}][quantity]" class="form-control" min="0" placeholder="Nhập số lượng...">
+                                    `;
+                        
+                                    cellImage.innerHTML = `
+                                        <input type="file" name="variants[${rowCount}][image]" class="form-control">
+                                    `;
+                        
+                                    cellImportPrice.innerHTML = `
+                                        <input type="number" name="variants[${rowCount}][variant_import_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá nhập...">
+                                    `;
+                        
+                                    cellSalePrice.innerHTML = `
+                                        <input type="number" name="variants[${rowCount}][variant_sale_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá bán...">
+                                    `;
+                        
+                                    cellListedPrice.innerHTML = `
+                                        <input type="number" name="variants[${rowCount}][variant_listed_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá niêm yết...">
+                                    `;
+                        
+                                    cellAction.innerHTML = `
+                                        <button type="button" class="btn btn-danger remove-variant-button">Xóa</button>
+                                    `;
+                                    newRow.querySelector('.remove-variant-button').addEventListener('click', function() {
+                                        newRow.remove();
+                                        updateRowIndices(); // Cập nhật chỉ số sau khi xóa
+                                    });
+                                }
+                        
+                                document.getElementById('addVariantButton').addEventListener('click', addVariantRow);
+                                document.querySelectorAll('.remove-variant-button').forEach(function(button) {
+                                    button.addEventListener('click', function() {
+                                        this.closest('tr').remove();
+                                        updateRowIndices(); // Cập nhật chỉ số sau khi xóa
+                                    });
                                 });
                             });
                         </script>
+                        
                     </div>
                 </div>
             </div>

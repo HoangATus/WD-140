@@ -10,8 +10,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
-
-
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -19,12 +18,12 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-   
+
     public function index(Request $request)
     {
         $search = $request->input('search'); // Lấy từ khóa tìm kiếm
         $query = Product::query(); // Khởi tạo query cho sản phẩm
-    
+
         // Xử lý lọc theo danh mục
         if ($request->has('category_ids')) {
             $categoryIds = $request->input('category_ids'); // Lấy danh sách category_id từ request
@@ -35,7 +34,7 @@ class ProductController extends Controller
         if ($request->has('price_range')) {
             $priceRanges = $request->input('price_range');
             $query->whereHas('variants', function ($q) use ($priceRanges) {
-                $q->where(function($query) use ($priceRanges) {
+                $q->where(function ($query) use ($priceRanges) {
                     foreach ($priceRanges as $range) {
                         [$min, $max] = explode('-', $range);
                         $query->orWhereBetween('variant_sale_price', [(int)$min, (int)$max]);
@@ -43,23 +42,23 @@ class ProductController extends Controller
                 });
             });
         }
-        
-        
+
+
 
         // Xử lý sắp xếp
         if ($request->has('sort')) {
             switch ($request->sort) {
                 case 'low':
                     $query->select('products.*')
-                          ->join('variants', 'products.id', '=', 'variants.product_id')
-                          ->orderByRaw('MIN(variants.variant_sale_price) asc')
-                          ->groupBy('products.id');
+                        ->join('variants', 'products.id', '=', 'variants.product_id')
+                        ->orderByRaw('MIN(variants.variant_sale_price) asc')
+                        ->groupBy('products.id');
                     break;
                 case 'high':
                     $query->select('products.*')
-                          ->join('variants', 'products.id', '=', 'variants.product_id')
-                          ->orderByRaw('MAX(variants.variant_sale_price) desc')
-                          ->groupBy('products.id');
+                        ->join('variants', 'products.id', '=', 'variants.product_id')
+                        ->orderByRaw('MAX(variants.variant_sale_price) desc')
+                        ->groupBy('products.id');
                     break;
                 case 'aToz':
                     $query->orderBy('product_name', 'asc'); // Sắp xếp theo tên từ A-Z
@@ -74,22 +73,18 @@ class ProductController extends Controller
         if ($search) {
             $query->where('product_name', 'like', "%{$search}%");
         }
-    
+
         // Lấy danh sách sản phẩm sau khi lọc và sắp xếp
-        $listProduct = $query->with('variants')->paginate(6); // Phân trang với 6 sản phẩm mỗi trang
-    
+        $listProduct = $query->with('variants')->paginate(8); // Phân trang với 6 sản phẩm mỗi trang
+
         // Lấy danh sách danh mục
         $listCategory = Category::withCount('products')->get();
 
         // dd($listProduct);
 
-    
+
         return view('clients.product', compact('listProduct', 'listCategory'));
     }
-
-    
-    
-
 
 
 
@@ -112,12 +107,35 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($slug)
-    {
-        $products = Product::with('variants')->where('slug', $slug)->firstOrFail();
-        $datas = Product::with('variants')->take(7)->get();
-        return view('clients.productDetail', compact('products', 'datas'));
-    }
+
+     public function show($slug)
+     {
+         $product = Product::with(['galleries', 'variants.color', 'variants.size'])->where('slug', $slug)->firstOrFail();
+         $relatedProducts = Product::where('category_id', $product->category_id)
+                                   ->where('id', '!=', $product->id)
+                                   ->take(10)
+                                   ->get();
+     
+         // Prepare variants data
+         $variants = $product->variants->map(function($variant) {
+             return [
+                 'id' => $variant->id,
+                 'color' => $variant->color->name,
+                 'size' => $variant->size->attribute_size_name,
+                 'listed_price' => $variant->variant_listed_price,
+                 'sale_price' => $variant->variant_sale_price,
+                 'import_price' => $variant->variant_import_price,
+                 'quantity' => $variant->quantity ?? 0,
+                 'image' => Storage::url($variant->image),
+             ];
+         });
+     
+         return view('clients.productDetail', compact('product', 'relatedProducts', 'variants'));
+     }
+     
+
+
+
 
     /**
      * Show the form for editing the specified resource.

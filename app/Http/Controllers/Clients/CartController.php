@@ -3,63 +3,122 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Models\Variant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Hiển thị giỏ hàng
      */
     public function index()
     {
-        return view('clients.cart');
+        $cart = session()->get('cart', []);
+        $total = 0;
+
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['quantity'];
+        }
+
+        return view('clients.cart.index', compact('cart', 'total'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Thêm sản phẩm vào giỏ hàng
      */
-    public function create()
+    public function add(Request $request)
     {
-        //
+        $request->validate([
+            'variant_id' => 'required|exists:variants,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $variant = Variant::with(['product', 'color', 'size'])->findOrFail($request->variant_id);
+
+        if ($variant->quantity < $request->quantity) {
+            return response()->json(['message' => 'Số lượng sản phẩm không đủ.'], 400);
+        }
+
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$variant->id])) {
+            $cart[$variant->id]['quantity'] += $request->quantity;
+        } else {
+            $cart[$variant->id] = [
+                'product_id' => $variant->product->id,
+                'product_name' => $variant->product->product_name,
+                'variant_name' => $variant->color->name . ' - ' . $variant->size->attribute_size_name,
+                'price' => $variant->variant_sale_price,
+                'quantity' => $request->quantity,
+                'image' => Storage::url($variant->image),
+            ];
+        }
+
+        session()->put('cart', $cart);
+
+        return response()->json(['message' => 'Sản phẩm đã được thêm vào giỏ hàng thành công.'], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Cập nhật số lượng sản phẩm trong giỏ hàng
      */
-    public function store(Request $request)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'variant_id' => 'required|exists:variants,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$request->variant_id])) {
+            $variant = Variant::findOrFail($request->variant_id);
+
+            if ($variant->quantity < $request->quantity) {
+                return response()->json(['message' => 'Số lượng sản phẩm không đủ.'], 400);
+            }
+
+            $cart[$request->variant_id]['quantity'] = $request->quantity;
+            session()->put('cart', $cart);
+
+            return response()->json(['message' => 'Giỏ hàng đã được cập nhật.'], 200);
+        }
+
+        return response()->json(['message' => 'Sản phẩm không tồn tại trong giỏ hàng.'], 404);
     }
 
     /**
-     * Display the specified resource.
+     * Xóa sản phẩm khỏi giỏ hàng
      */
-    public function show(string $id)
+    public function remove(Request $request)
     {
-        //
+        $request->validate([
+            'variant_id' => 'required|exists:variants,id',
+        ]);
+
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$request->variant_id])) {
+            unset($cart[$request->variant_id]);
+            session()->put('cart', $cart);
+
+            return response()->json(['message' => 'Sản phẩm đã được xóa khỏi giỏ hàng.'], 200);
+        }
+
+        return response()->json(['message' => 'Sản phẩm không tồn tại trong giỏ hàng.'], 404);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function count()
     {
-        //
-    }
+        $cart = session()->get('cart', []);
+        $count = 0;
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        foreach ($cart as $item) {
+            $count += $item['quantity'];
+        }
+
+        return response()->json(['count' => $count], 200);
     }
 }
