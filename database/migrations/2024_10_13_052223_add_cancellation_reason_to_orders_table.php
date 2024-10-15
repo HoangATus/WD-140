@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ordersuccesses', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->text('cancellation_reason')->nullable()->after('status');
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ordersuccesses');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('cancellation_reason');
+        });
     }
 };

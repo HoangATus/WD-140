@@ -35,7 +35,7 @@ class StoreProductRequest extends FormRequest
             'variants.*.variant_import_price' => 'required|numeric|min:0',
             'variants.*.variant_sale_price' => 'required|numeric|min:0',
             'variants.*.variant_listed_price' => 'required|numeric|min:0',
-            'variants.*.image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:5048',
+            'variants.*.image' => 'required|image|max:5048',
             'description' => 'required',
         ];
     }
@@ -53,7 +53,8 @@ class StoreProductRequest extends FormRequest
 
                 // Kiểm tra xem cặp kích thước và màu sắc đã tồn tại chưa
                 if (in_array([$sizeId, $colorId], $sizeColorPairs)) {
-                    $validator->errors()->add("variants.$index", 'Kết hợp kích thước và màu sắc không được trùng lặp.');
+                    // $validator->errors()->add("variants.$index.name", 'Kết hợp kích thước và màu sắc không được trùng lặp.');
+                    $validator->errors()->add("variants.$index.attribute_size_name", 'Kết hợp kích thước và màu sắc không được trùng lặp.');
                 } else {
                     $sizeColorPairs[] = [$sizeId, $colorId];
                 }
@@ -96,7 +97,6 @@ class StoreProductRequest extends FormRequest
             'variants.*.variant_listed_price.required' => 'Giá niêm yết là bắt buộc.',
             'variants.*.image.image' => 'Tệp tải lên phải là một ảnh.',
             'variants.*.image.required' => 'Ảnh không được để trống',
-            'variants.*.image.mimes' => 'Tệp phải có định dạng jpg, png, jpeg, gif hoặc svg.',
             'variants.*.image.max' => 'Ảnh không được vượt quá 5MB.',
         ];
     }
