@@ -50,9 +50,10 @@
                                 <th>Mã Đơn Hàng</th>
                                 <th>Khách Hàng</th>
                                 <th>SDT</th>
-                                <th>Trạng Thái</th>
                                 <th>Tổng Tiền</th>
                                 <th>Phương Thức Thanh Toán</th>
+                                <th>Trạng Thái</th>
+                                
                                 <th>Thao Tác</th>
                             </tr>
                         </thead>
@@ -62,7 +63,8 @@
                                     <td>{{ $order->order_code }}</td>
                                     <td>{{ $order->name }}</td>
                                     <td>{{ $order->phone }}</td>
-
+                                    <td>{{ number_format($order->total) }} VNĐ</td>
+                                    <td>{{ $order->payment_method }}</td>
                                     <td>
                                         @switch($order->status)
                                             @case('pending')
@@ -76,6 +78,9 @@
                                             @case('shipped')
                                                 Đang Giao Hàng
                                             @break
+                                            @case('delivered')
+                                             Giao Hàng Thành Công
+                                        @break
 
                                             @case('completed')
                                                 Đã Hoàn Thành
@@ -93,8 +98,7 @@
                                                 Không Rõ
                                         @endswitch
                                     </td>
-                                    <td>{{ number_format($order->total) }} VNĐ</td>
-                                    <td>{{ $order->payment_method }}</td>
+                                   
                                     <td>
                                         <a href="{{ route('admins.orders.show', $order->id) }}" class="btn btn-primary">Xem
                                             Chi Tiết</a>

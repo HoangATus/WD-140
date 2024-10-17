@@ -64,6 +64,18 @@
     <!-- Bootstrap JS (for dropdowns) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <style>
+         .category-box {
+            transition: all 0.3s ease;
+        }
+        .category-box img {
+            transition: all 0.3s ease;
+            filter: none;
+            opacity: 1;
+        }
+        .category-box:hover img {
+            filter: none;
+            opacity: 1;
+        }
         .button-custom {
             background-color: #417394;
             color: #fff;
@@ -273,7 +285,7 @@
                 // Tương tự, cập nhật các hàm khác nếu cần
             });
         </script>
-        
+
 
     </body>
     <!-- Mirrored from themes.pixelstrap.com/fastkart/front-end/index-9.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Sep 2024 12:27:22 GMT -->

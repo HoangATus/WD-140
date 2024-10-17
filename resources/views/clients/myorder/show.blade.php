@@ -153,12 +153,12 @@
                                     </div>
 
                                     <div class="d-flex justify-content-center align-items-center mt-4">
-                                        @if (in_array($order->status, ['pending', 'confirmed']))
-                                            <a href="{{ route('orders.cancel.form', $order->id) }}"
-                                                class="btn btn-danger me-3"
-                                                style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">Hủy
-                                                Đơn Hàng</a>
-                                        @endif
+                                        @if ($order->status === 'pending')
+                                        <a href="{{ route('orders.cancel.form', $order->id) }}"
+                                            class="btn btn-danger me-3"
+                                            style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">Hủy Đơn Hàng</a>
+                                    @endif
+                                    
 
                                         @if ($order->status == 'canceled')
                                             <form action="{{ route('orders.reorder', $order->id) }}" method="POST"
@@ -173,7 +173,12 @@
                                             Quay lại Trang Chủ
                                         </a>
                                     </div>
-
+                                    @if ($order->status == \App\Models\Order::STATUS_DELIVERED)
+                                    <form action="{{ route('orders.confirm-receipt', $order->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success">Đã Nhận Hàng</button>
+                                    </form>
+                                @endif
 
                                 </div>
                             </div>
