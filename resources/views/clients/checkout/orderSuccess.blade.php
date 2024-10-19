@@ -65,8 +65,8 @@
 
                         <div class="order-contain">
                             <h3 class="theme-color">Đặt hàng thành công</h3>
-                            <h5 class="text-content">Thanh toán thành công và đơn hàng của bạn đang trên đường</h5>
-                            <h6>Mã giao dịch: 1708031724431131</h6>
+                            {{-- <h5 class="text-content">Thanh toán thành công và đơn hàng của bạn đang trên đường</h5>
+                            <h6>Mã giao dịch: 1708031724431131</h6> --}}
 
 
                         </div>
@@ -77,9 +77,9 @@
 
                     <div class="d-flex flex-column align-items-center mt-3">
 
-                        <a href="" class="btn btn-success" style="width: 200px;">Tiếp tục mua hàng</a>
+                        <a href="{{ route('home') }}" class="btn btn-success" style="width: 200px;">Tiếp tục mua hàng</a>
                          
-                        <a href="" class="btn btn-secondary mt-2" style="width: 200px;">Chi tiết đơn hàng</a>
+                        <a href="{{ route('orders.index') }}" class="btn btn-secondary mt-2" style="width: 200px;">Đơn hàng của tôi</a>
 
                     </div>
 

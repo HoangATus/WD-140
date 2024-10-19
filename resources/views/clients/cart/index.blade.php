@@ -1,5 +1,3 @@
-<!-- resources/views/cart/index.blade.php -->
-
 @extends('clients.layouts.client')
 
 @section('content')
@@ -44,7 +42,15 @@
                                 <td>{{ $item['variant_name'] }}</td>
                                 <td>{{ number_format($item['price'], 0, ',', '.') }} ₫</td>
                                 <td>
-                                    <input type="number" class="form-control quantity-input" min="1" value="{{ $item['quantity'] }}" style="width: 80px;">
+                                    <div class="input-group quantity-group" style="width: 170px;">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-outline btn-decrease" type="button">-</button>
+                                        </div>
+                                        <input type="number" class="form-control quantity-input" min="1" value="{{ $item['quantity'] }}">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline btn-increase" type="button">+</button>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="total-price">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} ₫</td>
                                 <td>
@@ -72,8 +78,6 @@
     <!-- JavaScript để xử lý cập nhật và xóa giỏ hàng -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const quantityInputs = document.querySelectorAll('.quantity-input');
-            const removeButtons = document.querySelectorAll('.btn-remove');
             const cartTotal = document.getElementById('cart-total');
 
             // Hàm cập nhật tổng tiền
@@ -81,49 +85,84 @@
                 cartTotal.textContent = newTotal;
             }
 
-            // Xử lý thay đổi số lượng
-            quantityInputs.forEach(input => {
-                input.addEventListener('change', function() {
-                    const row = this.closest('tr');
-                    const variantId = row.getAttribute('data-variant-id');
-                    const newQuantity = this.value;
+            // Hàm cập nhật số lượng
+            function updateQuantity(row, newQuantity) {
+                const variantId = row.getAttribute('data-variant-id');
+                
+                if (newQuantity < 1) {
+                    alert('Số lượng phải ít nhất là 1.');
+                    return;
+                }
 
-                    if (newQuantity < 1) {
-                        alert('Số lượng phải ít nhất là 1.');
-                        this.value = 1;
-                        return;
-                    }
+                axios.post('{{ route("cart.update") }}', {
+                    variant_id: variantId,
+                    quantity: newQuantity
+                })
+                .then(response => {
+                    // Cập nhật thành tiền của sản phẩm
+                    const price = parseInt(row.querySelector('td:nth-child(4)').textContent.replace(/\D/g, ''));
+                    const totalPrice = price * newQuantity;
+                    row.querySelector('.total-price').textContent = new Intl.NumberFormat('vi-VN').format(totalPrice) + ' ₫';
 
-                    axios.post('{{ route("cart.update") }}', {
-                        variant_id: variantId,
-                        quantity: newQuantity
-                    })
-                    .then(response => {
-                        // Cập nhật thành tiền của dòng đó
-                        const price = parseInt(row.querySelector('td:nth-child(4)').textContent.replace(/\D/g, ''));
-                        const totalPrice = price * newQuantity;
-                        row.querySelector('.total-price').textContent = new Intl.NumberFormat('vi-VN').format(totalPrice) + ' ₫';
-
-                        // Cập nhật tổng tiền
-                        let total = 0;
-                        document.querySelectorAll('.total-price').forEach(el => {
-                            total += parseInt(el.textContent.replace(/\D/g, ''));
-                        });
-                        updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) + ' ₫');
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        if (error.response && error.response.data && error.response.data.message) {
-                            alert(error.response.data.message);
-                        } else {
-                            alert('Đã xảy ra lỗi khi cập nhật giỏ hàng.');
-                        }
+                    // Cập nhật tổng tiền giỏ hàng
+                    let total = 0;
+                    document.querySelectorAll('.total-price').forEach(el => {
+                        total += parseInt(el.textContent.replace(/\D/g, ''));
                     });
+                    updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) + ' ₫');
+                })
+                .catch(error => {
+                    console.error(error);
+                    if (error.response && error.response.data && error.response.data.message) {
+                        alert(error.response.data.message);
+                    } else {
+                        alert('Đã xảy ra lỗi khi cập nhật giỏ hàng.');
+                    }
+                });
+            }
+
+            // Xử lý nút tăng số lượng
+            document.querySelectorAll('.btn-increase').forEach(button => {
+                button.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const input = row.querySelector('.quantity-input');
+                    const newQuantity = parseInt(input.value) + 1;
+                    input.value = newQuantity;
+                    updateQuantity(row, newQuantity);
                 });
             });
 
-            // Xử lý xóa sản phẩm
-            removeButtons.forEach(button => {
+            // Xử lý nút giảm số lượng
+            document.querySelectorAll('.btn-decrease').forEach(button => {
+                button.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const input = row.querySelector('.quantity-input');
+                    const newQuantity = parseInt(input.value) - 1;
+
+                    if (newQuantity >= 1) {
+                        input.value = newQuantity;
+                        updateQuantity(row, newQuantity);
+                    }
+                });
+            });
+
+            // Xử lý thay đổi trực tiếp trong input số lượng
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const row = this.closest('tr');
+                    const newQuantity = parseInt(this.value);
+
+                    if (newQuantity >= 1) {
+                        updateQuantity(row, newQuantity);
+                    } else {
+                        this.value = 1;
+                        alert('Số lượng phải ít nhất là 1.');
+                    }
+                });
+            });
+
+            // Xử lý xóa sản phẩm khỏi giỏ hàng
+            document.querySelectorAll('.btn-remove').forEach(button => {
                 button.addEventListener('click', function() {
                     const row = this.closest('tr');
                     const variantId = row.getAttribute('data-variant-id');
@@ -133,17 +172,17 @@
                             variant_id: variantId
                         })
                         .then(response => {
-                            // Loại bỏ dòng đó khỏi bảng
+                            // Loại bỏ dòng sản phẩm khỏi bảng
                             row.remove();
 
-                            // Cập nhật tổng tiền
+                            // Cập nhật tổng tiền giỏ hàng
                             let total = 0;
                             document.querySelectorAll('.total-price').forEach(el => {
                                 total += parseInt(el.textContent.replace(/\D/g, ''));
                             });
                             updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) + ' ₫');
 
-                            // Nếu giỏ hàng trống, hiển thị thông báo
+                            // Kiểm tra nếu giỏ hàng trống, hiển thị thông báo
                             if (document.querySelectorAll('.cart-section tbody tr').length === 0) {
                                 document.querySelector('.cart-section').innerHTML = `
                                     <p>Giỏ hàng của bạn đang trống.</p>
