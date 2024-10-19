@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="breadcrumb-contain">
-                       
+
                         <nav>
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item">
@@ -81,9 +81,12 @@
 
                                 <div class="col-12">
                                     <div class="form-floating theme-form-floating position-relative">
-                                        <input type="password" class="form-control" id="user_password" name="user_password" placeholder="User Password">
+                                        <input type="password" class="form-control" id="user_password" name="user_password"
+                                            placeholder="User Password">
                                         <label for="user_password">Mật khẩu</label>
-                                        <button type="button" class="btn btn-link position-absolute end-0 top-0 mt-2 me-2 text-muted" onclick="togglePasswordVisibility('user_password', 'toggle-password-icon')">
+                                        <button type="button"
+                                            class="btn btn-link position-absolute end-0 top-0 mt-2 me-2 text-muted"
+                                            onclick="togglePasswordVisibility('user_password', 'toggle-password-icon')">
                                             <i class="ri-eye-fill align-middle" id="toggle-password-icon"></i>
                                         </button>
                                         @error('user_password')
@@ -91,12 +94,15 @@
                                         @enderror
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-12">
                                     <div class="form-floating theme-form-floating position-relative">
-                                        <input type="password" class="form-control" id="user_password_confirmation" name="user_password_confirmation" placeholder="Confirm Password">
+                                        <input type="password" class="form-control" id="user_password_confirmation"
+                                            name="user_password_confirmation" placeholder="Confirm Password">
                                         <label for="user_password_confirmation">Nhập lại mật khẩu</label>
-                                        <button type="button" class="btn btn-link position-absolute end-0 top-0 mt-2 me-2 text-muted" onclick="togglePasswordVisibility('user_password_confirmation', 'toggle-password-confirmation-icon')">
+                                        <button type="button"
+                                            class="btn btn-link position-absolute end-0 top-0 mt-2 me-2 text-muted"
+                                            onclick="togglePasswordVisibility('user_password_confirmation', 'toggle-password-confirmation-icon')">
                                             <i class="ri-eye-fill align-middle" id="toggle-password-confirmation-icon"></i>
                                         </button>
                                         @error('user_password_confirmation')
@@ -125,5 +131,7 @@
             </div>
         </div>
     </section>
+
+    
     <!-- log in section end -->
 @endsection

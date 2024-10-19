@@ -53,6 +53,7 @@ Route::middleware(['web'])->group(function () {
     // Thanh Toán
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
