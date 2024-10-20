@@ -75,7 +75,7 @@ class ProductController extends Controller
         }
 
         // Lấy danh sách sản phẩm sau khi lọc và sắp xếp
-        $listProduct = $query->with('variants')->paginate(8); // Phân trang với 6 sản phẩm mỗi trang
+        $listProduct = $query->with('variants')->paginate(9); // Phân trang với 6 sản phẩm mỗi trang
 
         // Lấy danh sách danh mục
         $listCategory = Category::withCount('products')->get();

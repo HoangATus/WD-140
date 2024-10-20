@@ -136,11 +136,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="right-side">
-                                        <a href="wishlist.html" class="btn p-0 position-relative header-wishlist">
-                                            <i data-feather="bookmark"></i>
-                                        </a>
-                                    </li>
+                                   
                                     <li class="right-side">
                                         <div class="onhover-dropdown header-badge">
                                             <button type="button" class="btn p-0 position-relative header-wishlist">

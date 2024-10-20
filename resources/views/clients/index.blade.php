@@ -34,7 +34,7 @@
         </div>
     </div>
     @else
-    <p class="text-center text-success">Hiện tại không có banner nào đang hoạt động.</p>
+    {{-- <p class="text-center text-success">Hiện tại không có banner nào đang hoạt động.</p> --}}
     @endif
 </section>
 <!-- Home Section End -->
@@ -143,8 +143,7 @@
             </div>
         </div>
     </div>
-
-    <section>
+    <section class="container">
         <div class="container-fluid-lg">
             <div class="row g-md-4 g-3">
                 <div class="col-xxl-8 col-xl-12 col-md-7">
@@ -163,7 +162,7 @@
                     </div>
                 </div>
 
-                <div class="col-xxl-4 col-xl-12 col-md-5">
+                {{-- <div class="col-xxl-4 col-xl-12 col-md-5">
                     <img src="{{ asset('assets/clients/images/fashion/banner/2.jpg') }}" class="bg-img blur-up lazyload"
                         alt="">
                     <div class="banner-details p-center-left p-4 h-100">
@@ -173,7 +172,7 @@
                             <h3 class="fw-normal product-name text-title">Giá cả hợp lý</h3>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>

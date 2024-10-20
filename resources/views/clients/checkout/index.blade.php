@@ -86,41 +86,50 @@
                                                     @csrf
                                                     <div class="form-group">
                                                         <label for="name">Tên Người Nhận</label>
-                                                        <input type="text" class="form-control" id="name" name="name" required>
+                                                        <input type="text" name="name" class="form-control"
+                                                            id="name" value="{{ old('name', $user->user_name) }}"
+                                                            required>
                                                     </div>
-                                                    
+
                                                     <div class="form-group">
                                                         <label for="phone">Số Điện Thoại</label>
-                                                        <input type="text" class="form-control" id="phone" name="phone" required>
+                                                        <input type="text" class="form-control" id="phone"
+                                                            name="phone" value="{{ $user->user_email ?? '' }}" required>
                                                     </div>
-                                                    
+
                                                     <div class="form-group">
                                                         <label for="address">Địa Chỉ</label>
-                                                        <input type="text" class="form-control" id="address" name="address" required>
+                                                        <input type="text" class="form-control" id="address"
+                                                            name="address" value="{{ $user->user_phone_number ?? '' }}"
+                                                            required>
                                                     </div>
-                                                    
+
                                                     <div class="form-group">
                                                         <label for="notes">Ghi Chú</label>
                                                         <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
                                                     </div>
-                                                    
+
                                                     <div class="form-group">
                                                         <label>Phương Thức Thanh Toán</label>
                                                         <div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="payment_method" id="payment_cod" value="cod" required>
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="payment_method" id="payment_cod" value="cod"
+                                                                    required>
                                                                 <label class="form-check-label" for="payment_cod">
                                                                     Thanh toán khi nhận hàng (COD)
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="payment_method" id="payment_online" value="online">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="payment_method" id="payment_online"
+                                                                    value="online">
                                                                 <label class="form-check-label" for="payment_online">
                                                                     Thanh toán trực tuyến
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                    </div>                                                    
+                                                    </div>
                                     </li>
                                 </ul>
                             </div>
@@ -136,9 +145,9 @@
                                             <img src="{{ $item['image'] }}"
                                                 class="img-fluid blur-up lazyloaded checkout-image" alt="">
                                             <h6>{{ $item['product_name'] }} <span> <strong> X
-                                                        {{ $item['quantity'] }}</strong></span></h6>
-                                            <a
-                                                class="price">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫</a>
+                                                        {{ $item['quantity'] }}</strong></span></h6&nbsp>
+                                                <a
+                                                    class="price">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫</a>
                                         </li>
                                     @endforeach
                                 </ul>
