@@ -51,9 +51,7 @@
             </div>
 
             <!-- Pagination (nếu có nhiều đơn hàng) -->
-            <div class="d-flex justify-content-center mt-4">
-                {{ $orders->links() }}
-            </div>
+            {{ $orders->links('pagination::bootstrap-5') }}
         @else
             <div class="alert alert-info text-center">
                 Bạn chưa có đơn hàng nào.
