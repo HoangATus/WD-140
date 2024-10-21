@@ -28,8 +28,8 @@
     <section class="product-section">
         <div class="container-fluid-lg">
             <div class="row">
-                <div class="col-xxl-9 col-xl-8 col-lg-7 wow fadeInUp">
-                    <div class="row g-4">
+                {{-- <div class="col-xxl-9 col-xl-8 col-lg-7 wow fadeInUp"> --}}
+                    {{-- <div class="row g-4"> --}}
                         <div class="col-xl-6 wow fadeInUp">
                             <div class="product-left-box">
                                 <div class="row g-2">
@@ -124,22 +124,22 @@
                                 {{-- <h6 class="offer-top">Giảm giá 30%</h6> --}}
                                 <h2 class="name">{{ $product->product_name }}</h2>
 
-                                <p>Mã sản phẩm <b>:{{ $product->product_code }}</b></p>
+                                <p>Mã sản phẩm <b>: {{ $product->product_code }}</b></p>
 
                                 <div class="product-detail">
-                                    <h3 class="theme-color price" id="current-price">
+                                    <h3 class="theme-color price" id="current-price" style="font-size: 26px">
                                         {{ number_format($product->variants->first()->variant_sale_price, 0, ',', '.') }}
-                                        ₫
+                                        VNĐ
                                     </h3>
                                     <del id="current-listed-price" class="text-content">
                                         {{ number_format($product->variants->first()->variant_listed_price, 0, ',', '.') }}
-                                        ₫
+                                        VNĐ
                                     </del>
                                 </div>
 
                                 <div class="product-options">
                                     <!-- Màu sắc -->
-                                    <div class="option-title">Màu sắc:</div>
+                                    <div class="option-title" style="margin-top: 10px">Màu sắc:</div>
                                     <div class="option-list" id="color-options">
                                         @php
                                             $colorCounts = [];
@@ -165,10 +165,10 @@
 
                                         <!-- Hiển thị màu sắc và tổng số lượng -->
                                         @foreach ($colorCounts as $color => $totalQuantity)
-                                            <button class="option-item-color btn-color" data-color="{{ $color }}"
+                                            <button class="option-item-color btn-color" style="margin-bottom: 10px;" data-color="{{ $color }}"
                                                 data-quantity="{{ $totalQuantity }}">
                                                 <span class="color-name">{{ $color }} </span>
-                                                <span class="checkmark" style="display: none;"><i
+                                                <span class="checkmark" style="display: none; "><i
                                                         class="fa-solid fa-check"></i></span>
                                             </button>
                                         @endforeach
@@ -257,8 +257,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    {{-- </div> --}}
+                {{-- </div> --}}
         </section>
 
         <!-- Related Product Section Start -->
