@@ -19,7 +19,9 @@ class StoreCategoryRequest extends FormRequest
        
             return [
                 'name' => 'required|string|min:2|unique:categories,name', 
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5048', 
+
+                'cover' => 'nullable|image|max:5048', 
+
             ];
         }
         
@@ -30,7 +32,7 @@ class StoreCategoryRequest extends FormRequest
             'name.min' => 'Tên danh mục phải có ít nhất 2 ký tự.',
             'name.unique' => 'Tên danh mục đã tồn tại.',
             'cover.image' => 'Ảnh bìa phải là một tập tin hình ảnh.',
-            'cover.mimes' => 'Ảnh bìa phải có định dạng jpeg, png, jpg, hoặc gif.',
+            // 'cover.mimes' => 'Ảnh bìa phải có định dạng jpeg, png, jpg, hoặc gif.',
             'cover.max' => 'Ảnh bìa không được vượt quá 5MB.',
         ];
     }
