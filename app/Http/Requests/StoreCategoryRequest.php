@@ -19,7 +19,7 @@ class StoreCategoryRequest extends FormRequest
        
             return [
                 'name' => 'required|string|min:2|unique:categories,name', 
-                'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048', 
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5048', 
             ];
         }
         

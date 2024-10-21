@@ -14,13 +14,17 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12 mt-3">
                     <label>Mã Đơn Hàng</label>
                     <input type="text" class="form-control" value="{{ $order->order_code }}" readonly>
+              </div>
+                <div class="col-md-6">
+                    <label>Phương thức thanh toán</label>
+                    <input type="text" class="form-control" value=" {{ $order->payment_method }}" readonly>
                 </div>
                 <div class="col-md-6">
                     <label>Trạng Thái Thanh Toán</label>
-                    <input type="text" class="form-control" value="{{ $order->payment_method }}" readonly>
+                    <input type="text" class="form-control" value="{{ $order->payment }}" readonly>
                 </div>
                 <div class="col-md-6 mt-3">
                     <label>Tên Khách Hàng</label>
