@@ -19,7 +19,9 @@ class StoreCategoryRequest extends FormRequest
        
             return [
                 'name' => 'required|string|min:2|unique:categories,name', 
+
                 'cover' => 'nullable|image|max:5048', 
+
             ];
         }
         
