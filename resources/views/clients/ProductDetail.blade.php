@@ -1,346 +1,410 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Breadcrumb Section Start -->
-    <section class="">
-        <div class="container-fluid-lg">
-            <div class="row">
-                <div class="col-12">
-                    <div class="breadcrumb-contain">
-                        <nav>
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('home') }}">
-                                        <i class="fa-solid fa-house"></i>
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item active">{{ $product->product_name }}</li>
-                            </ol>
-                        </nav>
-                    </div>
+<!-- Breadcrumb Section Start -->
+<section class="">
+    <div class="container-fluid-lg">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-contain">
+                    <nav>
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('home') }}">
+                                    <i class="fa-solid fa-house"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active">{{ $product->product_name }}</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Breadcrumb Section End -->
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
 
-    <!-- Product Section Start -->
-    <section class="product-section">
-        <div class="container-fluid-lg">
-            <div class="row">
-                <div class="col-xxl-9 col-xl-8 col-lg-7 wow fadeInUp">
-                    <div class="row g-4">
-                        <div class="col-xl-6 wow fadeInUp">
-                            <div class="product-left-box">
-                                <div class="row g-2">
-                                    <!-- Main Image and Thumbnails -->
-                                    <div class="col-xxl-10 col-lg-12 col-md-10 order-xxl-2 order-lg-1 order-md-2">
-                                        <div class="product-main-2 no-arrow">
-                                            @php
-                                                // Lấy các ảnh từ product_galleries và loại bỏ trùng lặp
-                                                $uniqueGalleries = $product->galleries->unique('image');
-
-                                                // Lấy các ảnh từ variants không trùng với product_galleries
-                                                $variantImages = $product->variants
-                                                    ->filter(function ($variant) use ($uniqueGalleries) {
-                                                        return $variant->image &&
-                                                            !$uniqueGalleries->contains('image', $variant->image);
-                                                    })
-                                                    ->unique('image');
-                                            @endphp
-
-                                            <div class="slider-image">
-                                                <!-- Ảnh chính của sản phẩm -->
-                                                <img src="{{ Storage::url($product->product_image_url) }}" id="img-0"
-                                                    data-zoom-image="{{ Storage::url($product->product_image_url) }}"
-                                                    class="img-fluid image_zoom_cls-0 blur-up lazyload"
-                                                    alt="{{ $product->product_name }}">
-                                            </div>
-
-                                            <!-- Ảnh từ product_galleries -->
-                                            @foreach ($uniqueGalleries as $index => $gallery)
-                                                <div class="slider-image">
-                                                    <img src="{{ Storage::url($gallery->image) }}"
-                                                        id="img-{{ $index + 1 }}"
-                                                        data-zoom-image="{{ Storage::url($gallery->image) }}"
-                                                        class="img-fluid image_zoom_cls-{{ $index + 1 }} blur-up lazyload"
-                                                        alt="{{ $product->product_name }} Gallery {{ $index + 1 }}">
-                                                </div>
-                                            @endforeach
-
-                                            <!-- Ảnh từ variants -->
-                                            @foreach ($variantImages as $index => $variantImage)
-                                                <div class="slider-image">
-                                                    <img src="{{ Storage::url($variantImage->image) }}"
-                                                        data-zoom-image="{{ Storage::url($variantImage->image) }}"
-                                                        class="img-fluid image_zoom_cls-{{ $uniqueGalleries->count() + $index + 1 }} blur-up lazyload"
-                                                        alt="{{ $product->product_name }} Variant">
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xxl-2 col-lg-12 col-md-2 order-xxl-1 order-lg-2 order-md-1">
-                                        <div class="left-slider-image-2 left-slider no-arrow slick-top">
-                                            <!-- Ảnh chính của sản phẩm trong thumbnails -->
-                                            <div>
-                                                <div class="sidebar-image">
-                                                    <img src="{{ Storage::url($product->product_image_url) }}"
-                                                        class="img-fluid blur-up lazyload"
-                                                        alt="{{ $product->product_name }}">
-                                                </div>
-                                            </div>
-
-                                            <!-- Thumbnails từ product_galleries -->
-                                            @foreach ($uniqueGalleries as $gallery)
-                                                <div>
-                                                    <div class="sidebar-image">
-                                                        <img src="{{ Storage::url($gallery->image) }}"
-                                                            class="img-fluid blur-up lazyload"
-                                                            alt="{{ $product->product_name }} Gallery">
-                                                    </div>
-                                                </div>
-                                            @endforeach
-
-                                            <!-- Thumbnails từ variants -->
-                                            @foreach ($variantImages as $variantImage)
-                                                <div>
-                                                    <div class="sidebar-image">
-                                                        <img src="{{ Storage::url($variantImage->image) }}"
-                                                            class="img-fluid blur-up lazyload"
-                                                            alt="{{ $product->product_name }} Variant">
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Thông tin sản phẩm bên phải -->
-                        <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="right-box-contain">
-                                {{-- <h6 class="offer-top">Giảm giá 30%</h6> --}}
-                                <h2 class="name">{{ $product->product_name }}</h2>
-
-                                <p>Mã sản phẩm <b>:{{ $product->product_code }}</b></p>
-
-                                <div class="product-detail">
-                                    <h3 class="theme-color price" id="current-price">
-                                        {{ number_format($product->variants->first()->variant_sale_price, 0, ',', '.') }}
-                                        ₫
-                                    </h3>
-                                    <del id="current-listed-price" class="text-content">
-                                        {{ number_format($product->variants->first()->variant_listed_price, 0, ',', '.') }}
-                                        ₫
-                                    </del>
-                                </div>
-
-                                <div class="product-options">
-                                    <!-- Màu sắc -->
-                                    <div class="option-title">Màu sắc:</div>
-                                    <div class="option-list" id="color-options">
+<!-- Product Section Start -->
+<section class="product-section">
+    <div class="container-fluid-lg">
+        <div class="row">
+            <div class="col-xxl-9 col-xl-8 col-lg-7 wow fadeInUp">
+                <div class="row g-4">
+                    <div class="col-xl-6 wow fadeInUp">
+                        <div class="product-left-box">
+                            <div class="row g-2">
+                                <!-- Main Image and Thumbnails -->
+                                <div class="col-xxl-10 col-lg-12 col-md-10 order-xxl-2 order-lg-1 order-md-2">
+                                    <div class="product-main-2 no-arrow">
                                         @php
-                                            $colorCounts = [];
-                                            $sizeCounts = [];
-                                            foreach ($product->variants as $variant) {
-                                                $color = $variant->color->name;
-                                                $size = $variant->size->attribute_size_name;
-                                                $quantity = $variant->quantity ?? 0;
+                                        // Lấy các ảnh từ product_galleries và loại bỏ trùng lặp
+                                        $uniqueGalleries = $product->galleries->unique('image');
 
-                                                // Đếm số lượng sản phẩm theo màu
-                                                if (!isset($colorCounts[$color])) {
-                                                    $colorCounts[$color] = 0;
-                                                }
-                                                $colorCounts[$color] += $quantity;
-
-                                                // Đếm số lượng sản phẩm theo kích thước
-                                                if (!isset($sizeCounts[$size])) {
-                                                    $sizeCounts[$size] = 0;
-                                                }
-                                                $sizeCounts[$size] += $quantity;
-                                            }
+                                        // Lấy các ảnh từ variants không trùng với product_galleries
+                                        $variantImages = $product->variants
+                                        ->filter(function ($variant) use ($uniqueGalleries) {
+                                        return $variant->image &&
+                                        !$uniqueGalleries->contains('image', $variant->image);
+                                        })
+                                        ->unique('image');
                                         @endphp
 
-                                        <!-- Hiển thị màu sắc và tổng số lượng -->
-                                        @foreach ($colorCounts as $color => $totalQuantity)
-                                            <button class="option-item-color btn-color" data-color="{{ $color }}"
-                                                data-quantity="{{ $totalQuantity }}">
-                                                <span class="color-name">{{ $color }} </span>
-                                                <span class="checkmark" style="display: none;"><i
-                                                        class="fa-solid fa-check"></i></span>
-                                            </button>
-                                        @endforeach
-                                    </div>
-
-                                    <!-- Kích thước -->
-                                    <div class="option-title">Kích thước:</div>
-                                    <div class="option-list" id="size-options">
-                                        @foreach ($sizeCounts as $size => $totalQuantity)
-                                            <button class="option-item-size btn-size" data-size="{{ $size }}"
-                                                data-total-quantity="{{ $totalQuantity }}">
-                                                <span class="size-name">{{ $size }} </span>
-                                                <span class="checkmark" style="display: none;"><i
-                                                        class="fa-solid fa-check"></i></span>
-                                            </button>
-                                        @endforeach
-                                    </div>
-                                </div>
-
-                                <!-- Trường Hiển Thị Số Lượng Có Sẵn -->
-                                <div class="available-quantity" id="available-quantity" style="margin-top: 10px;">
-                                    Số lượng có sẵn: <span id="available-quantity-value">N/A</span>
-                                </div>
-
-                                <!-- Chọn số lượng -->
-                                <div class="note-box product-package">
-                                    <div class="cart_qty qty-box product-qty">
-                                        <div class="input-group">
-                                            <button type="button" class="qty-left-minus" data-type="minus" data-field="">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                            <input class="form-control input-number qty-input" type="number"
-                                                name="quantity" value="1" min="1" max="1"
-                                                id="quantity-input">
-                                            <button type="button" class="qty-right-plus" data-type="plus"
-                                                data-field="">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
+                                        <div class="slider-image">
+                                            <!-- Ảnh chính của sản phẩm -->
+                                            <img src="{{ Storage::url($product->product_image_url) }}" id="img-0"
+                                                data-zoom-image="{{ Storage::url($product->product_image_url) }}"
+                                                class="img-fluid image_zoom_cls-0 blur-up lazyload"
+                                                alt="{{ $product->product_name }}">
                                         </div>
+
+                                        <!-- Ảnh từ product_galleries -->
+                                        @foreach ($uniqueGalleries as $index => $gallery)
+                                        <div class="slider-image">
+                                            <img src="{{ Storage::url($gallery->image) }}"
+                                                id="img-{{ $index + 1 }}"
+                                                data-zoom-image="{{ Storage::url($gallery->image) }}"
+                                                class="img-fluid image_zoom_cls-{{ $index + 1 }} blur-up lazyload"
+                                                alt="{{ $product->product_name }} Gallery {{ $index + 1 }}">
+                                        </div>
+                                        @endforeach
+
+                                        <!-- Ảnh từ variants -->
+                                        @foreach ($variantImages as $index => $variantImage)
+                                        <div class="slider-image">
+                                            <img src="{{ Storage::url($variantImage->image) }}"
+                                                data-zoom-image="{{ Storage::url($variantImage->image) }}"
+                                                class="img-fluid image_zoom_cls-{{ $uniqueGalleries->count() + $index + 1 }} blur-up lazyload"
+                                                alt="{{ $product->product_name }} Variant">
+                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
 
-                                <!-- Các Trường Ẩn cho Biến Thể và Số Lượng -->
-                                <input type="hidden" id="selected-variant-id" name="variant_id" value="">
-                                <input type="hidden" id="selected-quantity" name="quantity" value="1">
+                                <div class="col-xxl-2 col-lg-12 col-md-2 order-xxl-1 order-lg-2 order-md-1">
+                                    <div class="left-slider-image-2 left-slider no-arrow slick-top">
+                                        <!-- Ảnh chính của sản phẩm trong thumbnails -->
+                                        <div>
+                                            <div class="sidebar-image">
+                                                <img src="{{ Storage::url($product->product_image_url) }}"
+                                                    class="img-fluid blur-up lazyload"
+                                                    alt="{{ $product->product_name }}">
+                                            </div>
+                                        </div>
 
-                                <!-- Nút Thêm vào giỏ và Mua ngay -->
-                                <div class="note-box product-package">
-                                    <button onclick="addToCart()"
-                                        class="btn btn-md bg-dark cart-button text-white w-50">Thêm vào giỏ</button>
-                                    <button onclick="buyNow()"
-                                        class="btn btn-md bg-danger cart-button text-white w-50">Mua ngay</button>
+                                        <!-- Thumbnails từ product_galleries -->
+                                        @foreach ($uniqueGalleries as $gallery)
+                                        <div>
+                                            <div class="sidebar-image">
+                                                <img src="{{ Storage::url($gallery->image) }}"
+                                                    class="img-fluid blur-up lazyload"
+                                                    alt="{{ $product->product_name }} Gallery">
+                                            </div>
+                                        </div>
+                                        @endforeach
+
+                                        <!-- Thumbnails từ variants -->
+                                        @foreach ($variantImages as $variantImage)
+                                        <div>
+                                            <div class="sidebar-image">
+                                                <img src="{{ Storage::url($variantImage->image) }}"
+                                                    class="img-fluid blur-up lazyload"
+                                                    alt="{{ $product->product_name }} Variant">
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Tab mô tả và đánh giá -->
-                    <div class="col-12">
-                        <div class="product-section-box">
-                            <ul class="nav nav-tabs custom-nav" id="myTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab"
-                                        data-bs-target="#description" type="button" role="tab">Mô tả</button>
-                                </li>
+                    <!-- Thông tin sản phẩm bên phải -->
+                    <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="right-box-contain">
+                            {{-- <h6 class="offer-top">Giảm giá 30%</h6> --}}
+                            <h2 class="name">{{ $product->product_name }}</h2>
 
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info"
-                                        type="button" role="tab">Đánh giá từ khách hàng</button>
-                                </li>
-                            </ul>
+                            <p>Mã sản phẩm <b>:{{ $product->product_code }}</b></p>
 
-                            <div class="tab-content custom-tab" id="myTabContent">
-                                <div class="tab-pane fade show active" id="description" role="tabpanel">
-                                    <div class="product-description">
-                                        <div class="nav-desh">
-                                            <p>{{ $product->description }}</p>
-                                        </div>
-                                    </div>
+                            <div class="product-detail">
+                                <h3 class="theme-color price" id="current-price">
+                                    {{ number_format($product->variants->first()->variant_sale_price, 0, ',', '.') }}
+                                    ₫
+                                </h3>
+                                <del id="current-listed-price" class="text-content">
+                                    {{ number_format($product->variants->first()->variant_listed_price, 0, ',', '.') }}
+                                    ₫
+                                </del>
+                            </div>
+
+                            <div class="product-options">
+                                <!-- Màu sắc -->
+                                <div class="option-title">Màu sắc:</div>
+                                <div class="option-list" id="color-options">
+                                    @php
+                                    $colorCounts = [];
+                                    $sizeCounts = [];
+                                    foreach ($product->variants as $variant) {
+                                    $color = $variant->color->name;
+                                    $size = $variant->size->attribute_size_name;
+                                    $quantity = $variant->quantity ?? 0;
+
+                                    // Đếm số lượng sản phẩm theo màu
+                                    if (!isset($colorCounts[$color])) {
+                                    $colorCounts[$color] = 0;
+                                    }
+                                    $colorCounts[$color] += $quantity;
+
+                                    // Đếm số lượng sản phẩm theo kích thước
+                                    if (!isset($sizeCounts[$size])) {
+                                    $sizeCounts[$size] = 0;
+                                    }
+                                    $sizeCounts[$size] += $quantity;
+                                    }
+                                    @endphp
+
+                                    <!-- Hiển thị màu sắc và tổng số lượng -->
+                                    @foreach ($colorCounts as $color => $totalQuantity)
+                                    <button class="option-item-color btn-color" data-color="{{ $color }}"
+                                        data-quantity="{{ $totalQuantity }}">
+                                        <span class="color-name">{{ $color }} </span>
+                                        <span class="checkmark" style="display: none;"><i
+                                                class="fa-solid fa-check"></i></span>
+                                    </button>
+                                    @endforeach
                                 </div>
 
-                                <div class="tab-pane fade" id="info" role="tabpanel">
-                                    <div class="table-responsive">
-                                        <!-- Nội dung đánh giá khách hàng -->
+                                <!-- Kích thước -->
+                                <div class="option-title">Kích thước:</div>
+                                <div class="option-list" id="size-options">
+                                    @foreach ($sizeCounts as $size => $totalQuantity)
+                                    <button class="option-item-size btn-size" data-size="{{ $size }}"
+                                        data-total-quantity="{{ $totalQuantity }}">
+                                        <span class="size-name">{{ $size }} </span>
+                                        <span class="checkmark" style="display: none;"><i
+                                                class="fa-solid fa-check"></i></span>
+                                    </button>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Trường Hiển Thị Số Lượng Có Sẵn -->
+                            <div class="available-quantity" id="available-quantity" style="margin-top: 10px;">
+                                Số lượng có sẵn: <span id="available-quantity-value">N/A</span>
+                            </div>
+
+                            <!-- Chọn số lượng -->
+                            <div class="note-box product-package">
+                                <div class="cart_qty qty-box product-qty">
+                                    <div class="input-group">
+                                        <button type="button" class="qty-left-minus" data-type="minus" data-field="">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input class="form-control input-number qty-input" type="number"
+                                            name="quantity" value="1" min="1" max="1"
+                                            id="quantity-input">
+                                        <button type="button" class="qty-right-plus" data-type="plus"
+                                            data-field="">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Các Trường Ẩn cho Biến Thể và Số Lượng -->
+                            <input type="hidden" id="selected-variant-id" name="variant_id" value="">
+                            <input type="hidden" id="selected-quantity" name="quantity" value="1">
+
+                            <!-- Nút Thêm vào giỏ và Mua ngay -->
+                            <div class="note-box product-package">
+                                <button onclick="addToCart()"
+                                    class="btn btn-md bg-dark cart-button text-white w-50">Thêm vào giỏ</button>
+                                <button onclick="buyNow()"
+                                    class="btn btn-md bg-danger cart-button text-white w-50">Mua ngay</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab mô tả và đánh giá -->
+                <div class="col-12">
+                    <div class="product-section-box">
+                        <ul class="nav nav-tabs custom-nav" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="description-tab" data-bs-toggle="tab"
+                                    data-bs-target="#description" type="button" role="tab">Mô tả</button>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info"
+                                    type="button" role="tab">Đánh giá từ khách hàng</button>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#infoo"
+                                    type="button" role="tab">Bình luận từ khách hàng</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content custom-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="description" role="tabpanel">
+                                <div class="product-description">
+                                    <div class="nav-desh">
+                                        <p>{{ $product->description }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="info" role="tabpanel">
+                                <div class="table-responsive">
+                                    <!-- Nội dung đánh giá khách hàng -->
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="infoo" role="tabpanel">
+
+                                <div class="table-responsive">
+                                    <!-- Nội dung bình luận khách hàng -->
+                                    @if($product->comments->isEmpty())
+                                    <p>Chưa có bình luận nào.</p>
+                                    @else
+                                    <ul style="list-style-type: none; padding: 0;">
+                                        @foreach($product->comments as $comment)
+                                        @if($comment->is_approved || auth()->id() === $comment->user_id) <!-- Kiểm tra nếu bình luận đã được phê duyệt hoặc người dùng hiện tại là người đã bình luận -->
+                                        <li class="{{ !$comment->is_approved ? 'unapproved' : '' }}" style="margin-bottom: 15px; display: block;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                <span style="font-weight: bold;">{{ $comment->user->user_name }}</span>
+                                                <span style="color: gray;">{{ $comment->created_at->format('d/m/Y') }}</span>
+                                            </div>
+                                            <p style="margin-top: 5px; @if(!$comment->is_approved) opacity: 0.5; @endif">{{ $comment->comment }}</p>
+
+                                            @if(!$comment->is_approved) <!-- Thông báo chờ phê duyệt -->
+                                            <p style="color: red; margin-top: 5px; font-size: 12px;">Đang chờ phê duyệt...</p>
+                                            @endif
+                                        </li>
+                                        <!-- Thêm dấu ngang ngăn cách giữa các bình luận -->
+                                        <hr style="border: 1px solid #ccc; margin: 10px 0;">
+                                        @endif
+                                        @endforeach
+                                    </ul>
+                                    @endif
+                                    <h3>Bình luận:</h3>
+
+                                    <!-- Hiển thị thông báo thành công nếu có -->
+                                    @if (session('successs'))
+                                    <p style="color: green;">{{ session('successs') }}</p>
+                                    @endif
+
+                                    <!-- Form bình luận -->
+                                    <form action="{{ route('comments.store', $product->id) }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <textarea
+                                            name="comment"
+                                            placeholder="Viết bình luận của bạn"
+                                            required
+                                            style="width: 800px; height: 50px; border-radius: 5px; padding: 15px; text-align: center;"></textarea>
+                                        <br>
+                                        <button type="submit"
+                                            style="border-radius: 5px; border: 1px solid #fff; padding: 10px 20px; background-color: #007bff; color: white;">
+                                            Gửi
+                                        </button>
+                                    </form>
+                                </div>
+
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</section>
+
+<!-- Related Product Section Start -->
+<section class="product-list-section section-b-space">
+    <div class="container-fluid-lg">
+        <div class="title">
+            <h2>Sản phẩm liên quan</h2>
+            <span class="title-leaf">
+                <svg class="icon-width">
+                    <use xlink:href="https://themes.pixelstrap.com/fastkart/assets/svg/leaf.svg#leaf"></use>
+                </svg>
+            </span>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="slider-6_1 product-wrapper">
+                    @foreach ($relatedProducts as $relatedProduct)
+                    <div>
+                        <div class="product-box-3 wow fadeInUp">
+                            <div class="product-header">
+                                <div class="product-image">
+                                    <a href="{{ route('products.show', $relatedProduct->slug) }}">
+                                        <img src="{{ Storage::url($relatedProduct->product_image_url) }}"
+                                            class="img-fluid blur-up lazyload"
+                                            alt="{{ $relatedProduct->product_name }}">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="product-footer">
+                                <div class="product-detail">
+                                    <span class="span-name"></span>
+                                    <a href="{{ route('products.show', $relatedProduct->slug) }}">
+                                        <h5 class="name">{{ $relatedProduct->product_name }}</h5>
+                                    </a>
+
+                                    <div class="product-detail">
+                                        <h3 class="theme-color price">
+                                            {{ number_format($relatedProduct->variants->first()->variant_sale_price, 0, ',', '.') }}
+                                            ₫
+                                        </h3>
+                                        <del class="text-content">
+                                            {{ number_format($relatedProduct->variants->first()->variant_listed_price, 0, ',', '.') }}
+                                            ₫
+                                        </del>
+                                    </div>
+                                    <div class="add-to-cart-box bg-white">
+                                        <button class="btn btn-add-cart addcart-button"><i
+                                                class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Thêm vào
+                                            giỏ</button>
+                                        <div class="cart_qty qty-box">
+                                            <div class="input-group bg-white">
+                                                <button type="button" class="qty-left-minus bg-gray"
+                                                    data-type="minus" data-field="">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <input class="form-control input-number qty-input" type="text"
+                                                    name="quantity" value="0">
+                                                <button type="button" class="qty-right-plus bg-gray"
+                                                    data-type="plus" data-field="">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-        </section>
-
-        <!-- Related Product Section Start -->
-        <section class="product-list-section section-b-space">
-            <div class="container-fluid-lg">
-                <div class="title">
-                    <h2>Sản phẩm liên quan</h2>
-                    <span class="title-leaf">
-                        <svg class="icon-width">
-                            <use xlink:href="https://themes.pixelstrap.com/fastkart/assets/svg/leaf.svg#leaf"></use>
-                        </svg>
-                    </span>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="slider-6_1 product-wrapper">
-                            @foreach ($relatedProducts as $relatedProduct)
-                                <div>
-                                    <div class="product-box-3 wow fadeInUp">
-                                        <div class="product-header">
-                                            <div class="product-image">
-                                                <a href="{{ route('products.show', $relatedProduct->slug) }}">
-                                                    <img src="{{ Storage::url($relatedProduct->product_image_url) }}"
-                                                        class="img-fluid blur-up lazyload"
-                                                        alt="{{ $relatedProduct->product_name }}">
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="product-footer">
-                                            <div class="product-detail">
-                                                <span class="span-name"></span>
-                                                <a href="{{ route('products.show', $relatedProduct->slug) }}">
-                                                    <h5 class="name">{{ $relatedProduct->product_name }}</h5>
-                                                </a>
-
-                                                <div class="product-detail">
-                                                    <h3 class="theme-color price">
-                                                        {{ number_format($relatedProduct->variants->first()->variant_sale_price, 0, ',', '.') }}
-                                                        ₫
-                                                    </h3>
-                                                    <del class="text-content">
-                                                        {{ number_format($relatedProduct->variants->first()->variant_listed_price, 0, ',', '.') }}
-                                                        ₫
-                                                    </del>
-                                                </div>
-                                                <div class="add-to-cart-box bg-white">
-                                                    <button class="btn btn-add-cart addcart-button"><i
-                                                            class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Thêm vào
-                                                        giỏ</button>
-                                                    <div class="cart_qty qty-box">
-                                                        <div class="input-group bg-white">
-                                                            <button type="button" class="qty-left-minus bg-gray"
-                                                                data-type="minus" data-field="">
-                                                                <i class="fa fa-minus"></i>
-                                                            </button>
-                                                            <input class="form-control input-number qty-input" type="text"
-                                                                name="quantity" value="0">
-                                                            <button type="button" class="qty-right-plus bg-gray"
-                                                                data-type="plus" data-field="">
-                                                                <i class="fa fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
-        </section>
-        @include('clients.blocks.assets.js')
-        <!-- Related Product Section End -->
+        </div>
+    </div>
+</section>
+@include('clients.blocks.assets.js')
+<!-- Related Product Section End -->
 
-    <!-- Chèn Dữ Liệu Biến Thể -->
-    <script>
-        const variants = @json($variants);
-    </script>
+<!-- Chèn Dữ Liệu Biến Thể -->
+<script>
+    const variants = @json($variants);
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -523,24 +587,24 @@
         }
 
         axios.post('{{ route("cart.add") }}', {
-            variant_id: variantId,
-            quantity: quantity
-        })
-        .then(response => {
-            console.log('Add to cart response:', response);
-            alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
-            // Tùy chọn: Cập nhật biểu tượng giỏ hàng
-            // Ví dụ: Cập nhật số lượng sản phẩm trong giỏ hàng ở header
-            // document.getElementById('cart-count').textContent = response.data.cart_count;
-        })
-        .catch(error => {
-            console.error('Add to cart error:', error);
-            if (error.response && error.response.data && error.response.data.message) {
-                alert(error.response.data.message);
-            } else {
-                alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
-            }
-        });
+                variant_id: variantId,
+                quantity: quantity
+            })
+            .then(response => {
+                console.log('Add to cart response:', response);
+                alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
+                // Tùy chọn: Cập nhật biểu tượng giỏ hàng
+                // Ví dụ: Cập nhật số lượng sản phẩm trong giỏ hàng ở header
+                // document.getElementById('cart-count').textContent = response.data.cart_count;
+            })
+            .catch(error => {
+                console.error('Add to cart error:', error);
+                if (error.response && error.response.data && error.response.data.message) {
+                    alert(error.response.data.message);
+                } else {
+                    alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
+                }
+            });
     }
 
     // Hàm Mua Ngay
@@ -554,21 +618,21 @@
         }
 
         axios.post('{{ route("cart.add") }}', {
-            variant_id: variantId,
-            quantity: quantity
-        })
-        .then(response => {
-            // Chuyển hướng đến trang thanh toán
-            window.location.href = '{{ route("checkout") }}';
-        })
-        .catch(error => {
-            console.error('Buy now error:', error);
-            if (error.response && error.response.data && error.response.data.message) {
-                alert(error.response.data.message);
-            } else {
-                alert('Đã xảy ra lỗi khi xử lý yêu cầu của bạn.');
-            }
-        });
+                variant_id: variantId,
+                quantity: quantity
+            })
+            .then(response => {
+                // Chuyển hướng đến trang thanh toán
+                window.location.href = '{{ route("checkout") }}';
+            })
+            .catch(error => {
+                console.error('Buy now error:', error);
+                if (error.response && error.response.data && error.response.data.message) {
+                    alert(error.response.data.message);
+                } else {
+                    alert('Đã xảy ra lỗi khi xử lý yêu cầu của bạn.');
+                }
+            });
     }
 </script>
 @endsection
