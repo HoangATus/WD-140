@@ -87,20 +87,20 @@
                                                     <div class="form-group">
                                                         <label for="name">Tên Người Nhận</label>
                                                         <input type="text" name="name" class="form-control"
-                                                            id="name" value="{{ old('name', $user->user_name) }}"
+                                                            id="name" value="{{ old( 'name', $user->user_name ?? '') }}"
                                                             required>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="phone">Số Điện Thoại</label>
                                                         <input type="text" class="form-control" id="phone"
-                                                            name="phone" value="{{ $user->user_email ?? '' }}" required>
+                                                            name="phone" value="{{ $user->user_phone_number ?? '' }}" required>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="address">Địa Chỉ</label>
                                                         <input type="text" class="form-control" id="address"
-                                                            name="address" value="{{ $user->user_phone_number ?? '' }}"
+                                                            name="address" value=""
                                                             required>
                                                     </div>
 

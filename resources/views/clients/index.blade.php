@@ -82,7 +82,7 @@
                                     <a href="{{ route('products.show', $product->slug) }}">
                                         <h5 class="product-name">{{ $product->product_name }}</h5>
                                     </a>
-                                    <div class="product-rating mt-2">
+                                    {{-- <div class="product-rating mt-2">
                                         <ul class="rating">
                                             <li><i data-feather="star" class="fill"></i></li>
                                             <li><i data-feather="star" class="fill"></i></li>
@@ -91,7 +91,7 @@
                                             <li><i data-feather="star"></i></li>
                                         </ul>
                                         <span>(4.0)</span>
-                                    </div>
+                                    </div> --}}
                                     @if ($product->variants->isNotEmpty())
                                         @php
                                             $firstVariant = $product->variants->first();

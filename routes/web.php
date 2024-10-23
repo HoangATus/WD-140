@@ -53,7 +53,7 @@ Route::middleware(['web'])->group(function () {
     // Thanh Toán
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
-    
+    Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
@@ -100,6 +100,3 @@ Route::get('/password/reset', [AuthController::class, 'showformRequest'])->name(
 // Route cho đăng xuất
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirmReceipt'])->name('orders.confirm-receipt');
-
-
-Route::post('/payment/submit', [CheckoutController::class, 'submitPayment'])->name('payment.submit');
