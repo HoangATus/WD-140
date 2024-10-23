@@ -11,6 +11,7 @@ use App\Http\Controllers\Clients\ProductController as ClientsProductController;
 use App\Http\Controllers\Clients\ShopController;
 use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Clients\CommentController;
 use App\Http\Controllers\Clients\OrderController;
 use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\DetailsofpurchaseorderController;
@@ -37,6 +38,9 @@ Route::get('/', [ShopController::class, 'index'])->name('home'); // Giả địn
 Route::resource('/products', ProductController::class)->parameters([
     'products' => 'slug'
 ]);
+
+Route::post('/products/{product}/comments', [CommentController::class, 'store'])->name('comments.store');
+// Route::post('products/{product}/comments', [ClientsCommentController::class, 'store'])->middleware('auth');
 
 
 // Route cho giỏ hàng

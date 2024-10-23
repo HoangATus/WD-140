@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
@@ -28,4 +29,15 @@ Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function
     Route::resource('colors', ColorController::class);
     Route::resource('orders', OrderController::class);
     Route::post('logout', [AuthController::class, 'logoutAdmin'])->name('logout');
+
+
+
+    Route::resource('comments', CommentController::class);
+
+
+Route::post('/admin/comments/{id}/approve', [CommentController::class, 'approve'])->name('comments.is_approve');
+// route hủy phê duyệt
+Route::post('admins/comments/{id}/cancel-approve', [CommentController::class, 'cancelApprove'])->name('comments.cancel_approve');
+
+
 });
