@@ -24,7 +24,9 @@ class UpdateCategoryRequest extends FormRequest
 
         return [
             'name' => 'required|string|min:2|unique:categories,name,' . $categoryId, 
+
             'cover' => 'nullable|image|max:5048', 
+
         ];
     }
 

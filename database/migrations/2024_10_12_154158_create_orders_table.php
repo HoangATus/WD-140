@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('payment_method')->nullable();
             // Tạo trường 'payment_method' với kiểu dữ liệu chuỗi (string), dùng để lưu phương thức thanh toán.
             // Trường này có thể chứa giá trị null (không bắt buộc).
+            $table->enum('payment_status', ['pending', 'paid'])->default('pending');
         
             $table->timestamps();
         });

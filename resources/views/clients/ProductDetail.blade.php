@@ -20,6 +20,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </section>
 <!-- Breadcrumb Section End -->
@@ -67,6 +68,7 @@
                                                 alt="{{ $product->product_name }} Gallery {{ $index + 1 }}">
                                         </div>
                                         @endforeach
+
 
                                         <!-- Ảnh từ variants -->
                                         @foreach ($variantImages as $index => $variantImage)
@@ -117,6 +119,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Thông tin sản phẩm bên phải -->
                     <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -185,6 +188,7 @@
                                                 class="fa-solid fa-check"></i></span>
                                     </button>
                                     @endforeach
+
                                 </div>
                             </div>
 
@@ -321,6 +325,7 @@
 
                             </div>
                         </div>
+
                     </div>
                 </div>
 </section>
@@ -358,6 +363,7 @@
                                     <a href="{{ route('products.show', $relatedProduct->slug) }}">
                                         <h5 class="name">{{ $relatedProduct->product_name }}</h5>
                                     </a>
+
 
                                     <div class="product-detail">
                                         <h3 class="theme-color price">
