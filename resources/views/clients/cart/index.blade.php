@@ -46,13 +46,15 @@
                                         <div class="input-group-prepend">
                                             <button class="btn btn-outline btn-decrease" type="button">-</button>
                                         </div>
-                                        <input type="number" class="form-control quantity-input" min="1" value="{{ $item['quantity'] }}">
+                                        <input type="number" class="form-control quantity-input" min="1"
+                                            value="{{ $item['quantity'] }}">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline btn-increase" type="button">+</button>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="total-price">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} VNĐ</td>
+                                <td class="total-price">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
+                                    VNĐ</td>
                                 <td>
                                     <button class="btn btn-danger btn-remove"
                                         style="border-radius: 8px; width: 60px; background-color: #FF0000; padding: 8px; color: white; border: none;">Xóa</button>
@@ -70,7 +72,8 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mt-4">
-                        <a href="{{ route('checkout') }}" class="btn btn-primary" style="border-radius: 8px; width: 260px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">
+                        <a href="{{ route('checkout') }}" class="btn btn-primary"
+                            style="border-radius: 8px; width: 260px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">
                             Tiến Hành Thanh Toán
                         </a>
                     </div>
@@ -80,7 +83,9 @@
                     <h3>Giỏ hàng của bạn đang trống.</h3>
                 </div>
                 <div class="d=flex justify-content-center align-items-center ">
-                    <a href="{{ route('home') }}" class="btn btn-primary" style="border-radius: 8px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">Mua Sắm Ngay</a>
+                    <a href="{{ route('home') }}" class="btn btn-primary"
+                        style="border-radius: 8px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">Mua
+                        Sắm Ngay</a>
                 </div>
             @endif
         </div>
@@ -102,37 +107,39 @@
             // Hàm cập nhật số lượng
             function updateQuantity(row, newQuantity) {
                 const variantId = row.getAttribute('data-variant-id');
-                
+
                 if (newQuantity < 1) {
                     alert('Số lượng phải ít nhất là 1.');
                     return;
                 }
 
-                axios.post('{{ route("cart.update") }}', {
-                    variant_id: variantId,
-                    quantity: newQuantity
-                })
-                .then(response => {
-                    // Cập nhật thành tiền của sản phẩm
-                    const price = parseInt(row.querySelector('td:nth-child(4)').textContent.replace(/\D/g, ''));
-                    const totalPrice = price * newQuantity;
-                    row.querySelector('.total-price').textContent = new Intl.NumberFormat('vi-VN').format(totalPrice) + ' VNĐ';
+                axios.post('{{ route('cart.update') }}', {
+                        variant_id: variantId,
+                        quantity: newQuantity
+                    })
+                    .then(response => {
+                        // Cập nhật thành tiền của sản phẩm
+                        const price = parseInt(row.querySelector('td:nth-child(4)').textContent.replace(/\D/g,
+                            ''));
+                        const totalPrice = price * newQuantity;
+                        row.querySelector('.total-price').textContent = new Intl.NumberFormat('vi-VN').format(
+                            totalPrice) + ' VNĐ';
 
-                    // Cập nhật tổng tiền giỏ hàng
-                    let total = 0;
-                    document.querySelectorAll('.total-price').forEach(el => {
-                        total += parseInt(el.textContent.replace(/\D/g, ''));
+                        // Cập nhật tổng tiền giỏ hàng
+                        let total = 0;
+                        document.querySelectorAll('.total-price').forEach(el => {
+                            total += parseInt(el.textContent.replace(/\D/g, ''));
+                        });
+                        updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) + ' VNĐ');
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        if (error.response && error.response.data && error.response.data.message) {
+                            alert(error.response.data.message);
+                        } else {
+                            alert('Đã xảy ra lỗi khi cập nhật giỏ hàng.');
+                        }
                     });
-                    updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) + ' VNĐ');
-                })
-                .catch(error => {
-                    console.error(error);
-                    if (error.response && error.response.data && error.response.data.message) {
-                        alert(error.response.data.message);
-                    } else {
-                        alert('Đã xảy ra lỗi khi cập nhật giỏ hàng.');
-                    }
-                });
             }
 
             // Xử lý nút tăng số lượng
@@ -182,36 +189,44 @@
                     const variantId = row.getAttribute('data-variant-id');
 
                     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
-                        axios.post('{{ route("cart.remove") }}', {
-                            variant_id: variantId
-                        })
-                        .then(response => {
-                            // Loại bỏ dòng sản phẩm khỏi bảng
-                            row.remove();
+                        axios.post('{{ route('cart.remove') }}', {
+                                variant_id: variantId
+                            })
+                            .then(response => {
+                                // Loại bỏ dòng sản phẩm khỏi bảng
+                                row.remove();
 
-                            // Cập nhật tổng tiền giỏ hàng
-                            let total = 0;
-                            document.querySelectorAll('.total-price').forEach(el => {
-                                total += parseInt(el.textContent.replace(/\D/g, ''));
-                            });
-                            updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) + ' VNĐ');
+                                // Cập nhật tổng tiền giỏ hàng
+                                let total = 0;
+                                document.querySelectorAll('.total-price').forEach(el => {
+                                    total += parseInt(el.textContent.replace(/\D/g,
+                                    ''));
+                                });
+                                updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) +
+                                    ' VNĐ');
 
-                            // Kiểm tra nếu giỏ hàng trống, hiển thị thông báo
-                            if (document.querySelectorAll('.cart-section tbody tr').length === 0) {
-                                document.querySelector('.cart-section').innerHTML = `
-                                    <p>Giỏ hàng của bạn đang trống.</p>
-                                    <a href="{{ route('home') }}" class="btn btn-primary">Mua Sắm Ngay</a>
+                                // Kiểm tra nếu giỏ hàng trống, hiển thị thông báo
+                                if (document.querySelectorAll('.cart-section tbody tr')
+                                    .length === 0) {
+                                    document.querySelector('.cart-section').innerHTML = `
+                                    <div class="mt-4 text-center" style="margin-bottom: 20px;">
+                                        <h3>Giỏ hàng của bạn đang trống.</h3>
+                                    </div>
+                                    <div class="d=flex justify-content-center align-items-center ">
+                                        <a href="{{ route('home') }}" class="btn btn-primary" style="border-radius: 8px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">Mua Sắm Ngay</a>
+                                    </div>
                                 `;
-                            }
-                        })
-                        .catch(error => {
-                            console.error(error);
-                            if (error.response && error.response.data && error.response.data.message) {
-                                alert(error.response.data.message);
-                            } else {
-                                alert('Đã xảy ra lỗi khi xóa sản phẩm khỏi giỏ hàng.');
-                            }
-                        });
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error);
+                                if (error.response && error.response.data && error.response.data
+                                    .message) {
+                                    alert(error.response.data.message);
+                                } else {
+                                    alert('Đã xảy ra lỗi khi xóa sản phẩm khỏi giỏ hàng.');
+                                }
+                            });
                     }
                 });
             });
