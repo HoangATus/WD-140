@@ -51,7 +51,7 @@
 </div>
 @endif
 
-<style>
+{{-- <style>
     .container ul {
         display: flex;
         flex-wrap: wrap;
@@ -188,5 +188,5 @@
                                 .add-icon {
                                     margin-left: 8px;
                                 } */
-</style>
+</style> --}}
 @endsection

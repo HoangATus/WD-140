@@ -136,11 +136,13 @@
                                             </div>
                                         </div>
                                     </li>
+
                                     <li class="right-side">
                                                 <a href="{{route('clients.favorites.index')}}" class="btn p-0 position-relative header-wishlist">
                                                     <i class="fa-regular fa-heart"></i>
                                         </a>
                                     </li>
+
                                     <li class="right-side">
                                         <div class="onhover-dropdown header-badge">
                                             <button type="button" class="btn p-0 position-relative header-wishlist">

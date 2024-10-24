@@ -69,7 +69,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="fw-bold">Trạng thái thanh toán :</td>
+                                                <td class="fw-bold">Phương thức thanh toán :</td>
                                                 <td class="text-end">{{ $order->payment_method }}</td>
                                             </tr>
                                             <tr>
