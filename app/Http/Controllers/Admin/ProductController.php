@@ -258,7 +258,7 @@ class ProductController extends Controller
                 $product->variants()->whereNotIn('id', $variantIds)->delete();
             }               
 
-            //abum ảnh
+            // abum ảnh
             if ($request->has('product_galleries')) {
                 foreach ($request->product_galleries as $item) {
                     ProductGallery::create([

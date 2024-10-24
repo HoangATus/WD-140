@@ -35,7 +35,7 @@
                                 <div class="">
                                     {{-- <div class="card-body"> --}}
                                     <table id="example"
-                                        class="table table-bordered dt-responsive nowrap"
+                                        class="table table-bordered"
                                         style="width:100%">
                                         <thead class="table-primary">
                                             <tr>

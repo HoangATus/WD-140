@@ -200,50 +200,39 @@
 
                     </div>
 
-                    <div
-                        class="row g-sm-4 g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-3 row-cols-2 product-list-section">
+                    <div class="row g-sm-4 g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-1 product-list-section">
                         @if ($listProduct->isEmpty())
                             <p>Không có sản phẩm nào được tìm thấy.</p>
                         @else
-                            @foreach ($listProduct as $item)
+                            @foreach ($listProduct as $product)
                                 <div>
-                                    <div class="product-box-3 h-100 wow fadeInUp">
-                                        <div class="product-header">
+                                    <div class="product-grid">
+                                        <div class="product-box">
                                             <div class="product-image">
-                                                <a href="{{ route('products.show', $item->slug) }}">
-                                                    <img src="{{ Storage::url($item->product_image_url) }}"
-                                                        class="img-fluid blur-up lazyload" alt="">
+                                                <a href="{{ route('products.show', $product->slug) }}">
+                                                    <img src="{{ Storage::url($product->product_image_url) }}" class="" alt="{{ $product->product_name }}">
                                                 </a>
                                             </div>
-                                        </div>
-                                        <div class="product-footer">
+                    
                                             <div class="product-detail">
-                                                <a href="product-left-thumbnail.html">
-                                                    <h5 class="name">{{ $item->product_name }}</h5>
-                                                </a>
-                                                {{-- <div class="product-rating mt-2">
-                                                    <ul class="rating">
-                                                        <li><i data-feather="star" class="fill"></i></li>
-                                                        <li><i data-feather="star" class="fill"></i></li>
-                                                        <li><i data-feather="star" class="fill"></i></li>
-                                                        <li><i data-feather="star" class="fill"></i></li>
-                                                        <li><i data-feather="star"></i></li>
-                                                    </ul>
-                                                    <span>(4.0)</span>
-                                                </div> --}}
-                                                @if ($item->variants->isNotEmpty())
+                                                <div class="product-name">
+                                                    <a href="{{ route('products.show', $product->slug) }}">{{ $product->product_name }}</a>
+                                                </div>
+                                                @if ($product->variants->isNotEmpty())
                                                     @php
-                                                        $firstVariant = $item->variants->first();
+                                                        $firstVariant = $product->variants->first();
                                                     @endphp
-                                                    <h5 class="price">
-                                                        <span
-                                                            class="text-danger">{{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }}</span>
-                                                        <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }}</del>
-                                                    </h5>
+                                                    <div class="price">
+                                                        <div class="sale-price">
+                                                            {{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }} VNĐ
+                                                        </div>
+                                                        <div class="listed-price">
+                                                            <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }} VNĐ</del>
+                                                        </div>
+                                                    </div>
                                                 @endif
-                                                <div class="add-to-cart-box bg-white">
-                                                    <button class="btn btn-add-cart addcart-button ">Thêm vào
-                                                        giỏ
+                                                <div class="add">
+                                                    <button class="cart" onclick="addToCart()">Thêm vào giỏ
                                                         <span class="add-icon bg-light-gray">
                                                             <i class="bi bi-cart"></i>
                                                         </span>
@@ -255,9 +244,102 @@
                                 </div>
                             @endforeach
                         @endif
-
-
+                    
+                        <style>
+                            .product-grid {
+                                display: grid;
+                                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                                gap: 20px;
+                            }
+                    
+                            .product-box {
+                                border: 1px solid #ccc;
+                                border-radius: 15px;
+                                padding: 15px;
+                                transition: transform 0.2s;
+                                background-color: #fff;
+                                overflow: hidden;
+                                display: flex;
+                                flex-direction: column;
+                            }
+                    
+                            .product-box:hover {
+                                transform: scale(1.05);
+                            }
+                    
+                            .product-image img {
+                                border-radius: 8px;
+                                max-width: 100%;
+                                height: 140px;
+                                object-fit: cover;
+                            }
+                    
+                            .product-detail {
+                                text-align: center;
+                                flex: 1;
+                            }
+                    
+                            .product-name {
+                                font-weight: bold;
+                                color: #333;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                            }
+                    
+                            .price {
+                                margin-top: 10px;
+                                font-size: 16px;
+                            }
+                    
+                            .sale-price {
+                                font-size: 18px;
+                                color: #d9534f;
+                                font-weight: bold;
+                            }
+                    
+                            .listed-price {
+                                font-size: 14px;
+                                color: #999;
+                                text-decoration: line-through;
+                            }
+                    
+                            .add {
+                                display: flex;
+                                justify-content: center;
+                                margin-top: 10px;
+                            }
+                    
+                            .cart {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                padding: 10px 20px;
+                                background-color: #417394;
+                                color: white;
+                                border: none;
+                                border-radius: 8px;
+                                font-weight: bold;
+                                cursor: pointer;
+                                transition: background-color 0.2s, transform 0.2s;
+                                width: 100%;
+                                max-width: 200px;
+                                text-align: center;
+                            }
+                    
+                            .cart:hover {
+                                background-color: #355c74;
+                                transform: scale(1.05);
+                            }
+                    
+                            .add-icon {
+                                margin-left: 8px;
+                                display: flex;
+                                align-items: center;
+                            }
+                        </style>
                     </div>
+                    
 
                     <div class="pagination-area text-center mt-3">
                         {{ $listProduct->links('pagination::bootstrap-5') }}

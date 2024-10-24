@@ -25,10 +25,17 @@ class Order extends Model
         'canceled' => 'Đã Hủy',
         'failed' => 'Giao Hàng Thất Bại',
     ];
-
+    public static $payment = [
+        'pending' => 'Chờ Thanh Toán',
+        'paid' => 'Đã Thanh Toán',
+    ];
     public function getStatussAttribute()
     {
         return self::$statuss[$this->status] ?? $this->status;
+    }
+    public function getPaymentAttribute()
+    {
+        return self::$payment[$this->payment_status] ?? $this->payment_status;
     }
     protected $fillable = [
         'user_id',
@@ -40,6 +47,7 @@ class Order extends Model
         'total',
         'status',
         'payment_method',
+        'payment_status', 
         'cancellation_reason'
     ];
 
