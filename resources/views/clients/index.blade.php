@@ -1,66 +1,6 @@
 @extends('clients.layouts.client')
 
 @section('content')
-<<<<<<< HEAD
-<!-- Home Section Start -->
-<section class="home-section-2 home-section-bg pt-0 overflow-hidden">
-    @if ($banners->count() > 0)
-    <div id="header-carousel" class="carousel slide" data-ride="carousel">
-        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                @foreach ($banners as $id => $banner)
-                <div class="carousel-item {{ $id == 0 ? 'active' : '' }}"
-                    style="height: 410px; position: relative;">
-                    <img class="img-fluid" src="{{ Storage::url($banner->image) }}" alt="Banner Image"
-                        style="height: 100%; width: 100%; object-fit: cover;">
-
-                    <div class="overlay"
-                        style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(148, 142, 142, 0.3);">
-                    </div>
-
-
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center"
-                        style="z-index: 2;">
-                        <div class="p-3" style="max-width: 700px;">
-                            <h4 class="text-light text-uppercase font-weight-medium mb-3">{{ $banner->title }}
-                            </h4>
-                            @if ($banner->link)
-                            <a href="{{ $banner->link }}" class="button-custom">Xem Ngay</a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            </a>
-        </div>
-    </div>
-    @else
-    <p class="text-center text-success">Hiện tại không có banner nào đang hoạt động.</p>
-    @endif
-</section>
-<!-- Home Section End -->
-<!-- Category Section Start -->
-<section>
-    <div class="container-fluid-lg">
-
-        <div class="row">
-            <div class="col-12">
-                <div class="slider-9">
-                    @foreach ($categories as $item)
-                    <div>
-                        <a href="{{ route('shop.category', ['id' => $item->id]) }}"
-                            class="category-box category-dark wow fadeInUp">
-                            <div>
-                                <img src="{{ \Storage::url($item->cover) }}" class="blur-up lazyload"
-                                    alt="">
-                                <h5>{{ $item->name }}</h5>
-=======
     <!-- Home Section Start -->
     <section class="home-section-2 home-section-bg pt-0 overflow-hidden">
         @if ($banners->count() > 0)
@@ -175,13 +115,12 @@
                                         </button>
                                     </div>
                                 </div>
->>>>>>> e423ccf042477b6529bcc1d046309624a648e0de
                             </div>
                         </a>
                     </div>
-<<<<<<< HEAD
+
                     @endforeach
-=======
+
 
                     <style>
                         .product-grid {
@@ -313,7 +252,7 @@
                                     margin-left: 8px;
                                 } */
                     </style>
->>>>>>> e423ccf042477b6529bcc1d046309624a648e0de
+
                 </div>
             </div>
         </div>

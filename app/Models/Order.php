@@ -13,8 +13,8 @@ class Order extends Model
     const STATUS_SHIPPED = 'shipped';
     const STATUS_DELIVERED = 'delivered';
     const STATUS_COMPLETED = 'completed';
-    const STATUS_CANCELED = 'canceled';
     const STATUS_FAILED = 'failed';
+    const STATUS_CANCELED = 'canceled';
 
     public static $statuss = [
         'pending' => 'Chờ Xác Nhận',
@@ -22,8 +22,8 @@ class Order extends Model
         'shipped' => 'Đang Giao Hàng',
         'delivered' => 'Giao Hàng Thành Công',
         'completed' => 'Đã Hoàn Thành',
-        'canceled' => 'Đã Hủy',
         'failed' => 'Giao Hàng Thất Bại',
+        'canceled' => 'Đã Hủy',
     ];
     public static $payment = [
         'pending' => 'Chờ Thanh Toán',
