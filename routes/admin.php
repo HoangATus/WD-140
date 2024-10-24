@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\RatingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -27,5 +28,10 @@ Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function
     Route::resource('products', ProductController::class);
     Route::resource('colors', ColorController::class);
     Route::resource('orders', OrderController::class);
+    Route::resource('ratings', RatingController::class);
+    // Route để ẩn, hiện đánh giá
+    Route::patch('/admin/ratings/{id}/hide', [RatingController::class, 'hide'])->name('ratings.hide');
+    Route::patch('/admin/ratings/{id}/unhide', [RatingController::class, 'unhide'])->name('ratings.unhide');
+
     Route::post('logout', [AuthController::class, 'logoutAdmin'])->name('logout');
 });

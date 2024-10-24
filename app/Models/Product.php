@@ -20,20 +20,25 @@ class Product extends Model
         'product_image_url',
         'description',
         'is_active',
-        
+
     ];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
 
     public function variants()
     {
         return $this->hasMany(Variant::class);
     }
-    public function galleries() {
+    public function galleries()
+    {
         return $this->hasMany(ProductGallery::class);
     }
-
 }
