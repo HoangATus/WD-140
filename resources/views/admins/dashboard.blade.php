@@ -14,9 +14,14 @@
     <!-- Start Content-->
     <div class="container-xxl">
 
+        <h2>Thồng kê Bán Hàng</h2>
+
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
-                <h4 class="fs-18 fw-semibold m-0">Thống kê</h4>
+
+
+                <h4 class="fs-18 fw-semibold m-0">Thống kê đơn hàng</h4>
+
             </div>
         </div>
 
@@ -24,93 +29,24 @@
         <div class="row">
             <div class="col-md-12 col-xl-12">
                 <div class="row g-3">
-
-                    <div class="col-md-6 col-xl-3">
+                    <!-- First div -->
+                    @foreach ($orderCounts as $status => $count)
+                    <div class="col-md-2 col-xl-2">
                         <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-14 mb-1">Website Traffic</div>
-                                </div>
-
-                                <div class="d-flex align-items-baseline mb-2">
-                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">91.6K</div>
-                                    <div class="me-auto">
-                                        <span class="text-primary d-inline-flex align-items-center">
-                                            15%
-                                            <i data-feather="trending-up" class="ms-1" style="height: 22px; width: 22px;"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div id="website-visitors" class="apex-charts"></div>
+                            <div class="card-body d-flex align-items-center">
+                                <div class="fs-14 mb-1 flex-grow-1 fw-semibold text-black">{{$status}}</div> 
+                                <span class="fs-22 mb-1 ms-2 fw-semibold text-black">{{$count}}</span>
                             </div>
-                        </div>
+                            
+                        </div> 
                     </div>
-
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-14 mb-1">Conversion rate</div>
-                                </div>
-
-                                <div class="d-flex align-items-baseline mb-2">
-                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">15%</div>
-                                    <div class="me-auto">
-                                        <span class="text-danger d-inline-flex align-items-center">
-                                            10%
-                                            <i data-feather="trending-down" class="ms-1" style="height: 22px; width: 22px;"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div id="conversion-visitors" class="apex-charts"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-14 mb-1">Session duration</div>
-                                </div>
-
-                                <div class="d-flex align-items-baseline mb-2">
-                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">90 Sec</div>
-                                    <div class="me-auto">
-                                        <span class="text-success d-inline-flex align-items-center">
-                                            25%
-                                            <i data-feather="trending-up" class="ms-1" style="height: 22px; width: 22px;"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div id="session-visitors" class="apex-charts"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-14 mb-1">Active Users</div>
-                                </div>
-
-                                <div class="d-flex align-items-baseline mb-2">
-                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">2,986</div>
-                                    <div class="me-auto">
-                                        <span class="text-success d-inline-flex align-items-center">
-                                            4%
-                                            <i data-feather="trending-up" class="ms-1" style="height: 22px; width: 22px;"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div id="active-users" class="apex-charts"></div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+                   
+                    
                 </div>
             </div> <!-- end sales -->
-        </div> <!-- end row -->
+        </div>
+        <!-- end row -->
 
         <!-- Start Monthly Sales -->
         <div class="row">

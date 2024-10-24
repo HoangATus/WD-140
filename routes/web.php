@@ -12,6 +12,7 @@ use App\Http\Controllers\Clients\ShopController;
 use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Clients\CommentController;
+use App\Http\Controllers\Clients\FavoriteController;
 use App\Http\Controllers\Clients\OrderController;
 use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\DetailsofpurchaseorderController;
@@ -73,6 +74,10 @@ Route::middleware(['web'])->group(function () {
         Route::post('/my-orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
         Route::post('/my-orders/{order}/reorder', [OrderController::class, 'reorder'])->name('orders.reorder');
         Route::get('/my-orders/{order}/cancel', [OrderController::class, 'showCancelForm'])->name('orders.cancel.form');
+
+        // Route san pham yeu thich
+        Route::post('/favorites', [FavoriteController::class, 'store'])->name('clients.favorites.store');
+        Route::get('/favorites', [FavoriteController::class, 'index'])->name('clients.favorites.index');
     });
 });
 
