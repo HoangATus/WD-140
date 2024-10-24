@@ -137,8 +137,8 @@
                                         </div>
                                     </li>
                                     <li class="right-side">
-                                        <a href="wishlist.html" class="btn p-0 position-relative header-wishlist">
-                                            <i data-feather="bookmark"></i>
+                                                <a href="{{route('clients.favorites.index')}}" class="btn p-0 position-relative header-wishlist">
+                                                    <i class="fa-regular fa-heart"></i>
                                         </a>
                                     </li>
                                     <li class="right-side">
@@ -233,8 +233,8 @@
                     </li>
 
                     <li>
-                        <a href="wishlist.html" class="notifi-wishlist">
-                            <i class="iconly-Heart icli"></i>
+                        <a href="{{route('clients.favorites.index')}}" ">
+                            <i class="fa-regular fa-heart"></i>
                             <span>Danh Sách Yêu Thích</span>
                         </a>
                     </li>
