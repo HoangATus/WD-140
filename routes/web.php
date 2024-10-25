@@ -54,6 +54,8 @@ Route::middleware(['web'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+    
+
 
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
