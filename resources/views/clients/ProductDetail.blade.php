@@ -20,6 +20,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
     <!-- Breadcrumb Section End -->
@@ -67,6 +68,7 @@
                                                         alt="{{ $product->product_name }} Gallery {{ $index + 1 }}">
                                                 </div>
                                             @endforeach
+
 
                                             <!-- Ảnh từ variants -->
                                             @foreach ($variantImages as $index => $variantImage)
@@ -118,13 +120,14 @@
                             </div>
                         </div>
 
+
                         <!-- Thông tin sản phẩm bên phải -->
                         <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="right-box-contain">
                                 {{-- <h6 class="offer-top">Giảm giá 30%</h6> --}}
                                 <h2 class="name">{{ $product->product_name }}</h2>
 
-                                <p>Mã sản phẩm <b>:{{ $product->product_code }}</b>
+                                <p>Mã sản phẩm <b>:{{ $product->product_code }}</b></p>
                                 <div class="product-rating custom-rate">
                                     <ul class="rating">
                                         @php
@@ -141,14 +144,8 @@
                                             </li>
                                         @endfor
                                     </ul>
-                                    {{-- <span class="review">{{ $product->ratings->count() }} Customer Review</span> --}}
                                     <span class="review">{{ $product->ratings->count() }} Đánh giá</span>
-
-                                    <!-- Hiển thị số lượng đánh giá -->
                                 </div>
-
-
-                                </p>
 
                                 <div class="product-detail">
                                     <h3 class="theme-color price" id="current-price">
@@ -159,8 +156,8 @@
                                         {{ number_format($product->variants->first()->variant_listed_price, 0, ',', '.') }}
                                         ₫
                                     </del>
-
                                 </div>
+
 
                                 <div class="product-options">
                                     <!-- Màu sắc -->
@@ -210,6 +207,7 @@
                                                         class="fa-solid fa-check"></i></span>
                                             </button>
                                         @endforeach
+
                                     </div>
                                 </div>
 
@@ -261,14 +259,14 @@
                                 </li>
 
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab"
-                                        data-bs-target="#customer-reviews" type="button" role="tab"
-                                        aria-controls="customer-reviews" aria-selected="false">
-                                        Đánh giá từ khách hàng
-                                    </button>
+                                    <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info"
+                                        type="button" role="tab">Đánh giá từ khách hàng</button>
                                 </li>
 
-
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#infoo"
+                                        type="button" role="tab">Bình luận từ khách hàng</button>
+                                </li>
                             </ul>
 
                             <div class="tab-content custom-tab" id="myTabContent">
@@ -280,50 +278,117 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-pane fade" id="customer-reviews" role="tabpanel"
-                                    aria-labelledby="reviews-tab">
-                                    <h4 class="mb-4">Đánh giá từ khách hàng</h4>
+                                <div class="tab-pane fade" id="info" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <h4 class="mb-4">Đánh giá từ khách hàng</h4>
 
-                                    @if ($product->ratings->count() > 0)
-                                        @foreach ($product->ratings as $rating)
-                                            @if (!$rating->hidden)
-                                                <!-- Kiểm tra xem đánh giá có bị ẩn không -->
-                                                <div class="customer-review border p-3 mb-3 rounded"
-                                                    style="background-color: #f9f9f9;">
-                                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                                        <strong class="me-2"
-                                                            style="color: #008080;">{{ $rating->user->user_name }}</strong>
+                                        @if ($product->ratings->count() > 0)
+                                            @foreach ($product->ratings as $rating)
+                                                @if (!$rating->hidden)
+                                                    <!-- Kiểm tra xem đánh giá có bị ẩn không -->
+                                                    <div class="customer-review border p-3 mb-3 rounded"
+                                                        style="background-color: #f9f9f9;">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <strong class="me-2"
+                                                                style="color: #008080;">{{ $rating->user->user_name }}</strong>
 
-                                                        <small
-                                                            class="text-muted">{{ $rating->created_at->format('d/m/Y') }}</small>
+                                                            <small
+                                                                class="text-muted">{{ $rating->created_at->format('d/m/Y') }}</small>
+                                                        </div>
+                                                        <ul class="rating list-unstyled mb-2">
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <li class="d-inline">
+                                                                    @if ($i <= $rating->rating)
+                                                                        <i data-feather="star" class="fill"></i>
+                                                                    @else
+                                                                        <i data-feather="star"></i>
+                                                                    @endif
+                                                                </li>
+                                                            @endfor
+                                                        </ul>
+                                                        <p class="mb-0">{{ $rating->review }}</p>
                                                     </div>
-                                                    <ul class="rating list-unstyled mb-2">
-                                                        @for ($i = 1; $i <= 5; $i++)
-                                                            <li class="d-inline">
-                                                                @if ($i <= $rating->rating)
-                                                                    <i data-feather="star" class="fill"></i>
-                                                                @else
-                                                                    <i data-feather="star"></i>
-                                                                @endif
-                                                            </li>
-                                                        @endfor
-                                                    </ul>
-                                                    <p class="mb-0">{{ $rating->review }}</p>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    @else
-                                        <p class="text-muted">Chưa có đánh giá nào từ khách hàng.</p>
-                                    @endif
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <p class="text-muted">Chưa có đánh giá nào từ khách hàng.</p>
+                                        @endif
 
+
+                                    </div>
                                 </div>
 
+                                <div class="tab-pane fade" id="infoo" role="tabpanel">
 
+                                    <div class="table-responsive">
+                                        <!-- Nội dung bình luận khách hàng -->
+                                        @if ($product->comments->isEmpty())
+                                            <p>Chưa có bình luận nào.</p>
+                                        @else
+                                            <ul style="list-style-type: none; padding: 0;">
+                                                @foreach ($product->comments as $comment)
+                                                    @if ($comment->is_approved || auth()->id() === $comment->user_id)
+                                                        <!-- Kiểm tra nếu bình luận đã được phê duyệt hoặc người dùng hiện tại là người đã bình luận -->
+                                                        <li class="{{ !$comment->is_approved ? 'unapproved' : '' }}"
+                                                            style="margin-bottom: 15px; display: block;">
+                                                            <div
+                                                                style="display: flex; justify-content: space-between; align-items: center;">
+                                                                <span
+                                                                    style="font-weight: bold;">{{ $comment->user->user_name }}</span>
+                                                                <span
+                                                                    style="color: gray;">{{ $comment->created_at->format('d/m/Y') }}</span>
+                                                            </div>
+                                                            <p
+                                                                style="margin-top: 5px; @if (!$comment->is_approved) opacity: 0.5; @endif">
+                                                                {{ $comment->comment }}</p>
+
+                                                            @if (!$comment->is_approved)
+                                                                <!-- Thông báo chờ phê duyệt -->
+                                                                <p style="color: red; margin-top: 5px; font-size: 12px;">
+                                                                    Đang chờ phê duyệt...</p>
+                                                            @endif
+                                                        </li>
+                                                        <!-- Thêm dấu ngang ngăn cách giữa các bình luận -->
+                                                        <hr style="border: 1px solid #ccc; margin: 10px 0;">
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                        <h3>Bình luận:</h3>
+
+                                        <!-- Hiển thị thông báo thành công nếu có -->
+                                        @if (session('successs'))
+                                            <p style="color: green;">{{ session('successs') }}</p>
+                                        @endif
+
+                                        <!-- Form bình luận -->
+                                        <form action="{{ route('comments.store', $product->id) }}" method="POST"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <textarea name="comment" placeholder="Viết bình luận của bạn" required
+                                                style="width: 800px; height: 50px; border-radius: 5px; padding: 15px; text-align: center;"></textarea>
+                                            <br>
+                                            <button type="submit"
+                                                style="border-radius: 5px; border: 1px solid #fff; padding: 10px 20px; background-color: #007bff; color: white;">
+                                                Gửi
+                                            </button>
+                                        </form>
+                                    </div>
+
+
+
+
+
+
+
+
+
+                                </div>
                             </div>
+
                         </div>
                     </div>
-                </div>
-
     </section>
     <style>
         .customer-review {
@@ -373,6 +438,7 @@
                                             <a href="{{ route('products.show', $relatedProduct->slug) }}">
                                                 <h5 class="name">{{ $relatedProduct->product_name }}</h5>
                                             </a>
+
 
                                             <div class="product-detail">
                                                 <h3 class="theme-color price">
@@ -587,7 +653,6 @@
                 document.getElementById('selected-quantity').value = value;
             });
         });
-
 
         // Hàm Thêm vào Giỏ Hàng
         function addToCart() {

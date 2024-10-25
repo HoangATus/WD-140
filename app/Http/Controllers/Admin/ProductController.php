@@ -52,7 +52,7 @@ class ProductController extends Controller
         if (!empty($request->hasFile('product_image_url'))) {
             $data['product_image_url'] = Storage::put('products', $request->file('product_image_url'));
         }
-        try { 
+        try {
             DB::beginTransaction();
             $product = Product::query()->create($data);
 
@@ -222,7 +222,7 @@ class ProductController extends Controller
                                 'variant_import_price' => $item['variant_import_price'] ?? 0,
                                 'quantity' => $item['quantity'] ?? 0,
                             ];
-            
+
                             if (isset($item['image']) && $item['image'] instanceof \Illuminate\Http\UploadedFile) {
                                 if ($variant->image) {
                                     Storage::delete($variant->image);
@@ -230,8 +230,8 @@ class ProductController extends Controller
                                 $variantData['image'] = Storage::put('variants', $item['image']);
                             } else {
                                 $variantData['image'] = $variant->image;
-                            }                            
-    
+                            }
+
                             $variant->update($variantData);
                             $variantIds[] = $variant->id;
                         }
@@ -245,20 +245,20 @@ class ProductController extends Controller
                             'variant_import_price' => $item['variant_import_price'] ?? 0,
                             'quantity' => $item['quantity'] ?? 0,
                         ];
-            
+
                         if (!empty($item['image']) && $item['image'] instanceof \Illuminate\Http\UploadedFile) {
                             $newVariantData['image'] = Storage::put('variants', $item['image']);
                         }
-            
+
                         $newVariant = Variant::create($newVariantData);
                         $variantIds[] = $newVariant->id;
                     }
                 }
-                
-                $product->variants()->whereNotIn('id', $variantIds)->delete();
-            }               
 
-            //abum ảnh
+                $product->variants()->whereNotIn('id', $variantIds)->delete();
+            }
+
+            // abum ảnh
             if ($request->has('product_galleries')) {
                 foreach ($request->product_galleries as $item) {
                     ProductGallery::create([

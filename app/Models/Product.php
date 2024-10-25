@@ -27,11 +27,6 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    public function ratings()
-    {
-        return $this->hasMany(Rating::class);
-    }
-
 
     public function variants()
     {
@@ -40,5 +35,15 @@ class Product extends Model
     public function galleries()
     {
         return $this->hasMany(ProductGallery::class);
+    }
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

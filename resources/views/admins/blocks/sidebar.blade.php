@@ -128,6 +128,12 @@
                         Quản lý đánh giá
                     </a>
                 </li>
+                <li>
+                    <a class='tp-link' href="{{ route('admins.comments.index') }}">
+                        <i class="fa-regular fa-comment"></i>
+                        <span> Quản lý bình luận </span>
+                    </a>
+                </li>
 
 
 
