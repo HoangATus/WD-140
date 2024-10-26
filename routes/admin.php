@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\RatingController;
 use App\Http\Controllers\Admin\UserController;
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function () {
     // Dashboard cho Admin
     Route::get('/', function () {
-        return view('admins.dashboard');
+        // Thực hiện các logic cần thiết ở đây
+        return app()->make(DashBoardController::class)->index();
     })->name('dashboard');
     Route::resource('users', UserController::class);
     Route::post('users/{user}/ban', [UserController::class, 'ban'])->name('users.ban');
