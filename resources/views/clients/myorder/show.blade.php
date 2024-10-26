@@ -11,6 +11,18 @@
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-order" role="tabpanel">
                                 <div class="dashboard-order">
+                                    {{-- @if (session('success'))
+                                        <div class="alert alert-success">
+                                            {{ session('success') }}
+                                        </div>
+                                    @endif
+
+                                    @if (session('error'))
+                                        <div class="alert alert-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif --}}
+
                                     <div class="title text-center mb-5">
                                         <h2 class="fw-bold" style="font-size: 28px;">Thông tin đơn hàng</h2>
                                         <span class="title-leaf title-leaf-gray">
@@ -151,14 +163,55 @@
                                                 trong đơn hàng này.</p>
                                         @endif
                                     </div>
+                                    @if ($order->status == 'completed')
+                                        <h3 class="fw-bold mt-4"
+                                            style="font-size: 24px; text-transform: uppercase; color: #333;">Đánh giá</h3>
+                                        @foreach ($orderItems as $item)
+                                            <div class="row mb-4 pb-3 border-bottom align-items-center mt-5">
+                                                <div class="col-md-3">
+                                                    <img src="{{ $item->image }}" class="img-fluid rounded" alt=""
+                                                        style="max-width: 50%;">
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <h4 class="fw-bold">{{ $item->product_name }}</h4>
+                                                    <form action="{{ route('orders.rate', $item->product_id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="rating" id="rating-{{ $item->product_id }}"
+                                                                style="font-size: 24px; cursor: pointer;">
+                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                    <span class="star" data-value="{{ $i }}"
+                                                                        data-product-id="{{ $item->product_id }}">&starf;</span>
+                                                                @endfor
+                                                            </div>
+                                                            <input type="hidden" name="rating"
+                                                                id="input-rating-{{ $item->product_id }}" value=""
+                                                                required>
+                                                            <textarea name="review" class="form-control ms-2" placeholder="Nhận xét (tùy chọn)" rows="2"></textarea>
+                                                            <button type="submit" class="btn btn-primary ms-2">Gửi đánh
+                                                                giá</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+
+
+
+
 
                                     <div class="d-flex justify-content-center align-items-center mt-4">
                                         @if ($order->status === 'pending')
-                                        <a href="{{ route('orders.cancel.form', $order->id) }}"
-                                            class="btn btn-danger me-3"
-                                            style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">Hủy Đơn Hàng</a>
-                                    @endif
-                                    
+                                            <a href="{{ route('orders.cancel.form', $order->id) }}"
+                                                class="btn btn-danger me-3"
+                                                style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">Hủy Đơn
+                                                Hàng</a>
+                                        @endif
+
 
                                         @if ($order->status == 'canceled')
                                             <form action="{{ route('orders.reorder', $order->id) }}" method="POST"
@@ -174,12 +227,11 @@
                                         </a>
                                     </div>
                                     @if ($order->status == \App\Models\Order::STATUS_DELIVERED)
-                                    <form action="{{ route('orders.confirm-receipt', $order->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-success">Đã Nhận Hàng</button>
-                                    </form>
-                                @endif
-
+                                        <form action="{{ route('orders.confirm-receipt', $order->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success">Đã Nhận Hàng</button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -188,8 +240,48 @@
             </div>
         </div>
     </section>
+    <script>
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = this.getAttribute('data-value');
+                const productId = this.getAttribute('data-product-id');
+                const inputRating = document.getElementById('input-rating-' + productId);
+
+                // Cập nhật giá trị đánh giá
+                inputRating.value = rating;
+
+                // Đặt màu cho các ngôi sao được chọn
+                const ratingContainer = document.getElementById('rating-' + productId);
+                ratingContainer.querySelectorAll('.star').forEach(s => {
+                    if (s.getAttribute('data-value') <= rating) {
+                        s.style.color = '#FFD700'; // Màu vàng cho sao đã chọn
+                    } else {
+                        s.style.color = '#ccc'; // Màu xám cho sao chưa chọn
+                    }
+                });
+            });
+        });
+    </script>
+
+
 
     <style>
+        /* .rating {
+                                        display: flex;
+                                    } */
+
+        .star {
+            color: #d3d3d3;
+            /* Màu xám cho sao chưa chọn */
+            transition: color 0.3s;
+        }
+
+        .star:hover,
+        .star.selected {
+            color: #ffcc00;
+            /* Màu vàng cho sao khi chọn */
+        }
+
         .order-summary-table td,
         .order-summary-table th {
             padding: 12px;
@@ -204,5 +296,41 @@
         .dashboard-right-sidebar {
             padding: 20px;
         }
+
+        .rating {
+            font-size: 20px;
+            /* Giảm kích thước sao */
+            cursor: pointer;
+        }
+
+        .rating .star:hover,
+        .rating .star.active {
+            color: #ffaa00;
+            /* Màu khi di chuột hoặc đã chọn */
+        }
+
+        textarea {
+            resize: none;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            /* Điều chỉnh kích thước nút */
+            font-size: 14px;
+            /* Giảm kích thước chữ trên nút */
+        }
+
+        img.img-fluid.rounded {
+            max-width: 80%;
+            /* Điều chỉnh kích thước ảnh sản phẩm */
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .form-control {
+            max-width: 80%;
+        }
     </style>
+
 @endsection
