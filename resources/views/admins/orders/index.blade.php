@@ -68,36 +68,38 @@
                                     <td>
                                         @switch($order->status)
                                             @case('pending')
-                                                Đang Chờ Xác Nhận
+                                                <span class="badge bg-warning text-dark">Đang Chờ Xác Nhận</span>
                                             @break
-
+                                    
                                             @case('confirmed')
-                                                Đã Xác Nhận
+                                                <span class="badge bg-primary">Đã Xác Nhận</span>
                                             @break
-
+                                    
                                             @case('shipped')
-                                                Đang Giao Hàng
+                                                <span class="badge bg-info">Đang Giao Hàng</span>
                                             @break
+                                    
                                             @case('delivered')
-                                             Giao Hàng Thành Công
-                                        @break
-
+                                                <span class="badge bg-success">Giao Hàng Thành Công</span>
+                                            @break
+                                    
                                             @case('completed')
-                                                Đã Hoàn Thành
+                                                <span class="badge bg-success">Đã Hoàn Thành</span>
                                             @break
-
+                                    
                                             @case('canceled')
-                                                Đã Hủy
+                                                <span class="badge bg-danger">Đã Hủy</span>
                                             @break
-
+                                    
                                             @case('failed')
-                                                Giao Hàng Thất Bại
+                                                <span class="badge bg-secondary">Giao Hàng Thất Bại</span>
                                             @break
-
+                                    
                                             @default
-                                                Không Rõ
+                                                <span class="badge bg-light text-dark">Không Rõ</span>
                                         @endswitch
                                     </td>
+                                    
                                    
                                     <td>
                                         <a href="{{ route('admins.orders.show', $order->id) }}" class="btn btn-primary">Xem

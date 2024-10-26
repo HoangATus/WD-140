@@ -28,7 +28,10 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <h5 class="card-title mb-0">Danh sách</h5>
-                    @if (session('success'))
+
+                    <a href="{{ route('admins.banners.create') }}" class="btn btn-primary mb-3">Thêm mới</a>
+                </div>
+                @if (session('success'))
                     <div class="alert alert-danger mt-3">
                         {{ session('success') }}
                     </div>
@@ -37,9 +40,7 @@
                     <div class="alert alert-success">
                         {{ session('message') }}
                     </div>
-                @endif 
-                    <a href="{{ route('admins.banners.create') }}" class="btn btn-primary mb-3">Thêm mới</a>
-                </div>
+                @endif
                 <div class="card-body">
                     <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
@@ -60,11 +61,13 @@
                                     <td class="align-middle">{{ $item->id }}</td>
                                     <td class="align-middle">{{ $item->title }}</td>
                                     <td class="align-middle">
-                                        <div style="width: 80px;height: 80px; margin: 0 auto;">
+                                        <div
+                                            style="display: flex; justify-content: center; align-items: center; width: 80px; height: 80px; margin: 0 auto;">
                                             <img src="{{ Storage::url($item->image) }}"
                                                 style="max-width: 100%; max-height: 100%;" alt="">
                                         </div>
                                     </td>
+
                                     <td class="align-middle">{{ $item->link }}</td>
                                     <td class="align-middle">
 
@@ -78,8 +81,7 @@
                                                 class="btn btn-info mx-1">Xem</a>
                                             <a href="{{ route('admins.banners.edit', $item) }}"
                                                 class="btn btn-success mx-1">Sửa</a>
-                                            <form action="{{ route('admins.banners.destroy', $item) }}"
-                                                method="POST">
+                                            <form action="{{ route('admins.banners.destroy', $item) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger mx-1"
@@ -129,5 +131,3 @@
         });
     </script>
 @endsection
-
-

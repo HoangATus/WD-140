@@ -29,7 +29,7 @@
                             <th scope="col">Giá</th>
                             <th scope="col">Số Lượng</th>
                             <th scope="col">Thành Tiền</th>
-                            <th scope="col">Xóa</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,7 +40,7 @@
                                 </td>
                                 <td>{{ $item['product_name'] }}</td>
                                 <td>{{ $item['variant_name'] }}</td>
-                                <td>{{ number_format($item['price'], 0, ',', '.') }} ₫</td>
+                                <td>{{ number_format($item['price'], 0, ',', '.') }} VNĐ</td>
                                 <td>
                                     <div class="input-group quantity-group" style="width: 170px;">
                                         <div class="input-group-prepend">
@@ -52,9 +52,10 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="total-price">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} ₫</td>
+                                <td class="total-price">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} VNĐ</td>
                                 <td>
-                                    <button class="btn btn-danger btn-remove">Xóa</button>
+                                    <button class="btn btn-danger btn-remove"
+                                        style="border-radius: 8px; width: 60px; background-color: #FF0000; padding: 8px; color: white; border: none;">Xóa</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -62,12 +63,25 @@
                 </table>
 
                 <div class="cart-summary">
-                    <h4>Tổng Tiền: <span id="cart-total">{{ number_format($total, 0, ',', '.') }} ₫</span></h4>
-                    <a href="{{ route('checkout') }}" class="btn btn-primary">Tiến Hành Thanh Toán</a>
+                    <div class="d-flex justify-content-end align-items-center mt-2">
+                        <div style="margin-right: 72px; white-space: nowrap;">Tổng Tiền:</div>
+                        <div id="cart-total" style="min-width: 120px; text-align: right; white-space: nowrap;">
+                            {{ number_format($total, 0, ',', '.') }} VNĐ
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <a href="{{ route('checkout') }}" class="btn btn-primary" style="border-radius: 8px; width: 260px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">
+                            Tiến Hành Thanh Toán
+                        </a>
+                    </div>
                 </div>
             @else
-                <p>Giỏ hàng của bạn đang trống.</p>
-                <a href="{{ route('home') }}" class="btn btn-primary">Mua Sắm Ngay</a>
+                <div class="mt-4 text-center" style="margin-bottom: 20px;">
+                    <h3>Giỏ hàng của bạn đang trống.</h3>
+                </div>
+                <div class="d=flex justify-content-center align-items-center ">
+                    <a href="{{ route('home') }}" class="btn btn-primary" style="border-radius: 8px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">Mua Sắm Ngay</a>
+                </div>
             @endif
         </div>
     </section>
@@ -102,14 +116,14 @@
                     // Cập nhật thành tiền của sản phẩm
                     const price = parseInt(row.querySelector('td:nth-child(4)').textContent.replace(/\D/g, ''));
                     const totalPrice = price * newQuantity;
-                    row.querySelector('.total-price').textContent = new Intl.NumberFormat('vi-VN').format(totalPrice) + ' ₫';
+                    row.querySelector('.total-price').textContent = new Intl.NumberFormat('vi-VN').format(totalPrice) + ' VNĐ';
 
                     // Cập nhật tổng tiền giỏ hàng
                     let total = 0;
                     document.querySelectorAll('.total-price').forEach(el => {
                         total += parseInt(el.textContent.replace(/\D/g, ''));
                     });
-                    updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) + ' ₫');
+                    updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) + ' VNĐ');
                 })
                 .catch(error => {
                     console.error(error);
@@ -180,7 +194,7 @@
                             document.querySelectorAll('.total-price').forEach(el => {
                                 total += parseInt(el.textContent.replace(/\D/g, ''));
                             });
-                            updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) + ' ₫');
+                            updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) + ' VNĐ');
 
                             // Kiểm tra nếu giỏ hàng trống, hiển thị thông báo
                             if (document.querySelectorAll('.cart-section tbody tr').length === 0) {

@@ -7,26 +7,14 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     */
-    // protected function schedule(Schedule $schedule)
-    // {
-    //     $schedule->command('orders:auto-complete')->daily();
-    // }
-    
- 
-        
-      // App\Console\Kernel.php
-
-protected function schedule(Schedule $schedule)
-{
-    $schedule->command('orders:auto-complete')->everyFiveMinutes();
-}
-
+   
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('orders:auto-complete')->everyMinute();
+    }
     
     /**
-     * Register the commands for the application.
+     * Đăng ký các lệnh của ứng dụng.
      */
     protected function commands(): void
     {
@@ -34,8 +22,11 @@ protected function schedule(Schedule $schedule)
 
         require base_path('routes/console.php');
     }
+
+    /**
+     * Đăng ký các lệnh console tùy chỉnh.
+     */
     protected $commands = [
-        \App\Console\Commands\AutoCompleteOrders::class,
+        \App\Console\Commands\AutoCompleteOrders::class, 
     ];
-    
 }

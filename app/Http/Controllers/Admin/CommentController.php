@@ -7,17 +7,6 @@ use App\Models\Comment;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-
-
-// app/Http/Controllers/Admin/CommentController.php
-
-namespace App\Http\Controllers\Admin;
-
-use App\Http\Controllers\Controller;
-use App\Models\Comment;
-use App\Models\Product; // Thêm import Product nếu bạn cần
-use Illuminate\Http\Request;
-
 class CommentController extends Controller
 {
     // Phương thức hiển thị  luận chưa duyệt cho một sản phẩm cụ thể
