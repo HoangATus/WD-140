@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\CommentController;
-use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\RatingController;
 use App\Http\Controllers\Admin\RevenueController;
@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function () {
     // Dashboard cho Admin
+    // Route::get('/', function () {
+    //     return view('admins.dashboard');
+    // })->name('dashboard');
+    // Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+    // Route::get('/revenue', [DashboardController::class, 'getRevenueData']);
     Route::get('/', [RevenueController::class, 'index'])->name('dashboard');
     // Route::get('/', [RevenueController::class, 'home'])->name('dashboard');
     // Route::get('/', [DashBoardController::class, 'index'])->name('dashboard');

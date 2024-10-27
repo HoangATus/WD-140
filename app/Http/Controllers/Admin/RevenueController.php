@@ -53,6 +53,7 @@ class RevenueController extends Controller
             'confirmed',
             'shipped',
             'delivered',
+            'completed',
             'failed',
             'canceled',
         ];
@@ -64,8 +65,8 @@ class RevenueController extends Controller
         foreach ($desiredStatuses as $key) {
             $label = $statuses[$key] ?? $key; // Lấy nhãn từ mảng $statuses
             $counts[$label] = Order::where('status', $key)
-                ->whereMonth('created_at', $month)
-                ->whereYear('created_at', $year)
+                // ->whereMonth('created_at', $month)
+                // ->whereYear('created_at', $year)
                 ->count();
         }
     
