@@ -12,12 +12,16 @@ use App\Http\Controllers\Clients\ShopController;
 use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Clients\CommentController;
+use App\Http\Controllers\Clients\FavoriteController;
 use App\Http\Controllers\Clients\OrderController;
 use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\DetailsofpurchaseorderController;
 use App\Http\Controllers\Clients\ProfileController;
 use App\Http\Controllers\MyOrderController;
 use App\Http\Controllers\PurchasedOrderDetailsController;
+use App\Http\Controllers\ReviewController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +42,6 @@ Route::get('/', [ShopController::class, 'index'])->name('home'); // Giả địn
 Route::resource('/products', ProductController::class)->parameters([
     'products' => 'slug'
 ]);
-
 Route::post('/products/{product}/comments', [CommentController::class, 'store'])->name('comments.store');
 // Route::post('products/{product}/comments', [ClientsCommentController::class, 'store'])->middleware('auth');
 
@@ -58,6 +61,8 @@ Route::middleware(['web'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+
+
 
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
@@ -104,3 +109,11 @@ Route::get('/password/reset', [AuthController::class, 'showformRequest'])->name(
 // Route cho đăng xuất
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirmReceipt'])->name('orders.confirm-receipt');
+
+// Route cho đánh giá sản phẩm
+Route::middleware(['auth'])->group(function () {
+    Route::post('/orders/{order}/rate', [OrderController::class, 'rate'])->name('orders.rate');
+    Route::post('/orders/rate/{product_id}', [OrderController::class, 'rateProduct'])->name('orders.rate');
+    Route::post('/favorites', [FavoriteController::class, 'store'])->name('clients.favorites.store');
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('clients.favorites.index');
+});

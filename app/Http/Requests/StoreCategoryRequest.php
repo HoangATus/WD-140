@@ -16,15 +16,15 @@ class StoreCategoryRequest extends FormRequest
 
     public function rules()
     {
-       
-            return [
-                'name' => 'required|string|min:2|unique:categories,name', 
 
-                'cover' => 'nullable|image|max:5048', 
+        return [
+            'name' => 'required|string|min:2|unique:categories,name',
 
-            ];
-        }
-        
+            'cover' => 'nullable|image|max:5048',
+
+        ];
+    }
+
     public function messages()
     {
         return [
@@ -35,5 +35,4 @@ class StoreCategoryRequest extends FormRequest
             'cover.max' => 'Ảnh bìa không được vượt quá 5MB.',
         ];
     }
-    
 }
