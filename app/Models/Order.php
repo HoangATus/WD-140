@@ -98,30 +98,6 @@ class Order extends Model
         return false;
     }
 
-    // public function updateStatus($newStatus, $notes = null)
-    // {
-    //     $oldStatus = $this->status;
-    
-    //     if ($newStatus === self::STATUS_FAILED) {
-    //         foreach ($this->orderItems as $orderItem) {
-    //             $variant = Variant::find($orderItem->variant_id);
-    //             if ($variant) {
-    //                 $variant->quantity += $orderItem->quantity; 
-    //             }
-    //         }
-    //     }
-    
-    //     $this->status = $newStatus;
-    //     $this->save();
-    
-    //     $this->statusChanges()->create([
-    //         'old_status' => $oldStatus,
-    //         'new_status' => $newStatus,
-    //         'notes' => $notes,
-    //         //'changed_by' => auth()->id(),
-    //         'changed_by' => auth()->id() ?? 0, 
-    //     ]);
-    // }
     public function updateStatus($newStatus, $notes = null)
     {
         $oldStatus = $this->status;
@@ -147,14 +123,18 @@ class Order extends Model
         ]);
     
        
-        // if ($this->user) { 
-        //     Mail::to($this->user->user_email)
-        //         ->cc('cc@example.com')   
-        //         ->bcc('bcc@example.com') 
-        //         ->send(new OrderStatusChanged($this, $newStatus, $notes)); 
-        // } else {
-        //     Log::warning('Không tìm thấy người dùng cho đơn hàng: ' . $this->id);
-        // }
+       
+       
+        if ($this->user) { 
+            Mail::to($this->user->user_email)
+                ->cc('cc@example.com')   
+                ->bcc('bcc@example.com') 
+                ->send(new OrderStatusChanged($this, $newStatus, $notes)); 
+        } else {
+            Log::warning('Không tìm thấy người dùng cho đơn hàng: ' . $this->id);
+        }
     }
+    
+    
     
 }
