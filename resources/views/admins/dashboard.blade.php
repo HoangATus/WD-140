@@ -1,406 +1,263 @@
-@extends('admins.layouts.admin')
+@extends('admins.layouts.admin') 
+@section('title')Thống Kê Doanh Thu @endsection 
+@section('content') 
+<div class="content"> 
+    <div class="container-xxl"> 
+        <h4 class="fs-18 fw-semibold m-0">Dashboard</h4> 
+        <div class="row"> 
+            <div class="col-md-12 col-xl-12"> 
+                <div class="card"> 
+                    <div class="card-header"> 
+                        <h5 class="card-title mb-0">Thống Kê Doanh Thu</h5> 
+                    </div> 
+                    <div class="card-body"> 
+                        <form id="revenueFilterForm"> 
+                            <div class="row mb-3"> 
+                                <div class="col-md-3"> 
+                                    <label for="yearSelect" class="form-label">Chọn Năm</label> 
+                                    <select id="yearSelect" class="form-control" required> 
+                                        <option value="" disabled >-- Chọn Năm --</option> 
+                                        @foreach ($years as $year) 
+                                            <option value="{{ $year }}">{{ $year }}</option> 
+                                        @endforeach 
+                                    </select> 
+                                </div> 
+                                <div class="col-md-3"> 
+                                    <label for="monthSelect" class="form-label">Chọn Tháng</label> 
+                                    <select id="monthSelect" class="form-control" disabled> 
+                                        <option value="">-- Chọn Tháng --</option> 
+                                        @for ($i = 1; $i <= 12; $i++) 
+                                            <option value="{{ $i }}">Tháng {{ $i }}</option> 
+                                        @endfor 
+                                    </select> 
+                                </div> 
+                                <div class="col-md-3"> 
+                                    <label for="daySelect" class="form-label">Chọn Ngày</label> 
+                                    <input type="date" id="daySelect" class="form-control" disabled> 
+                                </div> 
+                                <div class="col-md-3 d-flex align-items-end"> 
+                                    <button type="submit" class="btn btn-primary w-100">Tìm Kiếm</button> 
+                                </div> 
+                            </div> 
+                        </form> 
+                        <form id="rangeRevenueForm"> 
+                            <div class="row mb-3"> 
+                                <div class="col-md-4"> 
+                                    <label for="startDate" class="form-label">Ngày Bắt Đầu</label> 
+                                    <input type="date" id="startDate"name="startDate" class="form-control" max="{{ date('Y-m-d') }}"> 
+                                    <span id="startDateError" style="color: red; font-size: 12px;"></span>
+                                </div> 
+                                <div class="col-md-4"> 
+                                    <label for="endDate" class="form-label">Ngày Kết Thúc</label> 
+                                    <input type="date" id="endDate"name="endDate" class="form-control" max="{{ date('Y-m-d') }}"> 
+                                    <span id="endDateError" style="color: red; font-size: 12px;"></span>
+                                </div> 
+                                <div class="col-md-4 d-flex align-items-end"> 
+                                    <button type="submit" class="btn btn-primary w-100">Xem Doanh Thu</button> 
+                                </div> 
+                            </div> 
+                        </form> 
+                    </div> 
+                    <div class="card-body"> 
+                        <div id="revenueChart" class="apex-charts"></div> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+</div> 
 
-@section('title')
- Trang quản trị
-@endsection
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const today = new Date();
+        const yearSelect = document.getElementById('yearSelect');
+        const monthSelect = document.getElementById('monthSelect');
+        const daySelect = document.getElementById('daySelect');
+        const revenueFilterForm = document.getElementById('revenueFilterForm');
+        const rangeRevenueForm = document.getElementById('rangeRevenueForm');
+        let chart;
+    
+        yearSelect.value = today.getFullYear();
+        handleYearChange();
+        fetchRevenueData();
+        const maxDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+        daySelect.setAttribute('max', maxDate);
+    
+        yearSelect.addEventListener('change', handleYearChange);
+        monthSelect.addEventListener('change', handleMonthChange);
+        revenueFilterForm.addEventListener('submit', handleFormSubmit);
+        rangeRevenueForm.addEventListener('submit', handleRangeFormSubmit);
+    
+        function handleYearChange() {
+            const selectedYear = parseInt(yearSelect.value);
+            monthSelect.value = "";
+            daySelect.value = "";
+            monthSelect.disabled = false;
+            daySelect.disabled = true;
+            Array.from(monthSelect.options).forEach(option => {
+                option.disabled = selectedYear === today.getFullYear() && parseInt(option.value) > (today.getMonth() + 1);
+            });
+        }
+    
+        function handleMonthChange() {
+            const selectedYear = parseInt(yearSelect.value);
+            const selectedMonth = parseInt(monthSelect.value);
+            daySelect.disabled = false;
+            const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+            const maxDay = selectedYear === today.getFullYear() && selectedMonth === (today.getMonth() + 1)
+                ? today.getDate()
+                : daysInMonth;
+    
+            daySelect.setAttribute('min', `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-01`);
+            daySelect.setAttribute('max', `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(maxDay).padStart(2, '0')}`);
+        }
+    
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            fetchRevenueData();
+        }
+    
+        function handleRangeFormSubmit(event) {
+            event.preventDefault();
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const startDateError = document.getElementById('startDateError');
+    const endDateError = document.getElementById('endDateError');
 
-@section('css')
+    startDateError.textContent = "";
+    endDateError.textContent = "";
+            if (startDate && endDate) {
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                const timeDiff = Math.abs(end - start);
+                const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                     
+                if (start > end) {
+            startDateError.textContent = "Ngày bắt đầu phải nhỏ hơn ngày kết thúc.";
+            return;
+        }
+                if (dayDiff > 30) {
+                    endDateError.textContent = "Vui lòng chọn khoảng thời gian không quá 30 ngày.";              
+                          return;
+                }
 
-@endsection
-@section('content')
- 
-<div class="content">
+                daySelect.value = "";
 
-    <!-- Start Content-->
-    <div class="container-xxl">
+                fetchRangeRevenueData(startDate, endDate);
+            } else {
+                if (!startDate) startDateError.textContent = "Vui lòng chọn ngày bắt đầu.";
+                if (!endDate) endDateError.textContent = "Vui lòng chọn ngày kết thúc.";
+            }
+        }
+    
+        function fetchRevenueData() {
+    const year = yearSelect.value;
+    const month = monthSelect.value;
+    const day = daySelect.value;
+    let url = `/admins/dashboard/revenue?year=${year}`;
+    if (month) url += `&month=${month}`;
+    if (day) url += `&day=${day}`;
 
-        <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
-            <div class="flex-grow-1">
-                <h4 class="fs-18 fw-semibold m-0">Dashboard</h4>
-            </div>
-        </div>
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            let categories, revenues, profits, title;
+            if (day) {
+                categories = data.map(item => `${item.hour}:00`);
+                title = `Doanh Thu và Lợi Nhuận Theo Giờ của Ngày ${day}`;
+            } else if (month) {
+                categories = data.map(item => `Ngày ${item.day}`);
+                title = `Doanh Thu và Lợi Nhuận Theo Ngày của Tháng ${month} Năm ${year}`;
+            } else {
+                categories = data.map(item => `Tháng ${item.month}`);
+                title = `Doanh Thu và Lợi Nhuận Theo Tháng của Năm ${year}`;
+            }
+            revenues = data.map(item => item.revenue);
+            profits = data.map(item => item.profit);
 
-        <!-- start row -->
-        <div class="row">
-            <div class="col-md-12 col-xl-12">
-                <div class="row g-3">
+            if (chart) chart.destroy();
+            renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
+        })
+        .catch(error => console.error('Error:', error));
+}
 
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-14 mb-1">Website Traffic</div>
-                                </div>
+function fetchRangeRevenueData(startDate, endDate) {
+    const url = `/admins/dashboard/range?start_date=${startDate}&end_date=${endDate}`;
 
-                                <div class="d-flex align-items-baseline mb-2">
-                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">91.6K</div>
-                                    <div class="me-auto">
-                                        <span class="text-primary d-inline-flex align-items-center">
-                                            15%
-                                            <i data-feather="trending-up" class="ms-1" style="height: 22px; width: 22px;"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div id="website-visitors" class="apex-charts"></div>
-                            </div>
-                        </div>
-                    </div>
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                console.error(`HTTP error! Status: ${response.status}`);
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); 
 
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-14 mb-1">Conversion rate</div>
-                                </div>
+         
+            if (!data || data.length === 0) {
+                console.log('Không có dữ liệu cho khoảng thời gian này.');
+                return;
+            }
 
-                                <div class="d-flex align-items-baseline mb-2">
-                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">15%</div>
-                                    <div class="me-auto">
-                                        <span class="text-danger d-inline-flex align-items-center">
-                                            10%
-                                            <i data-feather="trending-down" class="ms-1" style="height: 22px; width: 22px;"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div id="conversion-visitors" class="apex-charts"></div>
-                            </div>
-                        </div>
-                    </div>
+            const categories = data.map(item => item.date);
+            const revenues = data.map(item => item.revenue || 0); 
+            const profits = data.map(item => item.profit || 0);   
+            const title = `Doanh Thu Từ ${startDate} Đến ${endDate}`;
 
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-14 mb-1">Session duration</div>
-                                </div>
+            if (chart) {
+                chart.destroy();
+            }
 
-                                <div class="d-flex align-items-baseline mb-2">
-                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">90 Sec</div>
-                                    <div class="me-auto">
-                                        <span class="text-success d-inline-flex align-items-center">
-                                            25%
-                                            <i data-feather="trending-up" class="ms-1" style="height: 22px; width: 22px;"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div id="session-visitors" class="apex-charts"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="fs-14 mb-1">Active Users</div>
-                                </div>
-
-                                <div class="d-flex align-items-baseline mb-2">
-                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">2,986</div>
-                                    <div class="me-auto">
-                                        <span class="text-success d-inline-flex align-items-center">
-                                            4%
-                                            <i data-feather="trending-up" class="ms-1" style="height: 22px; width: 22px;"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div id="active-users" class="apex-charts"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- end sales -->
-        </div> <!-- end row -->
-
-        <!-- Start Monthly Sales -->
-        <div class="row">
-            <div class="col-md-6 col-xl-8">
-                <div class="card">
-                    
-                    <div class="card-header">
-                        <div class="d-flex align-items-center">
-                            <div class="border border-dark rounded-2 me-2 widget-icons-sections">
-                                <i data-feather="bar-chart" class="widgets-icons"></i>
-                            </div>
-                            <h5 class="card-title mb-0">Monthly Sales</h5>
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        <div id="monthly-sales" class="apex-charts"></div>
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="col-md-6 col-xl-4">
-                <div class="card overflow-hidden">
-
-                    <div class="card-header">
-                        <div class="d-flex align-items-center">
-                            <div class="border border-dark rounded-2 me-2 widget-icons-sections">
-                                <i data-feather="tablet" class="widgets-icons"></i>
-                            </div>
-                            <h5 class="card-title mb-0">Best Traffic Source</h5>
-                        </div>
-                    </div>
-
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-traffic mb-0">
-                                <tbody>
-                                    <thead>
-                                        <tr>
-                                            <th>Network</th>
-                                            <th colspan="2">Visitors</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tr>
-                                        <td>Instagram</td>
-                                        <td>3,550</td>
-                                        <td class="w-50">
-                                            <div class="progress progress-md mt-0">
-                                                <div class="progress-bar bg-danger" style="width: 80.0%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Facebook</td>
-                                        <td>1,245</td>
-                                        <td class="w-50">
-                                            <div class="progress progress-md mt-0">
-                                                <div class="progress-bar bg-primary" style="width: 55.9%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Twitter</td>
-                                        <td>1,798</td>
-                                        <td class="w-50">
-                                            <div class="progress progress-md mt-0">
-                                                <div class="progress-bar bg-secondary" style="width: 67.0%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>YouTube</td>
-                                        <td>986</td>
-                                        <td class="w-50">
-                                            <div class="progress progress-md mt-0">
-                                                <div class="progress-bar bg-success" style="width: 38.72%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Pinterest</td>
-                                        <td>854</td>
-                                        <td class="w-50">
-                                            <div class="progress progress-md mt-0">
-                                                <div class="progress-bar bg-danger" style="width: 45.08%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Linkedin</td>
-                                        <td>650</td>
-                                        <td class="w-50">
-                                            <div class="progress progress-md mt-0">
-                                                <div class="progress-bar bg-warning" style="width: 68.0%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Nextdoor</td>
-                                        <td>420</td>
-                                        <td class="w-50">
-                                            <div class="progress progress-md mt-0">
-                                                <div class="progress-bar bg-info" style="width: 56.4%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <!-- End Monthly Sales -->
-
-        <div class="row">
-            <div class="col-md-6 col-xl-6">
-                <div class="card">
-                    
-                    <div class="card-header">
-                        <div class="d-flex align-items-center">
-                            <div class="border border-dark rounded-2 me-2 widget-icons-sections">
-                                <i data-feather="minus-square" class="widgets-icons"></i>
-                            </div>
-                            <h5 class="card-title mb-0">Audiences By Time Of Day</h5>
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        <div id="audiences-daily" class="apex-charts mt-n3"></div>
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="col-md-6 col-xl-6">
-                <div class="card overflow-hidden">
-                    
-                    <div class="card-header">
-                        <div class="d-flex align-items-center">
-                            <div class="border border-dark rounded-2 me-2 widget-icons-sections">
-                                <i data-feather="table" class="widgets-icons"></i>
-                            </div>
-                            <h5 class="card-title mb-0">Most Visited Pages</h5>
-                        </div>
-                    </div>
-
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-traffic mb-0">
-                                <tbody>
-
-                                    <thead>
-                                        <tr>
-                                            <th>Page name</th>
-                                            <th>Visitors</th>
-                                            <th>Unique</th>
-                                            <th colspan="2">Bounce rate</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tr>
-                                        <td>
-                                            /home
-                                            <a href="#" class="ms-1" aria-label="Open website">
-                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
-                                            </a>
-                                        </td>
-                                        <td>5,896</td>
-                                        <td>3,654</td>
-                                        <td>82.54%</td>
-                                        <td class="w-25">
-                                            <div id="sparkline-bounce-1" class="apex-charts"></div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            /about.html
-                                            <a href="#" class="ms-1" aria-label="Open website">
-                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
-                                            </a>
-                                        </td>
-                                        <td>3,898</td>
-                                        <td>3,450</td>
-                                        <td>76.29%</td>
-                                        <td class="w-25">
-                                            <div id="sparkline-bounce-2" class="apex-charts"></div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            /index.html 
-                                            <a href="#" class="ms-1" aria-label="Open website">
-                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
-                                            </a>
-                                        </td>
-                                        <td>3,057</td>
-                                        <td>2,589</td>
-                                        <td>72.68%</td>
-                                        <td class="w-25">
-                                            <div id="sparkline-bounce-3" class="apex-charts"></div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            /invoice.html
-                                            <a href="#" class="ms-1" aria-label="Open website">
-                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
-                                            </a>
-                                        </td>
-                                        <td>867</td>
-                                        <td>795</td>
-                                        <td>44.78%</td>
-                                        <td class="w-25">
-                                            <div id="sparkline-bounce-4" class="apex-charts"></div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            /docs/
-                                            <a href="#" class="ms-1" aria-label="Open website">
-                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
-                                            </a>
-                                        </td>
-                                        <td>958</td>
-                                        <td>801</td>
-                                        <td>41.15%</td>
-                                        <td class="w-25">
-                                            <div id="sparkline-bounce-5" class="apex-charts"></div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            /service.html
-                                            <a href="#" class="ms-1" aria-label="Open website">
-                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
-                                            </a>
-                                        </td>
-                                        <td>658</td>
-                                        <td>589</td>
-                                        <td>32.65%</td>
-                                        <td class="w-25">
-                                            <div id="sparkline-bounce-6" class="apex-charts"></div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            /analytical.html
-                                            <a href="#" class="ms-1" aria-label="Open website">
-                                                <i data-feather="link" class="ms-1 text-primary" style="height: 15px; width: 15px;"></i>
-                                            </a>
-                                        </td>
-                                        <td>457</td>
-                                        <td>859</td>
-                                        <td>32.65%</td>
-                                        <td class="w-25">
-                                            <div id="sparkline-bounce-7" class="apex-charts"></div>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-
-    </div> <!-- container-fluid -->
-</div> <!-- content -->
+            renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+        function renderChart(chartElement, categories, revenues, profits, title) {
+    const options = {
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        title: {
+            text: title,
+            align: 'center'
+        },
+        xaxis: {
+            categories: categories
+        },
+        series: [
+            {
+                name: 'Doanh Thu',
+                data: revenues,
+                color: '#00A7FF'
+            },
+            {
+                name: 'Lợi Nhuận',
+                data: profits,
+                color: '#28a745'
+            }
+        ],
+        dataLabels: {
+            enabled: false,
+            formatter: function(val) {
+                return val + ' đ';
+            },
+            style: {
+                colors: ['#212529'],
+                fontSize: '10px',
+            }
+        }
+    };
+    chart = new ApexCharts(chartElement, options);
+    chart.render();
+}
+    });
+</script>
 
 @endsection
-
 @section('js')
-
-@endsection    
+@endsection

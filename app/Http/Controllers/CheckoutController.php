@@ -1,12 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Mail\OrderSuccessful;
 use App\Models\Order;
 use App\Models\Variant;
 use App\Models\OrderItem;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -89,12 +91,12 @@ class CheckoutController extends Controller
             ]);
         }
 
-        session()->forget('cart_' . $userId);
+        // session()->forget('cart_' . $userId);
 
         if ($request->payment_method == 'online') {
             return $this->createVNPayPaymentLink($order); // Chuyển sang xử lý thanh toán với VNPay
         }
-
+        Mail::to(Auth::user()->user_email)->send(new OrderSuccessful($order));
         return redirect()->route('checkout.success', ['order' => $order->id]);
     }
 

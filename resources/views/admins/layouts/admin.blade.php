@@ -82,19 +82,20 @@
     <script src="{{ asset('assets/admins/libs/feather-icons/feather.min.js') }}"></script>
 
     <!-- Apexcharts JS -->
-    <script src="{{ asset('assets/admins/libs/apexcharts/apexcharts.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/admins/libs/apexcharts/apexcharts.min.js') }}"></script> --}}
 
     <!-- for basic area chart -->
-    <script src="{{ asset('assets/admins/apexcharts.com/samples/assets/stock-prices.js')}}"></script>
+    {{-- <script src="{{ asset('assets/admins/apexcharts.com/samples/assets/stock-prices.js')}}"></script> --}}
 
     <!-- Widgets Init Js -->
-    <script src="{{ asset('assets/admins/js/pages/analytics-dashboard.init.js') }}"></script>
+    {{-- <script src="{{ asset('assets/admins/js/pages/analytics-dashboard.init.js') }}"></script> --}}
 
     <!-- App js-->
     <script src="{{ asset('assets/admins/js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     {{-- bootstrap 5 --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 
