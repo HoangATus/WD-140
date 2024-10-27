@@ -12,6 +12,7 @@ use App\Http\Controllers\Clients\ShopController;
 use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Clients\CommentController;
+use App\Http\Controllers\Clients\FavoriteController;
 use App\Http\Controllers\Clients\OrderController;
 use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\DetailsofpurchaseorderController;
@@ -111,4 +112,6 @@ Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirm
 Route::middleware(['auth'])->group(function () {
     Route::post('/orders/{order}/rate', [OrderController::class, 'rate'])->name('orders.rate');
     Route::post('/orders/rate/{product_id}', [OrderController::class, 'rateProduct'])->name('orders.rate');
+    Route::post('/favorites', [FavoriteController::class, 'store'])->name('clients.favorites.store');
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('clients.favorites.index');
 });
