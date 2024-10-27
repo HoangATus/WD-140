@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Order;
@@ -30,16 +29,20 @@ class CheckoutController extends Controller
      */
     public function process(Request $request)
     {
+        if ($request->has('cancel_order')) {
+            return $this->cancelOrder($request->input('order_id'));
+        }
+
         $request->validate([
             'name'    => 'required|string|max:255',
             'phone'   => 'required|string|max:20',
             'address' => 'required|string|max:500',
             'notes'   => 'nullable|string|max:1000',
-            'payment_method' => 'required|in:cod,online',
+            'payment_method' => 'required|in:cod,online',  // Chỉ chấp nhận COD hoặc online
         ]);
 
-        $userId = Auth::id();
-        $cart = session()->get('cart_' . $userId, []);
+        $userId = Auth::id(); // Lấy ID của người dùng đang đăng nhập
+        $cart = session()->get('cart_' . $userId, []); // Lấy giỏ hàng theo ID người dùng
 
         if (empty($cart)) {
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống.');
@@ -51,7 +54,7 @@ class CheckoutController extends Controller
 
         $params['order_code'] = $this->generateUniqueOrderCode();
 
-        // Tạo đơn hàng với trạng thái "pending_payment" nếu là thanh toán online
+        // Tạo đơn hàng
         $order = Order::create([
             'user_id' => $userId,
             'order_code' => $params['order_code'],
@@ -60,16 +63,10 @@ class CheckoutController extends Controller
             'address' => $request->address,
             'notes'   => $request->notes,
             'total'   => $total,
-            'status' => $request->payment_method == 'online' ? 'pending_payment' : 'pending',
+            'status'  => 'pending',
             'payment_method' => $request->payment_method,
         ]);
 
-        // Nếu chọn thanh toán online, tạo link thanh toán VNPay và chưa cập nhật kho
-        if ($request->payment_method == 'online') {
-            return $this->createVNPayPaymentLink($order);
-        }
-
-        // Xử lý trường hợp thanh toán COD: giảm kho và tạo OrderItem
         foreach ($cart as $variant_id => $item) {
             $variant = Variant::find($variant_id);
 
@@ -93,6 +90,10 @@ class CheckoutController extends Controller
         }
 
         session()->forget('cart_' . $userId);
+
+        if ($request->payment_method == 'online') {
+            return $this->createVNPayPaymentLink($order); // Chuyển sang xử lý thanh toán với VNPay
+        }
 
         return redirect()->route('checkout.success', ['order' => $order->id]);
     }
@@ -163,37 +164,5 @@ class CheckoutController extends Controller
         } while (Order::where('order_code', $orderCode)->exists());
 
         return $orderCode;
-    }
-
-    public function handleVNPayCallback(Request $request)
-    {
-        $vnp_SecureHash = $request->input('vnp_SecureHash');
-        $vnp_TxnRef = $request->input('vnp_TxnRef'); // Mã đơn hàng
-        $vnp_ResponseCode = $request->input('vnp_ResponseCode'); // Mã phản hồi của VNPay
-
-        // Lấy thông tin đơn hàng dựa vào mã đơn hàng
-        $order = Order::where('order_code', $vnp_TxnRef)->first();
-
-        if ($order && $vnp_ResponseCode == '00') {
-            // Thanh toán thành công, cập nhật trạng thái đơn hàng và giảm số lượng sản phẩm
-            $order->update(['status' => 'paid']);
-
-            foreach ($order->orderItems as $item) {
-                $variant = Variant::find($item->variant_id);
-                if ($variant) {
-                    $variant->quantity -= $item->quantity;
-                    $variant->save();
-                }
-            }
-
-            // Xoá giỏ hàng
-            session()->forget('cart_' . $order->user_id);
-
-            return redirect()->route('checkout.success', ['order' => $order->id]);
-        } else {
-            // Thanh toán thất bại, cập nhật trạng thái
-            $order->update(['status' => 'failed']);
-            return redirect()->route('checkout.fail', ['order' => $order->id]);
-        }
     }
 }

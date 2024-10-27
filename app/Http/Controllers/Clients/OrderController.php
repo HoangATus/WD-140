@@ -55,15 +55,15 @@ class OrderController extends Controller
         if ($order->user_id !== Auth::id()) {
             abort(403, 'Bạn không có quyền hủy đơn hàng này.');
         }
-    
+
         if ($order->status !== 'pending') {
             return redirect()->route('orders.show', $order->id)
                 ->with('error', 'Bạn chỉ có thể hủy các đơn hàng đang chờ xác nhận.');
         }
-    
+
         return view('clients.myorder.cancel', compact('order'));
     }
-    
+
 
     /**
      * Xử lý hủy đơn hàng
@@ -71,21 +71,21 @@ class OrderController extends Controller
     public function cancel(Request $request, Order $order)
     {
         $this->authorize('cancel', $order);
-        
-        if ($order->status === Order::STATUS_CONFIRMED) { 
+
+        if ($order->status === Order::STATUS_CONFIRMED) {
             return redirect()->route('orders.index')->with('error', 'Bạn không thể hủy đơn hàng đã được xác nhận.');
         }
-    
+
         $request->validate([
             'cancellation_reason' => 'required|string|max:1000',
         ]);
-    
+
         $oldStatus = $order->status;
-    
-        $order->status = Order::STATUS_CANCELED; 
+
+        $order->status = Order::STATUS_CANCELED;
         $order->cancellation_reason = $request->cancellation_reason;
         $order->save();
-    
+
         foreach ($order->orderItems as $orderItem) {
             $variant = Variant::find($orderItem->variant_id);
             if ($variant) {
@@ -93,26 +93,27 @@ class OrderController extends Controller
                 $variant->save();
             }
         }
-    
+
         $order->statusChanges()->create([
             'old_status' => $oldStatus,
             'new_status' => Order::STATUS_CANCELED,
-            'notes' => $request->cancellation_reason, 
-            'changed_by' => auth()->id(), 
+            'notes' => $request->cancellation_reason,
+            'changed_by' => auth()->id(),
         ]);
-    
+
         return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được hủy thành công và tồn kho đã được phục hồi.');
     }
-    
+
     public function confirmReceipt(Order $order)
-{
-    if ($order->status !== Order::STATUS_DELIVERED) {
-        return redirect()->route('orders.index')->with('error', 'Đơn hàng không hợp lệ.');
+    {
+        if ($order->status !== Order::STATUS_DELIVERED) {
+            return redirect()->route('orders.index')->with('error', 'Đơn hàng không hợp lệ.');
+        }
+
+        $order->updateStatus(Order::STATUS_COMPLETED, 'Khách hàng đã nhận được hàng');
+
+        return redirect()->route('orders.index')->with('success', 'Cảm ơn bạn! Đơn hàng đã được xác nhận là hoàn thành.');
     }
 
-    $order->updateStatus(Order::STATUS_COMPLETED, 'Khách hàng đã nhận được hàng');
-
-    return redirect()->route('orders.index')->with('success', 'Cảm ơn bạn! Đơn hàng đã được xác nhận là hoàn thành.');
+    
 }
-
-}    

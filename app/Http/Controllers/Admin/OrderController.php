@@ -30,7 +30,15 @@ class OrderController extends Controller
         ], [
             'notes.required' => 'Bạn phải nhập ghi chú khi hủy đơn hàng hoặc giao hàng thất bại.',
         ]);
-    
+        if (in_array($order->payment_method, ['momo', 'vnpay', 'zalopay']) && $order->payment_status != 'paid') {
+            if (in_array($request->status, ['confirmed', 'shipped', 'delivered', 'completed'])) {
+                return back()->withErrors(['status' => 'Không thể thay đổi trạng thái đơn hàng cho đến khi thanh toán hoàn tất.']);
+            }
+        }
+           if ($request->status == 'delivered' && $order->payment_method == 'cod') {
+            $order->payment_status = 'paid';
+            $order->save(); 
+        }
         if (!$request->notes) {
             switch ($request->status) {
                 case 'confirmed':
