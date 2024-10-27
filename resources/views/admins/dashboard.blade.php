@@ -23,7 +23,7 @@
                         <div class="row g-3">
                             <!-- First div -->
                             @foreach ($counts as $status => $count)
-                                <div class="col-md-2 col-xl-2">
+                                <div class="" style="flex: 0 0 14.2857%; /* 100% / 7 */; max-width: 14.2857%;">
                                     <div class="card">
                                         <div class="card-body d-flex align-items-center">
                                             <div class="fs-14 mb-1 flex-grow-1 fw-semibold text-black">{{ $status }}
@@ -37,7 +37,6 @@
                     </div> <!-- end sales -->
                 </div>
                 <div class="container-xxl">
-                    <h4 class="fs-18 fw-semibold m-0">Dashboard</h4>
                     <div class="row">
                         <div class="col-md-12 col-xl-12">
                             <div class="card">

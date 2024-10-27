@@ -147,14 +147,14 @@ class Order extends Model
         ]);
     
        
-        if ($this->user) { 
-            Mail::to($this->user->user_email)
-                ->cc('cc@example.com')   
-                ->bcc('bcc@example.com') 
-                ->send(new OrderStatusChanged($this, $newStatus, $notes)); 
-        } else {
-            Log::warning('Không tìm thấy người dùng cho đơn hàng: ' . $this->id);
-        }
+        // if ($this->user) { 
+        //     Mail::to($this->user->user_email)
+        //         ->cc('cc@example.com')   
+        //         ->bcc('bcc@example.com') 
+        //         ->send(new OrderStatusChanged($this, $newStatus, $notes)); 
+        // } else {
+        //     Log::warning('Không tìm thấy người dùng cho đơn hàng: ' . $this->id);
+        // }
     }
     
 }
