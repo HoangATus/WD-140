@@ -6,7 +6,7 @@
                     <a href="{{ url('/') }}" class="foot-logo theme-logo">
                         <img src="{{ asset('assets/images/logoatus.png') }}" class="img-fluid blur-up lazyload" alt="">
                     </a>
-                    <p class="information-text information-text-2">Đây là một sự thật đã được thiết lập từ lâu rằng người đọc sẽ bị phân tâm bởi nội dung có thể đọc được.</p>
+                    <p class="information-text information-text-2">Shop thời trang nam ATUS là một thương hiệu nổi bật dành riêng cho nam giới, mang đến phong cách hiện đại, thanh lịch và nam tính.</p>
 
                 </div>
 
@@ -69,9 +69,7 @@
         </div>
 
         <div class="sub-footer sub-footer-lite section-b-space section-t-space">
-            <div class="left-footer">
-                <p class="light-text">Bản quyền 2022 Bởi Themeforest Được phát triển bởi Pixelstrap</p>
-            </div>
+
 
             <ul class="payment-box">
                 <li>

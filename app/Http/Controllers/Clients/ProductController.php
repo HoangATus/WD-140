@@ -108,31 +108,37 @@ class ProductController extends Controller
      * Display the specified resource.
      */
 
-     public function show($slug)
-     {
-         $product = Product::with(['galleries', 'variants.color', 'variants.size'])->where('slug', $slug)->firstOrFail();
-         $relatedProducts = Product::where('category_id', $product->category_id)
-                                   ->where('id', '!=', $product->id)
-                                   ->take(10)
-                                   ->get();
-     
-         // Prepare variants data
-         $variants = $product->variants->map(function($variant) {
-             return [
-                 'id' => $variant->id,
-                 'color' => $variant->color->name,
-                 'size' => $variant->size->attribute_size_name,
-                 'listed_price' => $variant->variant_listed_price,
-                 'sale_price' => $variant->variant_sale_price,
-                 'import_price' => $variant->variant_import_price,
-                 'quantity' => $variant->quantity ?? 0,
-                 'image' => Storage::url($variant->image),
-             ];
-         });
-     
-         return view('clients.productDetail', compact('product', 'relatedProducts', 'variants'));
-     }
-     
+    public function show($slug)
+    {
+        // Lấy sản phẩm cùng các thông tin liên quan và các đánh giá
+        $product = Product::with(['galleries', 'variants.color', 'variants.size', 'ratings'])
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        // Lấy các sản phẩm liên quan
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->take(10)
+            ->get();
+
+        // Chuẩn bị dữ liệu phiên bản sản phẩm
+        $variants = $product->variants->map(function ($variant) {
+            return [
+                'id' => $variant->id,
+                'color' => $variant->color->name,
+                'size' => $variant->size->attribute_size_name,
+                'listed_price' => $variant->variant_listed_price,
+                'sale_price' => $variant->variant_sale_price,
+                'import_price' => $variant->variant_import_price,
+                'quantity' => $variant->quantity ?? 0,
+                'image' => Storage::url($variant->image),
+            ];
+        });
+
+        return view('clients.productDetail', compact('product', 'relatedProducts', 'variants'));
+    }
+
+
 
 
 

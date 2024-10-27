@@ -20,7 +20,7 @@ class Product extends Model
         'product_image_url',
         'description',
         'is_active',
-        
+
     ];
 
     public function category()
@@ -32,8 +32,16 @@ class Product extends Model
     {
         return $this->hasMany(Variant::class);
     }
-    public function galleries() {
+    public function galleries()
+    {
         return $this->hasMany(ProductGallery::class);
     }
-
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

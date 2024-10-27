@@ -86,22 +86,22 @@
                                                     @csrf
                                                     <div class="form-group">
                                                         <label for="name">Tên Người Nhận</label>
-                                                        <input type="text" class="form-control" id="name"
-                                                            name="name" value="{{ old('name', $user->user_name) }}"
+                                                        <input type="text" name="name" class="form-control"
+                                                            id="name" value="{{ old( 'name', $user->user_name ?? '') }}"
                                                             required>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="phone">Số Điện Thoại</label>
                                                         <input type="text" class="form-control" id="phone"
-                                                            name="phone"
-                                                            value="{{ old('name', $user->user_phone_number) }}" required>
+                                                            name="phone" value="{{ $user->user_phone_number ?? '' }}" required>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="address">Địa Chỉ</label>
                                                         <input type="text" class="form-control" id="address"
-                                                            name="address" required>
+                                                            name="address" value=""
+                                                            required>
                                                     </div>
 
                                                     <div class="form-group">
@@ -145,9 +145,9 @@
                                             <img src="{{ $item['image'] }}"
                                                 class="img-fluid blur-up lazyloaded checkout-image" alt="">
                                             <h6>{{ $item['product_name'] }} <span> <strong> X
-                                                        {{ $item['quantity'] }}</strong></span></h6>
-                                            <a
-                                                class="price">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫</a>
+                                                        {{ $item['quantity'] }}</strong></span></h6&nbsp>
+                                                <a
+                                                    class="price">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫</a>
                                         </li>
                                     @endforeach
                                 </ul>
