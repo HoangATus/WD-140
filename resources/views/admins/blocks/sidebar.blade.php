@@ -41,10 +41,11 @@
                     <div class="collapse" id="sidebarError">
                         <ul class="nav-second-level">
                             <li>
-                                <a class='tp-link' href="{{route('admins.categories.index')}}">- Quản lý danh mục</a>
+                                <a class='tp-link' href="{{ route('admins.categories.index') }}">- Quản lý danh mục</a>
                             </li>
                             <li>
-                                <a class='tp-link' href="{{route('admins.categories.create')}}">- Thêm mới danh mục</a>
+                                <a class='tp-link' href="{{ route('admins.categories.create') }}">- Thêm mới danh
+                                    mục</a>
                             </li>
                         </ul>
                     </div>
@@ -58,17 +59,17 @@
                     <div class="collapse" id="sidebarAuth">
                         <ul class="nav-second-level">
                             <li>
-                                <a class='tp-link' href= "{{route('admins.products.index')}}">- Quản lý sản phẩm</a>
+                                <a class='tp-link' href= "{{ route('admins.products.index') }}">- Quản lý sản phẩm</a>
                             </li>
                             <li>
-                                <a class='tp-link' href= "{{route('admins.products.create')}}">- Thêm mới sản phẩm</a>
+                                <a class='tp-link' href= "{{ route('admins.products.create') }}">- Thêm mới sản phẩm</a>
                             </li>
-                            
+
                         </ul>
                     </div>
                 </li>
 
-             
+
 
                 <li>
                     <a href="#sidebarExpages" data-bs-toggle="collapse">
@@ -79,20 +80,21 @@
                     <div class="collapse" id="sidebarExpages">
                         <ul class="nav-second-level">
                             <li>
-                                <a class='tp-link' href="{{route('admins.colors.index')}}">- Màu sắc</a>
+                                <a class='tp-link' href="{{ route('admins.colors.index') }}">- Màu sắc</a>
                             </li>
                             <li>
-                                <a class='tp-link' href="{{route('admins.attributeSizes.index')}}">- Kích thước</a>
+                                <a class='tp-link' href="{{ route('admins.attributeSizes.index') }}">- Kích thước</a>
                             </li>
                         </ul>
                     </div>
-                </li> <li>
+                </li>
+                <li>
                     <a href="{{ route('admins.users.index') }}">
-                        <i class="ri-list-settings-line"></i>
+                        <i class="ri-user-line"></i> <!-- Thay đổi icon ở đây -->
                         Tài khoản
-
                     </a>
                 </li>
+
                 <li>
                     <a href="#sidebarAdvancedUI" data-bs-toggle="collapse">
                         <i data-feather="cpu"></i>
@@ -109,7 +111,7 @@
                                 <a class='tp-link' href="{{ route('admins.banners.create') }}">- Thêm mới Banner</a>
 
                             </li>
-                           
+
                         </ul>
                     </div>
                 </li>
@@ -117,18 +119,21 @@
                     <a class='tp-link' href="{{ route('admins.orders.index') }}">
                         <i data-feather="briefcase"></i>
 
-                        <span>  Quản lý đơn hàng  </span>
+                        <span> Quản lý đơn hàng </span>
                     </a>
                 </li>
-               
+                <li>
+                    <a href="{{ route('admins.ratings.index') }}">
+                        <i class="ri-star-line"></i>
+                        Quản lý đánh giá
+                    </a>
+                </li>
                 <li>
                     <a class='tp-link' href="{{ route('admins.comments.index') }}">
-                    <i class="fa-regular fa-comment"></i>
-
-                        <span>  Quản lý bình luận  </span>
+                        <i class="fa-regular fa-comment"></i>
+                        <span> Quản lý bình luận </span>
                     </a>
                 </li>
-
             </ul>
 
         </div>

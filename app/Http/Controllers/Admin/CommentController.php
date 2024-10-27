@@ -7,17 +7,6 @@ use App\Models\Comment;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-
-
-// app/Http/Controllers/Admin/CommentController.php
-
-namespace App\Http\Controllers\Admin;
-
-use App\Http\Controllers\Controller;
-use App\Models\Comment;
-use App\Models\Product; // Thêm import Product nếu bạn cần
-use Illuminate\Http\Request;
-
 class CommentController extends Controller
 {
     // Phương thức hiển thị  luận chưa duyệt cho một sản phẩm cụ thể
@@ -33,15 +22,15 @@ class CommentController extends Controller
     {
         // Lấy tất cả các bình luận của sản phẩm dựa trên product_id
         $comments = Comment::with('product')
-                    ->where('product_id', $product_id)
-                    ->latest('id')
-                    ->get();
-    
+            ->where('product_id', $product_id)
+            ->latest('id')
+            ->get();
+
         // Trả về view và truyền danh sách bình luận vào
         return view('admins.comments.show', compact('comments'));
     }
-    
-    
+
+
     // Phương thức duyệt bình luận
     public function approve($id)
     {

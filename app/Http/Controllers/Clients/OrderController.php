@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Rating;
 use App\Models\Variant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class OrderController extends Controller
 {
@@ -114,6 +117,70 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index')->with('success', 'Cảm ơn bạn! Đơn hàng đã được xác nhận là hoàn thành.');
     }
+    public function showOrderDetail($orderId)
+    {
+        $order = Order::with('products.reviews')->findOrFail($orderId);
 
+<<<<<<< HEAD
     
 }
+=======
+        // Kiểm tra xem đơn hàng có trạng thái "Hoàn thành" hay không
+        if ($order->status !== 'Hoàn thành') {
+            return redirect()->back()->with('error', 'Chỉ có thể đánh giá đơn hàng đã hoàn thành.');
+        }
+
+        return view('order-detail', compact('order'));
+    }
+    public function rateProduct(Request $request, $productId)
+    {
+        // Kiểm tra tất cả dữ liệu được gửi
+        // dd($request->all());
+
+        // Validate dữ liệu từ form
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'nullable|string|max:1000',
+            'order_id' => 'required|integer', // Đảm bảo có order_id
+        ]);
+
+        // Lấy order_id từ request
+        $orderId = $request->input('order_id');
+        $order = Order::find($orderId); // Tìm đơn hàng
+
+        if (!$order) {
+            return back()->with('error', 'Đơn hàng không tồn tại.');
+        }
+
+        // Tìm sản phẩm trong đơn hàng
+        $orderItem = OrderItem::where('order_id', $orderId)
+            ->where('product_id', $productId)
+            ->first();
+
+        if (!$orderItem) {
+            return back()->with('error', 'Sản phẩm không tồn tại trong đơn hàng.');
+        }
+
+        // Tiến hành đánh giá sản phẩm
+        $existingRating = Rating::where('order_item_id', $orderItem->id)->first();
+        if ($existingRating) {
+            return back()->with('error', 'Bạn đã đánh giá sản phẩm này trước đó.');
+        }
+
+        // Tạo mới đánh giá
+        $rating = new Rating();
+        $rating->order_item_id = $orderItem->id;
+        $rating->product_id = $orderItem->product_id; // Gán giá trị cho product_id
+        $rating->order_id = $order->id; // Gán giá trị cho order_id
+        $rating->rating = $request->input('rating');
+        $rating->review = $request->input('review');
+        $rating->user_id = auth()->id(); // Nếu bạn cần thêm user_id
+        $rating->save();
+
+
+
+
+        return back()->with('success', 'Cảm ơn bạn đã đánh giá sản phẩm.');
+    }
+}
+>>>>>>> 75c6dd26aa3ecd899234168b663c09d26bed0d9b

@@ -52,14 +52,14 @@
                         @endfor
                     </select>
             
-                    <label for="year">Bộ lọc Năm:</label>
+                    {{-- <label for="year">Bộ lọc Năm:</label>
                     <select name="year" id="year" onchange="this.form.submit()">
                         @for ($i = 2020; $i <= now()->year; $i++) 
                             <option value="{{ $i }}" {{ $i == $year ? 'selected' : '' }}>
                                 Năm {{ $i }}
                             </option>
                         @endfor
-                    </select>
+                    </select> --}}
                 </form>
                 <br><br>
                 <h4>Tổng doanh thu: {{ number_format($data['totalRevenue'], 0, ',', '.') }} VNĐ</h4> <br>

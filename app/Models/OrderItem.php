@@ -20,6 +20,10 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Variant::class);
     }
+    public function rating()
+    {
+        return $this->hasOne(Rating::class);
+    }
 
     public function product()
     {

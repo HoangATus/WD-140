@@ -75,7 +75,7 @@ class ProductController extends Controller
         }
 
         // Lấy danh sách sản phẩm sau khi lọc và sắp xếp
-        $listProduct = $query->with('variants')->paginate(9); // Phân trang với 6 sản phẩm mỗi trang
+        $listProduct = $query->with('variants')->paginate(8); // Phân trang với 6 sản phẩm mỗi trang
 
         // Lấy danh sách danh mục
         $listCategory = Category::withCount('products')->get();
@@ -110,13 +110,18 @@ class ProductController extends Controller
 
     public function show($slug)
     {
-        $product = Product::with(['galleries', 'variants.color', 'variants.size', 'comments.user'])->where('slug', $slug)->firstOrFail();
+        // Lấy sản phẩm cùng các thông tin liên quan và các đánh giá
+        $product = Product::with(['galleries', 'variants.color', 'variants.size', 'ratings'])
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        // Lấy các sản phẩm liên quan
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->take(10)
             ->get();
-        
-        // Prepare variants data
+
+        // Chuẩn bị dữ liệu phiên bản sản phẩm
         $variants = $product->variants->map(function ($variant) {
             return [
                 'id' => $variant->id,
@@ -132,6 +137,7 @@ class ProductController extends Controller
 
         return view('clients.productDetail', compact('product', 'relatedProducts', 'variants'));
     }
+
 
 
 
