@@ -12,6 +12,7 @@ class DashBoardController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index(Request $request)
     {
         // Lấy tháng và năm từ request, mặc định là tháng và năm hiện tại
@@ -21,6 +22,7 @@ class DashBoardController extends Controller
         // Tất cả các trạng thái có trong model Order
         $statuses = Order::$statuss;
 
+
         // Chỉ định các trạng thái bạn muốn lấy
         $desiredStatuses = [
             'pending',       // Chờ Xác Nhận
@@ -28,6 +30,7 @@ class DashBoardController extends Controller
             'shipped',       // Đang Giao Hàng
             'delivered',     // Giao Hàng Thành Công
             'failed',        // Giao thất bại
+
             'canceled',      // Đã Hủy
         ];
 
@@ -54,6 +57,7 @@ class DashBoardController extends Controller
             'data' => $data,
         ]);
     }
+
 
 
     /**
