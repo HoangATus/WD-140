@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function () {
     // Dashboard cho Admin
     Route::get('/', [RevenueController::class, 'index'])->name('dashboard');
-
+    // Route::get('/', [RevenueController::class, 'home'])->name('dashboard');
+    // Route::get('/', [DashBoardController::class, 'index'])->name('dashboard');
     // Các resource controllers
     Route::resource('users', UserController::class);
     Route::post('users/{user}/ban', [UserController::class, 'ban'])->name('users.ban');

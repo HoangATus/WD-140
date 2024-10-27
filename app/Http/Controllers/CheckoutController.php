@@ -96,7 +96,7 @@ class CheckoutController extends Controller
         if ($request->payment_method == 'online') {
             return $this->createVNPayPaymentLink($order); // Chuyển sang xử lý thanh toán với VNPay
         }
-        Mail::to(Auth::user()->user_email)->send(new OrderSuccessful($order));
+       
         return redirect()->route('checkout.success', ['order' => $order->id]);
     }
 

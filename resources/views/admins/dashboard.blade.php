@@ -22,7 +22,7 @@
                     <div class="col-md-12 col-xl-12">
                         <div class="row g-3">
                             <!-- First div -->
-                            @foreach ($orderCounts as $status => $count)
+                            @foreach ($counts as $status => $count)
                                 <div class="col-md-2 col-xl-2">
                                     <div class="card">
                                         <div class="card-body d-flex align-items-center">

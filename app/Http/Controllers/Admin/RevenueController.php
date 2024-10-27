@@ -10,6 +10,143 @@ use Illuminate\Support\Facades\Log;
 
 class RevenueController extends Controller
 {
+    public function index(Request $request)
+    {
+        $currentYear = Carbon::now()->year;
+        $years = range($currentYear - 5, $currentYear);
+    
+        // Lấy doanh thu và lợi nhuận theo từng năm
+        $revenues = DB::table('orders')
+            ->join('order_items', 'orders.id', '=', 'order_items.order_id')
+            ->join('variants', 'order_items.variant_id', '=', 'variants.id')
+            ->select(
+                DB::raw('YEAR(orders.created_at) as year'),
+                DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
+                DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
+            )
+            ->whereIn('orders.status', ['delivered', 'completed']) // Lọc trạng thái đơn hàng
+            ->whereRaw('YEAR(orders.created_at) >= ?', [$currentYear - 6])
+            ->groupBy('year')
+            ->orderBy('year', 'ASC')
+            ->get();
+    
+        $revenueData = [];
+        foreach ($years as $year) {
+            $data = $revenues->firstWhere('year', $year);
+            $revenueData[] = [
+                'year' => $year,
+                'revenue' => $data ? $data->revenue : 0,
+                'profit' => $data ? $data->profit : 0,
+            ];
+        }
+    
+        // Lấy tháng và năm từ request, mặc định là tháng và năm hiện tại
+        $month = $request->input('month', now()->month);
+        $year = $request->input('year', now()->year);
+    
+        // Tất cả các trạng thái có trong model Order
+        $statuses = Order::$statuss;
+    
+        // Chỉ định các trạng thái bạn muốn lấy
+        $desiredStatuses = [
+            'pending',
+            'confirmed',
+            'shipped',
+            'delivered',
+            'failed',
+            'canceled',
+        ];
+    
+        // Khởi tạo mảng để lưu số lượng
+        $counts = [];
+    
+        // Đếm số lượng đơn hàng cho mỗi trạng thái trong tháng và năm được chọn
+        foreach ($desiredStatuses as $key) {
+            $label = $statuses[$key] ?? $key; // Lấy nhãn từ mảng $statuses
+            $counts[$label] = Order::where('status', $key)
+                ->whereMonth('created_at', $month)
+                ->whereYear('created_at', $year)
+                ->count();
+        }
+    
+        // Tính toán doanh thu và lợi nhuận cho tháng và năm được chọn
+        $data = $this->calculateRevenueAndProfit($month, $year); // Đảm bảo hàm này hoạt động đúng
+    
+        // Trả về view với dữ liệu
+        return view('admins.dashboard', compact('years', 'revenueData', 'counts', 'month', 'year', 'data'));
+    }
+    protected function calculateRevenueAndProfit($month, $year)
+    {
+        // Khởi tạo dữ liệu
+        $dates = [];
+        $revenue = [];
+        $profit = [];
+        $totalRevenue = 0; // Biến để lưu tổng doanh thu
+        $totalOrders = 0;   // Biến để lưu tổng số đơn hàng
+    
+        // Lấy số ngày trong tháng
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year); // Số ngày trong tháng
+    
+        // Tạo danh sách ngày trong tháng
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $dates[] = $day;
+    
+            // Lấy tổng doanh thu và lợi nhuận từ cơ sở dữ liệu cho từng ngày chỉ với trạng thái đã hoàn thành và giao hàng thành công
+            $dailyData = Order::whereDay('created_at', $day)
+                ->whereMonth('created_at', $month)
+                ->whereYear('created_at', $year)
+                ->whereIn('status', ['delivered', 'confirmed']) // Chỉ lấy đơn hàng đã hoàn thành và giao hàng thành công
+                ->with(['items.variant'])
+                ->get();
+    
+            $dailyRevenue = 0;
+            $dailyProfit = 0;
+    
+            // Duyệt qua các đơn hàng trong ngày
+            foreach ($dailyData as $order) {
+                $totalOrders++; // Cộng dồn số đơn hàng
+                foreach ($order->items as $item) {
+                    $dailyRevenue += $item->price * $item->quantity;
+                    if ($item->variant) {
+                        $dailyProfit += ($item->price - $item->variant->variant_import_price) * $item->quantity;
+                    }
+                }
+            }
+    
+            // Cộng dồn tổng doanh thu
+            $totalRevenue += $dailyRevenue;
+    
+            // Lưu doanh thu và lợi nhuận vào mảng
+            $revenue[] = $dailyRevenue;
+            $profit[] = $dailyProfit;
+        }
+    
+        // Lấy tên các ngày trong tuần (Lịch Việt)
+        $weekDays = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+        $weekDates = [];
+    
+        // Tạo danh sách ngày trong tuần với tên ngày
+        for ($date = 1; $date <= $daysInMonth; $date++) {
+            $weekDates[] = [
+                'date' => $date,
+                'dayName' => $weekDays[(new Carbon($year . '-' . $month . '-' . $date))->dayOfWeek],
+            ];
+        }
+    
+        // Trả về dữ liệu để sử dụng trong view
+        return [
+            'dates' => $dates,
+            'revenue' => $revenue,
+            'profit' => $profit,
+            'totalRevenue' => $totalRevenue, // Trả về tổng doanh thu
+            'totalOrders' => $totalOrders,     // Trả về tổng số đơn hàng
+            'weekDates' => $weekDates,
+        ];
+    }
+    
+
+
+
     public function getRevenueInRange(Request $request)
 {
     $startDate = $request->input('start_date');
@@ -176,36 +313,36 @@ private function formatMonthlyData($revenues)
     return response()->json($revenues);
 }
 
-public function index()
-{
-    $currentYear = Carbon::now()->year;
-    $years = range($currentYear - 5, $currentYear);
+// public function index()
+// {
+//     $currentYear = Carbon::now()->year;
+//     $years = range($currentYear - 5, $currentYear);
 
-    $revenues = DB::table('orders')
-        ->join('order_items', 'orders.id', '=', 'order_items.order_id')
-        ->join('variants', 'order_items.variant_id', '=', 'variants.id')
-        ->select(
-            DB::raw('YEAR(orders.created_at) as year'),
-            DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
-            DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
-        )
-        ->whereRaw('YEAR(orders.created_at) >= ?', [$currentYear - 6])
-        ->groupBy('year')
-        ->orderBy('year', 'ASC')
-        ->get();
+//     $revenues = DB::table('orders')
+//         ->join('order_items', 'orders.id', '=', 'order_items.order_id')
+//         ->join('variants', 'order_items.variant_id', '=', 'variants.id')
+//         ->select(
+//             DB::raw('YEAR(orders.created_at) as year'),
+//             DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
+//             DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
+//         )
+//         ->whereRaw('YEAR(orders.created_at) >= ?', [$currentYear - 6])
+//         ->groupBy('year')
+//         ->orderBy('year', 'ASC')
+//         ->get();
 
-    $revenueData = [];
-    foreach ($years as $year) {
-        $data = $revenues->firstWhere('year', $year);
-        $revenueData[] = [
-            'year' => $year,
-            'revenue' => $data ? $data->revenue : 0,
-            'profit' => $data ? $data->profit : 0,
-        ];
-    }
+//     $revenueData = [];
+//     foreach ($years as $year) {
+//         $data = $revenues->firstWhere('year', $year);
+//         $revenueData[] = [
+//             'year' => $year,
+//             'revenue' => $data ? $data->revenue : 0,
+//             'profit' => $data ? $data->profit : 0,
+//         ];
+//     }
 
-    return view('admins.dashboard', compact('years', 'revenueData'));
-}
+//     return view('admins.dashboard', compact('years', 'revenueData'));
+// }
 
 public function getRevenueByRange(Request $request)
 {
