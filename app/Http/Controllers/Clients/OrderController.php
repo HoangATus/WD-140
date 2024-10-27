@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatusChanged;
+use App\Mail\OrderSuccessful;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Rating;
 use App\Models\Variant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 
 class OrderController extends Controller
@@ -84,8 +87,8 @@ class OrderController extends Controller
         ]);
 
         $oldStatus = $order->status;
+        $order->status = Order::STATUS_CANCELED; 
 
-        $order->status = Order::STATUS_CANCELED;
         $order->cancellation_reason = $request->cancellation_reason;
         $order->save();
 
@@ -103,7 +106,8 @@ class OrderController extends Controller
             'notes' => $request->cancellation_reason,
             'changed_by' => auth()->id(),
         ]);
-
+    
+      
         return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được hủy thành công và tồn kho đã được phục hồi.');
     }
 
@@ -121,10 +125,8 @@ class OrderController extends Controller
     {
         $order = Order::with('products.reviews')->findOrFail($orderId);
 
-<<<<<<< HEAD
     
-}
-=======
+
         // Kiểm tra xem đơn hàng có trạng thái "Hoàn thành" hay không
         if ($order->status !== 'Hoàn thành') {
             return redirect()->back()->with('error', 'Chỉ có thể đánh giá đơn hàng đã hoàn thành.');
@@ -183,4 +185,3 @@ class OrderController extends Controller
         return back()->with('success', 'Cảm ơn bạn đã đánh giá sản phẩm.');
     }
 }
->>>>>>> 75c6dd26aa3ecd899234168b663c09d26bed0d9b
