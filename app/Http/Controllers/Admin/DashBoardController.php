@@ -59,7 +59,7 @@ class DashBoardController extends Controller
     /**
      * Phương thức tính doanh thu và lợi nhuận cho tháng được chọn.
      */
-    protected function calculateRevenueAndProfit($month)
+    protected function calculateRevenueAndProfit($month, $year)
     {
         // Khởi tạo dữ liệu
         $dates = [];
@@ -67,25 +67,25 @@ class DashBoardController extends Controller
         $profit = [];
         $totalRevenue = 0; // Biến để lưu tổng doanh thu
         $totalOrders = 0;   // Biến để lưu tổng số đơn hàng
-
+    
         // Lấy số ngày trong tháng
-        $year = now()->year;
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year); // Số ngày trong tháng
-
+    
         // Tạo danh sách ngày trong tháng
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $dates[] = $day;
-
-            // Lấy tổng doanh thu và lợi nhuận từ cơ sở dữ liệu cho từng ngày
+    
+            // Lấy tổng doanh thu và lợi nhuận từ cơ sở dữ liệu cho từng ngày chỉ với trạng thái đã hoàn thành và giao hàng thành công
             $dailyData = Order::whereDay('created_at', $day)
                 ->whereMonth('created_at', $month)
                 ->whereYear('created_at', $year)
+                ->whereIn('status', ['delivered', 'confirmed']) // Chỉ lấy đơn hàng đã hoàn thành và giao hàng thành công
                 ->with(['items.variant'])
                 ->get();
-
+    
             $dailyRevenue = 0;
             $dailyProfit = 0;
-
+    
             // Duyệt qua các đơn hàng trong ngày
             foreach ($dailyData as $order) {
                 $totalOrders++; // Cộng dồn số đơn hàng
@@ -96,31 +96,27 @@ class DashBoardController extends Controller
                     }
                 }
             }
-
+    
             // Cộng dồn tổng doanh thu
             $totalRevenue += $dailyRevenue;
-
+    
             // Lưu doanh thu và lợi nhuận vào mảng
             $revenue[] = $dailyRevenue;
             $profit[] = $dailyProfit;
         }
-
+    
         // Lấy tên các ngày trong tuần (Lịch Việt)
         $weekDays = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
         $weekDates = [];
-
-        // Lấy ngày đầu tháng và cuối tháng
-        $firstDayOfMonth = Carbon::createFromDate($year, $month, 1);
-        $lastDayOfMonth = Carbon::createFromDate($year, $month, $daysInMonth);
-
+    
         // Tạo danh sách ngày trong tuần với tên ngày
-        for ($date = $firstDayOfMonth; $date->lte($lastDayOfMonth); $date->addDay()) {
+        for ($date = 1; $date <= $daysInMonth; $date++) {
             $weekDates[] = [
-                'date' => $date->day,
-                'dayName' => $weekDays[$date->dayOfWeek], // Tên ngày
+                'date' => $date,
+                'dayName' => $weekDays[(new Carbon($year . '-' . $month . '-' . $date))->dayOfWeek],
             ];
         }
-
+    
         // Trả về dữ liệu để sử dụng trong view
         return [
             'dates' => $dates,
@@ -131,4 +127,5 @@ class DashBoardController extends Controller
             'weekDates' => $weekDates,
         ];
     }
+    
 }
