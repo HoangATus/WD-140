@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function () {
     // Dashboard cho Admin
-    Route::get('/', function () {
-        // Thực hiện các logic cần thiết ở đây
-        return app()->make(DashBoardController::class)->index();
-    })->name('dashboard');
+
+    Route::get('/', [DashBoardController::class, 'index'])->name('dashboard');
+
+
     Route::resource('users', UserController::class);
     Route::post('users/{user}/ban', [UserController::class, 'ban'])->name('users.ban');
     Route::post('users/{user}/unban', [UserController::class, 'unban'])->name('users.unban');

@@ -121,6 +121,10 @@ class OrderController extends Controller
     {
         $order = Order::with('products.reviews')->findOrFail($orderId);
 
+<<<<<<< HEAD
+    
+}
+=======
         // Kiểm tra xem đơn hàng có trạng thái "Hoàn thành" hay không
         if ($order->status !== 'Hoàn thành') {
             return redirect()->back()->with('error', 'Chỉ có thể đánh giá đơn hàng đã hoàn thành.');
@@ -179,3 +183,4 @@ class OrderController extends Controller
         return back()->with('success', 'Cảm ơn bạn đã đánh giá sản phẩm.');
     }
 }
+>>>>>>> 75c6dd26aa3ecd899234168b663c09d26bed0d9b
