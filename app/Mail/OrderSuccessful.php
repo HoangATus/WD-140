@@ -19,7 +19,7 @@ class OrderSuccessful extends Mailable
 
     public function build()
     {
-        return $this->subject('Xác nhận đơn hàng thành công')
+        return $this->subject('Đặt hàng thành công')
                     ->view('emails.order_successful');
     }
 }
