@@ -39,29 +39,13 @@
                     </a>
                 </div>
             </div>
-<<<<<<< HEAD
 
-            <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            </a>
-        </div>
-    </div>
-    @else
-    {{-- <p class="text-center text-success">Hiện tại không có banner nào đang hoạt động.</p> --}}
-    @endif
-</section>
-<!-- Home Section End -->
-
-=======
         @else
             <p class="text-center text-success">Hiện tại không có banner nào đang hoạt động.</p>
         @endif
     </section>
     <!-- Home Section End -->
->>>>>>> aa42ecf641e6d4815bdcaa38e958d4d1005f85bb
+
     <!-- Category Section Start -->
     <section>
         <div class="container-fluid-lg">
@@ -87,10 +71,8 @@
         </div>
     </section>
 
-<<<<<<< HEAD
-<br>
-=======
->>>>>>> aa42ecf641e6d4815bdcaa38e958d4d1005f85bb
+
+
 
     <!-- Sản phẩm Section Start -->
     <div class="container">
@@ -110,28 +92,12 @@
                                             alt="{{ $product->product_name }}">
                                     </a>
                                 </div>
-<<<<<<< HEAD
 
-=======
->>>>>>> aa42ecf641e6d4815bdcaa38e958d4d1005f85bb
                                 <div class="product-detail mt-2">
                                     <a href="{{ route('products.show', $product->slug) }}">
                                         <h5 class="product-name">{{ $product->product_name }}</h5>
                                     </a>
-<<<<<<< HEAD
-                                    {{-- <div class="product-rating mt-2">
-                                        <ul class="rating">
-                                            <li><i data-feather="star" class="fill"></i></li>
-                                            <li><i data-feather="star" class="fill"></i></li>
-                                            <li><i data-feather="star" class="fill"></i></li>
-                                            <li><i data-feather="star" class="fill"></i></li>
-                                            <li><i data-feather="star"></i></li>
-                                        </ul>
-                                        <span>(4.0)</span>
-                                    </div> --}}
 
-=======
->>>>>>> aa42ecf641e6d4815bdcaa38e958d4d1005f85bb
                                     @if ($product->variants->isNotEmpty())
                                         @php
                                             $firstVariant = $product->variants->first();

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,7 @@ class RevenueController extends Controller
 {
     public function index(Request $request)
     {
+        
         $currentYear = Carbon::now()->year;
         $years = range($currentYear - 5, $currentYear);
     
@@ -72,10 +74,35 @@ class RevenueController extends Controller
     
         // Tính toán doanh thu và lợi nhuận cho tháng và năm được chọn
         $data = $this->calculateRevenueAndProfit($month, $year); // Đảm bảo hàm này hoạt động đúng
+
+        $topSellingProducts = OrderItem::select('product_id', 'product_name', DB::raw('SUM(quantity) as total_quantity'))
+            ->groupBy('product_id', 'product_name')
+            ->orderByDesc('total_quantity')
+            ->limit(5)
+            ->get();
+
+            $topRevenueProducts = OrderItem::select('product_id', 'product_name', DB::raw('SUM(price * quantity) as total_revenue'))
+            ->groupBy('product_id', 'product_name')
+            ->orderByDesc('total_revenue')
+            ->limit(5)
+            ->get();
+    
+        // Top 5 Sản Phẩm Lợi Nhuận Cao Nhất
+        $topProfitProducts = OrderItem::select(
+            'order_items.product_id',
+            'order_items.product_name',
+            DB::raw('SUM((order_items.price - variants.variant_import_price) * order_items.quantity) as total_profit')
+        )
+        ->join('variants', 'order_items.variant_id', '=', 'variants.id') // Join để lấy giá nhập từ bảng variants
+        ->groupBy('order_items.product_id', 'order_items.product_name')
+        ->orderByDesc('total_profit')
+        ->limit(5)
+        ->get();
     
         // Trả về view với dữ liệu
-        return view('admins.dashboard', compact('years', 'revenueData', 'counts', 'month', 'year', 'data'));
+        return view('admins.dashboard', compact('years', 'revenueData', 'counts', 'month', 'year', 'data', 'topSellingProducts', 'topRevenueProducts', 'topProfitProducts'));
     }
+    
     protected function calculateRevenueAndProfit($month, $year)
     {
         // Khởi tạo dữ liệu
@@ -143,6 +170,7 @@ class RevenueController extends Controller
             'totalOrders' => $totalOrders,     // Trả về tổng số đơn hàng
             'weekDates' => $weekDates,
         ];
+
     }
     
 
