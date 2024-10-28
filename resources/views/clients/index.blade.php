@@ -44,7 +44,6 @@
         @endif
     </section>
     <!-- Home Section End -->
-
     <!-- Category Section Start -->
     <section>
         <div class="container-fluid-lg">
@@ -74,16 +73,26 @@
     <div class="container">
 
         <div class="container-fluid-lg">
-
             <div class="section-b-space">
                 <div class="title">
                     <h2>SẢN PHẨM</h2>
                 </div>
+                @if (session('successy'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('successy') }}
+                    </div>
+                @endif
+
+                @if (session('errors'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('errors') }}
+                </div>
+            @endif
                 <div class="container">
                     <div class="product-grid">
                         @foreach ($products as $product)
                             <div class="product-box">
-                                <div class="product-image">
+                                <div class="product-img">
                                     <a href="{{ route('products.show', $product->slug) }}">
                                         <img src="{{ Storage::url($product->product_image_url) }}" class="img-fluid"
                                             alt="{{ $product->product_name }}">
@@ -93,6 +102,23 @@
                                     <div class="product-name">
                                         <a
                                             href="{{ route('products.show', $product->slug) }}">{{ $product->product_name }}</a>
+                                    </div>
+                                    <div class="product-ratin custom-rate">
+                                        <ul class="rating">
+                                            @php
+                                                $averageRating = $product->ratings->avg('rating'); // Tính trung bình số sao
+                                            @endphp
+
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <li>
+                                                    @if ($i <= $averageRating)
+                                                        <i data-feather="star" class="fill"></i> <!-- Sao đầy -->
+                                                    @else
+                                                        <i data-feather="star"></i> <!-- Sao rỗng -->
+                                                    @endif
+                                                </li>
+                                            @endfor
+                                        </ul>
                                     </div>
                                     @if ($product->variants->isNotEmpty())
                                         @php
@@ -108,56 +134,225 @@
                                             </div>
                                         </div>
                                     @endif
-
-
-                                    <div class="add">
-                                        <button class="cart" onclick="addToCart()">Thêm vào giỏ
+                                    <div class="add-buttons d-flex align-items-center">
+                                        <button class="cart" onclick="addToCart()">
+                                            Thêm vào giỏ
                                             <span class="add-icon bg-light-gray">
                                                 <i class="bi bi-cart"></i>
                                             </span>
                                         </button>
-                                    </div>
 
-                                    <div class="addd mt-2">
-                                        <form action="{{ route('clients.favorites.store') }}" method="POST">
+                                        <form action="{{ route('clients.favorites.store') }}" method="POST"
+                                            class="d-inline">
                                             @csrf
-
-                                            <button class="cart" name="product_id" value="{{ $product->id }}"
+                                            <button class="cart-icon" name="product_id" value="{{ $product->id }}"
                                                 type="submit">
-                                                <span class="add-icon bg-light-gray">
-                                                    <i class="fa-regular fa-heart"></i>
-                                                </span>
+                                                <i class="fa-regular fa-heart"></i>
                                             </button>
-
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
 
-                    <div class="col-xxl-4 col-xl-12 col-md-5">
-                        <img src="{{ asset('assets/clients/images/fashion/banner/2.jpg') }}"
-                            class="bg-img blur-up lazyload" alt="">
-                        <div class="banner-details p-center-left p-4 h-100">
-                            <div>
-                                <h2 class="text-kaushan fw-normal text-danger">Thiết kế hiện đại và hợp thời </h2>
-                                <h3 class="mt-2 mb-2 theme-color">Chất lượng cao</h3>
-                                <h3 class="fw-normal product-name text-title">Giá cả hợp lý</h3>
-                            </div>
-                        </div>
-                    </div>
+                    <style>
+                        .product-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                            /* Để tự động điều chỉnh kích thước */
+                            gap: 20px;
+                        }
+
+                        .product-box {
+                            border: 1px solid #ccc;
+                            border-radius: 15px;
+                            padding: 15px;
+                            transition: transform 0.2s;
+                            background-color: #fff;
+                            overflow: hidden;
+                            display: flex;
+                            /* Sử dụng flex để căn chỉnh nội dung */
+                            flex-direction: column;
+                            /* Sắp xếp theo chiều dọc */
+                        }
+
+                        .product-box:hover {
+                            transform: scale(1.05);
+                        }
+
+                        .product-image img {
+                            border-radius: 8px;
+                            max-width: 100%;
+                            height: 180px;
+                            object-fit: contain;
+                        }
+
+                        .product-img {
+                            padding: 10px;
+                            position: relative;
+                            overflow: hidden;
+                            box-sizing: border-box;
+                            text-align: center;
+                        }
+
+                        .product-img img {
+                            max-width: 100%;
+                            /* Đảm bảo hình ảnh không vượt quá chiều rộng của khung */
+                            max-height: 155px;
+                            /* Giới hạn chiều cao tối đa để tránh vỡ hình */
+                            width: auto;
+                            height: auto;
+                            object-fit: contain;
+                            /* Giúp ảnh vừa khung mà không bị méo */
+                            border-radius: 8px;
+                        }
+
+
+                        .product-detail {
+                            text-align: center;
+                            flex: 1;
+                            /* Cho phép nội dung chiếm không gian còn lại */
+                        }
+
+                        .product-name {
+                            font-weight: bold;
+                            color: #333;
+                            -webkit-line-clamp: 1;
+                            -webkit-box-orient: vertical;
+                            display: -webkit-box;
+                            overflow: hidden;
+                        }
+
+                        .product-ratin {
+                            display: -webkit-box;
+                            display: -ms-flexbox;
+                            display: flex;
+                            justify-content: center;
+                            -webkit-box-align: center;
+                            -ms-flex-align: center;
+                            align-items: center;
+                        }
+
+                        .price {
+                            margin-top: 10px;
+                            font-size: 13px;
+                        }
+
+                        .sale-price {
+                            font-size: 16px;
+                            color: #d9534f;
+                            font-weight: bold;
+                        }
+
+                        .listed-price {
+                            font-size: 13px;
+                            color: #999;
+                            text-decoration: line-through;
+                        }
+
+                        .add-buttons {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 10px;
+                            /* Adds space between the two buttons */
+                            margin-top: 10px;
+                        }
+
+                        .cart {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: #417394;
+                            color: white;
+                            border: 2px solid transparent;
+                            /* Add transparent border for consistent button size */
+                            border-radius: 8px;
+                            cursor: pointer;
+                            transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
+                            font-weight: bold;
+                            padding: 6px;
+                            font-size: 14px;
+                        }
+
+                        .cart-icon {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: #417394;
+                            color: white;
+                            border: 2px solid transparent;
+                            /* Add transparent border for consistent button size */
+                            border-radius: 8px;
+                            cursor: pointer;
+                            transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
+                            font-weight: bold;
+                            padding: 6px;
+                            font-size: 15px;
+                        }
+
+                        .add-icon {
+                            margin-left: 5px;
+                        }
+
+                        /* Hover effects */
+                        .cart:hover {
+                            background-color: #355c74;
+                            transform: scale(1.05);
+                            border-color: #355c74;
+                            border: none;
+                            /* Ensure border matches background color */
+                        }
+
+                        .cart-icon:hover {
+                            background-color: #417394;
+                            color: white;
+                            /* Change icon color on hover */
+                            transform: scale(1.05);
+                            border-color: #355c74;
+                            border: none;
+                            /* Darker border on hover */
+                        }
+                    </style>
                 </div>
             </div>
         </div>
     </div>
 
+    <section>
+        <div class="container-fluid-lg">
+            <div class="row g-md-4 g-3">
+                <div class="col-xxl-8 col-xl-12 col-md-7">
+                    <div class="banner-contain hover-effect">
+                        <img src="{{ asset('assets/clients/images/fashion/banner/1.jpg') }}"
+                            class="bg-img blur-up lazyload" alt="">
+                        <div class="banner-details p-center-left p-4">
+                            <div>
+                                <h2 class="text-kaushan fw-normal theme-color">Chúng tôi có</h2>
+                                <h3 class="mt-2 mb-3">SẢN PHẨM CHÂT LƯỢNG</h3>
+                                <p class="text-content banner-text">Shop thời trang nam ATUS là một thương hiệu thời trang
+                                    dành riêng cho nam giới, chuyên cung cấp các sản phẩm chất lượng cao, phù hợp với xu
+                                    hướng hiện đại.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-
-
-    <!-- Sản phẩm bán chạy Section End -->
-
-
-    <!-- Newsletter Section Start -->
+                <div class="col-xxl-4 col-xl-12 col-md-5">
+                    <img src="{{ asset('assets/clients/images/fashion/banner/2.jpg') }}" class="bg-img blur-up lazyload"
+                        alt="">
+                    <div class="banner-details p-center-left p-4 h-100">
+                        <div>
+                            <h2 class="text-kaushan fw-normal text-danger">Thiết kế hiện đại và hợp thời </h2>
+                            <h3 class="mt-2 mb-2 theme-color">Chất lượng cao</h3>
+                            <h3 class="fw-normal product-name text-title">Giá cả hợp lý</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="newsletter-section section-b-space">
     </section>
     <!-- Newsletter Section End -->

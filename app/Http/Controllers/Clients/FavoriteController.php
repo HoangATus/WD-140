@@ -22,7 +22,7 @@ class FavoriteController extends Controller
                           ->exists();
 
         if ($exists) {
-            return back()->with('error', 'Sản phẩm này đã có trong danh sách yêu thích.');
+            return back()->with('errors', 'Sản phẩm này đã có trong danh sách yêu thích.');
         }
 
         // Nếu sản phẩm chưa tồn tại, thêm vào danh sách yêu thích
@@ -30,7 +30,7 @@ class FavoriteController extends Controller
             'user_id' => Auth::id(),
             'product_id' => $request->product_id,
         ]);
-        return redirect()->back()->with('success', 'Sản phẩm đã được thêm vào danh sách yêu thích.');
+        return redirect()->back()->with('successy', 'Sản phẩm đã được thêm vào danh sách yêu thích.');
     }
 
     public function index()
@@ -57,7 +57,7 @@ class FavoriteController extends Controller
     
     $favorite->delete();
 
-    return redirect()->route('clients.favorites.index')->with('success', 'Sản phẩm đã được xóa khỏi danh sách yêu thích.');
+    return redirect()->route('clients.favorites.index')->with('successy', 'Sản phẩm đã được xóa khỏi danh sách yêu thích.');
 }
     
 }

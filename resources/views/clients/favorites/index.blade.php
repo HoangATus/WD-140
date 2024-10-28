@@ -1,223 +1,198 @@
 @extends('clients.layouts.client')
 
 @section('content')
-<div class="container">
-    @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-    </div>
-@endif
+    <div class="container">
 
-    <h1 style="font-size: 30px;">Danh Sách Sản Phẩm Yêu Thích</h1>
+        <div class="container-fluid-lg">
+            <div class="section-b-space">
+                <div class="title">
+                    <h2>Danh Sách Sản Phẩm Yêu Thích</h2>
+                </div>
+                <div class="container">
+                    @if (session('successy'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('successy') }}
+                        </div>
+                    @endif
 
-    @if ($favorites->isEmpty())
-    <p>Không có sản phẩm nào trong danh sách yêu thích.</p>
-    @else
-    <ul>
-        @foreach ($favorites as $favorite)
-        <div class="product-box mt-3">
-            <div class="product-image">
-                <a href="{{ route('products.show', $favorite->product->slug) }}">
-                    <img src="{{ Storage::url($favorite->product->product_image_url) }}" class="img-fluid"
-                        alt="{{$favorite->product->product_name}}">
-                </a>
-            </div>
-            <div class="product-detail">
-                <div class="product-name">
-                    <a
-                        href="{{ route('products.show', $favorite->product->slug) }}">{{$favorite->product->product_name }}</a>
-                </div>
-                @if ($favorite->product->variants->isNotEmpty())
-                @php
-                $firstVariant = $favorite->product->variants->first();
-                @endphp
-                <div class="price">
-                    <div class="sale-price">
-                        {{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }} VNĐ
-                    </div>
-                    <div class="listed-price">
-                        <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }}
-                            VNĐ</del>
-                    </div>
-                </div>
-                @endif
+                    @if ($favorites->isEmpty())
+                        <p>Không có sản phẩm nào trong danh sách yêu thích.</p>
+                    @else
+                        <div class="product-grid">
+                            @foreach ($favorites as $favorite)
+                                <div class="product-box">
+                                    <div class="product-image">
+                                        <a href="{{ route('products.show', $favorite->product->slug) }}">
+                                            <img src="{{ Storage::url($favorite->product->product_image_url) }}"
+                                                class="img-fluid" alt="{{ $favorite->product->product_name }}">
+                                        </a>
+                                    </div>
+                                    <div class="product-detail">
+                                        <div class="product-name">
+                                            <a
+                                                href="{{ route('products.show', $favorite->product->slug) }}">{{ $favorite->product->product_name }}</a>
+                                        </div>
+                                        @if ($favorite->product->variants->isNotEmpty())
+                                            @php
+                                                $firstVariant = $favorite->product->variants->first();
+                                            @endphp
+                                            <div class="price">
+                                                <div class="sale-price">
+                                                    {{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }} VNĐ
+                                                </div>
+                                                <div class="listed-price">
+                                                    <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }}
+                                                        VNĐ</del>
+                                                </div>
+                                            </div>
+                                        @endif
 
-              <div class="actions">
-                <div class="add">
-                    <button class="cart" onclick="addToCart()" style="font-size: 10px;">Thêm vào giỏ <span class="add-icon bg-light-gray"><i class="bi bi-cart"></i>
-                        </span>
-                    </button>
+                                        <div class="add-buttons d-flex align-items-center">
+                                            <button class="cart" onclick="addToCart()">
+                                                Thêm vào giỏ
+                                                <span class="add-icon bg-light-gray">
+                                                    <i class="bi bi-cart"></i>
+                                                </span>
+                                            </button>
+                                            <form action="{{ route('clients.favorites.destroy', $favorite->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="cart-icon"
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi danh sách yêu thích?')">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
-                
-                <div class="destroy">
-                    <form action="{{ route('clients.favorites.destroy', $favorite->id) }}" method="POST" style="margin-top: 10px;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="cart delete-favorite" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi danh sách yêu thích?')" style="font-size: 10px;">
-                            <span class="add-icon bg-light-gray">
-                                <i class="bi bi-trash"></i>
-                            </span>
-                        </button>
-                    </form>
-                </div>
-              </div>
-                
-
             </div>
         </div>
+    </div>
+    <style>
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            /* Để tự động điều chỉnh kích thước */
+            gap: 20px;
+        }
 
-        @endforeach
-    </ul>
-</div>
-@endif
+        .product-box {
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            padding: 15px;
+            transition: transform 0.2s;
+            background-color: #fff;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
 
-{{-- <style>
-    .container ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        /* Căn đều khoảng cách giữa các sản phẩm */
-        gap: 15px;
-        /* Khoảng cách giữa các sản phẩm */
-        padding: 0;
-    }
-
-    .product-box {
-        width: 17%;
-        /* Chia đều 5 sản phẩm (5 x 19% = 95% và 5% là khoảng trống giữa các sản phẩm) */
-        border: 1px solid #ccc;
-        border-radius: 15px;
-        padding: 15px;
-        transition: transform 0.2s;
-        background-color: #fff;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
-        margin-right: 1%;
-        /* Khoảng cách giữa các sản phẩm    */
-        padding: 0 auto;
-    }
-
-    .product-box:hover {
-        transform: scale(1.05);
-    }
-
-    .product-image img {
-        border-radius: 8px;
-        max-width: 100%;
-        height: 180px;
-        object-fit: cover;
-    }
+        .product-image img {
+            border-radius: 8px;
+            max-width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
 
 
-    .product-detail {
-        text-align: center;
-        flex: 1;
-        /* Cho phép nội dung chiếm không gian còn lại */
-    }
+        .product-detail {
+            text-align: center;
+            flex: 1;
+        }
 
-    .product-name {
-        font-weight: bold;
-        color: #333;
-        white-space: nowrap;
-        /* Không xuống dòng */
-        overflow: hidden;
-        text-overflow: ellipsis;
-        /* Nếu tên dài, sẽ hiển thị ... */
-    }
+        .product-name {
+            font-weight: bold;
+            color: #333;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+            overflow: hidden;
+        }
 
-    .price {
-        margin-top: 10px;
-        font-size: 16px;
-    }
+        .price {
+            margin-top: 10px;
+            font-size: 16px;
+        }
 
-    .sale-price {
-        font-size: 18px;
-        color: #d9534f;
-        font-weight: bold;
-    }
+        .sale-price {
+            font-size: 16px;
+            color: #d9534f;
+            font-weight: bold;
+        }
 
-    .listed-price {
-        font-size: 14px;
-        color: #999;
-        text-decoration: line-through;
-    }
+        .listed-price {
+            font-size: 13px;
+            color: #999;
+            text-decoration: line-through;
+        }
 
-    .actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px; /* Khoảng cách giữa 2 nút */
-    margin-top: 10px;
-    }
+        .add-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            /* Adds space between the two buttons */
+            margin-top: 10px;
+        }
 
-    .add, .destroy {
-        flex: 1;
-    }
+        .cart {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #417394;
+            color: white;
+            border: 2px solid transparent;
+            /* Add transparent border for consistent button size */
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
+            font-weight: bold;
+            padding: 6px 15px;
+            font-size: 12px;
+        }
 
-    .add {
-        display: flex;
-        justify-content: center;
-        /* Canh giữa nút */
-        margin-top: 10px;
-    }
+        .cart-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #417394;
+            color: white;
+            border: 2px solid transparent;
+            /* Add transparent border for consistent button size */
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
+            font-weight: bold;
+            padding: 6px;
+            font-size: 15px;
+        }
 
-    .cart {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 20px;
-        background-color: #417394;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.2s, transform 0.2s;
-        width: 100%;
-        /* Để nút chiếm toàn bộ chiều rộng của container */
-        max-width: 200px;
-        /* Đặt kích thước tối đa để tránh quá lớn */
-        text-align: center;
-    }
+        .add-icon {
+            margin-left: 5px;
+        }
 
-    .cart:hover {
-        background-color: #355c74;
-        transform: scale(1.05);
-        /* Hiệu ứng phóng to nhẹ khi di chuột */
-    }
+        /* Hover effects */
+        .cart:hover {
+            background-color: #355c74;
+            transform: scale(1.05);
+            border-color: #355c74;
+            border: none;
+            /* Ensure border matches background color */
+        }
 
-    .add-icon {
-        margin-left: 8px;
-        display: flex;
-        align-items: center;
-    }
-
-
-    /* .add-to-cart-box {
-                                    margin-top: 10px;
-                                } */
-
-    /* .btn-add-cart {
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    padding: 10px 15px;
-                                    background-color: #417394;
-                                    color: white;
-                                    border: none;
-                                    border-radius: 8px;
-                                    font-weight: bold;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                } */
-
-    /* .btn-add-cart:hover {
-                                    background-color: #355c74;
-                                }
-                        
-                                .add-icon {
-                                    margin-left: 8px;
-                                } */
-</style> --}}
+        .cart-icon:hover {
+            background-color: #ff0000;
+            color: white;
+            /* Change icon color on hover */
+            transform: scale(1.05);
+            border-color: #355c74;
+            border: none;
+            /* Darker border on hover */
+        }
+    </style>
 @endsection

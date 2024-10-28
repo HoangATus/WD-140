@@ -57,7 +57,7 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProfileRequest $request, Profile $profile)
+    public function update(UpdateProfileRequest $request, Profile $user)
     {
         // $profile = Auth::user(); // Thông tin người dùng hiện tại
     
