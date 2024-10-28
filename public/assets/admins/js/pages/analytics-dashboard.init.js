@@ -12,33 +12,38 @@ File: dashboard init Js
 var options = {
     chart: {
         type: "area",
-        fontFamily: 'inherit',
+        fontFamily: "inherit",
         height: 45,
         sparkline: {
-            enabled: true
+            enabled: true,
         },
         animations: {
-            enabled: false
+            enabled: false,
         },
     },
     dataLabels: {
         enabled: false,
     },
     fill: {
-        opacity: .16,
-        type: 'solid'
+        opacity: 0.16,
+        type: "solid",
     },
     stroke: {
         width: 2,
         lineCap: "round",
         curve: "smooth",
     },
-    series: [{
-        name: "Profits",
-        data: [63, 16, 8, 22, 20, 7, 26, 10, 63, 5, 25, 19, 16, 11, 16, 1, 37, 23, 31, 1, 24, 15, 2, 17, 5, 25, 19, 16, 11, 28]
-    }],
+    series: [
+        {
+            name: "Profits",
+            data: [
+                63, 16, 8, 22, 20, 7, 26, 10, 63, 5, 25, 19, 16, 11, 16, 1, 37,
+                23, 31, 1, 24, 15, 2, 17, 5, 25, 19, 16, 11, 28,
+            ],
+        },
+    ],
     tooltip: {
-        theme: 'light'
+        theme: "light",
     },
     grid: {
         strokeDashArray: 4,
@@ -48,61 +53,97 @@ var options = {
             padding: 0,
         },
         tooltip: {
-            enabled: false
+            enabled: false,
         },
         axisBorder: {
             show: false,
         },
-        type: 'datetime',
+        type: "datetime",
     },
     yaxis: {
         labels: {
-            padding: 4
+            padding: 4,
         },
     },
     labels: [
-        '2020-06-21', '2020-06-22', '2020-06-23', '2020-06-24', '2020-06-25', '2020-06-26', '2020-06-27', '2020-06-28', '2020-06-29', '2020-06-30', '2020-07-01', '2020-07-02', '2020-07-03', '2020-07-04', '2020-07-05', '2020-07-06', '2020-07-07', '2020-07-08', '2020-07-09', '2020-07-10', '2020-07-11', '2020-07-12', '2020-07-13', '2020-07-14', '2020-07-15', '2020-07-16', '2020-07-17', '2020-07-18', '2020-07-19', '2020-07-20'
+        "2020-06-21",
+        "2020-06-22",
+        "2020-06-23",
+        "2020-06-24",
+        "2020-06-25",
+        "2020-06-26",
+        "2020-06-27",
+        "2020-06-28",
+        "2020-06-29",
+        "2020-06-30",
+        "2020-07-01",
+        "2020-07-02",
+        "2020-07-03",
+        "2020-07-04",
+        "2020-07-05",
+        "2020-07-06",
+        "2020-07-07",
+        "2020-07-08",
+        "2020-07-09",
+        "2020-07-10",
+        "2020-07-11",
+        "2020-07-12",
+        "2020-07-13",
+        "2020-07-14",
+        "2020-07-15",
+        "2020-07-16",
+        "2020-07-17",
+        "2020-07-18",
+        "2020-07-19",
+        "2020-07-20",
     ],
     colors: ["#537AEF"],
     legend: {
         show: false,
     },
 };
-var chart = new ApexCharts(document.querySelector("#website-visitors"), options);
+var chart = new ApexCharts(
+    document.querySelector("#website-visitors"),
+    options
+);
 chart.render();
-
 
 // Conversion Chart
 var options = {
     chart: {
         type: "area",
-        fontFamily: 'inherit',
+        fontFamily: "inherit",
         height: 45,
         sparkline: {
-            enabled: true
+            enabled: true,
         },
         animations: {
-            enabled: false
+            enabled: false,
         },
     },
     dataLabels: {
         enabled: false,
     },
     fill: {
-        opacity: .16,
-        type: 'solid'
+        opacity: 0.16,
+        type: "solid",
     },
     stroke: {
         width: 2,
         lineCap: "round",
         curve: "smooth",
     },
-    series: [{
-        name: "Profits",
-        data: [27, 21, 18, 24, 29, 19, 23, 3, 20, 26, 12, 28, 25, 37, 12, 18, 21, 18, 24, 29, 19, 17, 10, 34, 9, 22, 8, 31, 18, 27],
-    }],
+    series: [
+        {
+            name: "Profits",
+            data: [
+                27, 21, 18, 24, 29, 19, 23, 3, 20, 26, 12, 28, 25, 37, 12, 18,
+                21, 18, 24, 29, 19, 17, 10, 34, 9, 22, 8, 31, 18, 27,
+            ],
+        },
+    ],
     tooltip: {
-        theme: 'light'
+        theme: "light",
     },
     grid: {
         strokeDashArray: 4,
@@ -112,29 +153,60 @@ var options = {
             padding: 0,
         },
         tooltip: {
-            enabled: false
+            enabled: false,
         },
         axisBorder: {
             show: false,
         },
-        type: 'datetime',
+        type: "datetime",
     },
     yaxis: {
         labels: {
-            padding: 4
+            padding: 4,
         },
     },
     labels: [
-        '2020-06-21', '2020-06-22', '2020-06-23', '2020-06-24', '2020-06-25', '2020-06-26', '2020-06-27', '2020-06-28', '2020-06-29', '2020-06-30', '2020-07-01', '2020-07-02', '2020-07-03', '2020-07-04', '2020-07-05', '2020-07-06', '2020-07-07', '2020-07-08', '2020-07-09', '2020-07-10', '2020-07-11', '2020-07-12', '2020-07-13', '2020-07-14', '2020-07-15', '2020-07-16', '2020-07-17', '2020-07-18', '2020-07-19', '2020-07-20'
+        "2020-06-21",
+        "2020-06-22",
+        "2020-06-23",
+        "2020-06-24",
+        "2020-06-25",
+        "2020-06-26",
+        "2020-06-27",
+        "2020-06-28",
+        "2020-06-29",
+        "2020-06-30",
+        "2020-07-01",
+        "2020-07-02",
+        "2020-07-03",
+        "2020-07-04",
+        "2020-07-05",
+        "2020-07-06",
+        "2020-07-07",
+        "2020-07-08",
+        "2020-07-09",
+        "2020-07-10",
+        "2020-07-11",
+        "2020-07-12",
+        "2020-07-13",
+        "2020-07-14",
+        "2020-07-15",
+        "2020-07-16",
+        "2020-07-17",
+        "2020-07-18",
+        "2020-07-19",
+        "2020-07-20",
     ],
     colors: ["#ec8290"],
     legend: {
         show: false,
     },
 };
-var chart = new ApexCharts(document.querySelector("#conversion-visitors"), options);
+var chart = new ApexCharts(
+    document.querySelector("#conversion-visitors"),
+    options
+);
 chart.render();
-
 
 // Session Chart
 var options = {
@@ -142,10 +214,10 @@ var options = {
         type: "line",
         height: 45,
         sparkline: {
-            enabled: true
+            enabled: true,
         },
         animations: {
-            enabled: false
+            enabled: false,
         },
     },
     fill: {
@@ -157,12 +229,17 @@ var options = {
         lineCap: "round",
         curve: "smooth",
     },
-    series: [{
-        name: "May",
-        data: [40, 51, 62, 70, 65, 53, 51, 46, 62, 93, 62, 61, 51, 62, 51, 66, 70, 53, 62, 44, 53, 46, 40, 65, 55, 62, 70, 75, 78, 80]
-    }],
+    series: [
+        {
+            name: "May",
+            data: [
+                40, 51, 62, 70, 65, 53, 51, 46, 62, 93, 62, 61, 51, 62, 51, 66,
+                70, 53, 62, 44, 53, 46, 40, 65, 55, 62, 70, 75, 78, 80,
+            ],
+        },
+    ],
     tooltip: {
-        theme: 'light'
+        theme: "light",
     },
     grid: {
         strokeDashArray: 4,
@@ -172,26 +249,57 @@ var options = {
             padding: 0,
         },
         tooltip: {
-            enabled: false
+            enabled: false,
         },
-        type: 'datetime',
+        type: "datetime",
     },
     yaxis: {
         labels: {
-            padding: 4
+            padding: 4,
         },
     },
     labels: [
-        '2020-06-21', '2020-06-22', '2020-06-23', '2020-06-24', '2020-06-25', '2020-06-26', '2020-06-27', '2020-06-28', '2020-06-29', '2020-06-30', '2020-07-01', '2020-07-02', '2020-07-03', '2020-07-04', '2020-07-05', '2020-07-06', '2020-07-07', '2020-07-08', '2020-07-09', '2020-07-10', '2020-07-11', '2020-07-12', '2020-07-13', '2020-07-14', '2020-07-15', '2020-07-16', '2020-07-17', '2020-07-18', '2020-07-19', '2020-07-20'
+        "2020-06-21",
+        "2020-06-22",
+        "2020-06-23",
+        "2020-06-24",
+        "2020-06-25",
+        "2020-06-26",
+        "2020-06-27",
+        "2020-06-28",
+        "2020-06-29",
+        "2020-06-30",
+        "2020-07-01",
+        "2020-07-02",
+        "2020-07-03",
+        "2020-07-04",
+        "2020-07-05",
+        "2020-07-06",
+        "2020-07-07",
+        "2020-07-08",
+        "2020-07-09",
+        "2020-07-10",
+        "2020-07-11",
+        "2020-07-12",
+        "2020-07-13",
+        "2020-07-14",
+        "2020-07-15",
+        "2020-07-16",
+        "2020-07-17",
+        "2020-07-18",
+        "2020-07-19",
+        "2020-07-20",
     ],
     colors: ["#537AEF", "#343a40"],
     legend: {
         show: false,
     },
 };
-var chart = new ApexCharts(document.querySelector("#session-visitors"), options);
+var chart = new ApexCharts(
+    document.querySelector("#session-visitors"),
+    options
+);
 chart.render();
-
 
 // Active Users
 var options = {
@@ -207,7 +315,7 @@ var options = {
             enabled: true,
         },
         animations: {
-            enabled: false
+            enabled: false,
         },
     },
     colors: ["#537AEF"],
@@ -234,35 +342,116 @@ var options = {
     },
     yaxis: {
         labels: {
-            padding: 4
+            padding: 4,
         },
     },
     tooltip: {
-        theme: 'light'
+        theme: "light",
     },
     legend: {
         show: false,
     },
 };
-var chartOne = new ApexCharts(document.querySelector('#active-users'), options);
+var chartOne = new ApexCharts(document.querySelector("#active-users"), options);
 chartOne.render();
 
-
 // Monthly Sales
+// var options = {
+//     chart: {
+//         type: "bar",
+//         height: 307,
+//         parentHeightOffset: 0,
+//         toolbar: {
+//             show: false
+//         },
+//     },
+//     colors: ["#537AEF"],
+//     series: [{
+//         name: 'Sales',
+//         data: [145, 96, 108, 140, 130, 150, 170, 138, 114, 128, 138]
+//     }],
+//     fill: {
+//         opacity: 1,
+//     },
+//     plotOptions: {
+//         bar: {
+//             columnWidth: "50%",
+//             borderRadius: 4,
+//             borderRadiusApplication: 'end', // 'around', 'end'
+//             borderRadiusWhenStacked: 'last', // 'all', 'last'
+//             dataLabels: {
+//                 position: 'top',
+//                 orientation: 'vertical',
+//             }
+//         },
+//     },
+//     grid: {
+//         strokeDashArray: 4,
+//         padding: {
+//             top: -20,
+//             right: 0,
+//             bottom: -4
+//         },
+//         xaxis: {
+//             lines: {
+//                 show: true
+//             }
+//         }
+//     },
+//     xaxis: {
+//         type: 'datetime',
+//         categories: ['01/01/2024', '02/01/2024', '03/01/2024', '04/01/2024', '05/01/2024', '06/01/2024', '07/01/2024', '08/01/2024', '09/01/2024', '10/01/2024', '11/01/2024'],
+//         axisTicks: {
+//             color: "#f0f4f7",
+//         },
+//     },
+//     yaxis: {
+//         title: {
+//             text: 'Number of Sales',
+//             style: {
+//                 fontSize: '12px',
+//                 fontWeight: 600,
+//             }
+//         },
+//     },
+//     tooltip: {
+//         theme: 'light'
+//     },
+//     legend: {
+//         position: 'top',
+//         show: true,
+//         horizontalAlign: 'center',
+//     },
+//     stroke: {
+//         width: 0
+//     },
+//     dataLabels: {
+//         enabled: false,
+//     },
+//     theme: {
+//         mode: 'light'
+//     },
+// };
+// var chartOne = new ApexCharts(document.querySelector('#monthly-sales'), options);
+// chartOne.render();
+
+// Cấu hình biểu đồ
 var options = {
     chart: {
         type: "bar",
         height: 307,
         parentHeightOffset: 0,
         toolbar: {
-            show: false
+            show: false,
         },
     },
     colors: ["#537AEF"],
-    series: [{
-        name: 'Sales',
-        data: [145, 96, 108, 140, 130, 150, 170, 138, 114, 128, 138]
-    }],
+    series: [
+        {
+            name: "Sales",
+            data: [], // Dữ liệu sẽ được cập nhật sau
+        },
+    ],
     fill: {
         opacity: 1,
     },
@@ -270,12 +459,12 @@ var options = {
         bar: {
             columnWidth: "50%",
             borderRadius: 4,
-            borderRadiusApplication: 'end', // 'around', 'end'
-            borderRadiusWhenStacked: 'last', // 'all', 'last'
+            borderRadiusApplication: "end",
+            borderRadiusWhenStacked: "last",
             dataLabels: {
-                position: 'top',
-                orientation: 'vertical',
-            }
+                position: "top",
+                orientation: "vertical",
+            },
         },
     },
     grid: {
@@ -283,322 +472,374 @@ var options = {
         padding: {
             top: -20,
             right: 0,
-            bottom: -4
+            bottom: -4,
         },
         xaxis: {
             lines: {
-                show: true
-            }
-        }
+                show: true,
+            },
+        },
     },
     xaxis: {
-        type: 'datetime',
-        categories: ['01/01/2024', '02/01/2024', '03/01/2024', '04/01/2024', '05/01/2024', '06/01/2024', '07/01/2024', '08/01/2024', '09/01/2024', '10/01/2024', '11/01/2024'],
+        type: "datetime",
+        categories: [], // Các giá trị sẽ được cập nhật sau
         axisTicks: {
             color: "#f0f4f7",
         },
     },
     yaxis: {
         title: {
-            text: 'Number of Sales',
+            text: "Number of Sales",
             style: {
-                fontSize: '12px',
+                fontSize: "12px",
                 fontWeight: 600,
-            }
+            },
         },
     },
     tooltip: {
-        theme: 'light'
+        theme: "light",
     },
     legend: {
-        position: 'top',
+        position: "top",
         show: true,
-        horizontalAlign: 'center',
+        horizontalAlign: "center",
     },
     stroke: {
-        width: 0
+        width: 0,
     },
     dataLabels: {
         enabled: false,
     },
     theme: {
-        mode: 'light'
+        mode: "light",
     },
 };
-var chartOne = new ApexCharts(document.querySelector('#monthly-sales'), options);
+
+// Tạo biểu đồ
+var chartOne = new ApexCharts(
+    document.querySelector("#monthly-sales"),
+    options
+);
 chartOne.render();
 
+// Xử lý sự kiện gửi biểu mẫu
+document
+    .getElementById("revenueFilterForm")
+    .addEventListener("submit", function (e) {
+        e.preventDefault(); // Ngăn không cho gửi biểu mẫu mặc định
 
+        // Lấy giá trị từ các ô chọn
+        const year = document.getElementById("yearSelect").value;
+        const month = document.getElementById("monthSelect").value;
+        const day = document.getElementById("daySelect").value;
+
+        // Xây dựng dữ liệu cho biểu đồ
+        const categories = [];
+        const salesData = [];
+
+        // Duyệt qua các tháng để giả lập dữ liệu bán hàng
+        for (let i = 1; i <= 12; i++) {
+            categories.push(`${month}/${i}/${year}`); // Định dạng theo tháng/năm
+            salesData.push(Math.floor(Math.random() * 200)); // Giả lập dữ liệu bán hàng ngẫu nhiên
+        }
+
+        // Cập nhật biểu đồ với dữ liệu mới
+        chartOne.updateOptions({
+            xaxis: {
+                categories: categories,
+            },
+            series: [
+                {
+                    name: "Sales",
+                    data: salesData,
+                },
+            ],
+        });
+    });
 
 // Audiences Daily Chart
 var options = {
     series: [
         {
-            name: 'Fri',
-            data: [{
-                y: 18,
-                x: "12 AM",
-            },
-            {
-                y: 6,
-                x: "3 AM",
-            },
-            {
-                y: 12,
-                x: "6 AM",
-            },
-            {
-                y: 8,
-                x: "9 AM",
-            },
-            {
-                y: 15,
-                x: "12 PM",
-            },
-            {
-                y: 15,
-                x: "3 PM",
-            },
-            {
-                y: 10,
-                x: "6 PM",
-            },
-            {
-                y: 6,
-                x: "9 PM",
-            }],
+            name: "Fri",
+            data: [
+                {
+                    y: 18,
+                    x: "12 AM",
+                },
+                {
+                    y: 6,
+                    x: "3 AM",
+                },
+                {
+                    y: 12,
+                    x: "6 AM",
+                },
+                {
+                    y: 8,
+                    x: "9 AM",
+                },
+                {
+                    y: 15,
+                    x: "12 PM",
+                },
+                {
+                    y: 15,
+                    x: "3 PM",
+                },
+                {
+                    y: 10,
+                    x: "6 PM",
+                },
+                {
+                    y: 6,
+                    x: "9 PM",
+                },
+            ],
         },
         {
-            name: 'Thu',
-            data: [{
-                y: 6,
-                x: "12 AM",
-            },
-            {
-                y: 12,
-                x: "3 AM",
-            },
-            {
-                y: 15,
-                x: "6 AM",
-            },
-            {
-                y: 18,
-                x: "9 AM",
-            },
-            {
-                y: 15,
-                x: "12 PM",
-            },
-            {
-                y: 6,
-                x: "3 PM",
-            },
-            {
-                y: 9,
-                x: "6 PM",
-            },
-            {
-                y: 6,
-                x: "9 PM",
-            }],
+            name: "Thu",
+            data: [
+                {
+                    y: 6,
+                    x: "12 AM",
+                },
+                {
+                    y: 12,
+                    x: "3 AM",
+                },
+                {
+                    y: 15,
+                    x: "6 AM",
+                },
+                {
+                    y: 18,
+                    x: "9 AM",
+                },
+                {
+                    y: 15,
+                    x: "12 PM",
+                },
+                {
+                    y: 6,
+                    x: "3 PM",
+                },
+                {
+                    y: 9,
+                    x: "6 PM",
+                },
+                {
+                    y: 6,
+                    x: "9 PM",
+                },
+            ],
         },
         {
-            name: 'Wed',
-            data: [{
-                y: 6,
-                x: "12 AM",
-            },
-            {
-                y: 14,
-                x: "3 AM",
-            },
-            {
-                y: 8,
-                x: "6 AM",
-            },
-            {
-                y: 17,
-                x: "9 AM",
-            },
-            {
-                y: 6,
-                x: "12 PM",
-            },
-            {
-                y: 9,
-                x: "3 PM",
-            },
-            {
-                y: 12,
-                x: "6 PM",
-            },
-            {
-                y: 16,
-                x: "9 PM",
-            }],
+            name: "Wed",
+            data: [
+                {
+                    y: 6,
+                    x: "12 AM",
+                },
+                {
+                    y: 14,
+                    x: "3 AM",
+                },
+                {
+                    y: 8,
+                    x: "6 AM",
+                },
+                {
+                    y: 17,
+                    x: "9 AM",
+                },
+                {
+                    y: 6,
+                    x: "12 PM",
+                },
+                {
+                    y: 9,
+                    x: "3 PM",
+                },
+                {
+                    y: 12,
+                    x: "6 PM",
+                },
+                {
+                    y: 16,
+                    x: "9 PM",
+                },
+            ],
         },
         {
-            name: 'Tue',
-            data: [{
-                y: 12,
-                x: "9 AM",
-            },
-            {
-                y: 6,
-                x: "3 AM",
-            },
-            {
-                y: 14,
-                x: "6 AM",
-            },
-            {
-                y: 9,
-                x: "9 AM",
-            },
-            {
-                y: 6,
-                x: "12 PM",
-            },
-            {
-                y: 18,
-                x: "3 PM",
-            },
-            {
-                y: 12,
-                x: "6 PM",
-            },
-            {
-                y: 6,
-                x: "9 PM",
-            }],
+            name: "Tue",
+            data: [
+                {
+                    y: 12,
+                    x: "9 AM",
+                },
+                {
+                    y: 6,
+                    x: "3 AM",
+                },
+                {
+                    y: 14,
+                    x: "6 AM",
+                },
+                {
+                    y: 9,
+                    x: "9 AM",
+                },
+                {
+                    y: 6,
+                    x: "12 PM",
+                },
+                {
+                    y: 18,
+                    x: "3 PM",
+                },
+                {
+                    y: 12,
+                    x: "6 PM",
+                },
+                {
+                    y: 6,
+                    x: "9 PM",
+                },
+            ],
         },
         {
-            name: 'Mon',
-            data: [{
-                y: 6,
-                x: "12 AM",
-            },
-            {
-                y: 12,
-                x: "3 AM",
-            },
-            {
-                y: 12,
-                x: "6 AM",
-            },
-            {
-                y: 10,
-                x: "9 AM",
-            },
-            {
-                y: 15,
-                x: "12 PM",
-            },
-            {
-                y: 9,
-                x: "3 PM",
-            },
-            {
-                y: 6,
-                x: "6 PM",
-            },
-            {
-                y: 9,
-                x: "9 PM",
-            }],
+            name: "Mon",
+            data: [
+                {
+                    y: 6,
+                    x: "12 AM",
+                },
+                {
+                    y: 12,
+                    x: "3 AM",
+                },
+                {
+                    y: 12,
+                    x: "6 AM",
+                },
+                {
+                    y: 10,
+                    x: "9 AM",
+                },
+                {
+                    y: 15,
+                    x: "12 PM",
+                },
+                {
+                    y: 9,
+                    x: "3 PM",
+                },
+                {
+                    y: 6,
+                    x: "6 PM",
+                },
+                {
+                    y: 9,
+                    x: "9 PM",
+                },
+            ],
         },
         {
-            name: 'Sun',
-            data: [{
-                y: 8,
-                x: "12 AM",
-            },
-            {
-                y: 11,
-                x: "3 AM",
-            },
-            {
-                y: 11,
-                x: "6 AM",
-            },
-            {
-                y: 6,
-                x: "9 AM",
-            },
-            {
-                y: 10,
-                x: "12 PM",
-            },
-            {
-                y: 15,
-                x: "3 PM",
-            },
-            {
-                y: 10,
-                x: "6 PM",
-            },
-            {
-                y: 9,
-                x: "9 PM",
-            }],
+            name: "Sun",
+            data: [
+                {
+                    y: 8,
+                    x: "12 AM",
+                },
+                {
+                    y: 11,
+                    x: "3 AM",
+                },
+                {
+                    y: 11,
+                    x: "6 AM",
+                },
+                {
+                    y: 6,
+                    x: "9 AM",
+                },
+                {
+                    y: 10,
+                    x: "12 PM",
+                },
+                {
+                    y: 15,
+                    x: "3 PM",
+                },
+                {
+                    y: 10,
+                    x: "6 PM",
+                },
+                {
+                    y: 9,
+                    x: "9 PM",
+                },
+            ],
         },
         {
-            name: 'Sat',
-            data: [{
-                y: 8,
-                x: "12 AM",
-            },
-            {
-                y: 8,
-                x: "3 AM",
-            },
-            {
-                y: 10,
-                x: "6 AM",
-            },
-            {
-                y: 7,
-                x: "9 AM",
-            },
-            {
-                y: 18,
-                x: "12 PM",
-            },
-            {
-                y: 8,
-                x: "3 PM",
-            },
-            {
-                y: 15,
-                x: "6 PM",
-            },
-            {
-                y: 8,
-                x: "9 PM",
-            }],
+            name: "Sat",
+            data: [
+                {
+                    y: 8,
+                    x: "12 AM",
+                },
+                {
+                    y: 8,
+                    x: "3 AM",
+                },
+                {
+                    y: 10,
+                    x: "6 AM",
+                },
+                {
+                    y: 7,
+                    x: "9 AM",
+                },
+                {
+                    y: 18,
+                    x: "12 PM",
+                },
+                {
+                    y: 8,
+                    x: "3 PM",
+                },
+                {
+                    y: 15,
+                    x: "6 PM",
+                },
+                {
+                    y: 8,
+                    x: "9 PM",
+                },
+            ],
         },
     ],
     chart: {
         height: 345,
-        type: 'heatmap',
+        type: "heatmap",
         parentHeightOffset: 0,
         toolbar: {
-            show: false
+            show: false,
         },
     },
     plotOptions: {
         heatmap: {
-          radius: 10,
-          enableShades: true,
-          shadeIntensity: 2
-        }
+            radius: 10,
+            enableShades: true,
+            shadeIntensity: 2,
+        },
     },
     grid: {
         show: false,
     },
     dataLabels: {
-        enabled: false
+        enabled: false,
     },
     colors: ["#537AEF"],
     legend: {
@@ -606,12 +847,9 @@ var options = {
         position: "top",
         horizontalAlign: "center",
     },
-
 };
 var chart = new ApexCharts(document.querySelector("#audiences-daily"), options);
 chart.render();
-
-
 
 // Sparkline Bounce Rate
 var options = {
@@ -620,18 +858,20 @@ var options = {
         height: 24,
         parentHeightOffset: 0,
         toolbar: {
-            show: false
+            show: false,
         },
         animations: {
-            enabled: false
+            enabled: false,
         },
         sparkline: {
-            enabled: true
+            enabled: true,
         },
     },
-    series: [{
-        data: [5, 17, 1, 24, 4, 10, 18, 20, 13]
-    }],
+    series: [
+        {
+            data: [5, 17, 1, 24, 4, 10, 18, 20, 13],
+        },
+    ],
     colors: ["#537AEF"],
     tooltip: {
         enabled: false,
@@ -641,9 +881,11 @@ var options = {
         lineCap: "round",
     },
 };
-var chartOne = new ApexCharts(document.querySelector('#sparkline-bounce-1'), options);
+var chartOne = new ApexCharts(
+    document.querySelector("#sparkline-bounce-1"),
+    options
+);
 chartOne.render();
-
 
 // Sparkline 2
 var options = {
@@ -652,18 +894,20 @@ var options = {
         height: 24,
         parentHeightOffset: 0,
         toolbar: {
-            show: false
+            show: false,
         },
         animations: {
-            enabled: false
+            enabled: false,
         },
         sparkline: {
-            enabled: true
+            enabled: true,
         },
     },
-    series: [{
-        data: [27, 8, 33, 41, 16, 13, 30, 4, 37]
-    }],
+    series: [
+        {
+            data: [27, 8, 33, 41, 16, 13, 30, 4, 37],
+        },
+    ],
     colors: ["#537AEF"],
     tooltip: {
         enabled: false,
@@ -673,10 +917,11 @@ var options = {
         lineCap: "round",
     },
 };
-var chartOne = new ApexCharts(document.querySelector('#sparkline-bounce-2'), options);
+var chartOne = new ApexCharts(
+    document.querySelector("#sparkline-bounce-2"),
+    options
+);
 chartOne.render();
-
-
 
 // Sparkline 3
 var options = {
@@ -685,18 +930,20 @@ var options = {
         height: 24,
         parentHeightOffset: 0,
         toolbar: {
-            show: false
+            show: false,
         },
         animations: {
-            enabled: false
+            enabled: false,
         },
         sparkline: {
-            enabled: true
+            enabled: true,
         },
     },
-    series: [{
-        data: [10, 13, 10, 4, 17, 3, 23, 22, 19]
-    }],
+    series: [
+        {
+            data: [10, 13, 10, 4, 17, 3, 23, 22, 19],
+        },
+    ],
     colors: ["#537AEF"],
     tooltip: {
         enabled: false,
@@ -706,9 +953,11 @@ var options = {
         lineCap: "round",
     },
 };
-var chartOne = new ApexCharts(document.querySelector('#sparkline-bounce-3'), options);
+var chartOne = new ApexCharts(
+    document.querySelector("#sparkline-bounce-3"),
+    options
+);
 chartOne.render();
-
 
 // Sparkline 4
 var options = {
@@ -717,18 +966,20 @@ var options = {
         height: 24,
         parentHeightOffset: 0,
         toolbar: {
-            show: false
+            show: false,
         },
         animations: {
-            enabled: false
+            enabled: false,
         },
         sparkline: {
-            enabled: true
+            enabled: true,
         },
     },
-    series: [{
-        data: [26, 9, 26, 6, 18, 5, 31, 30, 27]
-    }],
+    series: [
+        {
+            data: [26, 9, 26, 6, 18, 5, 31, 30, 27],
+        },
+    ],
     colors: ["#537AEF"],
     tooltip: {
         enabled: false,
@@ -737,11 +988,12 @@ var options = {
         width: 2,
         lineCap: "round",
     },
-
 };
-var chartOne = new ApexCharts(document.querySelector('#sparkline-bounce-4'), options);
+var chartOne = new ApexCharts(
+    document.querySelector("#sparkline-bounce-4"),
+    options
+);
 chartOne.render();
-
 
 // Sparkline 5
 var options = {
@@ -750,18 +1002,20 @@ var options = {
         height: 24,
         parentHeightOffset: 0,
         toolbar: {
-            show: false
+            show: false,
         },
         animations: {
-            enabled: false
+            enabled: false,
         },
         sparkline: {
-            enabled: true
+            enabled: true,
         },
     },
-    series: [{
-        data: [29, 6, 19, 16, 25, 24, 10, 31, 26, 16]
-    }],
+    series: [
+        {
+            data: [29, 6, 19, 16, 25, 24, 10, 31, 26, 16],
+        },
+    ],
     colors: ["#537AEF"],
     tooltip: {
         enabled: false,
@@ -771,9 +1025,11 @@ var options = {
         lineCap: "round",
     },
 };
-var chartOne = new ApexCharts(document.querySelector('#sparkline-bounce-5'), options);
+var chartOne = new ApexCharts(
+    document.querySelector("#sparkline-bounce-5"),
+    options
+);
 chartOne.render();
-
 
 // Sparkline 6
 var options = {
@@ -782,18 +1038,20 @@ var options = {
         height: 24,
         parentHeightOffset: 0,
         toolbar: {
-            show: false
+            show: false,
         },
         animations: {
-            enabled: false
+            enabled: false,
         },
         sparkline: {
-            enabled: true
+            enabled: true,
         },
     },
-    series: [{
-        data: [17, 9, 4, 11, 2, 20, 5, 22, 15, 11],
-    }],
+    series: [
+        {
+            data: [17, 9, 4, 11, 2, 20, 5, 22, 15, 11],
+        },
+    ],
     colors: ["#537AEF"],
     tooltip: {
         enabled: false,
@@ -803,7 +1061,10 @@ var options = {
         lineCap: "round",
     },
 };
-var chartOne = new ApexCharts(document.querySelector('#sparkline-bounce-6'), options);
+var chartOne = new ApexCharts(
+    document.querySelector("#sparkline-bounce-6"),
+    options
+);
 chartOne.render();
 
 // Sparkline 7
@@ -813,18 +1074,20 @@ var options = {
         height: 24,
         parentHeightOffset: 0,
         toolbar: {
-            show: false
+            show: false,
         },
         animations: {
-            enabled: false
+            enabled: false,
         },
         sparkline: {
-            enabled: true
+            enabled: true,
         },
     },
-    series: [{
-        data: [29, 18, 10, 22, 6, 26, 17, 28, 22, 17],
-    }],
+    series: [
+        {
+            data: [29, 18, 10, 22, 6, 26, 17, 28, 22, 17],
+        },
+    ],
     colors: ["#537AEF"],
     tooltip: {
         enabled: false,
@@ -834,5 +1097,8 @@ var options = {
         lineCap: "round",
     },
 };
-var chartOne = new ApexCharts(document.querySelector('#sparkline-bounce-7'), options);
+var chartOne = new ApexCharts(
+    document.querySelector("#sparkline-bounce-7"),
+    options
+);
 chartOne.render();

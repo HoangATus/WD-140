@@ -23,9 +23,9 @@ class UpdateCategoryRequest extends FormRequest
         $categoryId = $this->route('category') ? $this->route('category')->id : null;
 
         return [
-            'name' => 'required|string|min:2|unique:categories,name,' . $categoryId, 
+            'name' => 'required|string|min:2|unique:categories,name,' . $categoryId,
 
-            'cover' => 'nullable|image|max:5048', 
+            'cover' => 'nullable|image|max:5048',
 
         ];
     }

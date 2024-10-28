@@ -18,15 +18,12 @@ class CommentController extends Controller
 
         Comment::create([
             'product_id' => $productId,
-            'user_id' =>Auth::id() ,
+            'user_id' => Auth::id(),
             'comment' => $request->comment,
         ]);
 
         return redirect()->back()->with('successs', 'Bình luận của bạn đã được gửi và đang chờ phê duyệt.');
     }
 
-    public function index(Request $request, $productId)
-    {
-        
-    }
+    public function index(Request $request, $productId) {}
 }
