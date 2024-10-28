@@ -167,36 +167,40 @@
                                         <h3 class="fw-bold mt-4"
                                             style="font-size: 24px; text-transform: uppercase; color: #333;">Đánh giá</h3>
                                         @foreach ($orderItems as $item)
-                                            <div class="row mb-4 pb-3 border-bottom align-items-center mt-5">
-                                                <div class="col-md-3">
-                                                    <img src="{{ $item->image }}" class="img-fluid rounded" alt=""
-                                                        style="max-width: 50%;">
-                                                </div>
-                                                <div class="col-md-9">
-                                                    <h4 class="fw-bold">{{ $item->product_name }}</h4>
-                                                    <form action="{{ route('orders.rate', $item->product_id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                            @if (!$item->rating()->where('user_id', auth()->id())->exists())
+                                                <div class="row mb-4 pb-3 border-bottom align-items-center mt-5">
+                                                    <div class="col-md-3">
+                                                        <img src="{{ $item->image }}" class="img-fluid rounded"
+                                                            alt="" style="max-width: 50%;">
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <h4 class="fw-bold">{{ $item->product_name }}</h4>
+                                                        <form action="{{ route('orders.rate', $item->product_id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="order_id"
+                                                                value="{{ $order->id }}">
 
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="rating" id="rating-{{ $item->product_id }}"
-                                                                style="font-size: 24px; cursor: pointer;">
-                                                                @for ($i = 1; $i <= 5; $i++)
-                                                                    <span class="star" data-value="{{ $i }}"
-                                                                        data-product-id="{{ $item->product_id }}">&starf;</span>
-                                                                @endfor
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="rating" id="rating-{{ $item->product_id }}"
+                                                                    style="font-size: 24px; cursor: pointer;">
+                                                                    @for ($i = 1; $i <= 5; $i++)
+                                                                        <span class="star"
+                                                                            data-value="{{ $i }}"
+                                                                            data-product-id="{{ $item->product_id }}">&starf;</span>
+                                                                    @endfor
+                                                                </div>
+                                                                <input type="hidden" name="rating"
+                                                                    id="input-rating-{{ $item->product_id }}"
+                                                                    value="" required>
+                                                                <textarea name="review" class="form-control ms-2" placeholder="Nhận xét (tùy chọn)" rows="2"></textarea>
+                                                                <button type="submit" class="btn btn-primary ms-2">Gửi
+                                                                    đánh giá</button>
                                                             </div>
-                                                            <input type="hidden" name="rating"
-                                                                id="input-rating-{{ $item->product_id }}" value=""
-                                                                required>
-                                                            <textarea name="review" class="form-control ms-2" placeholder="Nhận xét (tùy chọn)" rows="2"></textarea>
-                                                            <button type="submit" class="btn btn-primary ms-2">Gửi đánh
-                                                                giá</button>
-                                                        </div>
-                                                    </form>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         @endforeach
                                     @endif
 
@@ -267,8 +271,8 @@
 
     <style>
         /* .rating {
-                                        display: flex;
-                                    } */
+                                                display: flex;
+                                            } */
 
         .star {
             color: #d3d3d3;
