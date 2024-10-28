@@ -2,6 +2,12 @@
 
 @section('content')
 <div class="container">
+    @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+    </div>
+@endif
+
     <h1 style="font-size: 30px;">Danh Sách Sản Phẩm Yêu Thích</h1>
 
     @if ($favorites->isEmpty())
@@ -35,13 +41,27 @@
                     </div>
                 </div>
                 @endif
+
+              <div class="actions">
                 <div class="add">
-                    <button class="cart" onclick="addToCart()">Thêm vào giỏ
-                        <span class="add-icon bg-light-gray">
-                            <i class="bi bi-cart"></i>
+                    <button class="cart" onclick="addToCart()" style="font-size: 10px;">Thêm vào giỏ <span class="add-icon bg-light-gray"><i class="bi bi-cart"></i>
                         </span>
                     </button>
                 </div>
+                
+                <div class="destroy">
+                    <form action="{{ route('clients.favorites.destroy', $favorite->id) }}" method="POST" style="margin-top: 10px;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="cart delete-favorite" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi danh sách yêu thích?')" style="font-size: 10px;">
+                            <span class="add-icon bg-light-gray">
+                                <i class="bi bi-trash"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+              </div>
+                
 
             </div>
         </div>
@@ -122,6 +142,17 @@
         font-size: 14px;
         color: #999;
         text-decoration: line-through;
+    }
+
+    .actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Khoảng cách giữa 2 nút */
+    margin-top: 10px;
+    }
+
+    .add, .destroy {
+        flex: 1;
     }
 
     .add {

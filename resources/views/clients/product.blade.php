@@ -237,6 +237,12 @@
                                                         </span>
                                                     </button>
                                                 </div>
+
+                                                <form action="{{ route('clients.favorites.store') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                    <button type="submit">Thêm vào yêu thích</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>

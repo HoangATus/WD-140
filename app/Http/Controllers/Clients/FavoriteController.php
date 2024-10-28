@@ -45,5 +45,19 @@ class FavoriteController extends Controller
         }
         return view('clients.favorites.index', compact('favorites'));
     }
+
+    public function destroy($id)
+{
+    $favorite = Favorite::findOrFail($id);
+    
+    // Kiểm tra quyền sở hữu yêu thích (nếu cần)
+    if ($favorite->user_id !== auth()->id()) {
+        return redirect()->back()->with('error', 'Bạn không có quyền xóa sản phẩm này.');
+    }
+    
+    $favorite->delete();
+
+    return redirect()->route('clients.favorites.index')->with('success', 'Sản phẩm đã được xóa khỏi danh sách yêu thích.');
+}
     
 }

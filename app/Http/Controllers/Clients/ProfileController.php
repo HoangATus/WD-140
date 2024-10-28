@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Http\Requests\StoreProfileRequest;
 use App\Http\Requests\UpdateProfileRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -14,8 +15,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //
-        return view('clients.profile');
+        $user = Auth::user(); // Lấy thông tin người dùng đang đăng nhập
+        return view('clients.profile.index', compact('user'));
 
     }
 
@@ -48,7 +49,9 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        //
+        $profile = Auth::user();
+        // dd($profile);
+        return view('clients.profile.edit', compact('profile'));
     }
 
     /**
@@ -56,8 +59,20 @@ class ProfileController extends Controller
      */
     public function update(UpdateProfileRequest $request, Profile $profile)
     {
-        //
+        // $profile = Auth::user(); // Thông tin người dùng hiện tại
+    
+        // Cập nhật thông tin người dùng
+        $request->update([
+            'user_name' => $request->user_name,
+            'user_phone_number' => $request->user_phone_number,
+            'user_email' => $request->user_email,
+            'user_address' => $request->user_address,
+        ]);
+    
+        return redirect()->route('clients.profile.index')->with('success', 'Thông tin cá nhân đã được cập nhật.');
     }
+    
+    
 
     /**
      * Remove the specified resource from storage.
