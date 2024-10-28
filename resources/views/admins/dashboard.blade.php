@@ -9,7 +9,9 @@
             <!-- Start Content-->
             <div class="container-xxl">
 
+
                 <h2># Thống kê Bán Hàng</h2>
+
 
                 <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
                     <div class="flex-grow-1">
@@ -102,7 +104,69 @@
                     </div>
                 </div>
             </div>
-
+            {{-- @if(isset($topSellingProducts))     --}}
+            <div class="container mt-5">
+                <div class="row">
+                    <!-- Top 5 Sản Phẩm Doanh Thu Cao Nhất -->
+                    <div class="col-md-4">
+                        <h5 class="fw-bold"># Top 5 Sản Phẩm Bán Chạy Nhất</h5>
+                        <div class="border p-3 mb-3">
+                    @foreach($topSellingProducts as $product)
+                        <div class="d-flex align-items-center border-bottom py-2">
+                            <div class="me-3" style="width: 50px; height: 50px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
+                                <img src="{{ Storage::url($product->image) }}" alt="Product Image" style="width: 100%; height: auto;">
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">{{ $product->product_name }}</div>
+                                {{-- <div>Mã sản phẩm: {{ $product->product_code}}</div> --}}
+                            </div>
+                            <div class="fw-bold">{{ $product->total_quantity }} Chiếc </div>
+                        </div>
+                    @endforeach
+                   
+                    </div>
+                    </div>
+        
+                    <!-- Top 5 Sản Phẩm Bán Chạy Nhất -->
+                    <div class="col-md-4">
+                        <h5 class="fw-bold"># Top 5 Sản Phẩm Doanh Thu Cao Nhất</h5>
+                        <div class="border p-3 mb-3">
+                            @foreach ($topRevenueProducts as $item)                           
+                            <div class="d-flex align-items-center border-bottom py-2">
+                                <div class="me-3" style="width: 50px; height: 50px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
+                                    <img src="{{ Storage::url($product->image) }}" alt="Product Image" style="width: 100%; height: auto;">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="mb-0 fw-bold">{{$item->product_name}}</p>
+                                </div>
+                                <div class="ms-auto fw-bold">{{$item->total_revenue}} VND</div>
+                            </div>
+                            @endforeach
+                            <!-- Lặp lại mẫu sản phẩm nếu cần thêm -->
+                        </div>
+                    </div>
+        
+                    <!-- Top 5 Sản Phẩm Lợi Nhuận Cao Nhất -->
+                    <div class="col-md-4">
+                        <h5 class="fw-bold"># Top 5 Sản Phẩm Lợi Nhuận Cao Nhất</h5>
+                        <div class="border p-3 mb-3">
+                            @foreach ($topProfitProducts as $item)
+                            <div class="d-flex align-items-center border-bottom py-2">
+                                <div class="me-3" style="width: 50px; height: 50px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
+                                    <img src="{{ Storage::url($product->image) }}" alt="Product Image" style="width: 100%; height: auto;">
+                                </div>
+                                <div>
+                                    <p class="mb-0 fw-bold">{{$item->product_name}}</p>
+                                </div>
+                                <div class="ms-auto fw-bold">{{$item->total_profit}} VND</div>
+                            </div>
+                            @endforeach
+                            <!-- Lặp lại mẫu sản phẩm nếu cần thêm -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+             {{-- @endif --}}
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
                     const today = new Date();

@@ -39,11 +39,13 @@
                     </a>
                 </div>
             </div>
+
         @else
             <p class="text-center text-success">Hiện tại không có banner nào đang hoạt động.</p>
         @endif
     </section>
     <!-- Home Section End -->
+
     <!-- Category Section Start -->
     <section>
         <div class="container-fluid-lg">
@@ -70,6 +72,8 @@
     </section>
 
 
+
+
     <!-- Sản phẩm Section Start -->
     <div class="container">
 
@@ -88,10 +92,12 @@
                                             alt="{{ $product->product_name }}">
                                     </a>
                                 </div>
+
                                 <div class="product-detail mt-2">
                                     <a href="{{ route('products.show', $product->slug) }}">
                                         <h5 class="product-name">{{ $product->product_name }}</h5>
                                     </a>
+
                                     @if ($product->variants->isNotEmpty())
                                         @php
                                             $firstVariant = $product->variants->first();
