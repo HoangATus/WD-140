@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year Picker</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        .year-picker-container {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px 10px;
+            width: 100px;
+        }
+
+        .calendar-icon {
+            width: 16px;
+            height: 16px;
+            background: url('https://image.pngaaa.com/433/4087433-middle.png') no-repeat center;
+            background-size: contain;
+        }
+
+        .year-picker-input {
+            border: none;
+            outline: none;
+            background-color: transparent;
+            margin-left: 8px;
+            font-size: 14px;
+            color: #333;
+            width: 50px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="year-picker-container">
+    <div class="calendar-icon" onclick="$('#yearPicker').focus();"></div>
+    <input type="text" id="yearPicker" class="year-picker-input" placeholder="YYYY" readonly>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script>
+    $(function() {
+        $('#yearPicker').datepicker({
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'yy',
+            onClose: function(dateText, inst) {
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, 1));
+            }
+        });
+
+        // Only show the year picker
+        $("#yearPicker").focus(function () {
+            $(".ui-datepicker-month").hide();
+            $(".ui-datepicker-calendar").hide();
+        });
+    });
+</script>
+
+</body>
+</html>
