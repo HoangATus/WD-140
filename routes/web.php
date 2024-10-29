@@ -87,10 +87,10 @@ Route::middleware(['web'])->group(function () {
 
         //Route thông tin tài khoản
         // Route::resource('/profile', ProfileController::class);
-        Route::get('/profile', [ProfileController::class, 'index'])->name('clients.profile.index');
-        Route::get('/profile/{user_id}/edit', [ProfileController::class, 'edit'])->name('clients.profile.edit');
-        Route::put('/profile/{user_id}/update', [ProfileController::class, 'update'])->name('clients.profile.update'); 
-
+        // Route::get('/profile', [ProfileController::class, 'index'])->name('clients.profile.index');
+        // Route::get('/profile/{user_id}/edit', [ProfileController::class, 'edit'])->name('clients.profile.edit');
+        // Route::put('/profile/{user_id}/update', [ProfileController::class, 'update'])->name('clients.profile.update'); 
+        Route::resource('/profile', ProfileController::class);
     });
 });
 
