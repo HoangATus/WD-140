@@ -23,8 +23,8 @@
                     <input type="text" class="form-control" value=" {{ $order->payment_method }}" readonly>
                 </div>
                 <div class="col-md-6">
-                    <label>Phương thức Thanh Toán</label>
-                    <input type="text" class="form-control" value="{{ $order->payment_method }}" readonly>
+                    <label>Trạng Thái Thanh Toán</label>
+                    <input type="text" class="form-control" value="{{ $order->payment }}" readonly>
 
                 </div>
                 <div class="col-md-6 mt-3">
