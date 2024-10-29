@@ -11,6 +11,7 @@ use App\Http\Controllers\Clients\ProductController as ClientsProductController;
 use App\Http\Controllers\Clients\ShopController;
 use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Clients\CommentController;
 use App\Http\Controllers\Clients\FavoriteController;
 use App\Http\Controllers\Clients\OrderController;
@@ -42,8 +43,8 @@ Route::get('/', [ShopController::class, 'index'])->name('home'); // Giả địn
 Route::resource('/products', ProductController::class)->parameters([
     'products' => 'slug'
 ]);
+//Route comment
 Route::post('/products/{product}/comments', [CommentController::class, 'store'])->name('comments.store');
-// Route::post('products/{product}/comments', [ClientsCommentController::class, 'store'])->middleware('auth');
 
 
 // Route cho giỏ hàng
@@ -78,6 +79,18 @@ Route::middleware(['web'])->group(function () {
         Route::post('/my-orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
         Route::post('/my-orders/{order}/reorder', [OrderController::class, 'reorder'])->name('orders.reorder');
         Route::get('/my-orders/{order}/cancel', [OrderController::class, 'showCancelForm'])->name('orders.cancel.form');
+
+        // Route san pham yeu thich
+        Route::post('/favorites', [FavoriteController::class, 'store'])->name('clients.favorites.store');
+        Route::get('/favorites', [FavoriteController::class, 'index'])->name('clients.favorites.index');
+        Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('clients.favorites.destroy');
+
+        //Route thông tin tài khoản
+        // Route::resource('/profile', ProfileController::class);
+        Route::get('/profile', [ProfileController::class, 'index'])->name('clients.profile.index');
+        Route::get('/profile/{user_id}/edit', [ProfileController::class, 'edit'])->name('clients.profile.edit');
+        Route::put('/profile/{user_id}/update', [ProfileController::class, 'update'])->name('clients.profile.update'); 
+
     });
 });
 
@@ -92,7 +105,7 @@ Route::get('/admin/danhmucs', function () {
 
 // Route cho hồ sơ người dùng
 
-Route::resource('/profile', ProfileController::class);
+
 
 // Route cho thanh toán
 

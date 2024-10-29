@@ -186,8 +186,7 @@
 
                                             @auth
                                                 <li class="product-box-contain">
-                                                    <a href="{{ route('profile.index') }}"><i
-                                                            class="fa-solid fa-user"></i>
+                                                    <a href="{{ route('clients.profile.index') }}"><i class="fa-solid fa-user"></i>
                                                         Tài khoản</a>
                                                 </li>
                                                 @if (Auth::user()->role == 'Admin')
