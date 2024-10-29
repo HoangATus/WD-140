@@ -12,7 +12,6 @@
 
                 <h2># Thống kê Bán Hàng</h2>
 
-
                 <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
                     <div class="flex-grow-1">
                         <h4 class="fs-18 fw-semibold m-0">Thống kê đơn hàng</h4>
@@ -46,9 +45,24 @@
                                     <h5 class="card-title mb-0">Thống Kê Doanh Thu</h5>
                                 </div>
                                 <div class="card-body">
+                                    {{-- <form id="revenueForm"> --}}
+                                    <div class="row mb-3">
+                                        <div class="col-md-3">
+                                            <label for="timeSelect" class="form-label">Chọn thống kê</label>
+                                            <select id="timeSelect" class="form-control" required>
+                                                <option value="" disabled selected>-- Chọn thống kê --
+                                                </option>
+                                                <option value="year">Năm</option>
+                                                <option value="month">Tháng</option>
+                                                <option value="day">Ngày</option>
+                                                <option value="range">Mốc Thời Gian</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <form id="revenueFilterForm">
                                         <div class="row mb-3">
-                                            <div class="col-md-3">
+                                            <div class="col-md-3 time-option" id="yearOption" style="display: none;">
                                                 <label for="yearSelect" class="form-label">Chọn Năm</label>
                                                 <select id="yearSelect" class="form-control" required>
                                                     <option value="" disabled>-- Chọn Năm --</option>
@@ -57,27 +71,44 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-3">
+                                            @php
+                                                $currentMonth = date('n');
+                                            @endphp
+
+                                            <div class="col-md-3 time-option" id="monthOption" style="display: none;">
                                                 <label for="monthSelect" class="form-label">Chọn Tháng</label>
-                                                <select id="monthSelect" class="form-control" disabled>
-                                                    <option value="">-- Chọn Tháng --</option>
+                                                <select id="monthSelect" class="form-control" required>
+                                                    <option value="" disabled>-- Chọn Tháng --</option>
+                                                    @for ($i = 1; $i <= 12; $i++)
+                                                        <option value="{{ $i }}"
+                                                            {{ $i == $currentMonth ? 'selected' : '' }}>Tháng
+                                                            {{ $i }}</option>
+                                                    @endfor
+                                                </select>
+                                            </div>
+
+                                            {{-- <div class="col-md-3 time-option" id="monthOption" style="display: none;">
+                                                <label for="monthSelect" class="form-label">Chọn Tháng</label>
+                                                <select id="monthSelect" class="form-control" required>
+                                                    <option value="" disabled>-- Chọn Tháng --</option>
                                                     @for ($i = 1; $i <= 12; $i++)
                                                         <option value="{{ $i }}">Tháng {{ $i }}
                                                         </option>
                                                     @endfor
                                                 </select>
-                                            </div>
-                                            <div class="col-md-3">
+                                            </div> --}}
+                                            <div class="col-md-3 time-option" id="dayOption" style="display: none;">
                                                 <label for="daySelect" class="form-label">Chọn Ngày</label>
                                                 <input type="date" id="daySelect" class="form-control" disabled>
                                             </div>
                                             <div class="col-md-3 d-flex align-items-end">
-                                                <button type="submit" class="btn btn-primary w-100">Tìm Kiếm</button>
+                                                <button type="submit" id="searchButtonForm1" style="display: none;"
+                                                    class="btn btn-primary w-100">Tìm Kiếm</button>
                                             </div>
                                         </div>
                                     </form>
                                     <form id="rangeRevenueForm">
-                                        <div class="row mb-3">
+                                        <div class="row mb-3 time-option" id="rangeOption" style="display: none;">
                                             <div class="col-md-4">
                                                 <label for="startDate" class="form-label">Ngày Bắt Đầu</label>
                                                 <input type="date" id="startDate"name="startDate" class="form-control"
@@ -90,8 +121,9 @@
                                                     max="{{ date('Y-m-d') }}">
                                                 <span id="endDateError" style="color: red; font-size: 12px;"></span>
                                             </div>
-                                            <div class="col-md-4 d-flex align-items-end">
-                                                <button type="submit" class="btn btn-primary w-100">Xem Doanh Thu</button>
+                                            <div class="col-md-3 d-flex align-items-end">
+                                                <button type="submit" id="searchButtonForm2" style="display: none;"
+                                                    class="btn btn-primary w-100">Tìm Kiếm</button>
                                             </div>
                                         </div>
                                     </form>
@@ -104,67 +136,115 @@
                     </div>
                 </div>
             </div>
-            {{-- @if(isset($topSellingProducts))     --}}
+            {{-- @if (isset($topSellingProducts))     --}}
             <div class="container mt-5">
                 <div class="row">
                     <!-- Top 5 Sản Phẩm bán chạy Nhất -->
                     <div class="col-md-4">
                         <h5 class="fw-bold"># Top 5 Sản Phẩm Bán Chạy Nhất</h5>
                         <div class="border p-3 mb-3">
-                            @foreach($topSellingProducts as $product)
-                            <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
-                                <div class="me-3" style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
-                                    <img src="{{ Storage::url($product->product_image_url) }}" alt="Product Image" style="width: 100%; height: auto;">
+                            @foreach ($topSellingProducts as $product)
+                                <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
+                                    <div class="me-3"
+                                        style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
+                                        <img src="{{ Storage::url($product->product_image_url) }}" alt="Product Image"
+                                            style="width: 100%; height: auto;">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-bold"
+                                            style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
+                                            {{ $product->product_name }}</div>
+                                    </div>
+                                    <div class="fw-bold" style="white-space: nowrap;">Số lượng:
+                                        {{ $product->total_quantity }}</div>
                                 </div>
-                                <div class="flex-grow-1">
-                                    <div class="fw-bold" style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">{{ $product->product_name }}</div>
-                                </div>
-                                <div class="fw-bold" style="white-space: nowrap;">Số lượng: {{ $product->total_quantity }}</div>
-                            </div>
                             @endforeach
                         </div>
                     </div>
-            
+
                     <!-- Top 5 Sản Phẩm doanh thu cao Nhất -->
                     <div class="col-md-4">
                         <h5 class="fw-bold"># Top 5 Sản Phẩm Doanh Thu Cao Nhất</h5>
                         <div class="border p-3 mb-3">
                             @foreach ($topRevenueProducts as $item)
-                            <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
-                                <div class="me-3" style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
-                                    <img src="{{ Storage::url($item->product_image_url) }}" alt="Product Image" style="width: 100%; height: auto;">
+                                <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
+                                    <div class="me-3"
+                                        style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
+                                        <img src="{{ Storage::url($item->product_image_url) }}" alt="Product Image"
+                                            style="width: 100%; height: auto;">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <p class="mb-0 fw-bold"
+                                            style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
+                                            {{ $item->product_name }}</p>
+                                    </div>
+                                    <div class="ms-auto fw-bold" style="white-space: nowrap;">
+                                        {{ number_format($item->total_revenue, 0, ',', '.') }} VND</div>
                                 </div>
-                                <div class="flex-grow-1">
-                                    <p class="mb-0 fw-bold" style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">{{$item->product_name}}</p>
-                                </div>
-                                <div class="ms-auto fw-bold" style="white-space: nowrap;">{{ number_format($item->total_revenue, 0, ',', '.') }} VND</div>
-                            </div>
                             @endforeach
                         </div>
                     </div>
-            
+
                     <!-- Top 5 Sản Phẩm Lợi Nhuận Cao Nhất -->
                     <div class="col-md-4">
                         <h5 class="fw-bold"># Top 5 Sản Phẩm Lợi Nhuận Cao Nhất</h5>
                         <div class="border p-3 mb-3 mt-3">
                             @foreach ($topProfitProducts as $item)
-                            <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
-                                <div class="me-3" style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
-                                    <img src="{{ Storage::url($item->product_image_url) }}" alt="Product Image" style="width: 100%; height: auto;">
+                                <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
+                                    <div class="me-3"
+                                        style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
+                                        <img src="{{ Storage::url($item->product_image_url) }}" alt="Product Image"
+                                            style="width: 100%; height: auto;">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <p class="mb-0 fw-bold"
+                                            style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
+                                            {{ $item->product_name }}</p>
+                                    </div>
+                                    <div class="ms-auto fw-bold" style="white-space: nowrap;">
+                                        {{ number_format($item->total_profit, 0, ',', '.') }} VND</div>
                                 </div>
-                                <div class="flex-grow-1">
-                                    <p class="mb-0 fw-bold" style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">{{$item->product_name}}</p>
-                                </div>
-                                <div class="ms-auto fw-bold" style="white-space: nowrap;">{{ number_format($item->total_profit, 0, ',', '.') }} VND</div>
-                            </div>
                             @endforeach
                         </div>
                     </div>
                 </div>
             </div>
-            
-             {{-- @endif --}}
+
+            {{-- @endif --}}
             <script>
+                document.getElementById("timeSelect").addEventListener("change", function() {
+                    const selectedValue = this.value;
+
+                    // Ẩn tất cả các tùy chọn và cả hai nút "Tìm Kiếm"
+                    document.querySelectorAll(".time-option").forEach(option => {
+                        option.style.display = "none";
+                    });
+                    document.getElementById("searchButtonForm1").style.display = "none";
+                    document.getElementById("searchButtonForm2").style.display = "none";
+
+                    // Kiểm tra nếu không có lựa chọn nào
+                    if (selectedValue === "") {
+                        return;
+                    }
+                    if (selectedValue === "year") {
+                        document.getElementById("yearOption").style.display = "block";
+                        // document.getElementById("searchButtonForm1").style.display = "block";
+                    } else if (selectedValue === "month") {
+                        document.getElementById("yearOption").style.display = "block";
+                        document.getElementById("monthOption").style.display = "block";
+                        document.getElementById("searchButtonForm1").style.display = "block";
+                    } else if (selectedValue === "day") {
+                        document.getElementById("yearOption").style.display = "block";
+                        document.getElementById("monthOption").style.display = "block";
+                        document.getElementById("dayOption").style.display = "block";
+                        document.getElementById("searchButtonForm1").style.display = "block";
+                    } else if (selectedValue === "range") {
+                        document.getElementById("rangeOption").style.display = "flex";
+                        document.getElementById("searchButtonForm2").style.display = "block";
+                    }
+                });
+
+
                 document.addEventListener("DOMContentLoaded", function() {
                     const today = new Date();
                     const yearSelect = document.getElementById('yearSelect');
@@ -180,7 +260,9 @@
                     const maxDate =
                         `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
                     daySelect.setAttribute('max', maxDate);
-
+                    yearSelect.addEventListener('change', function() {
+                        fetchRevenueData();
+                    });
                     yearSelect.addEventListener('change', handleYearChange);
                     monthSelect.addEventListener('change', handleMonthChange);
                     revenueFilterForm.addEventListener('submit', handleFormSubmit);
@@ -210,7 +292,7 @@
                         daySelect.setAttribute('min', `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-01`);
                         daySelect.setAttribute('max',
                             `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(maxDay).padStart(2, '0')}`
-                            );
+                        );
                     }
 
                     function handleFormSubmit(event) {
@@ -256,13 +338,20 @@
                         const month = monthSelect.value;
                         const day = daySelect.value;
                         let url = `/admins/dashboard/revenue?year=${year}`;
+
                         if (month) url += `&month=${month}`;
                         if (day) url += `&day=${day}`;
 
                         fetch(url)
                             .then(response => response.json())
                             .then(data => {
+                                if (!data || data.length === 0) {
+                                    console.log('Không có dữ liệu cho thời gian này.');
+                                    return;
+                                }
+
                                 let categories, revenues, profits, title;
+
                                 if (day) {
                                     categories = data.map(item => `${item.hour}:00`);
                                     title = `Doanh Thu và Lợi Nhuận Theo Giờ của Ngày ${day}`;
