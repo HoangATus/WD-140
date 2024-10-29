@@ -114,12 +114,12 @@
                             @foreach($topSellingProducts as $product)
                             <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
                                 <div class="me-3" style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
-                                    <img src="{{ Storage::url($product->image) }}" alt="Product Image" style="width: 100%; height: auto;">
+                                    <img src="{{ Storage::url($product->product_image_url) }}" alt="Product Image" style="width: 100%; height: auto;">
                                 </div>
                                 <div class="flex-grow-1">
-                                    <div class="fw-bold" style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2;">{{ $product->product_name }}</div>
+                                    <div class="fw-bold" style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">{{ $product->product_name }}</div>
                                 </div>
-                                <div class="fw-bold" style="white-space: nowrap;">{{ $product->total_quantity }} chiếc</div>
+                                <div class="fw-bold" style="white-space: nowrap;">Số lượng: {{ $product->total_quantity }}</div>
                             </div>
                             @endforeach
                         </div>
@@ -132,10 +132,10 @@
                             @foreach ($topRevenueProducts as $item)
                             <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
                                 <div class="me-3" style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
-                                    <img src="{{ Storage::url($item->image) }}" alt="Product Image" style="width: 100%; height: auto;">
+                                    <img src="{{ Storage::url($item->product_image_url) }}" alt="Product Image" style="width: 100%; height: auto;">
                                 </div>
                                 <div class="flex-grow-1">
-                                    <p class="mb-0 fw-bold" style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2;">{{$item->product_name}}</p>
+                                    <p class="mb-0 fw-bold" style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">{{$item->product_name}}</p>
                                 </div>
                                 <div class="ms-auto fw-bold" style="white-space: nowrap;">{{ number_format($item->total_revenue, 0, ',', '.') }} VND</div>
                             </div>
@@ -146,14 +146,14 @@
                     <!-- Top 5 Sản Phẩm Lợi Nhuận Cao Nhất -->
                     <div class="col-md-4">
                         <h5 class="fw-bold"># Top 5 Sản Phẩm Lợi Nhuận Cao Nhất</h5>
-                        <div class="border p-3 mb-3">
+                        <div class="border p-3 mb-3 mt-3">
                             @foreach ($topProfitProducts as $item)
                             <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
                                 <div class="me-3" style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
-                                    <img src="{{ Storage::url($item->image) }}" alt="Product Image" style="width: 100%; height: auto;">
+                                    <img src="{{ Storage::url($item->product_image_url) }}" alt="Product Image" style="width: 100%; height: auto;">
                                 </div>
                                 <div class="flex-grow-1">
-                                    <p class="mb-0 fw-bold" style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2;">{{$item->product_name}}</p>
+                                    <p class="mb-0 fw-bold" style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">{{$item->product_name}}</p>
                                 </div>
                                 <div class="ms-auto fw-bold" style="white-space: nowrap;">{{ number_format($item->total_profit, 0, ',', '.') }} VND</div>
                             </div>
