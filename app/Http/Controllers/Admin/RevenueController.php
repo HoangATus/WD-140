@@ -18,7 +18,6 @@ class RevenueController extends Controller
         $currentYear = Carbon::now()->year;
         $years = range($currentYear - 5, $currentYear);
 
-        // Lấy doanh thu và lợi nhuận theo từng năm
         $revenues = DB::table('orders')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->join('variants', 'order_items.variant_id', '=', 'variants.id')
@@ -266,7 +265,7 @@ class RevenueController extends Controller
             return response()->json($formattedData);
         }
 
-        if ($month) {
+        if ($month & $year) {
             $revenues = DB::table('orders')
                 ->join('order_items', 'orders.id', '=', 'order_items.order_id')
                 ->join('variants', 'order_items.variant_id', '=', 'variants.id')
@@ -365,36 +364,7 @@ class RevenueController extends Controller
         return response()->json($revenues);
     }
 
-    // public function index()
-    // {
-    //     $currentYear = Carbon::now()->year;
-    //     $years = range($currentYear - 5, $currentYear);
-
-    //     $revenues = DB::table('orders')
-    //         ->join('order_items', 'orders.id', '=', 'order_items.order_id')
-    //         ->join('variants', 'order_items.variant_id', '=', 'variants.id')
-    //         ->select(
-    //             DB::raw('YEAR(orders.created_at) as year'),
-    //             DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
-    //             DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
-    //         )
-    //         ->whereRaw('YEAR(orders.created_at) >= ?', [$currentYear - 6])
-    //         ->groupBy('year')
-    //         ->orderBy('year', 'ASC')
-    //         ->get();
-
-    //     $revenueData = [];
-    //     foreach ($years as $year) {
-    //         $data = $revenues->firstWhere('year', $year);
-    //         $revenueData[] = [
-    //             'year' => $year,
-    //             'revenue' => $data ? $data->revenue : 0,
-    //             'profit' => $data ? $data->profit : 0,
-    //         ];
-    //     }
-
-    //     return view('admins.dashboard', compact('years', 'revenueData'));
-    // }
+ 
 
     public function getRevenueByRange(Request $request)
     {
@@ -439,4 +409,30 @@ class RevenueController extends Controller
 
         return response()->json($dateRange);
     }
+    public function getRevenueByMonth(Request $request)
+{
+    $year = $request->input('year');
+    $month = $request->input('month');
+
+    $revenues = DB::table('orders')
+        ->join('order_items', 'orders.id', '=', 'order_items.order_id')
+        ->join('variants', 'order_items.variant_id', '=', 'variants.id')
+        ->select(
+            DB::raw('DAY(orders.created_at) as day'),
+            DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
+            DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
+        )
+        ->whereYear('orders.created_at', $year)
+        ->whereMonth('orders.created_at', $month)
+        ->whereIn('orders.status', ['delivered', 'completed'])
+        ->groupBy('day')
+        ->orderBy('day', 'ASC')
+        ->get();
+
+    $formattedData = $this->formatDailyData($revenues, $year, $month);
+
+    return response()->json($formattedData);
+}
+
+
 }

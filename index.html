@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+</head>
+
+<body>
+    <div class="cont">
+        <div class="date-range-picker">
+            <input type="text" id="dateRange" placeholder="Chọn khoảng thời gian" />
+        </div>
+
+    </div>
+    <script>
+        $(function () {
+            $('#dateRange').daterangepicker({
+                locale: {
+                    format: 'DD/MM/YYYY',
+                    separator: ' ~ ',
+                    applyLabel: "Áp dụng",
+                    cancelLabel: "Hủy",
+                    fromLabel: "Từ",
+                    toLabel: "Đến",
+                    customRangeLabel: "Tùy chỉnh",
+                    daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+                    monthNames: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+                    firstDay: 1
+                },
+                startDate: '19/12/2022',
+                endDate: '17/01/2023',
+            });
+        });
+    </script>
+    <style>
+        .date-range-picker {
+            display: inline-block;
+            margin: 10px;
+        }
+
+        #dateRange {
+            width: 250px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</body>
+
+</html>
