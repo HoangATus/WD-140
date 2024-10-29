@@ -47,6 +47,7 @@
                         <thead class="table-secondary">
 
                             <tr align="center">
+                                <th class="d-none">ID</th>
                                 <th>Mã Đơn Hàng</th>
                                 <th>Khách Hàng</th>
                                 <th>SDT</th>
@@ -60,6 +61,7 @@
                         <tbody>
                             @foreach ($orders as $order)
                                 <tr align="center">
+                                   <td class="d-none">{{ $order->id }}</td>
                                     <td>{{ $order->order_code }}</td>
                                     <td>{{ $order->name }}</td>
                                     <td>{{ $order->phone }}</td>
@@ -110,6 +112,7 @@
                         </tbody>
                     </table>
                 </div>
+                
             </div>
         @endsection
 
@@ -118,7 +121,11 @@
             <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
             <!--datatable responsive css-->
             <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-
+            <style>
+                .d-none {
+                    display: none; 
+                }
+            </style>
             <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
         @endsection
 

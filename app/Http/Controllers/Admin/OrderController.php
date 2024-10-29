@@ -11,6 +11,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with('orderItems', 'user')->latest('id')->get();
+
         return view('admins.orders.index', compact('orders'));
     }
 
@@ -30,7 +31,7 @@ class OrderController extends Controller
         ], [
             'notes.required' => 'Bạn phải nhập ghi chú khi hủy đơn hàng hoặc giao hàng thất bại.',
         ]);
-        if (in_array($order->payment_method, ['momo', 'vnpay', 'zalopay']) && $order->payment_status != 'paid') {
+        if (in_array($order->payment_method, ['online']) && $order->payment_status != 'paid') {
             if (in_array($request->status, ['confirmed', 'shipped', 'delivered', 'completed'])) {
                 return back()->withErrors(['status' => 'Không thể thay đổi trạng thái đơn hàng cho đến khi thanh toán hoàn tất.']);
             }

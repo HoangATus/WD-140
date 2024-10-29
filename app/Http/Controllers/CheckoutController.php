@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Mail\OrderSuccessful;
@@ -162,7 +163,7 @@ class CheckoutController extends Controller
     function generateUniqueOrderCode()
     {
         do {
-            $orderCode = random_int(1, 9007199254740991);
+            $orderCode = 'ATUS' . Auth::id() . now()->timestamp . random_int(1000, 9999);
         } while (Order::where('order_code', $orderCode)->exists());
 
         return $orderCode;
