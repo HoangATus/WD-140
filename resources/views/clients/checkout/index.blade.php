@@ -100,7 +100,7 @@
                                                     <div class="form-group">
                                                         <label for="address">Địa Chỉ</label>
                                                         <input type="text" class="form-control" id="address"
-                                                            name="address" value=""
+                                                            name="address" value="{{ old( 'name', $user->user_address ?? '') }}"
                                                             required>
                                                     </div>
 

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreProfileRequest;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -47,30 +49,39 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Profile $profile)
+    public function edit(Profile $user)
     {
-        $profile = Auth::user();
-        // dd($profile);
-        return view('clients.profile.edit', compact('profile'));
+        $user = Auth::user();
+        return view('clients.profile.edit')->with('user', $user);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProfileRequest $request, Profile $user)
+    public function update(Request $request, $user_id)
     {
-        // $profile = Auth::user(); // Thông tin người dùng hiện tại
-    
-        // Cập nhật thông tin người dùng
-        $request->update([
-            'user_name' => $request->user_name,
-            'user_phone_number' => $request->user_phone_number,
-            'user_email' => $request->user_email,
-            'user_address' => $request->user_address,
+        // Validate the input fields
+        $request->validate([
+            'user_name' => 'required|string|max:255',
+            'user_email' => 'required|email',
+            'user_phone_number' => 'required|string|digits:10',
+            'user_address' => 'required|string|max:255',
         ]);
     
-        return redirect()->route('clients.profile.index')->with('success', 'Thông tin cá nhân đã được cập nhật.');
+        // Find the user by ID
+        $user = User::findOrFail($user_id);
+    
+        // Update user details
+        $user->user_name = $request->user_name;
+        $user->user_email = $request->user_email;
+        $user->user_phone_number = $request->user_phone_number;
+        $user->user_address = $request->user_address;
+        $user->save();
+    
+        // Redirect back with a success message
+        return redirect()->route('profile.index', $user->user_id)->with('successy', 'Cập nhật thông tin thành công');
     }
+    
     
     
 
