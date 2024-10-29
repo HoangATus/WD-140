@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 
-class DashboardController extends Controller
+class DashBoardController extends Controller
 {
     /**
      * Display a listing of the resource.
