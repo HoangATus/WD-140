@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade');    // Tham chiếu đến cột 'id' của bảng 'users'
             $table->foreignId('product_id')->constrained()->onDelete('cascade');  // Liên kết với bảng 'products'
             $table->foreignId('order_id')->constrained()->onDelete('cascade');  // Liên kết với bảng 'orders'
+            $table->foreignId('variant_id')->constrained()->onDelete('cascade'); // Cột variant_id
 
             // Thêm cột order_item_id và thiết lập khóa ngoại
             $table->unsignedBigInteger('order_item_id');  // Bỏ 'after id'
