@@ -81,13 +81,13 @@ class RevenueController extends Controller
             'products.product_image_url',
             DB::raw('SUM(order_items.quantity) as total_quantity')
         )
-        ->join('orders', 'order_items.order_id', '=', 'orders.id') // Join to access orders' status
-        ->join('products', 'order_items.product_id', '=', 'products.id') // Join to get image from products table
-        ->whereIn('orders.status', ['delivered', 'completed'])
-        ->groupBy('order_items.product_id', 'order_items.product_name', 'products.product_image_url')
-        ->orderByDesc('total_quantity')
-        ->limit(5)
-        ->get();
+            ->join('orders', 'order_items.order_id', '=', 'orders.id') // Join to access orders' status
+            ->join('products', 'order_items.product_id', '=', 'products.id') // Join to get image from products table
+            ->whereIn('orders.status', ['delivered', 'completed'])
+            ->groupBy('order_items.product_id', 'order_items.product_name', 'products.product_image_url')
+            ->orderByDesc('total_quantity')
+            ->limit(5)
+            ->get();
 
         // Top 5 sản phẩm có doanh thu cao nhất
         $topRevenueProducts = OrderItem::select(
@@ -96,13 +96,13 @@ class RevenueController extends Controller
             'products.product_image_url',
             DB::raw('SUM(order_items.price * order_items.quantity) as total_revenue')
         )
-        ->join('orders', 'order_items.order_id', '=', 'orders.id') // Join to access orders' status
-        ->join('products', 'order_items.product_id', '=', 'products.id') 
-        ->whereIn('orders.status', ['delivered', 'completed'])
-        ->groupBy('order_items.product_id', 'order_items.product_name', 'products.product_image_url')
-        ->orderByDesc('total_revenue')
-        ->limit(5)
-        ->get();
+            ->join('orders', 'order_items.order_id', '=', 'orders.id') // Join to access orders' status
+            ->join('products', 'order_items.product_id', '=', 'products.id')
+            ->whereIn('orders.status', ['delivered', 'completed'])
+            ->groupBy('order_items.product_id', 'order_items.product_name', 'products.product_image_url')
+            ->orderByDesc('total_revenue')
+            ->limit(5)
+            ->get();
 
         // dd($topRevenueProducts);
 
@@ -113,16 +113,16 @@ class RevenueController extends Controller
             'products.product_image_url',
             DB::raw('SUM((order_items.price - variants.variant_import_price) * order_items.quantity) as total_profit')
         )
-        ->join('orders', 'order_items.order_id', '=', 'orders.id')
-        ->join('products', 'order_items.product_id', '=', 'products.id')
-        ->join('variants', 'order_items.variant_id', '=', 'variants.id') // Join with variants table
-        ->whereIn('orders.status', ['delivered', 'completed'])
-        ->groupBy('order_items.product_id', 'order_items.product_name', 'products.product_image_url')
-        ->orderByDesc('total_profit')
-        ->limit(5)
-        ->get();
-    
-        // Trả về view với dữ liệu
+            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->join('products', 'order_items.product_id', '=', 'products.id')
+            ->join('variants', 'order_items.variant_id', '=', 'variants.id') // Join with variants table
+            ->whereIn('orders.status', ['delivered', 'completed'])
+            ->groupBy('order_items.product_id', 'order_items.product_name', 'products.product_image_url')
+            ->orderByDesc('total_profit')
+            ->limit(5)
+            ->get();
+
+
         return view('admins.dashboard', compact('years', 'revenueData', 'counts', 'month', 'year', 'data', 'topSellingProducts', 'topRevenueProducts', 'topProfitProducts'));
     }
 
@@ -357,32 +357,37 @@ class RevenueController extends Controller
         $revenues = DB::table('order_items')
             ->selectRaw('YEAR(created_at) as year, SUM(price * quantity) as revenue')
             ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->whereIn('orders.status', ['delivered', 'completed'])
             ->groupBy('year')
             ->orderBy('year', 'ASC')
             ->get();
 
         return response()->json($revenues);
     }
-
- 
-
     public function getRevenueByRange(Request $request)
     {
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
-
-        if (!$startDate || !$endDate) {
-            return response()->json(['error' => 'Missing start_date or end_date'], 400);
+        $dateRange = $request->input('daterange');
+        if (!$dateRange) {
+            return response()->json(['error' => 'Vui lòng nhập khoảng thời gian.'], 400);
         }
-
-
-        $start = Carbon::parse($startDate);
-        $end = Carbon::parse($endDate);
-        if ($end->diffInDays($start) > 30) {
-            return response()->json(['error' => 'Date range exceeds 30 days'], 400);
+        
+        list($startDate, $endDate) = explode(' - ', $dateRange);
+        $startDate = Carbon::parse($startDate)->startOfDay();
+        $endDate = Carbon::parse($endDate)->endOfDay();
+        $today = Carbon::today()->endOfDay();
+    
+        if ($startDate->greaterThan($endDate)) {
+            return response()->json(['error' => 'Ngày bắt đầu không được lớn hơn ngày kết thúc.'], 400);
         }
-
-
+    
+        if ($endDate->greaterThan($today)) {
+            return response()->json(['error' => 'Ngày kết thúc không được vượt quá ngày hiện tại.'], 400);
+        }
+    
+        if ($endDate->diffInDays($startDate) > 30) {
+            return response()->json(['error' => 'Khoảng thời gian không được quá 30 ngày.'], 400);
+        }
+    
         $revenues = DB::table('orders')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->join('variants', 'order_items.variant_id', '=', 'variants.id')
@@ -392,47 +397,47 @@ class RevenueController extends Controller
                 DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
             )
             ->whereBetween('orders.created_at', [$startDate, $endDate])
+            ->whereIn('orders.status', ['delivered', 'completed'])
             ->groupBy('date')
             ->orderBy('date', 'ASC')
             ->get();
-
-        $dateRange = [];
-        while ($start <= $end) {
-            $data = $revenues->firstWhere('date', $start->toDateString());
-            $dateRange[] = [
-                'date' => $start->toDateString(),
+    
+        $dateRangeResponse = [];
+        $currentDate = $startDate->copy();
+        while ($currentDate <= $endDate) {
+            $data = $revenues->firstWhere('date', $currentDate->toDateString());
+            $dateRangeResponse[] = [
+                'date' => $currentDate->toDateString(),
                 'revenue' => $data ? $data->revenue : 0,
                 'profit' => $data ? $data->profit : 0,
             ];
-            $start->addDay();
+            $currentDate->addDay();
         }
-
-        return response()->json($dateRange);
+    
+        return response()->json($dateRangeResponse);
     }
     public function getRevenueByMonth(Request $request)
-{
-    $year = $request->input('year');
-    $month = $request->input('month');
+    {
+        $year = $request->input('year');
+        $month = $request->input('month');
 
-    $revenues = DB::table('orders')
-        ->join('order_items', 'orders.id', '=', 'order_items.order_id')
-        ->join('variants', 'order_items.variant_id', '=', 'variants.id')
-        ->select(
-            DB::raw('DAY(orders.created_at) as day'),
-            DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
-            DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
-        )
-        ->whereYear('orders.created_at', $year)
-        ->whereMonth('orders.created_at', $month)
-        ->whereIn('orders.status', ['delivered', 'completed'])
-        ->groupBy('day')
-        ->orderBy('day', 'ASC')
-        ->get();
+        $revenues = DB::table('orders')
+            ->join('order_items', 'orders.id', '=', 'order_items.order_id')
+            ->join('variants', 'order_items.variant_id', '=', 'variants.id')
+            ->select(
+                DB::raw('DAY(orders.created_at) as day'),
+                DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
+                DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
+            )
+            ->whereYear('orders.created_at', $year)
+            ->whereMonth('orders.created_at', $month)
+            ->whereIn('orders.status', ['delivered', 'completed'])
+            ->groupBy('day')
+            ->orderBy('day', 'ASC')
+            ->get();
 
-    $formattedData = $this->formatDailyData($revenues, $year, $month);
+        $formattedData = $this->formatDailyData($revenues, $year, $month);
 
-    return response()->json($formattedData);
-}
-
-
+        return response()->json($formattedData);
+    }
 }
