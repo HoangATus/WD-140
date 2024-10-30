@@ -18,8 +18,8 @@ class FavoriteController extends Controller
 
         // Kiểm tra xem sản phẩm đã tồn tại trong danh sách yêu thích của người dùng chưa
         $exists = Favorite::where('user_id', Auth::id())
-                          ->where('product_id', $request->product_id)
-                          ->exists();
+            ->where('product_id', $request->product_id)
+            ->exists();
 
         if ($exists) {
             return back()->with('errors', 'Sản phẩm này đã có trong danh sách yêu thích.');
@@ -35,8 +35,10 @@ class FavoriteController extends Controller
 
     public function index()
     {
-        $favorites = Favorite::where('user_id', Auth::id())->with('product')->get();
-        
+        $favorites = Favorite::where('user_id', Auth::id())
+            ->with(['product.ratings']) // eager load ratings
+            ->get();
+
         // Kiểm tra xem dữ liệu có được lấy đúng không
         if ($favorites->isEmpty()) {
             Log::info('Không có sản phẩm yêu thích nào.');
@@ -47,17 +49,16 @@ class FavoriteController extends Controller
     }
 
     public function destroy($id)
-{
-    $favorite = Favorite::findOrFail($id);
-    
-    // Kiểm tra quyền sở hữu yêu thích (nếu cần)
-    if ($favorite->user_id !== auth()->id()) {
-        return redirect()->back()->with('error', 'Bạn không có quyền xóa sản phẩm này.');
-    }
-    
-    $favorite->delete();
+    {
+        $favorite = Favorite::findOrFail($id);
 
-    return redirect()->route('clients.favorites.index')->with('successy', 'Sản phẩm đã được xóa khỏi danh sách yêu thích.');
-}
-    
+        // Kiểm tra quyền sở hữu yêu thích (nếu cần)
+        if ($favorite->user_id !== auth()->id()) {
+            return redirect()->back()->with('error', 'Bạn không có quyền xóa sản phẩm này.');
+        }
+
+        $favorite->delete();
+
+        return redirect()->route('clients.favorites.index')->with('successy', 'Sản phẩm đã được xóa khỏi danh sách yêu thích.');
+    }
 }

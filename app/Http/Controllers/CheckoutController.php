@@ -93,7 +93,7 @@ class CheckoutController extends Controller
             ]);
         }
 
-        // session()->forget('cart_' . $userId);
+        session()->forget('cart_' . $userId);
 
         if ($request->payment_method == 'online') {
             return $this->createVNPayPaymentLink($order); // Chuyển sang xử lý thanh toán với VNPay
@@ -169,6 +169,9 @@ class CheckoutController extends Controller
 
         return $orderCode;
     }
+
+}
+
     public function checkout2(Request $request)
     {
         $variantId = $request->input('variant_id');
@@ -249,3 +252,4 @@ class CheckoutController extends Controller
     
      
 }
+
