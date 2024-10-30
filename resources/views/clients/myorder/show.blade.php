@@ -11,17 +11,6 @@
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-order" role="tabpanel">
                                 <div class="dashboard-order">
-                                    {{-- @if (session('success'))
-                                        <div class="alert alert-success">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
-
-                                    @if (session('error'))
-                                        <div class="alert alert-danger">
-                                            {{ session('error') }}
-                                        </div>
-                                    @endif --}}
 
                                     <div class="title text-center mb-5">
                                         <h2 class="fw-bold" style="font-size: 28px;">Thông tin đơn hàng</h2>
@@ -83,6 +72,10 @@
                                             <tr>
                                                 <td class="fw-bold">Phương thức thanh toán :</td>
                                                 <td class="text-end">{{ $order->payment_method }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Trạng thái thanh toán :</td>
+                                                <td class="text-end">{{ $order->payment }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">Tổng tiền hàng :</td>
@@ -163,35 +156,63 @@
                                                 trong đơn hàng này.</p>
                                         @endif
                                     </div>
+
+                                    {{-- danh gia --}}
+
                                     @if ($order->status == 'completed')
+                                        @php
+                                            $allRated = true;
+                                        @endphp
+
                                         <h3 class="fw-bold mt-4"
                                             style="font-size: 24px; text-transform: uppercase; color: #333;">Đánh giá</h3>
-                                        @foreach ($orderItems as $item)
-                                            @if (!$item->rating()->where('user_id', auth()->id())->exists())
+
+                                        @foreach ($groupedItems as $productId => $items)
+                                            @php
+                                                // Lấy một biến thể để hiển thị thông tin sản phẩm chính
+                                                $productItem = $items->first();
+                                                $isRated = $productItem
+                                                    ->rating()
+                                                    ->where('user_id', auth()->id())
+                                                    ->exists();
+                                            @endphp
+
+                                            @if (!$isRated)
+                                                @php
+                                                    $allRated = false;
+                                                @endphp
+
                                                 <div class="row mb-4 pb-3 border-bottom align-items-center mt-5">
                                                     <div class="col-md-3">
-                                                        <img src="{{ $item->image }}" class="img-fluid rounded"
+                                                        <img src="{{ $productItem->image }}" class="img-fluid rounded"
                                                             alt="" style="max-width: 50%;">
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <h4 class="fw-bold">{{ $item->product_name }}</h4>
-                                                        <form action="{{ route('orders.rate', $item->product_id) }}"
+                                                        <h4 class="fw-bold">{{ $productItem->product_name }}</h4>
+
+                                                        <div class="mb-3">
+                                                            <p><strong>Biến thể:</strong>
+                                                                {{ $items->pluck('variant_name')->join(', ') }}</p>
+                                                        </div>
+
+                                                        <form action="{{ route('orders.rate', $productItem->product_id) }}"
                                                             method="POST">
                                                             @csrf
                                                             <input type="hidden" name="order_id"
                                                                 value="{{ $order->id }}">
 
                                                             <div class="d-flex align-items-center">
-                                                                <div class="rating" id="rating-{{ $item->product_id }}"
+                                                                <div class="rating"
+                                                                    id="rating-{{ $productItem->product_id }}"
                                                                     style="font-size: 24px; cursor: pointer;">
                                                                     @for ($i = 1; $i <= 5; $i++)
                                                                         <span class="star"
                                                                             data-value="{{ $i }}"
-                                                                            data-product-id="{{ $item->product_id }}">&starf;</span>
+                                                                            data-product-id="{{ $productItem->product_id }}">&starf;</span>
                                                                     @endfor
                                                                 </div>
                                                                 <input type="hidden" name="rating"
-                                                                    id="input-rating-{{ $item->product_id }}"
+                                                                    id="input-rating-{{ $productItem->product_id }}"
                                                                     value="" required>
                                                                 <textarea name="review" class="form-control ms-2" placeholder="Nhận xét (tùy chọn)" rows="2"></textarea>
                                                                 <button type="submit" class="btn btn-primary ms-2">Gửi
@@ -202,10 +223,13 @@
                                                 </div>
                                             @endif
                                         @endforeach
+
+                                        @if ($allRated)
+                                            <div class="alert alert-success mt-4">
+                                                <h4 class="fw-bold">Cảm ơn bạn đã đánh giá tất cả các sản phẩm!</h4>
+                                            </div>
+                                        @endif
                                     @endif
-
-
-
 
 
                                     <div class="d-flex justify-content-center align-items-center mt-4">
@@ -245,34 +269,37 @@
         </div>
     </section>
     <script>
-        document.querySelectorAll('.star').forEach(star => {
-            star.addEventListener('click', function() {
-                const rating = this.getAttribute('data-value');
-                const productId = this.getAttribute('data-product-id');
-                const inputRating = document.getElementById('input-rating-' + productId);
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.rating').forEach(rating => {
+                const productId = rating.getAttribute('id').split('-')[1];
+                const inputRating = document.getElementById(`input-rating-${productId}`);
 
-                // Cập nhật giá trị đánh giá
-                inputRating.value = rating;
+                document.querySelectorAll('.star').forEach(function(star) {
+                    star.addEventListener('click', function() {
+                        var ratingValue = this.getAttribute('data-value');
+                        var productId = this.getAttribute('data-product-id');
 
-                // Đặt màu cho các ngôi sao được chọn
-                const ratingContainer = document.getElementById('rating-' + productId);
-                ratingContainer.querySelectorAll('.star').forEach(s => {
-                    if (s.getAttribute('data-value') <= rating) {
-                        s.style.color = '#FFD700'; // Màu vàng cho sao đã chọn
-                    } else {
-                        s.style.color = '#ccc'; // Màu xám cho sao chưa chọn
-                    }
+                        // Đặt giá trị rating vào input hidden
+                        document.getElementById('input-rating-' + productId).value =
+                            ratingValue;
+
+                        // Cập nhật giao diện sao đã chọn
+                        document.querySelectorAll('#rating-' + productId + ' .star')
+                            .forEach(function(star) {
+                                star.style.color = star.getAttribute('data-value') <=
+                                    ratingValue ? 'gold' : 'gray';
+                            });
+                    });
                 });
             });
         });
     </script>
 
 
-
     <style>
         /* .rating {
-                                                display: flex;
-                                            } */
+                                                                                                                                                                                                                                                                                                                                                display: flex;
+                                                                                                                                                                                                                                                                                                                                            } */
 
         .star {
             color: #d3d3d3;

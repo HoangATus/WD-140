@@ -125,8 +125,8 @@ Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirm
 
 // Route cho đánh giá sản phẩm
 Route::middleware(['auth'])->group(function () {
-    Route::post('/orders/{order}/rate', [OrderController::class, 'rate'])->name('orders.rate');
-    Route::post('/orders/rate/{product_id}', [OrderController::class, 'rateProduct'])->name('orders.rate');
+    Route::post('/orders/{order}/rate', [OrderController::class, 'rateProduct'])->name('orders.rate');
+    // Route::post('/orders/rate/{product_id}', [OrderController::class, 'rateProduct'])->name('orders.rate');
     Route::post('/favorites', [FavoriteController::class, 'store'])->name('clients.favorites.store');
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('clients.favorites.index');
 });

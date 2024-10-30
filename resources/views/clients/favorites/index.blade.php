@@ -32,6 +32,24 @@
                                             <a
                                                 href="{{ route('products.show', $favorite->product->slug) }}">{{ $favorite->product->product_name }}</a>
                                         </div>
+                                        <div class="product-rating custom-rate">
+                                            <ul class="rating">
+                                                @php
+                                                    $averageRating = $favorite->product->ratings->avg('rating'); // Tính trung bình số sao
+                                                @endphp
+
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <li>
+                                                        @if ($i <= $averageRating)
+                                                            <i data-feather="star" class="fill"></i> <!-- Sao đầy -->
+                                                        @else
+                                                            <i data-feather="star"></i> <!-- Sao rỗng -->
+                                                        @endif
+                                                    </li>
+                                                @endfor
+                                            </ul>
+                                        </div>
+
                                         @if ($favorite->product->variants->isNotEmpty())
                                             @php
                                                 $firstVariant = $favorite->product->variants->first();
@@ -67,6 +85,7 @@
                                     </div>
                                 </div>
                             @endforeach
+
                         </div>
                     @endif
                 </div>
@@ -90,6 +109,16 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+        }
+
+        .product-rating {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
         }
 
         .product-image img {
