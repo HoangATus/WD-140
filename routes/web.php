@@ -63,8 +63,8 @@ Route::middleware(['web'])->group(function () {
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
-
-
+    Route::get('/checkout2', [CheckoutController::class, 'checkout2'])->name('checkout.checkout2');
+    Route::post('/checkout2/process2', [CheckoutController::class, 'process2'])->name('checkout2.process2');
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
