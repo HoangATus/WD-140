@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('user_password');
             $table->string('user_address');
             $table->string('user_phone_number')->nullable()->unique();
+            $table->integer('points')->default(0);
             $table->enum('role', [User::ROLE_ADMIN, User::ROLE_USER])->default(User::ROLE_USER);
             $table->rememberToken();
             $table->boolean('is_banned')->default(false); 
