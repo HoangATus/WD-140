@@ -16,21 +16,18 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id(); // Lấy ID của người dùng đang đăng nhập
-        $user = User::find($userId); // Lấy thông tin người dùng
-        $cart = session()->get('cart_' . $userId, []); // Lấy giỏ hàng theo ID người dùng
-        $total = 0;
+        $userId = Auth::id();
+        $user = Auth::user();
 
-        foreach ($cart as $item) {
-            $total += $item['price'] * $item['quantity'];
-        }
+        $cart = session()->get('cart_' . $userId, []);
+        $total = session()->get('cart_total', 0);
+        $sum = session()->get('cart_sum', 0);
+        $appliedPoints = session()->get('applied_loyalty_points', 0);
+        $discountAmount = session()->get('discount_amount', 0);
 
-        return view('clients.checkout.index', compact('cart', 'total', 'user')); // Truyền biến $user vào view
+        return view('clients.checkout.index', compact('user', 'cart', 'total', 'sum', 'appliedPoints', 'discountAmount'));
     }
 
-    /**
-     * Xử lý đơn hàng
-     */
     public function process(Request $request)
     {
         if ($request->has('cancel_order')) {
@@ -38,36 +35,34 @@ class CheckoutController extends Controller
         }
 
         $request->validate([
-            'name'    => 'required|string|max:255',
-            'phone'   => 'required|string|max:20',
-            'address' => 'required|string|max:500',
-            'notes'   => 'nullable|string|max:1000',
-            'payment_method' => 'required|in:cod,online',  // Chỉ chấp nhận COD hoặc online
+            'name'            => 'required|string|max:255',
+            'phone'           => 'required|string|max:20',
+            'address'         => 'required|string|max:500',
+            'notes'           => 'nullable|string|max:1000',
+            'payment_method'  => 'required|in:cod,online',  // Chỉ chấp nhận COD hoặc online
         ]);
 
-        $userId = Auth::id(); // Lấy ID của người dùng đang đăng nhập
-        $cart = session()->get('cart_' . $userId, []); // Lấy giỏ hàng theo ID người dùng
+        $userId = Auth::id();
+        $user = Auth::user();
+        $cart = session()->get('cart_' . $userId, []);
 
         if (empty($cart)) {
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống.');
         }
 
-        $total = array_reduce($cart, function ($carry, $item) {
-            return $carry + ($item['price'] * $item['quantity']);
-        }, 0);
+        $total = session()->get('cart_total', 0);
+        $usedPoints = session()->get('applied_loyalty_points', 0);
 
         $params['order_code'] = $this->generateUniqueOrderCode();
-
-        // Tạo đơn hàng
         $order = Order::create([
-            'user_id' => $userId,
-            'order_code' => $params['order_code'],
-            'name'    => $request->name,
-            'phone'   => $request->phone,
-            'address' => $request->address,
-            'notes'   => $request->notes,
-            'total'   => $total,
-            'status'  => 'pending',
+            'user_id'        => $userId,
+            'order_code'     => $params['order_code'],
+            'name'           => $request->name,
+            'phone'          => $request->phone,
+            'address'        => $request->address,
+            'notes'          => $request->notes,
+            'total'          => $total,
+            'status'         => 'pending',
             'payment_method' => $request->payment_method,
         ]);
 
@@ -82,25 +77,35 @@ class CheckoutController extends Controller
             $variant->save();
 
             OrderItem::create([
-                'order_id'    => $order->id,
-                'variant_id'  => $variant_id,
-                'product_id'  => $item['product_id'],
+                'order_id'     => $order->id,
+                'variant_id'   => $variant_id,
+                'product_id'   => $item['product_id'],
                 'product_name' => $item['product_name'],
                 'variant_name' => $item['variant_name'],
-                'price'       => $item['price'],
-                'quantity'    => $item['quantity'],
-                'image'       => $item['image'],
+                'price'        => $item['price'],
+                'quantity'     => $item['quantity'],
+                'image'        => $item['image'],
             ]);
         }
 
+        if ($usedPoints > 0) {
+            $user->points -= $usedPoints;
+            $user->save();
+        }
+
         session()->forget('cart_' . $userId);
+        session()->forget('cart_total');
+        session()->forget('applied_loyalty_points');
 
         if ($request->payment_method == 'online') {
-            return $this->createVNPayPaymentLink($order); // Chuyển sang xử lý thanh toán với VNPay
+            return $this->createVNPayPaymentLink($order);
         }
-        Mail::to(Auth::user()->user_email)->send(new OrderSuccessful($order));
+
+        Mail::to($user->user_email)->send(new OrderSuccessful($order));
+
         return redirect()->route('checkout.success', ['order' => $order->id]);
     }
+
 
     public function success()
     {
@@ -170,28 +175,26 @@ class CheckoutController extends Controller
         return $orderCode;
     }
 
-}
-
     public function checkout2(Request $request)
     {
         $variantId = $request->input('variant_id');
         $quantity = $request->input('quantity');
-    
+
         if (!$variantId || !$quantity) {
             return redirect()->route('home')->with('error', 'Thông tin không hợp lệ.');
         }
-    
+
         $variant = Variant::find($variantId);
         if (!$variant || $variant->quantity < $quantity) {
             return redirect()->route('home')->with('error', 'Sản phẩm không đủ số lượng.');
         }
-        $userId = Auth::id(); 
+        $userId = Auth::id();
         $user = User::find($userId);
         $total = $variant->variant_sale_price * $quantity;
-    
-        return view('clients.checkout.checkout2', compact('variant','user', 'quantity', 'total'));
+
+        return view('clients.checkout.checkout2', compact('variant', 'user', 'quantity', 'total'));
     }
-    
+
     public function process2(Request $request)
     {
         $request->validate([
@@ -203,15 +206,15 @@ class CheckoutController extends Controller
             'variant_id' => 'required|exists:variants,id',
             'quantity' => 'required|integer|min:1',
         ]);
-    
+
         $userId = Auth::id();
-    
+
         $variant = Variant::with(['color', 'size'])->find($request->variant_id);
-    
+
         if ($variant->quantity < $request->quantity) {
             return redirect()->route('checkout.checkout2')->with('error', 'Số lượng sản phẩm không đủ.');
         }
-    
+
         $order = Order::create([
             'user_id' => $userId,
             'order_code' => $this->generateUniqueOrderCode(),
@@ -223,33 +226,30 @@ class CheckoutController extends Controller
             'status' => 'pending',
             'payment_method' => $request->payment_method,
         ]);
-    
+
         $variant->quantity -= $request->quantity;
         $variant->save();
-    
+
         $attribute_color_name = $variant->color ? $variant->color->name : 'Unknown Color'; // Ensure 'name' corresponds to the column in your Color model
         $attribute_size_name = $variant->size ? $variant->size->attribute_size_name : 'Unknown Size'; // Ensure 'name' corresponds to the column in your AttributeSize model
-    
+
         OrderItem::create([
             'order_id' => $order->id,
-            'variant_id' => $variant->id, 
+            'variant_id' => $variant->id,
             'product_id' => $variant->product_id,
             'product_name' => $variant->product->product_name,
-            'variant_name' => $attribute_color_name . '-' . $attribute_size_name, 
+            'variant_name' => $attribute_color_name . '-' . $attribute_size_name,
             'price' => $variant->variant_sale_price,
             'quantity' => $request->quantity,
-            'image' =>Storage::url($variant->image), 
+            'image' => Storage::url($variant->image),
         ]);
-    
+
         if ($request->payment_method == 'online') {
             return $this->createVNPayPaymentLink($order);
         }
-    
+
         Mail::to(Auth::user()->user_email)->send(new OrderSuccessful($order));
-    
+
         return redirect()->route('checkout.success', ['order' => $order->id]);
     }
-    
-     
 }
-

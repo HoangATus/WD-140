@@ -197,6 +197,9 @@
                                                 <h6 class="text-content">Số điện thoại: <b
                                                         class="text-title">{{ $user->user_phone_number }}</b></h6>
                                                 </h6>
+                                                <h6 class="text-content">Điểm tích lũy: <b
+                                                    class="text-title">{{ $user->points }} điểm</b>
+                                            </h6>
                                             </div>
                                         </div>
 

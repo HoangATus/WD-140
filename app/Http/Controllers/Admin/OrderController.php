@@ -81,6 +81,14 @@ class OrderController extends Controller
         } else {
             return back()->withErrors(['status' => 'Vui lòng chọn trạng thái hợp lệ.']);
         }
+
+        if ($request->status == 'delivered') {
+            $totalAmount = $order->total;
+            $pointsEarned = $totalAmount * 0.04;
+
+            $order->user->points += $pointsEarned;
+            $order->user->save();
+        }
     
         return redirect()->route('admins.orders.show', $order->id)
             ->with('success', 'Cập nhật trạng thái đơn hàng thành công.');
