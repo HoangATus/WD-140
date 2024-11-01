@@ -46,18 +46,20 @@
 
                                                 <div class="form-group">
                                                     <label for="name">Tên Người Nhận</label>
-                                                    <input type="text" name="name"value="{{ $user->user_name ?? '' }}" class="form-control" id="name"
-                                                        required>
+                                                    <input type="text" name="name"
+                                                        value="{{ $user->user_name ?? '' }}" class="form-control"
+                                                        id="name" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="phone">Số Điện Thoại</label>
-                                                    <input type="text"value="{{ $user->user_phone_number ?? '' }}" class="form-control" id="phone" name="phone"
-                                                        required>
+                                                    <input type="text" value="{{ $user->user_phone_number ?? '' }}"
+                                                        class="form-control" id="phone" name="phone" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="address">Địa Chỉ</label>
-                                                    <input type="text" class="form-control"value="{{ $user->user_address ?? '' }}" id="address" name="address"
-                                                        required>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $user->user_address ?? '' }}" id="address"
+                                                        name="address" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="notes">Ghi Chú</label>
@@ -98,21 +100,130 @@
                                         class="img-fluid blur-up lazyloaded checkout-image" alt="">
                                     <h6>{{ $variant->product->product_name }} <span><strong>X
                                                 {{ $quantity }}</strong></span></h6>
-                                    <a class="price">{{ number_format($total, 0, ',', '.') }}₫</a>
+                                    <a class="price" id="totalDisplay">{{ number_format($total, 0, ',', '.') }}VND</a>
                                 </li>
                             </ul>
+                            <div class="summery-contain">
+                                <div class="coupon-cart">
+                                    <h6 class="text-content mb-2">Mã giảm giá:</h6>
+                                    <div class="mb-3 coupon-box input-group">
+                                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                                            placeholder="Vui lòng điền...">
+                                        <button class="btn-apply">Áp dụng</button>
+                                    </div>
+                                </div>
+                                <div class="coupon-cart">
+                                    <h6 class="text-content mb-2">Điểm tích lũy:</h6>
+                                    <div class="mb-3 coupon-box input-group">
+                                        <input type="number" class="form-control" max="{{ $user->points }}"
+                                            id="loyaltyPointsInput"name="points" placeholder="Nhập số điểm muốn sử dụng"
+                                            min="0">
+                                        <button class="btn-apply" id="applyPointsBtn">Áp dụng</button>
+                                        <button class="btn-remove" id="removePointsBtn"
+                                            style="display:none; background-color: #FF0000; padding: 0 calc(16px + 14*(100vw - 320px) / 1600);font-weight: 700; border: none;">Xóa</button>
+                                    </div>
+                                </div>
+                                <h5 class="text-content">Điểm tích lũy của bạn: <span
+                                        id="availablePoints">{{ $user->points }}</span></h5>
+                            </div>
                             <ul class="summery-total">
-                                <li><strong>Tổng Tiền: </strong> <span>{{ number_format($total, 0, ',', '.') }} ₫</span>
-                                </li>
+                                <li><strong>Tổng Tiền: </strong> <span
+                                        id="totalAmount">{{ number_format($total, 0, ',', '.') }} VND</span></li>
                             </ul>
                         </div>
-                        <button class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold"
-                                type="submit">Đặt hàng</button>
+                        <button class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold" type="submit">Đặt
+                            hàng</button>
                     </div>
                 </div>
-            </form>
+                </form>
             </div>
         </div>
     </section>
     <!-- Checkout section End -->
-@endsection  
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const loyaltyPointsInput = document.getElementById("loyaltyPointsInput");
+            const applyPointsBtn = document.getElementById("applyPointsBtn");
+            const removePointsBtn = document.getElementById("removePointsBtn");
+            const totalAmountElement = document.querySelector(".summery-total span");
+            const availablePoints = {{ $user->points }};
+            const originalTotal = {{ $total }};
+            let appliedPoints = 0;
+
+            function updateTotal() {
+                const discountAmount = appliedPoints;
+                const newTotal = originalTotal - discountAmount;
+                totalAmountElement.textContent = newTotal < 0 ? 0 : newTotal.toLocaleString() + ' ₫';
+            }
+
+            applyPointsBtn.addEventListener("click", function(event) {
+                event.preventDefault();
+
+                if (loyaltyPointsInput.value.trim() === "") {
+                    appliedPoints = availablePoints;
+                    loyaltyPointsInput.value = appliedPoints;
+                } else {
+                    let enteredPoints = parseInt(loyaltyPointsInput.value.trim());
+                    if (enteredPoints > availablePoints) {
+                        alert("Số điểm nhập vào vượt quá số điểm tích lũy!");
+                        loyaltyPointsInput.value = availablePoints;
+                        appliedPoints = availablePoints;
+                    } else {
+                        appliedPoints = enteredPoints;
+                    }
+                }
+
+                updateTotal();
+
+                removePointsBtn.style.display = "inline-block";
+                applyPointsBtn.style.display = "none";
+            });
+
+            removePointsBtn.addEventListener("click", function(event) {
+                event.preventDefault();
+                appliedPoints = 0;
+                loyaltyPointsInput.value = "";
+                updateTotal();
+                removePointsBtn.style.display = "none";
+                applyPointsBtn.style.display = "inline-block";
+            });
+
+            loyaltyPointsInput.addEventListener("input", function() {
+                const enteredPoints = loyaltyPointsInput.value.trim();
+                const pointsValue = parseInt(enteredPoints);
+
+                if (enteredPoints === "") {
+                    appliedPoints = 0;
+                    updateTotal();
+                    removePointsBtn.style.display = "none";
+                    applyPointsBtn.style.display = "inline-block";
+                } else if (isNaN(pointsValue)) {
+                    // do nothing
+                } else if (pointsValue <= availablePoints) {
+                    appliedPoints = pointsValue;
+                    updateTotal();
+                    applyPointsBtn.style.display = "none";
+                    removePointsBtn.style.display = "inline-block";
+                } else {
+                    alert("Số điểm nhập vào vượt quá số điểm tích lũy!");
+                    loyaltyPointsInput.value = availablePoints;
+                    appliedPoints = availablePoints;
+                    updateTotal();
+                }
+            });
+
+            loyaltyPointsInput.addEventListener("blur", function() {
+                const enteredPoints = loyaltyPointsInput.value.trim();
+                const pointsValue = parseInt(enteredPoints);
+
+                if (enteredPoints !== "" && isNaN(pointsValue)) {
+                    alert("Vui lòng nhập một số hợp lệ!");
+                    loyaltyPointsInput.value = "";
+                    appliedPoints = 0;
+                    updateTotal();
+                }
+            });
+        });
+    </script>
+@endsection

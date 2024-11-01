@@ -91,6 +91,7 @@ class CheckoutController extends Controller
         if ($usedPoints > 0) {
             $user->points -= $usedPoints;
             $user->save();
+            // $user->save();
         }
 
         session()->forget('cart_' . $userId);
@@ -179,77 +180,97 @@ class CheckoutController extends Controller
     {
         $variantId = $request->input('variant_id');
         $quantity = $request->input('quantity');
-
+    
         if (!$variantId || !$quantity) {
             return redirect()->route('home')->with('error', 'Thông tin không hợp lệ.');
         }
-
+    
         $variant = Variant::find($variantId);
         if (!$variant || $variant->quantity < $quantity) {
             return redirect()->route('home')->with('error', 'Sản phẩm không đủ số lượng.');
         }
+    
         $userId = Auth::id();
         $user = User::find($userId);
         $total = $variant->variant_sale_price * $quantity;
-
-        return view('clients.checkout.checkout2', compact('variant', 'user', 'quantity', 'total'));
+        $pointsToMoneyRate = 1; 
+        $discount = min($user->points * $pointsToMoneyRate, $total); 
+        $finalTotal = $total - $discount;
+    
+        return view('clients.checkout.checkout2', compact('variant', 'user', 'quantity', 'total', 'discount', 'finalTotal'));
     }
-
+    
     public function process2(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string|max:500',
-            'notes' => 'nullable|string|max:1000',
-            'payment_method' => 'required|in:cod,online',
-            'variant_id' => 'required|exists:variants,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'phone' => 'required|string|max:20',
+        'address' => 'required|string|max:500',
+        'notes' => 'nullable|string|max:1000',
+        'payment_method' => 'required|in:cod,online',
+        'variant_id' => 'required|exists:variants,id',
+        'quantity' => 'required|integer|min:1',
+        'points' => 'nullable|integer|min:0|max:' . Auth::user()->points, 
+    ]);
 
-        $userId = Auth::id();
+    $userId = Auth::id();
+    $user = User::find($userId);
+    $variant = Variant::with(['color', 'size'])->find($request->variant_id);
 
-        $variant = Variant::with(['color', 'size'])->find($request->variant_id);
-
-        if ($variant->quantity < $request->quantity) {
-            return redirect()->route('checkout.checkout2')->with('error', 'Số lượng sản phẩm không đủ.');
-        }
-
-        $order = Order::create([
-            'user_id' => $userId,
-            'order_code' => $this->generateUniqueOrderCode(),
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'notes' => $request->notes,
-            'total' => $variant->variant_sale_price * $request->quantity,
-            'status' => 'pending',
-            'payment_method' => $request->payment_method,
-        ]);
-
-        $variant->quantity -= $request->quantity;
-        $variant->save();
-
-        $attribute_color_name = $variant->color ? $variant->color->name : 'Unknown Color'; // Ensure 'name' corresponds to the column in your Color model
-        $attribute_size_name = $variant->size ? $variant->size->attribute_size_name : 'Unknown Size'; // Ensure 'name' corresponds to the column in your AttributeSize model
-
-        OrderItem::create([
-            'order_id' => $order->id,
-            'variant_id' => $variant->id,
-            'product_id' => $variant->product_id,
-            'product_name' => $variant->product->product_name,
-            'variant_name' => $attribute_color_name . '-' . $attribute_size_name,
-            'price' => $variant->variant_sale_price,
-            'quantity' => $request->quantity,
-            'image' => Storage::url($variant->image),
-        ]);
-
-        if ($request->payment_method == 'online') {
-            return $this->createVNPayPaymentLink($order);
-        }
-
-        Mail::to(Auth::user()->user_email)->send(new OrderSuccessful($order));
-
-        return redirect()->route('checkout.success', ['order' => $order->id]);
+    if ($variant->quantity < $request->quantity) {
+        return redirect()->route('checkout.checkout2')->with('error', 'Số lượng sản phẩm không đủ.');
     }
+
+    $subtotal = $variant->variant_sale_price * $request->quantity;
+    $pointsToMoneyRate = 1; 
+    $discount = 0;
+
+    if ($request->points && $request->points > 0) {
+        $discount = min($request->points * $pointsToMoneyRate, $subtotal);
+        $subtotal -= $discount; 
+
+        $user->points -= $request->points; 
+        $user->save();
+    }
+
+    $order = Order::create([
+        'user_id' => $userId,
+        'order_code' => $this->generateUniqueOrderCode(),
+        'name' => $request->name,
+        'phone' => $request->phone,
+        'address' => $request->address,
+        'notes' => $request->notes,
+        'total' => $subtotal, 
+        'discount' => $discount, 
+        'status' => 'pending',
+        'payment_method' => $request->payment_method,
+    ]);
+
+    $variant->quantity -= $request->quantity;
+    $variant->save();
+
+ 
+    $attribute_color_name = $variant->color ? $variant->color->name : 'Unknown Color';
+    $attribute_size_name = $variant->size ? $variant->size->attribute_size_name : 'Unknown Size';
+
+    OrderItem::create([
+        'order_id' => $order->id,
+        'variant_id' => $variant->id,
+        'product_id' => $variant->product_id,
+        'product_name' => $variant->product->product_name,
+        'variant_name' => $attribute_color_name . '-' . $attribute_size_name,
+        'price' => $variant->variant_sale_price,
+        'quantity' => $request->quantity,
+        'image' => Storage::url($variant->image),
+    ]);
+
+    if ($request->payment_method == 'online') {
+        return $this->createVNPayPaymentLink($order);
+    }
+
+    Mail::to(Auth::user()->user_email)->send(new OrderSuccessful($order));
+
+    return redirect()->route('checkout.success', ['order' => $order->id]);
 }
+
+}    
