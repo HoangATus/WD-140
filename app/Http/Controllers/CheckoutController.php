@@ -88,6 +88,9 @@ class CheckoutController extends Controller
             ]);
         }
 
+<<<<<<< HEAD
+        session()->forget('cart_' . $userId);
+=======
         if ($usedPoints > 0) {
             $user->points -= $usedPoints;
             $user->save();
@@ -96,6 +99,7 @@ class CheckoutController extends Controller
         session()->forget('cart_' . $userId);
         session()->forget('cart_total');
         session()->forget('applied_loyalty_points');
+>>>>>>> 47fc089084944f8ecdbdd8530ba8ba7603d4945b
 
         if ($request->payment_method == 'online') {
             return $this->createVNPayPaymentLink($order);
