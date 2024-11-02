@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\RatingController;
 use App\Http\Controllers\Admin\RevenueController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,4 +48,6 @@ Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function
     Route::resource('ratings', RatingController::class);
     Route::patch('/admin/ratings/{id}/hide', [RatingController::class, 'hide'])->name('ratings.hide');
     Route::patch('/admin/ratings/{id}/unhide', [RatingController::class, 'unhide'])->name('ratings.unhide');
+
+    Route::resource('vouchers', VoucherController::class);
 });

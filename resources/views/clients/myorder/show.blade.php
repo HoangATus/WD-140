@@ -163,35 +163,61 @@
                                                 trong đơn hàng này.</p>
                                         @endif
                                     </div>
+
                                     @if ($order->status == 'completed')
+                                        @php
+                                            $allRated = true;
+                                        @endphp
+
                                         <h3 class="fw-bold mt-4"
                                             style="font-size: 24px; text-transform: uppercase; color: #333;">Đánh giá</h3>
-                                        @foreach ($orderItems as $item)
-                                            @if (!$item->rating()->where('user_id', auth()->id())->exists())
+
+                                        @foreach ($groupedItems as $productId => $items)
+                                            @php
+                                                // Lấy một biến thể để hiển thị thông tin sản phẩm chính
+                                                $productItem = $items->first();
+                                                $isRated = $productItem
+                                                    ->rating()
+                                                    ->where('user_id', auth()->id())
+                                                    ->exists();
+                                            @endphp
+
+                                            @if (!$isRated)
+                                                @php
+                                                    $allRated = false;
+                                                @endphp
+
                                                 <div class="row mb-4 pb-3 border-bottom align-items-center mt-5">
                                                     <div class="col-md-3">
-                                                        <img src="{{ $item->image }}" class="img-fluid rounded"
+                                                        <img src="{{ $productItem->image }}" class="img-fluid rounded"
                                                             alt="" style="max-width: 50%;">
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <h4 class="fw-bold">{{ $item->product_name }}</h4>
-                                                        <form action="{{ route('orders.rate', $item->product_id) }}"
+                                                        <h4 class="fw-bold">{{ $productItem->product_name }}</h4>
+
+                                                        <div class="mb-3">
+                                                            <p><strong>Biến thể:</strong>
+                                                                {{ $items->pluck('variant_name')->join(', ') }}</p>
+                                                        </div>
+
+                                                        <form action="{{ route('orders.rate', $productItem->product_id) }}"
                                                             method="POST">
                                                             @csrf
                                                             <input type="hidden" name="order_id"
                                                                 value="{{ $order->id }}">
 
                                                             <div class="d-flex align-items-center">
-                                                                <div class="rating" id="rating-{{ $item->product_id }}"
+                                                                <div class="rating"
+                                                                    id="rating-{{ $productItem->product_id }}"
                                                                     style="font-size: 24px; cursor: pointer;">
                                                                     @for ($i = 1; $i <= 5; $i++)
                                                                         <span class="star"
                                                                             data-value="{{ $i }}"
-                                                                            data-product-id="{{ $item->product_id }}">&starf;</span>
+                                                                            data-product-id="{{ $productItem->product_id }}">&starf;</span>
                                                                     @endfor
                                                                 </div>
                                                                 <input type="hidden" name="rating"
-                                                                    id="input-rating-{{ $item->product_id }}"
+                                                                    id="input-rating-{{ $productItem->product_id }}"
                                                                     value="" required>
                                                                 <textarea name="review" class="form-control ms-2" placeholder="Nhận xét (tùy chọn)" rows="2"></textarea>
                                                                 <button type="submit" class="btn btn-primary ms-2">Gửi
@@ -202,9 +228,13 @@
                                                 </div>
                                             @endif
                                         @endforeach
+
+                                        @if ($allRated)
+                                            <div class="alert alert-success mt-4">
+                                                <h4 class="fw-bold">Cảm ơn bạn đã đánh giá tất cả các sản phẩm!</h4>
+                                            </div>
+                                        @endif
                                     @endif
-
-
 
 
 
@@ -271,8 +301,8 @@
 
     <style>
         /* .rating {
-                                                display: flex;
-                                            } */
+                                                        display: flex;
+                                                    } */
 
         .star {
             color: #d3d3d3;

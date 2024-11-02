@@ -134,6 +134,12 @@
                         <span> Quản lý bình luận </span>
                     </a>
                 </li>
+                <li>
+                    <a class='tp-link' href="{{ route('admins.vouchers.index') }}">
+                        <i class="fa-solid fa-ticket"></i>
+                        <span> Quản lý voucher </span>
+                    </a>
+                </li>
             </ul>
 
         </div>

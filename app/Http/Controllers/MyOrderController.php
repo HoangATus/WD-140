@@ -36,8 +36,10 @@ class MyOrderController extends Controller
         // Lấy các mục đơn hàng
         $orderItems = $order->orderItems;
 
+        $groupedItems = $order->items->groupBy('product_id');
 
-        return view('clients.myorder.show', compact('order', 'orderItems'));
+
+        return view('clients.myorder.show', compact('order', 'orderItems', 'groupedItems'));
     }
 
     public function cancel($id)
