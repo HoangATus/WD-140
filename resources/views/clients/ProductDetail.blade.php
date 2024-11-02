@@ -430,22 +430,22 @@
                                                 href="{{ route('products.show', $product->slug) }}">{{ $product->product_name }}</a>
                                         </div>
                                         <div class="product-ratin custom-rate">
-                                        <ul class="rating" style="display: flex; justify-content: center">
-                                            @php
-                                                $averageRating = $product->ratings->avg('rating'); // Tính trung bình số sao
-                                            @endphp
+                                            <ul class="rating" style="display: flex; justify-content: center">
+                                                @php
+                                                    $averageRating = $product->ratings->avg('rating'); // Tính trung bình số sao
+                                                @endphp
 
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                <li>
-                                                    @if ($i <= $averageRating)
-                                                        <i data-feather="star" class="fill"></i> <!-- Sao đầy -->
-                                                    @else
-                                                        <i data-feather="star"></i> <!-- Sao rỗng -->
-                                                    @endif
-                                                </li>
-                                            @endfor
-                                        </ul>
-                                    </div>
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <li>
+                                                        @if ($i <= $averageRating)
+                                                            <i data-feather="star" class="fill"></i> <!-- Sao đầy -->
+                                                        @else
+                                                            <i data-feather="star"></i> <!-- Sao rỗng -->
+                                                        @endif
+                                                    </li>
+                                                @endfor
+                                            </ul>
+                                        </div>
                                         @if ($product->variants->isNotEmpty())
                                             @php
                                                 $firstVariant = $product->variants->first();
@@ -831,7 +831,6 @@
                 });
         }
 
-        // Hàm Mua Ngay
         function buyNow() {
             const variantId = document.getElementById('selected-variant-id').value;
             const quantity = document.getElementById('quantity-input').value;
@@ -840,23 +839,11 @@
                 alert('Vui lòng chọn một biến thể hợp lệ.');
                 return;
             }
-
-            axios.post('{{ route('cart.add') }}', {
-                    variant_id: variantId,
-                    quantity: quantity
-                })
-                .then(response => {
-                    // Chuyển hướng đến trang thanh toán
-                    window.location.href = '{{ route('checkout') }}';
-                })
-                .catch(error => {
-                    console.error('Buy now error:', error);
-                    if (error.response && error.response.data && error.response.data.message) {
-                        alert(error.response.data.message);
-                    } else {
-                        alert('Đã xảy ra lỗi khi xử lý yêu cầu của bạn.');
-                    }
-                });
+            if (quantity <= 0) {
+                alert('Vui lòng chọn số lượng hợp lệ.');
+                return;
+            }
+            window.location.href = `{{ route('checkout.checkout2') }}?variant_id=${variantId}&quantity=${quantity}`;
         }
     </script>
 @endsection

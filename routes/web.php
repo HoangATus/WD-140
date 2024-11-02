@@ -57,14 +57,16 @@ Route::middleware(['web'])->group(function () {
     Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
     Route::get('/cart/modal', [CartController::class, 'modal'])->name('cart.modal');
+    Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints']);
+    Route::post('/cart/remove-loyalty-points', [CartController::class, 'removeLoyaltyPoints']);
 
     // Thanh Toán
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
-
-
+    Route::get('/checkout2', [CheckoutController::class, 'checkout2'])->name('checkout.checkout2');
+    Route::post('/checkout2/process2', [CheckoutController::class, 'process2'])->name('checkout2.process2');
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
@@ -125,8 +127,8 @@ Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirm
 
 // Route cho đánh giá sản phẩm
 Route::middleware(['auth'])->group(function () {
-    Route::post('/orders/{order}/rate', [OrderController::class, 'rate'])->name('orders.rate');
-    Route::post('/orders/rate/{product_id}', [OrderController::class, 'rateProduct'])->name('orders.rate');
+    Route::post('/orders/{order}/rate', [OrderController::class, 'rateProduct'])->name('orders.rate');
+    // Route::post('/orders/rate/{product_id}', [OrderController::class, 'rateProduct'])->name('orders.rate');
     Route::post('/favorites', [FavoriteController::class, 'store'])->name('clients.favorites.store');
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('clients.favorites.index');
 });

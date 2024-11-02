@@ -200,7 +200,8 @@
 
                     </div>
 
-                    <div class="row g-sm-4 g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-1 product-list-section">
+                    <div
+                        class="row g-sm-4 g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-1 product-list-section">
                         @if ($listProduct->isEmpty())
                             <p>Không có sản phẩm nào được tìm thấy.</p>
                         @else
@@ -210,13 +211,32 @@
                                         <div class="product-box">
                                             <div class="product-image">
                                                 <a href="{{ route('products.show', $product->slug) }}">
-                                                    <img src="{{ Storage::url($product->product_image_url) }}" class="" alt="{{ $product->product_name }}">
+                                                    <img src="{{ Storage::url($product->product_image_url) }}"
+                                                        class="" alt="{{ $product->product_name }}">
                                                 </a>
                                             </div>
-                    
                                             <div class="product-detail">
                                                 <div class="product-name">
-                                                    <a href="{{ route('products.show', $product->slug) }}">{{ $product->product_name }}</a>
+                                                    <a
+                                                        href="{{ route('products.show', $product->slug) }}">{{ $product->product_name }}</a>
+                                                </div>
+                                                <div class="product-ratin custom-rate">
+                                                    <ul class="rating">
+                                                        @php
+                                                            $averageRating = $product->ratings->avg('rating'); // Tính trung bình số sao
+                                                        @endphp
+
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            <li>
+                                                                @if ($i <= $averageRating)
+                                                                    <i data-feather="star" class="fill"></i>
+                                                                    <!-- Sao đầy -->
+                                                                @else
+                                                                    <i data-feather="star"></i> <!-- Sao rỗng -->
+                                                                @endif
+                                                            </li>
+                                                        @endfor
+                                                    </ul>
                                                 </div>
                                                 @if ($product->variants->isNotEmpty())
                                                     @php
@@ -224,40 +244,80 @@
                                                     @endphp
                                                     <div class="price">
                                                         <div class="sale-price">
-                                                            {{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }} VNĐ
+                                                            {{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }}
+                                                            VNĐ
                                                         </div>
                                                         <div class="listed-price">
-                                                            <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }} VNĐ</del>
+                                                            <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }}
+                                                                VNĐ</del>
                                                         </div>
                                                     </div>
                                                 @endif
-                                                <div class="add">
-                                                    <button class="cart" onclick="addToCart()">Thêm vào giỏ
+                                                <div class="add-buttons d-flex align-items-center">
+                                                    <button class="cart" onclick="addToCart()">
+                                                        Thêm vào giỏ
                                                         <span class="add-icon bg-light-gray">
                                                             <i class="bi bi-cart"></i>
                                                         </span>
                                                     </button>
-                                                </div>
 
-                                                <form action="{{ route('clients.favorites.store') }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                                    <button type="submit">Thêm vào yêu thích</button>
-                                                </form>
+                                                    <form action="{{ route('clients.favorites.store') }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        <button class="cart-icon" name="product_id"
+                                                            value="{{ $product->id }}" type="submit">
+                                                            <i class="fa-regular fa-heart"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
                         @endif
-                    
+
                         <style>
                             .product-grid {
                                 display: grid;
                                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
                                 gap: 20px;
                             }
-                    
+
+                            .product-ratin {
+                                display: -webkit-box;
+                                display: -ms-flexbox;
+                                display: flex;
+                                justify-content: center;
+                                -webkit-box-align: center;
+                                -ms-flex-align: center;
+                                align-items: center;
+                            }
+
+                            .add-buttons {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 10px;
+                                margin-top: 10px;
+                            }
+
+                            .cart-icon {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                background-color: #417394;
+                                color: white;
+                                border: 2px solid transparent;
+                                /* Add transparent border for consistent button size */
+                                border-radius: 8px;
+                                cursor: pointer;
+                                transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
+                                font-weight: bold;
+                                padding: 6px;
+                                font-size: 15px;
+                            }
+
                             .product-box {
                                 border: 1px solid #ccc;
                                 border-radius: 15px;
@@ -268,23 +328,23 @@
                                 display: flex;
                                 flex-direction: column;
                             }
-                    
+
                             .product-box:hover {
                                 transform: scale(1.05);
                             }
-                    
+
                             .product-image img {
                                 border-radius: 8px;
                                 max-width: 100%;
                                 height: 140px;
                                 object-fit: cover;
                             }
-                    
+
                             .product-detail {
                                 text-align: center;
                                 flex: 1;
                             }
-                    
+
                             .product-name {
                                 font-weight: bold;
                                 color: #333;
@@ -292,30 +352,30 @@
                                 overflow: hidden;
                                 text-overflow: ellipsis;
                             }
-                    
+
                             .price {
                                 margin-top: 10px;
                                 font-size: 16px;
                             }
-                    
+
                             .sale-price {
                                 font-size: 18px;
                                 color: #d9534f;
                                 font-weight: bold;
                             }
-                    
+
                             .listed-price {
                                 font-size: 14px;
                                 color: #999;
                                 text-decoration: line-through;
                             }
-                    
+
                             .add {
                                 display: flex;
                                 justify-content: center;
                                 margin-top: 10px;
                             }
-                    
+
                             .cart {
                                 display: flex;
                                 align-items: center;
@@ -332,12 +392,12 @@
                                 max-width: 200px;
                                 text-align: center;
                             }
-                    
+
                             .cart:hover {
                                 background-color: #355c74;
                                 transform: scale(1.05);
                             }
-                    
+
                             .add-icon {
                                 margin-left: 8px;
                                 display: flex;
@@ -345,7 +405,7 @@
                             }
                         </style>
                     </div>
-                    
+
 
                     <div class="pagination-area text-center mt-3">
                         {{ $listProduct->links('pagination::bootstrap-5') }}

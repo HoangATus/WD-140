@@ -11,17 +11,6 @@
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-order" role="tabpanel">
                                 <div class="dashboard-order">
-                                    {{-- @if (session('success'))
-                                        <div class="alert alert-success">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
-
-                                    @if (session('error'))
-                                        <div class="alert alert-danger">
-                                            {{ session('error') }}
-                                        </div>
-                                    @endif --}}
 
                                     <div class="title text-center mb-5">
                                         <h2 class="fw-bold" style="font-size: 28px;">Thông tin đơn hàng</h2>
@@ -85,6 +74,10 @@
                                                 <td class="text-end">{{ $order->payment_method }}</td>
                                             </tr>
                                             <tr>
+                                                <td class="fw-bold">Trạng thái thanh toán :</td>
+                                                <td class="text-end">{{ $order->payment }}</td>
+                                            </tr>
+                                            <tr>
                                                 <td class="fw-bold">Tổng tiền hàng :</td>
                                                 <td class="text-end">
                                                     @php
@@ -130,8 +123,6 @@
                                                                     style="font-size: 20px; color: #025e75;">
                                                                     {{ $item->product_name }}</h4>
                                                             </a>
-
-
                                                             <ul class="product-size list-unstyled mb-0">
                                                                 <li class="d-flex mb-2">
                                                                     <h6 class="me-2" style="font-size: 16px;">Giá:
@@ -163,6 +154,8 @@
                                                 trong đơn hàng này.</p>
                                         @endif
                                     </div>
+
+                                    {{-- danh gia --}}
 
                                     @if ($order->status == 'completed')
                                         @php
@@ -237,7 +230,6 @@
                                     @endif
 
 
-
                                     <div class="d-flex justify-content-center align-items-center mt-4">
                                         @if ($order->status === 'pending')
                                             <a href="{{ route('orders.cancel.form', $order->id) }}"
@@ -275,34 +267,37 @@
         </div>
     </section>
     <script>
-        document.querySelectorAll('.star').forEach(star => {
-            star.addEventListener('click', function() {
-                const rating = this.getAttribute('data-value');
-                const productId = this.getAttribute('data-product-id');
-                const inputRating = document.getElementById('input-rating-' + productId);
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.rating').forEach(rating => {
+                const productId = rating.getAttribute('id').split('-')[1];
+                const inputRating = document.getElementById(`input-rating-${productId}`);
 
-                // Cập nhật giá trị đánh giá
-                inputRating.value = rating;
+                document.querySelectorAll('.star').forEach(function(star) {
+                    star.addEventListener('click', function() {
+                        var ratingValue = this.getAttribute('data-value');
+                        var productId = this.getAttribute('data-product-id');
 
-                // Đặt màu cho các ngôi sao được chọn
-                const ratingContainer = document.getElementById('rating-' + productId);
-                ratingContainer.querySelectorAll('.star').forEach(s => {
-                    if (s.getAttribute('data-value') <= rating) {
-                        s.style.color = '#FFD700'; // Màu vàng cho sao đã chọn
-                    } else {
-                        s.style.color = '#ccc'; // Màu xám cho sao chưa chọn
-                    }
+                        // Đặt giá trị rating vào input hidden
+                        document.getElementById('input-rating-' + productId).value =
+                            ratingValue;
+
+                        // Cập nhật giao diện sao đã chọn
+                        document.querySelectorAll('#rating-' + productId + ' .star')
+                            .forEach(function(star) {
+                                star.style.color = star.getAttribute('data-value') <=
+                                    ratingValue ? 'gold' : 'gray';
+                            });
+                    });
                 });
             });
         });
     </script>
 
 
-
     <style>
         /* .rating {
-                                                        display: flex;
-                                                    } */
+                                                                                                                                                                                                                                                                                                                                                display: flex;
+                                                                                                                                                                                                                                                                                                                                            } */
 
         .star {
             color: #d3d3d3;

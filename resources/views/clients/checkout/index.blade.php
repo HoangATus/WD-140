@@ -87,21 +87,22 @@
                                                     <div class="form-group">
                                                         <label for="name">Tên Người Nhận</label>
                                                         <input type="text" name="name" class="form-control"
-                                                            id="name" value="{{ old( 'name', $user->user_name ?? '') }}"
+                                                            id="name" value="{{ old('name', $user->user_name ?? '') }}"
                                                             required>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="phone">Số Điện Thoại</label>
                                                         <input type="text" class="form-control" id="phone"
-                                                            name="phone" value="{{ $user->user_phone_number ?? '' }}" required>
+                                                            name="phone" value="{{ $user->user_phone_number ?? '' }}"
+                                                            required>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="address">Địa Chỉ</label>
                                                         <input type="text" class="form-control" id="address"
-                                                            name="address" value="{{ old( 'name', $user->user_address ?? '') }}"
-                                                            required>
+                                                            name="address"
+                                                            value="{{ old('name', $user->user_address ?? '') }}" required>
                                                     </div>
 
                                                     <div class="form-group">
@@ -147,14 +148,17 @@
                                             <h6>{{ $item['product_name'] }} <span> <strong> X
                                                         {{ $item['quantity'] }}</strong></span></h6&nbsp>
                                                 <a
-                                                    class="price">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫</a>
+                                                    class="price">{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}VNĐ</a>
                                         </li>
                                     @endforeach
                                 </ul>
-
                                 <ul class="summery-total">
-                                    <li><strong>Tổng Tiền: </strong> <span>{{ number_format($total, 0, ',', '.') }} ₫</span>
-                                    </li>
+                                    @if ($appliedPoints > 0)
+                                        <li><strong>Điểm Tích Lũy Đã Sử Dụng:</strong> <span>{{ $appliedPoints }}
+                                                điểm</span></li>
+                                    @endif
+                                    <li><strong>Tổng Tiền: </strong> <span>{{ number_format($total, 0, ',', '.') }}
+                                            VNĐ</span></li>
                                 </ul>
                             </div>
 

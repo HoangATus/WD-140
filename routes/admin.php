@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function () {
     // Dashboard cho Admin
     Route::get('/', [RevenueController::class, 'index'])->name('dashboard');
-    
+
     // Các resource controllers
     Route::resource('users', UserController::class);
     Route::post('users/{user}/ban', [UserController::class, 'ban'])->name('users.ban');
@@ -33,11 +33,11 @@ Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function
 
     Route::post('logout', [AuthController::class, 'logoutAdmin'])->name('logout');
 
-    // Routes cho thống kê doanh thu
+    // Routes for revenue statistics
     Route::get('/dashboard/year', [RevenueController::class, 'getRevenueByYear'])->name('dashboard.year');
     Route::get('/dashboard/day', [RevenueController::class, 'getRevenueByDay'])->name('dashboard.day');
     Route::get('/dashboard/revenue', [RevenueController::class, 'getRevenue'])->name('dashboard.revenue');
-    Route::get('/dashboard/range', [RevenueController::class, 'getRevenueInRange'])->name('dashboard.range');
+    Route::get('/dashboard/range', [RevenueController::class, 'getRevenueByRange'])->name('dashboard.range'); // Adjusted to match method name
     Route::get('/dashboard/month', [RevenueController::class, 'getRevenueByMonth'])->name('dashboard.month');
 
     // Route cho bình luận và đánh giá

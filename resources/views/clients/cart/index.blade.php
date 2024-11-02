@@ -20,7 +20,7 @@
             <h2>Giỏ Hàng</h2>
 
             @if (count($cart) > 0)
-                <table class="table">
+                <table class="table mt-5">
                     <thead>
                         <tr>
                             <th scope="col">Ảnh Sản Phẩm</th>
@@ -63,19 +63,56 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-end align-items-center mt-2 mb-3">
+                    <div class="col-xxl-3">
+                        <div class="summery-box p-sticky">
+                            <div class="summery-contain">
+                                <div class="coupon-cart">
+                                    <h6 class="text-content mb-2">Mã giảm giá:</h6>
+                                    <div class="mb-3 coupon-box input-group">
+                                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                                            placeholder="Vui lòng điền...">
+                                        <button class="btn-apply">Áp dụng</button>
+                                    </div>
+                                </div>
+                                <div class="coupon-cart">
+                                    <h6 class="text-content mb-2">Điểm tích lũy:</h6>
+                                    <div class="mb-3 coupon-box input-group">
+                                        <input type="number" class="form-control" id="loyaltyPointsInput"
+                                            placeholder="Nhập số điểm muốn sử dụng" min="0"
+                                            max="{{ $loyaltyPoints }}">
+                                        <button class="btn-apply" id="applyPointsBtn">Áp dụng</button>
+                                        <button class="btn-remove" id="removePointsBtn"
+                                            style="display:none; background-color: #FF0000; padding: 0 calc(16px + 14*(100vw - 320px) / 1600);font-weight: 700; border: none;">Xóa</button>
+                                    </div>
+                                </div>
+                                <h5 class="text-content">Điểm tích lũy của bạn: <span
+                                        id="availablePoints">{{ $loyaltyPoints }}</span></h5>
+                            </div>
+                            <ul class="summery-total">
+                                <li class="list-total border-top-0">
+                                    <h4>Tổng tiền: </h4>
+                                    <h4 id="cart-total" class="price theme-color">{{ number_format($total, 0, ',', '.') }}
+                                        VNĐ</h4>
+                                </li>
+                            </ul>
+                            <div class="button-group cart-button">
+                                <ul>
+                                    <li>
+                                        <a href="{{ route('checkout') }}" class="btn btn-primary"
+                                            style="border-radius: 8px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">
+                                            Tiến Hành Thanh Toán
+                                        </a>
+                                    </li>
 
-                <div class="cart-summary">
-                    <div class="d-flex justify-content-end align-items-center mt-2">
-                        <div style="margin-right: 72px; white-space: nowrap;">Tổng Tiền:</div>
-                        <div id="cart-total" style="min-width: 120px; text-align: right; white-space: nowrap;">
-                            {{ number_format($total, 0, ',', '.') }} VNĐ
+                                    {{-- <li>
+                                        <button onclick="location.href = 'index.html';"
+                                            class="btn btn-light shopping-button text-dark">
+                                            <i class="fa-solid fa-arrow-left-long"></i>Return To Shopping</button>
+                                    </li> --}}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-end mt-4">
-                        <a href="{{ route('checkout') }}" class="btn btn-primary"
-                            style="border-radius: 8px; width: 260px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">
-                            Tiến Hành Thanh Toán
-                        </a>
                     </div>
                 </div>
             @else
@@ -98,11 +135,131 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const cartTotal = document.getElementById('cart-total');
+            const loyaltyPointsInput = document.getElementById('loyaltyPointsInput');
+            const availablePoints = document.getElementById('availablePoints');
+            const applyPointsBtn = document.getElementById('applyPointsBtn');
+            const removePointsBtn = document.createElement('button');
+            removePointsBtn.textContent = 'Xóa';
+            removePointsBtn.className = 'btn-apply';
+            removePointsBtn.style.display = 'none';
+            loyaltyPointsInput.parentElement.appendChild(removePointsBtn);
+            const maxLoyaltyPoints = parseInt(availablePoints.textContent) || 0;
+            let appliedLoyaltyPoints = 0;
+            let initialTotal = parseInt(cartTotal.textContent.replace(/\D/g, '')) || 0;
 
             // Hàm cập nhật tổng tiền
             function updateCartTotal(newTotal) {
                 cartTotal.textContent = newTotal;
             }
+
+            function fetchCartData() {
+                fetch('/cart/data')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Cập nhật tổng tiền
+                        updateCartTotal(new Intl.NumberFormat('vi-VN').format(data.total) + ' VNĐ');
+
+                        // Cập nhật số lượng sản phẩm trong giỏ hàng
+                        data.items.forEach(item => {
+                            const row = document.querySelector(
+                                `tr[data-variant-id="${item.variantId}"]`);
+                            if (row) {
+                                const quantityInput = row.querySelector('.quantity-input');
+                                quantityInput.value = item.quantity;
+                                const totalPrice = item.price * item
+                                    .quantity; // Sử dụng item.price thay vì query selector
+                                row.querySelector('.total-price').textContent = new Intl.NumberFormat(
+                                    'vi-VN').format(totalPrice) + ' VNĐ';
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi lấy dữ liệu giỏ hàng:', error);
+                    });
+            }
+
+            function updateTotalAfterLoyalty(loyaltyPoints) {
+                let totalAfter = initialTotal - loyaltyPoints;
+                if (totalAfter < 0) totalAfter = 0;
+                updateCartTotal(new Intl.NumberFormat('vi-VN').format(totalAfter) + ' VNĐ');
+            }
+
+            applyPointsBtn.addEventListener('click', function() {
+                const loyaltyPoints = parseInt(loyaltyPointsInput.value) || 0;
+                const currentTotal = parseInt(cartTotal.textContent.replace(/\D/g, '')) || 0;
+
+                if (loyaltyPointsInput.value.trim() === '') {
+                    alert('Vui lòng nhập số điểm tích lũy.');
+                    loyaltyPointsInput.value = maxLoyaltyPoints;
+                    return;
+                }
+
+                if (isNaN(loyaltyPoints) || loyaltyPoints < 0) {
+                    alert('Điểm tích lũy không hợp lệ.');
+                    loyaltyPointsInput.value = maxLoyaltyPoints;
+                    return;
+                } else if (loyaltyPoints > maxLoyaltyPoints) {
+                    alert(`Điểm tích lũy không được lớn hơn số điểm hiện có (${maxLoyaltyPoints}).`);
+                    loyaltyPointsInput.value = maxLoyaltyPoints;
+                    return;
+                }
+
+                appliedLoyaltyPoints = loyaltyPoints;
+                let totalAfter = currentTotal - appliedLoyaltyPoints;
+                if (totalAfter < 0) totalAfter = 0;
+
+                updateCartTotal(new Intl.NumberFormat('vi-VN').format(totalAfter) + ' VNĐ');
+                applyPointsBtn.style.display = 'none';
+                removePointsBtn.style.display = 'inline-block';
+                loyaltyPointsInput.setAttribute('readonly', true);
+
+                fetch('/cart/apply-loyalty-points', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({
+                            points: appliedLoyaltyPoints,
+                            total: totalAfter
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.success) {
+                            alert('Đã xảy ra lỗi khi lưu điểm tích lũy vào session.');
+                        }
+                    })
+                    .catch(error => console.error('Lỗi:', error));
+            });
+
+            removePointsBtn.addEventListener('click', function() {
+                appliedLoyaltyPoints = 0;
+
+                fetch('/cart/remove-loyalty-points', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({})
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            updateCartTotal(new Intl.NumberFormat('vi-VN').format(data.total) + ' VNĐ');
+                            applyPointsBtn.style.display = 'inline-block';
+                            removePointsBtn.style.display = 'none';
+                            loyaltyPointsInput.value = '';
+                            loyaltyPointsInput.removeAttribute('readonly');
+                        }
+                    })
+                    .catch(error => console.error('Lỗi:', error));
+            });
+
+
+
+            // Xử lý mã giảm giá (nếu có)
 
             // Hàm cập nhật số lượng
             function updateQuantity(row, newQuantity) {
@@ -125,12 +282,18 @@
                         row.querySelector('.total-price').textContent = new Intl.NumberFormat('vi-VN').format(
                             totalPrice) + ' VNĐ';
 
-                        // Cập nhật tổng tiền giỏ hàng
+                        // Cập nhật tổng tiền giỏ hàng (tính cả điểm tích lũy đã áp dụng)
                         let total = 0;
                         document.querySelectorAll('.total-price').forEach(el => {
                             total += parseInt(el.textContent.replace(/\D/g, ''));
                         });
-                        updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) + ' VNĐ');
+
+                        // Subtract applied loyalty points from the total
+                        let adjustedTotal = total - appliedLoyaltyPoints;
+                        if (adjustedTotal < 0) adjustedTotal = 0;
+
+                        // Update cart total display
+                        updateCartTotal(new Intl.NumberFormat('vi-VN').format(adjustedTotal) + ' VNĐ');
                     })
                     .catch(error => {
                         console.error(error);
@@ -141,6 +304,7 @@
                         }
                     });
             }
+
 
             // Xử lý nút tăng số lượng
             document.querySelectorAll('.btn-increase').forEach(button => {
@@ -200,7 +364,7 @@
                                 let total = 0;
                                 document.querySelectorAll('.total-price').forEach(el => {
                                     total += parseInt(el.textContent.replace(/\D/g,
-                                    ''));
+                                        ''));
                                 });
                                 updateCartTotal(new Intl.NumberFormat('vi-VN').format(total) +
                                     ' VNĐ');
@@ -230,6 +394,7 @@
                     }
                 });
             });
+
         });
     </script>
 @endsection

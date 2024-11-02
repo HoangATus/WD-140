@@ -31,7 +31,7 @@
                 </div>
             </div> <!-- end sales -->
         </div>
-       
+
         <div class="row">
             <div class="col-md-12 col-xl-12">
                 <div class="card">
@@ -47,29 +47,36 @@
                                 <button class="filter-tab" onclick="selectFilter('year')">Năm</button>
                                 <button class="filter-tab" onclick="selectFilter('range')">Khoảng thời gian</button>
                             </div>
-                           
-                            <div class="filter-inputs">
-                                <input type="date" id="dayInput" class="filter-input" style="display: block;"
-                                onchange="fetchRevenueData()" 
-                                value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}"
-                                max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">    <input type="month" id="monthInput" class="filter-input" style="display: block;"
-                                    onchange="fetchMonthlyRevenue()">
-                             
-                                    <select id="yearInput" class="filter-input" onchange="fetchYearlyRevenue()">
-                                        @php
-                                            $currentYear = \Carbon\Carbon::now()->year; 
-                                        @endphp
-                                        @for ($i = 0; $i <= 5; $i++)
-                                            <option value="{{ $currentYear - $i }}">{{ $currentYear - $i }}</option>
-                                        @endfor
-                                    </select>
-                                    
 
-                                <div id="rangeInput" class="filter-input range-input" style="display: none;">
+                            <div class="filter-inputs">
+                                <div>
+                                    <input type="date" id="dayInput" class="filter-input" style="display: block;"
+                                        onchange="fetchRevenueData()" value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}"
+                                        max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">
+                                </div>
+                                <div>
+
+                                    <input type="month" id="monthInput" class="filter-input" style="display: block;"
+                                        onchange="fetchMonthlyRevenue()">
+                                </div>
+                                <select id="yearInput" class="filter-input" onchange="fetchYearlyRevenue()">
+                                    @php
+                                        $currentYear = \Carbon\Carbon::now()->year;
+                                    @endphp
+                                    @for ($i = 0; $i <= 5; $i++)
+                                        <option value="{{ $currentYear - $i }}">{{ $currentYear - $i }}</option>
+                                    @endfor
+                                </select>
+
+                                <div id="rangeInput" style="display: none; border: none; outline: none;">
+                                    <input type="text" class="filter-input"id="dateRangeInput" name="daterange"
+                                        class="range-date">
+                                </div>
+                                {{-- <div id="rangeInput" class="filter-input range-input" style="display: none;">
                                     <input type="date" id="startDate" class="range-date" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" onchange="fetchRangeRevenue()">
                                     ~
                                     <input type="date" id="endDate" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" class="range-date" onchange="fetchRangeRevenue()">
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <!-- Render Revenue Chart -->
@@ -154,19 +161,27 @@
     <style>
         .filter-container {
             display: flex;
-            width: 800px;
+            width: 60px;
             align-items: center;
             padding: 5px;
             background-color: #f5f5f5;
             border-radius: 8px;
             margin-left: auto;
         }
-    
-         .filter-container { display: flex;width: 800px; align-items: center; padding: 5px; background-color: #f5f5f5; border-radius: 8px; } */
-        .filter-tabs {
+
+        .filter-container {
+            display: flex;
+            width: 670px;
+            align-items: center;
+            padding: 5px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        */ .filter-tabs {
             display: flex;
         }
-    
+
         .filter-tab {
             background-color: transparent;
             border: none;
@@ -176,17 +191,17 @@
             color: #666;
             transition: color 0.3s;
         }
-    
+
         .filter-tab.active {
-            color: #f96b3f;
-            border-bottom: 2px solid #f96b3f;
+            color: #00A7FF;
+            border-bottom: 2px solid #00A7FF;
         }
-    
+
         .filter-inputs {
             margin-left: 10px;
             flex-grow: 1;
         }
-    
+
         .filter-input {
             width: 100%;
             padding: 8px;
@@ -194,12 +209,12 @@
             border-radius: 5px;
             font-size: 16px;
         }
-    
+
         .range-input {
             display: flex;
             gap: 5px;
         }
-    
+
         .range-date {
             width: calc(50% - 5px);
             padding: 8px;
@@ -207,157 +222,200 @@
             border-radius: 5px;
             font-size: 16px;
         }
-    
+
         #yearInput::placeholder {
             color: #aaa;
         }
     </style>
-    
+
     <script>
         let chart;
-         document.addEventListener("DOMContentLoaded", function() {
-        selectFilter('month'); 
-        const today = new Date();
-        const currentMonth = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0'); 
-        document.getElementById('monthInput').value = currentMonth;
-        const currentYear = new Date().getFullYear();
-        document.getElementById('yearInput').value = currentYear;
-        yearInput.value = currentYear;
-        fetchMonthlyRevenue();
+        let savedStartDate, savedEndDate;
+
+document.addEventListener("DOMContentLoaded", function() {
+    $(function() {
+    const today = moment();
+
+    $('#dateRangeInput').daterangepicker({
+        opens: 'left',
+        locale: {
+            format: 'DD/MM/YYYY',
+            applyLabel: 'Áp dụng',
+            cancelLabel: 'Hủy',
+            fromLabel: 'Từ',
+            toLabel: 'Đến',
+            customRangeLabel: 'Tùy chỉnh',
+            daysOfWeek: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+            monthNames: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 
+                         'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+            firstDay: 1 
+        },
+        startDate: today,
+        endDate: today,
+        maxDate: today
+    }, function(start, end) {
+        $('#dateRangeInput').val(`${start.format('DD/MM/YYYY')} ~ ${end.format('DD/MM/YYYY')}`);
+        fetchRangeRevenue(start.format('DD-MM-YYYY'), end.format('DD-MM-YYYY'));
     });
-    function selectFilter(type) {
-        document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
-        document.getElementById('dayInput').style.display = 'none';
-        document.getElementById('monthInput').style.display = 'none';
-        document.getElementById('yearInput').style.display = 'none';
-        document.getElementById('rangeInput').style.display = 'none';
+});
 
-        document.getElementById('dayInput').value = new Date().toISOString().slice(0, 10); 
-    document.getElementById('monthInput').value = new Date().toISOString().slice(0, 7); 
-    document.getElementById('yearInput').value = ''; 
-    document.getElementById('startDate').value = ''; 
-    document.getElementById('endDate').value = ''; 
 
-        if (type === 'day') {
-            document.getElementById('dayInput').style.display = 'block';
-            document.querySelector('.filter-tab:nth-child(1)').classList.add('active');
-            fetchRevenueData(); 
-        } else if (type === 'month') {
-            document.getElementById('monthInput').style.display = 'block';
-            document.querySelector('.filter-tab:nth-child(2)').classList.add('active');
-            fetchMonthlyRevenue(); 
-        } else if (type === 'year') {
-            document.getElementById('yearInput').style.display = 'block';
-            document.querySelector('.filter-tab:nth-child(3)').classList.add('active');
-        } else if (type === 'range') {
-            document.getElementById('rangeInput').style.display = 'flex';
-            document.querySelector('.filter-tab:nth-child(4)').classList.add('active');
-        }
-       
-    if (type === 'year') {
-        const currentYear = new Date().getFullYear(); 
-        document.getElementById('yearInput').value = currentYear; 
+
+    selectFilter('month');
+    const today = new Date();
+    const currentMonth = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
+    document.getElementById('monthInput').value = currentMonth;
+    const currentYear = today.getFullYear();
+    document.getElementById('yearInput').value = currentYear;
+    fetchMonthlyRevenue();
+});
+
+function selectFilter(type) {
+    document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+    document.getElementById('dayInput').style.display = 'none';
+    document.getElementById('monthInput').style.display = 'none';
+    document.getElementById('yearInput').style.display = 'none';
+    document.getElementById('rangeInput').style.display = 'none';
+
+    if (type === 'day') {
+        document.getElementById('dayInput').style.display = 'block';
+        document.querySelector('.filter-tab:nth-child(1)').classList.add('active');
+        fetchRevenueData();
+    } else if (type === 'month') {
+        document.getElementById('monthInput').style.display = 'block';
+        document.querySelector('.filter-tab:nth-child(2)').classList.add('active');
+        fetchMonthlyRevenue();
+    } else if (type === 'year') {
         document.getElementById('yearInput').style.display = 'block';
         document.querySelector('.filter-tab:nth-child(3)').classList.add('active');
-        fetchYearlyRevenue(); 
+        fetchYearlyRevenue();
+    } else if (type === 'range') {
+        document.getElementById('rangeInput').style.display = 'block';
+        document.querySelector('.filter-tab:nth-child(4)').classList.add('active');
+
+        if (savedStartDate && savedEndDate) {
+            $('#dateRangeInput').data('daterangepicker').setStartDate(savedStartDate);
+            $('#dateRangeInput').data('daterangepicker').setEndDate(savedEndDate);
+            fetchRangeRevenue(savedStartDate, savedEndDate);
+        } else {
+            const today = moment().format('DD-MM-YYYY');
+            $('#dateRangeInput').data('daterangepicker').setStartDate(today);
+            $('#dateRangeInput').data('daterangepicker').setEndDate(today);
+            fetchRangeRevenue(today, today);
+        }
     }
-        if (type === 'month') {
-            document.getElementById('monthInput').style.display = 'block';
-            document.querySelector('.filter-tab:nth-child(2)').classList.add('active');
-            document.getElementById('monthInput').value = new Date().toISOString().slice(0, 7); 
-            fetchMonthlyRevenue(); 
-        }
-        }
+}
 
-     
-        function fetchRangeRevenue() {
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
-
+function fetchRangeRevenue(startDate, endDate) {
     if (!startDate || !endDate) {
         alert('Vui lòng chọn cả ngày bắt đầu và ngày kết thúc.');
         return;
     }
+    const start = moment(startDate, 'DD-MM-YYYY');
+    const end = moment(endDate, 'DD-MM-YYYY');
+    const diffInDays = end.diff(start, 'days');
 
-    const url = `/admins/dashboard/range?start_date=${startDate}&end_date=${endDate}`;
+    if (diffInDays > 30) {
+        alert('Khoảng thời gian không được vượt quá 30 ngày.');
+        if (savedStartDate && savedEndDate) {
+            $('#dateRangeInput').data('daterangepicker').setStartDate(savedStartDate);
+            $('#dateRangeInput').data('daterangepicker').setEndDate(savedEndDate);
+        }
+        return;
+    }
+
+    const url = `/admins/dashboard/range?daterange=${startDate} - ${endDate}`;
 
     fetch(url)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw response;
+            return response.json();
+        })
         .then(data => {
             const categories = data.map(item => item.date);
             const revenues = data.map(item => item.revenue || 0);
             const profits = data.map(item => item.profit || 0);
-            const title = `Doanh Thu Từ ${startDate} Đến ${endDate}`;
+            const title = `Doanh Thu và Lợi Nhuận Từ ${startDate} Đến ${endDate}`;
+
+            savedStartDate = startDate;
+            savedEndDate = endDate;
 
             if (chart) chart.destroy();
             renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            error.json().then(errData => {
+                if (errData.error.includes('quá 30 ngày')) {
+                    alert('Khoảng thời gian không được vượt quá 30 ngày.');
+                } else if (errData.error.includes('ngày hiện tại')) {
+                    alert('Ngày kết thúc không được vượt quá ngày hiện tại.');
+                }
+            }).catch(() => alert('Đã có lỗi xảy ra.'));
+        });
 }
+        function fetchMonthlyRevenue() {
+            const month = document.getElementById('monthInput').value;
+            if (!month) return;
 
-    function fetchMonthlyRevenue() {
-        const month = document.getElementById('monthInput').value;
-        if (!month) return;
+            const year = month.slice(0, 4);
+            const selectedMonth = month.slice(5, 7);
+            const url = `/admins/dashboard/revenue?month=${selectedMonth}&year=${year}`;
 
-        const year = month.slice(0, 4);
-        const selectedMonth = month.slice(5, 7);
-        const url = `/admins/dashboard/revenue?month=${selectedMonth}&year=${year}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const categories = data.map(item => ` ${item.day}`);
+                    const revenues = data.map(item => item.revenue || 0);
+                    const profits = data.map(item => item.profit || 0);
+                    const title = `Doanh Thu và Lợi Nhuận Tháng ${selectedMonth}/${year}`;
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const categories = data.map(item => ` ${item.day}`);
-                const revenues = data.map(item => item.revenue || 0);
-                const profits = data.map(item => item.profit || 0);
-                const title = `Doanh Thu Tháng ${selectedMonth}/${year}`;
-
-                if (chart) chart.destroy();
-                renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-    function fetchRevenueData() {
-        const day = document.getElementById('dayInput').value;
-
-        let url = '/admins/dashboard/revenue?';
-
-        if (day) {
-            url += `day=${day}`; 
+                    if (chart) chart.destroy();
+                    renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
+                })
+                .catch(error => console.error('Error:', error));
         }
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const categories = data.map(item => `${item.hour}:00`); 
-                const revenues = data.map(item => item.revenue || 0);
-                const profits = data.map(item => item.profit || 0);
-                const title = `Doanh Thu Ngày ${day}`;
+        function fetchRevenueData() {
+            const day = document.getElementById('dayInput').value;
 
-                if (chart) chart.destroy();
-                renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
-            })
-            .catch(error => console.error('Error:', error));
-    }
-      
+            let url = '/admins/dashboard/revenue?';
+
+            if (day) {
+                url += `day=${day}`;
+            }
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const categories = data.map(item => `${item.hour}:00`);
+                    const revenues = data.map(item => item.revenue || 0);
+                    const profits = data.map(item => item.profit || 0);
+                    const title = `Doanh Thu và Lợi Nhuận Ngày ${day}`;
+
+                    if (chart) chart.destroy();
+                    renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
         function fetchYearlyRevenue() {
-    const year = document.getElementById('yearInput').value || new Date().getFullYear();
+            const year = document.getElementById('yearInput').value || new Date().getFullYear();
 
-    const url = `/admins/dashboard/revenue?year=${year}`;
+            const url = `/admins/dashboard/revenue?year=${year}`;
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const categories = data.map(item => `Tháng ${item.month}`);
-            const revenues = data.map(item => item.revenue || 0);
-            const profits = data.map(item => item.profit || 0);
-            const title = `Doanh Thu Năm ${year}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const categories = data.map(item => `Tháng ${item.month}`);
+                    const revenues = data.map(item => item.revenue || 0);
+                    const profits = data.map(item => item.profit || 0);
+                    const title = `Doanh Thu và Lợi Nhuận Năm ${year}`;
 
-            if (chart) chart.destroy();
-            renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
-        })
-        .catch(error => console.error('Error:', error));
-}
+                    if (chart) chart.destroy();
+                    renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
         function renderChart(chartElement, categories, revenues, profits, title) {
             const options = {

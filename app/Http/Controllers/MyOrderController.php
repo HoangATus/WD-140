@@ -23,6 +23,7 @@ class MyOrderController extends Controller
         return view('clients.myorder.index', compact('orders'));
     }
 
+
     /**
      * Hiển thị chi tiết một đơn hàng cụ thể của người dùng
      */

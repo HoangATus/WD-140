@@ -87,7 +87,7 @@ class OrderController extends Controller
         ]);
 
         $oldStatus = $order->status;
-        $order->status = Order::STATUS_CANCELED; 
+        $order->status = Order::STATUS_CANCELED;
 
         $order->cancellation_reason = $request->cancellation_reason;
         $order->save();
@@ -106,8 +106,8 @@ class OrderController extends Controller
             'notes' => $request->cancellation_reason,
             'changed_by' => auth()->id(),
         ]);
-    
-      
+
+
         return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được hủy thành công và tồn kho đã được phục hồi.');
     }
 
@@ -125,7 +125,7 @@ class OrderController extends Controller
     {
         $order = Order::with('products.reviews')->findOrFail($orderId);
 
-    
+
 
         // Kiểm tra xem đơn hàng có trạng thái "Hoàn thành" hay không
         if ($order->status !== 'Hoàn thành') {
@@ -173,7 +173,11 @@ class OrderController extends Controller
         $rating = new Rating();
         $rating->order_item_id = $orderItem->id;
         $rating->product_id = $orderItem->product_id; // Gán giá trị cho product_id
+<<<<<<< HEAD
         $rating->variant_id = $orderItem->variant_id; 
+=======
+        $rating->variant_id = $orderItem->variant_id;
+>>>>>>> 47fc089084944f8ecdbdd8530ba8ba7603d4945b
         $rating->order_id = $order->id; // Gán giá trị cho order_id
         $rating->rating = $request->input('rating');
         $rating->review = $request->input('review');
