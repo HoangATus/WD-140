@@ -29,7 +29,7 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $products = Product::with('variants')->take(15)->get();
+        $products = Product::with('variants')->latest()->take(10)->get();
         $banners = Banner::where('is_active', true)->get();
 
      $categories=Category::query()->get();

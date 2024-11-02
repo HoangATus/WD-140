@@ -167,7 +167,38 @@
                         </div>
                     </div>
                     </form>
+                    <script>
+                        // Get the checkbox element for applying loyalty points
+                        let checkbox = document.getElementById('applied_loyalty_points');
 
+                        checkbox.addEventListener('change', function() {
+                            // Determine applied loyalty points based on checkbox status
+                            let appliedLoyaltyPoints = this.checked ? Math.min(availablePoints, initialTotal) : 0;
+
+                            // Send AJAX request to update the applied loyalty points in the session
+                            fetch('/checkout/apply-loyalty-points', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                            'content')
+                                    },
+                                    body: JSON.stringify({
+                                        applied_loyalty_points: appliedLoyaltyPoints
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        // Update the total displayed in the frontend
+                                        document.getElementById('total_display').textContent = data.new_total;
+                                    } else {
+                                        console.error('Failed to apply loyalty points');
+                                    }
+                                })
+                                .catch(error => console.error('Error:', error));
+                        });
+                    </script>
                 </div>
             </div>
         @else

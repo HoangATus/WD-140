@@ -11,12 +11,30 @@ use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
-    public function index()
+    public function applyLoyaltyPoints(Request $request)
+{
+    $appliedPoints = $request->input('applied_points', 0);
+    $user = Auth::user();
+    $pointValue = 1; // Giá trị của mỗi điểm
+
+    $totalAfterDiscount = session('cart_total', 0); // Lấy tổng tiền giỏ hàng từ session
+
+
+    // Lưu vào session
+    session([
+        'applied_loyalty_points' => $appliedPoints,
+        'checkout_total' => $totalAfterDiscount
+    ]);
+
+    return response()->json(['status' => 'success']);
+}
+public function index()
     {
         $userId = Auth::id();
         $cart = session()->get('cart_' . $userId, []);
         $sum = 0;
 
+        // Calculate the sum of all items in the cart
         foreach ($cart as $item) {
             $sum += $item['price'] * $item['quantity'];
         }
@@ -27,32 +45,94 @@ class CartController extends Controller
         $pointValue = 1;
         $discountAmount = $appliedPoints * $pointValue;
 
+        // Calculate the total after applying discounts, ensuring it doesn't go below zero
         $total = max(0, $sum - $discountAmount);
 
-        session(['cart_total' => $total]);
-        session(['discount_amount' => $discountAmount]);
+        // Store totals in session
+        session(['cart_total' => $total, 'discount_amount' => $discountAmount]);
 
-        return view('clients.cart.index', compact('cart', 'total', 'loyaltyPoints', 'sum', 'appliedPoints', 'discountAmount'));
+        // Pass both the sum and totalAfterDiscount to the view
+        return view('clients.cart.index', compact('cart', 'sum', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount'));
+    }
+
+    // public function applyLoyaltyPoints(Request $request)
+    // {
+    //     $points = $request->input('points');
+    //     $appliedPoints = session()->get('applied_loyalty_points', 0);
+    //     $pointValue = 1;
+    //     $discountAmount = $points * $pointValue;
+    //     $total = max(0, $appliedPoints - $discountAmount);
+
+    //     session(['applied_loyalty_points' => $points, 'cart_total' => $total, 'discount_amount' => $discountAmount]);
+
+    //     return response()->json(['success' => true, 'new_total' => $total]);
+    // }
+
+
+    // public function applyLoyaltyPoints(Request $request)
+    // {
+    //     $points = $request->input('points'); // Points submitted via request
+    //     $loyaltyPoints = session()->get('loyaltyPoints', 0); // Retrieve user's available loyalty points
+
+    //     // Make sure the user can only apply up to their available points
+    //     $appliedPoints = min($points, $loyaltyPoints);
+    //     $pointValue = 1; // Each loyalty point worth $1
+    //     $discountAmount = $appliedPoints * $pointValue; // Calculate total discount
+    //     $currentTotal = session()->get('cart_total', 0); // Current cart total
+
+    //     // Calculate the new total after applying discount
+    //     $total = max(0, $currentTotal - $discountAmount);
+
+    //     // Store applied points and totals in session
+    //     session([
+    //         'applied_loyalty_points' => $appliedPoints,
+    //         'discount_amount' => $discountAmount,
+    //         'cart_total' => $total,
+    //         'checkout_total' => $total // Ensure to also update the checkout total
+    //     ]);
+
+    //     return response()->json(['success' => true, 'new_total' => $total]);
+    // }
+
+
+    private function updateCartTotal($cart, $userId)
+    {
+        $sum = 0;
+        foreach ($cart as $item) {
+            $sum += $item['price'] * $item['quantity'];
+        }
+
+        $user = User::find($userId);
+        $loyaltyPoints = $user ? $user->points : 0;
+        $appliedPoints = session()->get('applied_loyalty_points', 0);
+        $appliedPoints = min($appliedPoints, $loyaltyPoints);
+        $pointValue = 1;
+        $discountAmount = $appliedPoints * $pointValue;
+        $total = max(0, $sum - $discountAmount);
+
+        session([
+            'cart_total' => $total,
+            'discount_amount' => $discountAmount,
+            'applied_loyalty_points' => $appliedPoints,
+        ]);
     }
 
 
-    public function applyLoyaltyPoints(Request $request)
+    public function update(Request $request)
     {
-        $points = $request->input('points');
-        $total = $request->input('total');
+        $variantId = $request->input('variant_id');
+        $quantity = $request->input('quantity');
 
-        session(['applied_loyalty_points' => $points]);
-        session(['cart_total' => $total]);
+        $cart = session()->get('cart_' . Auth::id(), []);
+        if (isset($cart[$variantId])) {
+            $cart[$variantId]['quantity'] = $quantity;
+        }
 
-        return response()->json(['success' => true]);
-    }
+        session()->put('cart_' . Auth::id(), $cart);
 
-    public function removeLoyaltyPoints(Request $request)
-    {
-        session()->forget('applied_loyalty_points');
-        session()->forget('cart_total');
+        $this->updateCartTotal($cart, Auth::id());
 
-        return response()->json(['success' => true, 'total' => session('original_cart_total')]);
+        return response()->json(['total' => session()->get('cart_total')]);
     }
 
     public function add(Request $request)
@@ -91,44 +171,6 @@ class CartController extends Controller
 
         return response()->json(['message' => 'Sản phẩm đã được thêm vào giỏ hàng thành công.'], 200);
     }
-
-
-    public function update(Request $request)
-    {
-        $variantId = $request->input('variant_id');
-        $quantity = $request->input('quantity');
-
-        $cart = session()->get('cart_' . Auth::id(), []);
-        if (isset($cart[$variantId])) {
-            $cart[$variantId]['quantity'] = $quantity;
-        }
-
-        session()->put('cart_' . Auth::id(), $cart);
-
-        $this->updateCartTotal($cart, Auth::id());
-
-        return response()->json(['total' => session()->get('cart_total')]);
-    }
-
-
-    private function updateCartTotal($cart, $userId)
-    {
-        $sum = 0;
-        foreach ($cart as $item) {
-            $sum += $item['price'] * $item['quantity'];
-        }
-
-        $user = User::find($userId);
-        $loyaltyPoints = $user ? $user->points : 0;
-        $appliedPoints = session()->get('applied_loyalty_points', 0);
-        $pointValue = 1;
-        $discountAmount = $appliedPoints * $pointValue;
-        $total = max(0, $sum - $discountAmount);
-
-      
-        session(['cart_total' => $total]);
-    }
-
 
     /**
      * Xóa sản phẩm khỏi giỏ hàng
