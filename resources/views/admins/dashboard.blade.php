@@ -193,8 +193,8 @@
         }
 
         .filter-tab.active {
-            color: #f96b3f;
-            border-bottom: 2px solid #f96b3f;
+            color: #00A7FF;
+            border-bottom: 2px solid #00A7FF;
         }
 
         .filter-inputs {
@@ -230,95 +230,129 @@
 
     <script>
         let chart;
-        document.addEventListener("DOMContentLoaded", function() {
-            $(function() {
-                const today = moment();
+        let savedStartDate, savedEndDate;
 
-                $('#dateRangeInput').daterangepicker({
-                    opens: 'left',
-                    locale: {
-                        format: 'DD-MM-YYYY',
-                    },
-                    startDate: today,
-                    endDate: today,
-                    maxDate: today
-                }, function(start, end) {
-                    fetchRangeRevenue(start.format('DD-MM-YYYY'), end.format('DD-MM-YYYY'));
-                });
-            });
-            selectFilter('month');
-            const today = new Date();
-            const currentMonth = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
-            document.getElementById('monthInput').value = currentMonth;
-            const currentYear = new Date().getFullYear();
-            document.getElementById('yearInput').value = currentYear;
-            yearInput.value = currentYear;
-            fetchMonthlyRevenue();
-        });
+document.addEventListener("DOMContentLoaded", function() {
+    $(function() {
+    const today = moment();
 
-        function selectFilter(type) {
-            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
-            document.getElementById('dayInput').style.display = 'none';
-            document.getElementById('monthInput').style.display = 'none';
-            document.getElementById('yearInput').style.display = 'none';
-            document.getElementById('rangeInput').style.display = 'none';
+    $('#dateRangeInput').daterangepicker({
+        opens: 'left',
+        locale: {
+            format: 'DD/MM/YYYY',
+            applyLabel: 'Áp dụng',
+            cancelLabel: 'Hủy',
+            fromLabel: 'Từ',
+            toLabel: 'Đến',
+            customRangeLabel: 'Tùy chỉnh',
+            daysOfWeek: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+            monthNames: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 
+                         'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+            firstDay: 1 
+        },
+        startDate: today,
+        endDate: today,
+        maxDate: today
+    }, function(start, end) {
+        $('#dateRangeInput').val(`${start.format('DD/MM/YYYY')} ~ ${end.format('DD/MM/YYYY')}`);
+        fetchRangeRevenue(start.format('DD-MM-YYYY'), end.format('DD-MM-YYYY'));
+    });
+});
 
+
+
+    selectFilter('month');
+    const today = new Date();
+    const currentMonth = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
+    document.getElementById('monthInput').value = currentMonth;
+    const currentYear = today.getFullYear();
+    document.getElementById('yearInput').value = currentYear;
+    fetchMonthlyRevenue();
+});
+
+function selectFilter(type) {
+    document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+    document.getElementById('dayInput').style.display = 'none';
+    document.getElementById('monthInput').style.display = 'none';
+    document.getElementById('yearInput').style.display = 'none';
+    document.getElementById('rangeInput').style.display = 'none';
+
+    if (type === 'day') {
+        document.getElementById('dayInput').style.display = 'block';
+        document.querySelector('.filter-tab:nth-child(1)').classList.add('active');
+        fetchRevenueData();
+    } else if (type === 'month') {
+        document.getElementById('monthInput').style.display = 'block';
+        document.querySelector('.filter-tab:nth-child(2)').classList.add('active');
+        fetchMonthlyRevenue();
+    } else if (type === 'year') {
+        document.getElementById('yearInput').style.display = 'block';
+        document.querySelector('.filter-tab:nth-child(3)').classList.add('active');
+        fetchYearlyRevenue();
+    } else if (type === 'range') {
+        document.getElementById('rangeInput').style.display = 'block';
+        document.querySelector('.filter-tab:nth-child(4)').classList.add('active');
+
+        if (savedStartDate && savedEndDate) {
+            $('#dateRangeInput').data('daterangepicker').setStartDate(savedStartDate);
+            $('#dateRangeInput').data('daterangepicker').setEndDate(savedEndDate);
+            fetchRangeRevenue(savedStartDate, savedEndDate);
+        } else {
             const today = moment().format('DD-MM-YYYY');
-
-            if (type === 'day') {
-                document.getElementById('dayInput').style.display = 'block';
-                document.querySelector('.filter-tab:nth-child(1)').classList.add('active');
-                fetchRevenueData();
-            } else if (type === 'month') {
-                document.getElementById('monthInput').style.display = 'block';
-                document.querySelector('.filter-tab:nth-child(2)').classList.add('active');
-                fetchMonthlyRevenue();
-            } else if (type === 'year') {
-                document.getElementById('yearInput').style.display = 'block';
-                document.querySelector('.filter-tab:nth-child(3)').classList.add('active');
-                fetchYearlyRevenue();
-            } else if (type === 'range') {
-                document.getElementById('rangeInput').style.display = 'block';
-                document.querySelector('.filter-tab:nth-child(4)').classList.add('active');
-                fetchRangeRevenue(today, today);
-            }
+            $('#dateRangeInput').data('daterangepicker').setStartDate(today);
+            $('#dateRangeInput').data('daterangepicker').setEndDate(today);
+            fetchRangeRevenue(today, today);
         }
+    }
+}
 
-        function fetchRangeRevenue(startDate, endDate) {
-            if (!startDate || !endDate) {
-                alert('Vui lòng chọn cả ngày bắt đầu và ngày kết thúc.');
-                return;
-            }
+function fetchRangeRevenue(startDate, endDate) {
+    if (!startDate || !endDate) {
+        alert('Vui lòng chọn cả ngày bắt đầu và ngày kết thúc.');
+        return;
+    }
+    const start = moment(startDate, 'DD-MM-YYYY');
+    const end = moment(endDate, 'DD-MM-YYYY');
+    const diffInDays = end.diff(start, 'days');
 
-            const url = `/admins/dashboard/range?daterange=${startDate} - ${endDate}`;
-
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) throw response;
-                    return response.json();
-                })
-                .then(data => {
-                    const categories = data.map(item => item.date);
-                    const revenues = data.map(item => item.revenue || 0);
-                    const profits = data.map(item => item.profit || 0);
-                    const title = `Doanh Thu Từ ${startDate} Đến ${endDate}`;
-
-                    if (chart) chart.destroy();
-                    renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
-                })
-                .catch(error => {
-                    error.json().then(errData => {
-                        if (errData.error.includes('quá 30 ngày')) {
-                            alert('Khoảng thời gian không được vượt quá 30 ngày.');
-                        } else if (errData.error.includes('ngày hiện tại')) {
-                            alert('Ngày kết thúc không được vượt quá ngày hiện tại.');
-                        }
-                    }).catch(() => alert('Đã có lỗi xảy ra.'));
-                });
+    if (diffInDays > 30) {
+        alert('Khoảng thời gian không được vượt quá 30 ngày.');
+        if (savedStartDate && savedEndDate) {
+            $('#dateRangeInput').data('daterangepicker').setStartDate(savedStartDate);
+            $('#dateRangeInput').data('daterangepicker').setEndDate(savedEndDate);
         }
+        return;
+    }
 
+    const url = `/admins/dashboard/range?daterange=${startDate} - ${endDate}`;
 
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw response;
+            return response.json();
+        })
+        .then(data => {
+            const categories = data.map(item => item.date);
+            const revenues = data.map(item => item.revenue || 0);
+            const profits = data.map(item => item.profit || 0);
+            const title = `Doanh Thu và Lợi Nhuận Từ ${startDate} Đến ${endDate}`;
 
+            savedStartDate = startDate;
+            savedEndDate = endDate;
+
+            if (chart) chart.destroy();
+            renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
+        })
+        .catch(error => {
+            error.json().then(errData => {
+                if (errData.error.includes('quá 30 ngày')) {
+                    alert('Khoảng thời gian không được vượt quá 30 ngày.');
+                } else if (errData.error.includes('ngày hiện tại')) {
+                    alert('Ngày kết thúc không được vượt quá ngày hiện tại.');
+                }
+            }).catch(() => alert('Đã có lỗi xảy ra.'));
+        });
+}
         function fetchMonthlyRevenue() {
             const month = document.getElementById('monthInput').value;
             if (!month) return;
@@ -333,7 +367,7 @@
                     const categories = data.map(item => ` ${item.day}`);
                     const revenues = data.map(item => item.revenue || 0);
                     const profits = data.map(item => item.profit || 0);
-                    const title = `Doanh Thu Tháng ${selectedMonth}/${year}`;
+                    const title = `Doanh Thu và Lợi Nhuận Tháng ${selectedMonth}/${year}`;
 
                     if (chart) chart.destroy();
                     renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
@@ -356,7 +390,7 @@
                     const categories = data.map(item => `${item.hour}:00`);
                     const revenues = data.map(item => item.revenue || 0);
                     const profits = data.map(item => item.profit || 0);
-                    const title = `Doanh Thu Ngày ${day}`;
+                    const title = `Doanh Thu và Lợi Nhuận Ngày ${day}`;
 
                     if (chart) chart.destroy();
                     renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
@@ -375,7 +409,7 @@
                     const categories = data.map(item => `Tháng ${item.month}`);
                     const revenues = data.map(item => item.revenue || 0);
                     const profits = data.map(item => item.profit || 0);
-                    const title = `Doanh Thu Năm ${year}`;
+                    const title = `Doanh Thu và Lợi Nhuận Năm ${year}`;
 
                     if (chart) chart.destroy();
                     renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);

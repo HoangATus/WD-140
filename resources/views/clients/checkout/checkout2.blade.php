@@ -46,18 +46,20 @@
 
                                                 <div class="form-group">
                                                     <label for="name">Tên Người Nhận</label>
-                                                    <input type="text" name="name"value="{{ $user->user_name ?? '' }}" class="form-control" id="name"
-                                                        required>
+                                                    <input type="text" name="name"
+                                                        value="{{ $user->user_name ?? '' }}" class="form-control"
+                                                        id="name" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="phone">Số Điện Thoại</label>
-                                                    <input type="text"value="{{ $user->user_phone_number ?? '' }}" class="form-control" id="phone" name="phone"
-                                                        required>
+                                                    <input type="text" value="{{ $user->user_phone_number ?? '' }}"
+                                                        class="form-control" id="phone" name="phone" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="address">Địa Chỉ</label>
-                                                    <input type="text" class="form-control"value="{{ $user->user_address ?? '' }}" id="address" name="address"
-                                                        required>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $user->user_address ?? '' }}" id="address"
+                                                        name="address" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="notes">Ghi Chú</label>
@@ -98,21 +100,89 @@
                                         class="img-fluid blur-up lazyloaded checkout-image" alt="">
                                     <h6>{{ $variant->product->product_name }} <span><strong>X
                                                 {{ $quantity }}</strong></span></h6>
-                                    <a class="price">{{ number_format($total, 0, ',', '.') }}₫</a>
+                                    <a class="" id="totalDisplay">{{ number_format($total, 0, ',', '.') }}VND</a>
                                 </li>
                             </ul>
-                            <ul class="summery-total">
-                                <li><strong>Tổng Tiền: </strong> <span>{{ number_format($total, 0, ',', '.') }} ₫</span>
+                            <div class="summery-contain">
+                                <div class="coupon-cart">
+                                    <h6 class="text-content mb-2">Mã giảm giá:</h6>
+                                    <div class="mb-3 coupon-box input-group">
+                                        <input type="text" class="form-control" id="exampleFormControlInput1"
+                                            placeholder="Vui lòng điền...">
+                                        <button class="btn-apply">Áp dụng</button>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="text-content">
+                                            Sử dụng toàn bộ điểm tích lũy
+                                        </h5>
+                                    </div>
+                                    <div class="form-check form-switch form-switch-primary">
+                                        <input class="form-check-input" type="checkbox" name="points"
+                                            id="points" value="{{ $user->points }}" style="padding: 12px 25px;">
+                                    </div>
+                                </div>
+                                <h7 class="text-content">Điểm tích lũy của bạn: <span
+                                        id="availablePoints">{{ $user->points }} điểm</span></h7>
+                            </div>
+                            <ul>
+                                <li class="d-flex justify-content-between align-items-center"><strong>Tổng Tiền Hàng:
+                                    </strong> <span class="">{{ number_format($total, 0, ',', '.') }} VND</span>
                                 </li>
                             </ul>
+                            <ul>
+                                <li class="d-flex justify-content-between align-items-center my-2"><strong>Mã Giảm Giá:
+                                    </strong> <span class="">0 VND</span></li>
+                            </ul>
+                            <ul>
+                                <li class="d-flex justify-content-between align-items-center"><strong>Điểm tích lũy:
+                                    </strong> <span id="loyaltyPointsAmount">
+                                        0 VND</span></li>
+                            </ul>
+                            <ul class="summery-total ">
+                                <li class="d-flex justify-content-between align-items-center"><strong>Thành tiền: </strong>
+                                    <span class="price" id="totalAmount">{{ number_format($total, 0, ',', '.') }}
+                                        VND</span></li>
+                            </ul>
+                            <style>
+                                .price {
+                                    color: red;
+                                }
+                            </style>
                         </div>
-                        <button class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold"
-                                type="submit">Đặt hàng</button>
+                        <button class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold" type="submit">Đặt
+                            hàng</button>
                     </div>
                 </div>
-            </form>
+                </form>
             </div>
         </div>
     </section>
     <!-- Checkout section End -->
-@endsection  
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const applyPointsCheckbox = document.getElementById("points");
+            const totalAmountElement = document.querySelector(".summery-total span");
+            const loyaltyPointsAmountElement = document.getElementById("loyaltyPointsAmount");
+            const availablePoints = {{ $user->points }};
+            const originalTotal = {{ $total }};
+            let appliedPoints = 0;
+
+            function updateTotal() {
+                const discountAmount = appliedPoints; 
+                const newTotal = originalTotal - discountAmount;
+                totalAmountElement.textContent = newTotal < 0 ? 0 : newTotal.toLocaleString() + ' VND';
+                loyaltyPointsAmountElement.textContent = discountAmount > 0 ? '- ' + discountAmount.toLocaleString() + ' VND' : '0 VND'; 
+            }
+
+            applyPointsCheckbox.addEventListener("change", function() {
+                appliedPoints = this.checked ? availablePoints : 0; 
+                updateTotal(); 
+            });
+
+            updateTotal();
+        });
+    </script>
+@endsection

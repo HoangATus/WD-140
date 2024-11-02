@@ -123,8 +123,6 @@
                                                                     style="font-size: 20px; color: #025e75;">
                                                                     {{ $item->product_name }}</h4>
                                                             </a>
-
-
                                                             <ul class="product-size list-unstyled mb-0">
                                                                 <li class="d-flex mb-2">
                                                                     <h6 class="me-2" style="font-size: 16px;">Giá:
