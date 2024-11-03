@@ -27,6 +27,7 @@ class User extends Authenticatable
         'user_password',
         'user_address',
         'user_phone_number',
+        'points',
         'role',
         'is_banned',
         'banned_until'
@@ -55,5 +56,10 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class, 'user_id', 'user_id');
+    }
+    
+    public function vouchers()
+    {
+        return $this->belongsToMany(Voucher::class, 'user_voucher');
     }
 }

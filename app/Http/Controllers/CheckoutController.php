@@ -156,6 +156,7 @@ class CheckoutController extends Controller
             ]);
         }
 
+
         if ($usedPoints > 0) {
             $user->points -= $usedPoints;
             $user->save();
@@ -164,6 +165,7 @@ class CheckoutController extends Controller
         session()->forget('cart_' . $userId);
         session()->forget('cart_total');
         session()->forget('applied_loyalty_points');
+>>
 
         if ($request->payment_method == 'online') {
             return $this->createVNPayPaymentLink($order);
@@ -241,28 +243,32 @@ class CheckoutController extends Controller
         } while (Order::where('order_code', $orderCode)->exists());
 
         return $orderCode;
-    }
-
+    }  
     public function checkout2(Request $request)
     {
         $variantId = $request->input('variant_id');
         $quantity = $request->input('quantity');
-
-        if (!$variantId || !$quantity) {
+    
+        if (!$variantId || !$quantity || $quantity < 1) {
             return redirect()->route('home')->with('error', 'Thông tin không hợp lệ.');
         }
-
+    
         $variant = Variant::find($variantId);
         if (!$variant || $variant->quantity < $quantity) {
             return redirect()->route('home')->with('error', 'Sản phẩm không đủ số lượng.');
         }
+    
         $userId = Auth::id();
         $user = User::find($userId);
         $total = $variant->variant_sale_price * $quantity;
-
-        return view('clients.checkout.checkout2', compact('variant', 'user', 'quantity', 'total'));
+    
+        $pointsToMoneyRate = 1; 
+        $discount = min($user->points * $pointsToMoneyRate, $total); 
+        $finalTotal = $total - $discount;
+    
+        return view('clients.checkout.checkout2', compact('variant', 'user', 'quantity', 'total', 'discount', 'finalTotal'));
     }
-
+    
     public function process2(Request $request)
     {
         $request->validate([
@@ -273,16 +279,28 @@ class CheckoutController extends Controller
             'payment_method' => 'required|in:cod,online',
             'variant_id' => 'required|exists:variants,id',
             'quantity' => 'required|integer|min:1',
+            'points' => 'nullable|integer|min:0|max:' . Auth::user()->points,
         ]);
-
+    
         $userId = Auth::id();
-
+        $user = User::find($userId);
         $variant = Variant::with(['color', 'size'])->find($request->variant_id);
-
+    
         if ($variant->quantity < $request->quantity) {
             return redirect()->route('checkout.checkout2')->with('error', 'Số lượng sản phẩm không đủ.');
         }
-
+    
+        $subtotal = $variant->variant_sale_price * $request->quantity;
+        $pointsToMoneyRate = 1;
+        $discount = 0;
+    
+        if ($request->points && $request->points > 0) {
+            $discount = min($request->points * $pointsToMoneyRate, $subtotal);
+            $subtotal -= $discount; 
+            $user->points -= $request->points; 
+            $user->save();
+        }
+    
         $order = Order::create([
             'user_id' => $userId,
             'order_code' => $this->generateUniqueOrderCode(),
@@ -290,17 +308,20 @@ class CheckoutController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
             'notes' => $request->notes,
-            'total' => $variant->variant_sale_price * $request->quantity,
+            'total' => max($subtotal, 0), 
+            'discount' => $discount,
             'status' => 'pending',
             'payment_method' => $request->payment_method,
         ]);
-
+    
+      
         $variant->quantity -= $request->quantity;
         $variant->save();
+    
 
-        $attribute_color_name = $variant->color ? $variant->color->name : 'Unknown Color'; // Ensure 'name' corresponds to the column in your Color model
-        $attribute_size_name = $variant->size ? $variant->size->attribute_size_name : 'Unknown Size'; // Ensure 'name' corresponds to the column in your AttributeSize model
-
+        $attribute_color_name = $variant->color ? $variant->color->name : 'Unknown Color';
+        $attribute_size_name = $variant->size ? $variant->size->attribute_size_name : 'Unknown Size';
+    
         OrderItem::create([
             'order_id' => $order->id,
             'variant_id' => $variant->id,
@@ -311,13 +332,15 @@ class CheckoutController extends Controller
             'quantity' => $request->quantity,
             'image' => Storage::url($variant->image),
         ]);
-
+    
         if ($request->payment_method == 'online') {
             return $this->createVNPayPaymentLink($order);
         }
 
         Mail::to(Auth::user()->user_email)->send(new OrderSuccessful($order));
-
+    
         return redirect()->route('checkout.success', ['order' => $order->id]);
     }
+
 }
+
