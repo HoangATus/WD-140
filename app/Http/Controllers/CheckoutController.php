@@ -14,20 +14,88 @@ use Illuminate\Support\Facades\Storage;
 
 class CheckoutController extends Controller
 {
+    // public function index()
+    // {
+    //     $userId = Auth::id();
+    //     $user = Auth::user();
+    //     $cart = session()->get('cart_' . $userId, []);
+    //     $sum = 0;
+
+    //     // Calculate the cart total
+    //     foreach ($cart as $item) {
+    //         $sum += $item['price'] * $item['quantity'];
+    //     }
+    //     $loyaltyPoints = $user ? $user->points : 0;
+    //     $appliedPoints = session()->get('applied_loyalty_points', 0);
+    //     $pointValue = 1; // Define how much each point is worth
+    //     $discountAmount = $appliedPoints * $pointValue;
+    //     $total = max(0, $sum - $discountAmount);
+    //     session(['checkout_total' => $total]);
+    //     session(['cart_total' => $total, 'discount_amount' => $discountAmount]);
+    //     dd(session()->all());
+
+    //     return view('clients.checkout.index', compact('user','cart', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount', 'sum'));
+    // }
+
+
+    // public function index()
+    // {
+    //     $userId = Auth::id();
+    //     $user = Auth::user();
+
+    //     $cart = session()->get('cart_' . $userId, []);
+    //     $total = session()->get('cart_total', 0);
+    //     $sum = session()->get('cart_sum', 0);
+    //     $appliedPoints = session()->get('applied_loyalty_points', 0);
+    //     $discountAmount = session()->get('discount_amount', 0);
+    //     dd(session()->all());
+
+    //     return view('clients.checkout.index', compact('user', 'cart', 'total', 'sum', 'appliedPoints', 'discountAmount'));
+    // }
+
+    // public function index()
+    // {
+    //     $userId = Auth::id();
+    //     $user = Auth::user();
+    //     $cart = session()->get('cart_' . $userId, []);
+    //     $sum = 0;
+
+    //     // Calculate the cart total
+    //     foreach ($cart as $item) {
+    //         $sum += $item['price'] * $item['quantity'];
+    //     }
+
+    //     $loyaltyPoints = $user ? $user->points : 0;
+    //     $appliedPoints = session()->get('applied_loyalty_points', 0);
+    //     $pointValue = 1; // Define how much each point is worth
+    //     $discountAmount = $appliedPoints * $pointValue;
+
+    //     // Calculate the total after applying discounts
+    //     $total = max(0, $sum - $discountAmount);
+
+    //     // Store totals in session
+    //     session(['checkout_total' => $total, 'cart_total' => $total, 'discount_amount' => $discountAmount]);
+
+    //     // Debugging output to check session values
+    //     // dd(session()->all());
+
+    //     return view('clients.checkout.index', compact('user', 'cart', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount', 'sum'));
+    // }
+
     public function index()
     {
         $userId = Auth::id();
         $user = Auth::user();
-
         $cart = session()->get('cart_' . $userId, []);
-        $total = session()->get('cart_total', 0);
-        $sum = session()->get('cart_sum', 0);
+        
+        $loyaltyPoints = $user ? $user->points : 0;
         $appliedPoints = session()->get('applied_loyalty_points', 0);
         $discountAmount = session()->get('discount_amount', 0);
-
-        return view('clients.checkout.index', compact('user', 'cart', 'total', 'sum', 'appliedPoints', 'discountAmount'));
+        $total = session()->get('checkout_total', 0); // Lấy tổng tiền đã lưu từ session
+        
+        return view('clients.checkout.index', compact('user', 'cart', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount'));
     }
-
+    
     public function process(Request $request)
     {
         if ($request->has('cancel_order')) {
@@ -88,9 +156,7 @@ class CheckoutController extends Controller
             ]);
         }
 
-<<<<<<< HEAD
-        session()->forget('cart_' . $userId);
-=======
+
         if ($usedPoints > 0) {
             $user->points -= $usedPoints;
             $user->save();
@@ -99,7 +165,7 @@ class CheckoutController extends Controller
         session()->forget('cart_' . $userId);
         session()->forget('cart_total');
         session()->forget('applied_loyalty_points');
->>>>>>> 47fc089084944f8ecdbdd8530ba8ba7603d4945b
+>>
 
         if ($request->payment_method == 'online') {
             return $this->createVNPayPaymentLink($order);
@@ -275,6 +341,6 @@ class CheckoutController extends Controller
     
         return redirect()->route('checkout.success', ['order' => $order->id]);
     }
-    
-    
-}    
+
+}
+
