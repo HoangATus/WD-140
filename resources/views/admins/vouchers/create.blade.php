@@ -10,157 +10,136 @@
         <form action="{{ route('admins.vouchers.store') }}" method="POST">
             @csrf
             <div class="form-group">
-                <label>Mã Voucher</label>
-                <input type="text" name="code" class="form-control" value="{{ old('code') }}" >
+                <label>Mã Voucher:</label>
+                <input type="text" name="code" class="form-control @error('code') is-invalid @enderror"
+                    value="{{ old('code') }}" id="voucher-code">
                 @error('code')
-                    <p class="text-danger">{{$message}}</p>
+                    <span class="text-danger" id="code-error">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label>Số lượng Voucher</label>
-                <input type="number" name="quantity" class="form-control"  min="1" value="{{ old('quantity') }}">
-                @error('quantity')
-                    <p class="text-danger">{{$message}}</p>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label>Loại Giảm Giá</label>
-                <select name="discount_type" id="discount_type" class="form-control" onchange="toggleDiscountInputs(this.value)">
-                    <option value="fixed">Giảm Giá Theo Mệnh Giá</option>
-                    <option value="percent">Giảm Giá Theo %</option>
-                </select>
-                @error('discount_type')
-                    <p class="text-danger">{{$message}}</p>
-                @enderror
-            </div>
-
-            <div class="form-group" id="fixed_discount_container">
-                <label>Giảm tối đa</label>
-                <input type="number" name="discount_value" class="form-control" min="0" step="1000" value="0" required>
-            </div>
-            
-            <div class="form-group" id="percent_discount_container" style="display: none;">
-                <label>% Giảm Giá</label>
-                <input type="number" name="discount_percent" class="form-control" min="0" max="100" required>
-            </div>            
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        
-            <div class="form-group" id="max_discount_container" style="display: none;">
-                <label>Số Tiền Giảm Tối Đa</label>
-                <input type="number" name="max_discount_amount" class="form-control" placeholder="Nhập số tiền giảm tối đa">
-                @error('max_discount_amount')
-                    <p class="text-danger">{{$message}}</p>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label>Ngày Bắt Đầu</label>
-                <input type="date" name="start_date" class="form-control" value="{{ old('start_date') }}">
+                <label>Ngày Bắt Đầu:</label>
+                <input type="date" name="start_date" class="form-control @error('start_date') is-invalid @enderror"
+                    value="{{ old('start_date') }}" id="start-date">
                 @error('start_date')
-                    <p class="text-danger">{{$message}}</p>
+                    <span class="text-danger" id="start-date-error">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label>Ngày Kết Thúc</label>
-                <input type="date" name="end_date" class="form-control" value="{{ old('end_date') }}">
+                <label>Ngày Kết Thúc:</label>
+                <input type="date" name="end_date" class="form-control @error('end_date') is-invalid @enderror"
+                    value="{{ old('end_date') }}" id="end-date">
                 @error('end_date')
-                    <p class="text-danger">{{$message}}</p>
+                    <span class="text-danger" id="end-date-error">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label>Trạng Thái Hoạt Động</label>
-                <select name="is_active" class="form-control">
-                    <option value="1" {{ old('is_active', 1) == 1 ? 'selected' : '' }}>Hoạt Động</option>
-                    <option value="0" {{ old('is_active', 1) == 0 ? 'selected' : '' }}>Không Hoạt Động</option>
+                <label>Loại Giảm Giá:</label>
+                <select name="type" class="form-control" id="discount-type" value="{{ old('type') }}">
+                    <option value="amount" {{ old('type') == 'amount' ? 'selected' : '' }}>Mệnh giá</option>
+                    <option value="percentage" {{ old('type') == 'percentage' ? 'selected' : '' }}>Phần trăm</option>
                 </select>
-                @error('is_active')
-                    <p class="text-danger">{{$message}}</p>
+                @error('type')
+                    <span class="text-danger" id="type-error">{{ $message }}</span>
                 @enderror
             </div>
-            
-            <div class="form-group">
-                <label>Công Khai</label>
-                <select name="is_public" class="form-control">
-                    <option value="1">Có</option>
-                    <option value="0">Không</option>
-                </select>
-                @error('is_public')
-                    <p class="text-danger">{{$message}}</p>
+
+            <div class="form-group" id="discount-amount-group" style="{{ old('type') == 'amount' ? 'display:block;' : 'display:none;' }}">
+                <label>Mệnh Giá Giảm Giá:</label>
+                <input type="number" name="discount_amount" class="form-control @error('discount_amount') is-invalid @enderror" value="{{ old('discount_amount') }}" id="discount-amount">
+                @error('discount_amount')
+                    <span class="text-danger" id="discount-amount-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-group" id="discount-percentage-group" style="{{ old('type') == 'percentage' ? 'display:block;' : 'display:none;' }}">
+                <label>Phần Trăm Giảm Giá:</label>
+                <input type="number" name="discount_percentage"
+                    class="form-control @error('discount_percentage') is-invalid @enderror" value="{{ old('discount_percentage') }}" min="1" max="100" id="discount-percentage">
+                @error('discount_percentage')
+                    <span class="text-danger" id="discount-percentage-error">{{ $message }}</span>
+                @enderror
+
+                <br>
+                <label>Tối Đa Giảm Giá:</label>
+                <input type="number" name="max_discount"
+                    class="form-control @error('max_discount') is-invalid @enderror" value="{{ old('max_discount') }}" id="max-discount">
+                @error('max_discount')
+                    <span class="text-danger" id="max-discount-error">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label>Khách Hàng Được Sử Dụng (Nếu Không Công Khai)</label>
-                <select name="user_ids[]" class="form-control" multiple>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->user_name }}</option>
-                    @endforeach
+                <label>Số Lượng Voucher:</label>
+                <input type="number" name="quantity" class="form-control @error('quantity') is-invalid @enderror" value="{{ old('quantity') }}" min="1" id="quantity">
+                @error('quantity')
+                    <span class="text-danger" id="quantity-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label>Trạng Thái:</label>
+                <select name="status" class="form-control" id="status">
+                    <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Kích hoạt</option>
+                    <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>Vô hiệu hóa</option>
                 </select>
-                @error('user_ids')
-                    <p class="text-danger">{{$message}}</p>
+                @error('status')
+                    <span class="text-danger" id="status-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label>Phạm Vi Sử Dụng:</label>
+                <select name="usage_type" class="form-control" id="usage-type">
+                    <option value="all" {{ old('usage_type') == 'all' ? 'selected' : '' }}>Mọi người</option>
+                    <option value="restricted" {{ old('usage_type') == 'restricted' ? 'selected' : '' }}>Giới hạn</option>
+                </select>
+                @error('usage_type')
+                    <span class="text-danger" id="usage-type-error">{{ $message }}</span>
                 @enderror
             </div>
             <br>
-            <button type="submit" class="btn btn-success">Lưu</button>
+            <button type="submit" class="btn btn-success">Tạo Voucher</button>
             <a href="{{ route('admins.vouchers.index') }}" class="btn btn-secondary">Hủy</a>
 
         </form>
-    </div>
 
-    <script>
-        function toggleDiscountInputs(type) {
-            const fixedDiscountContainer = document.getElementById('fixed_discount_container');
-            const percentDiscountContainer = document.getElementById('percent_discount_container');
-            const maxDiscountContainer = document.getElementById('max_discount_container');
-    
-            if (type === 'fixed') {
-                fixedDiscountContainer.style.display = 'block';
-                percentDiscountContainer.style.display = 'none';
-                maxDiscountContainer.style.display = 'none'; // Ẩn trường tiền giảm tối đa
-                document.querySelector('input[name="discount_value"]').required = true;
-                document.querySelector('input[name="discount_percent"]').required = false;
-                document.querySelector('input[name="max_discount_amount"]').required = false; // Không yêu cầu
-            } else {
-                fixedDiscountContainer.style.display = 'none';
-                percentDiscountContainer.style.display = 'block';
-                maxDiscountContainer.style.display = 'block'; // Hiện trường tiền giảm tối đa
-                document.querySelector('input[name="discount_value"]').required = false;
-                document.querySelector('input[name="discount_percent"]').required = true;
-    
-                // Tập trung vào trường nhập nếu nó trở thành bắt buộc
-                document.querySelector('input[name="discount_percent"]').focus();
+        <script>
+            // Ẩn thông báo lỗi và lớp 'is-invalid' khi người dùng nhập vào bất kỳ trường nào
+            function hideErrorMessage(inputId, errorMessageId) {
+                document.getElementById(inputId).addEventListener('input', function() {
+                    const errorMessage = document.getElementById(errorMessageId);
+                    const inputField = document.getElementById(inputId);
+
+                    if (errorMessage) {
+                        errorMessage.style.display = 'none'; // Ẩn thông báo lỗi khi người dùng nhập
+                    }
+
+                    // Loại bỏ lớp 'is-invalid' khi người dùng nhập dữ liệu
+                    inputField.classList.remove('is-invalid');
+                });
             }
-        }
-    
-        function toggleMaxDiscountInput(percent) {
-            const maxDiscountContainer = document.getElementById('max_discount_container');
-            // Hiển thị ô nhập số tiền giảm tối đa
-            maxDiscountContainer.style.display = percent > 0 ? 'block' : 'none';
-        }
-    
-        // Kiểm tra tính hợp lệ trước khi gửi biểu mẫu
-        document.querySelector('form').addEventListener('submit', function(event) {
-            const discountType = document.getElementById('discount_type').value;
-            const discountPercentField = document.querySelector('input[name="discount_percent"]');
-            
-            // Kiểm tra xem loại giảm giá là 'percent' và nếu trường bị ẩn
-            if (discountType === 'percent' && discountPercentField.offsetParent === null) {
-                event.preventDefault(); // Ngăn chặn gửi biểu mẫu
-                alert('Vui lòng nhập % Giảm Giá.'); // Hiển thị thông báo hoặc xử lý xác thực cần thiết
-            }
-        });
-    </script>
-    
+
+            // Áp dụng cho tất cả các trường
+            hideErrorMessage('voucher-code', 'code-error');
+            hideErrorMessage('start-date', 'start-date-error');
+            hideErrorMessage('end-date', 'end-date-error');
+            hideErrorMessage('discount-amount', 'discount-amount-error');
+            hideErrorMessage('discount-percentage', 'discount-percentage-error');
+            hideErrorMessage('max-discount', 'max-discount-error');
+            hideErrorMessage('quantity', 'quantity-error');
+            hideErrorMessage('status', 'status-error');
+            hideErrorMessage('usage-type', 'usage-type-error');
+
+            // Hiển thị hoặc ẩn các nhóm giảm giá dựa trên loại giảm giá
+            document.getElementById('discount-type').addEventListener('change', function() {
+                const type = this.value;
+                document.getElementById('discount-amount-group').style.display = type === 'amount' ? 'block' : 'none';
+                document.getElementById('discount-percentage-group').style.display = type === 'percentage' ? 'block' : 'none';
+            });
+        </script>
+    </div>
 @endsection
