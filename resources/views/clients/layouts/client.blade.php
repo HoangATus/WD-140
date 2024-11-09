@@ -187,6 +187,8 @@
         <!-- theme setting js -->
         <script src="{{ asset('assets/clients/js/theme-setting.js') }}"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
         <script>
             const colorOptions = document.querySelectorAll('#color-options .option-item');
             colorOptions.forEach(item => {

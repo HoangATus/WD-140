@@ -14,97 +14,89 @@ use Illuminate\Support\Facades\Storage;
 
 class CheckoutController extends Controller
 {
+    // public function index()
+    // {
+    //     $userId = Auth::id();
+    //     $user = Auth::user();
+    //     $cart = session()->get('cart_' . $userId, []);
+    //     $sum = 0;
+
+    //     // Calculate the cart total
+    //     foreach ($cart as $item) {
+    //         $sum += $item['price'] * $item['quantity'];
+    //     }
+    //     $loyaltyPoints = $user ? $user->points : 0;
+    //     $appliedPoints = session()->get('applied_loyalty_points', 0);
+    //     $pointValue = 1; // Define how much each point is worth
+    //     $discountAmount = $appliedPoints * $pointValue;
+    //     $total = max(0, $sum - $discountAmount);
+    //     session(['checkout_total' => $total]);
+    //     session(['cart_total' => $total, 'discount_amount' => $discountAmount]);
+    //     dd(session()->all());
+
+    //     return view('clients.checkout.index', compact('user','cart', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount', 'sum'));
+    // }
+
+
+    // public function index()
+    // {
+    //     $userId = Auth::id();
+    //     $user = Auth::user();
+
+    //     $cart = session()->get('cart_' . $userId, []);
+    //     $total = session()->get('cart_total', 0);
+    //     $sum = session()->get('cart_sum', 0);
+    //     $appliedPoints = session()->get('applied_loyalty_points', 0);
+    //     $discountAmount = session()->get('discount_amount', 0);
+    //     dd(session()->all());
+
+    //     return view('clients.checkout.index', compact('user', 'cart', 'total', 'sum', 'appliedPoints', 'discountAmount'));
+    // }
+
+    // public function index()
+    // {
+    //     $userId = Auth::id();
+    //     $user = Auth::user();
+    //     $cart = session()->get('cart_' . $userId, []);
+    //     $sum = 0;
+
+    //     // Calculate the cart total
+    //     foreach ($cart as $item) {
+    //         $sum += $item['price'] * $item['quantity'];
+    //     }
+
+    //     $loyaltyPoints = $user ? $user->points : 0;
+    //     $appliedPoints = session()->get('applied_loyalty_points', 0);
+    //     $pointValue = 1; // Define how much each point is worth
+    //     $discountAmount = $appliedPoints * $pointValue;
+
+    //     // Calculate the total after applying discounts
+    //     $total = max(0, $sum - $discountAmount);
+
+    //     // Store totals in session
+    //     session(['checkout_total' => $total, 'cart_total' => $total, 'discount_amount' => $discountAmount]);
+
+    //     // Debugging output to check session values
+    //     // dd(session()->all());
+
+    //     return view('clients.checkout.index', compact('user', 'cart', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount', 'sum'));
+    // }
+
     public function index()
     {
         $userId = Auth::id();
         $user = Auth::user();
-
         $cart = session()->get('cart_' . $userId, []);
-        $total = session()->get('cart_total', 0);
-        $sum = session()->get('cart_sum', 0);
+        
+        $loyaltyPoints = $user ? $user->points : 0;
         $appliedPoints = session()->get('applied_loyalty_points', 0);
         $discountAmount = session()->get('discount_amount', 0);
-
-        return view('clients.checkout.index', compact('user', 'cart', 'total', 'sum', 'appliedPoints', 'discountAmount'));
+        $total = session()->get('checkout_total', 0); // Lấy tổng tiền đã lưu từ session
+        
+        return view('clients.checkout.index', compact('user', 'cart', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount'));
     }
+    
 
-    public function process(Request $request)
-    {
-        if ($request->has('cancel_order')) {
-            return $this->cancelOrder($request->input('order_id'));
-        }
-
-        $request->validate([
-            'name'            => 'required|string|max:255',
-            'phone'           => 'required|string|max:20',
-            'address'         => 'required|string|max:500',
-            'notes'           => 'nullable|string|max:1000',
-            'payment_method'  => 'required|in:cod,online',  // Chỉ chấp nhận COD hoặc online
-        ]);
-
-        $userId = Auth::id();
-        $user = Auth::user();
-        $cart = session()->get('cart_' . $userId, []);
-
-        if (empty($cart)) {
-            return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống.');
-        }
-
-        $total = session()->get('cart_total', 0);
-        $usedPoints = session()->get('applied_loyalty_points', 0);
-
-        $params['order_code'] = $this->generateUniqueOrderCode();
-        $order = Order::create([
-            'user_id'        => $userId,
-            'order_code'     => $params['order_code'],
-            'name'           => $request->name,
-            'phone'          => $request->phone,
-            'address'        => $request->address,
-            'notes'          => $request->notes,
-            'total'          => $total,
-            'status'         => 'pending',
-            'payment_method' => $request->payment_method,
-        ]);
-
-        foreach ($cart as $variant_id => $item) {
-            $variant = Variant::find($variant_id);
-
-            if ($variant->quantity < $item['quantity']) {
-                return redirect()->route('cart.index')->with('error', 'Số lượng sản phẩm ' . $item['product_name'] . ' không đủ.');
-            }
-
-            $variant->quantity -= $item['quantity'];
-            $variant->save();
-
-            OrderItem::create([
-                'order_id'     => $order->id,
-                'variant_id'   => $variant_id,
-                'product_id'   => $item['product_id'],
-                'product_name' => $item['product_name'],
-                'variant_name' => $item['variant_name'],
-                'price'        => $item['price'],
-                'quantity'     => $item['quantity'],
-                'image'        => $item['image'],
-            ]);
-        }
-
-        if ($usedPoints > 0) {
-            $user->points -= $usedPoints;
-            $user->save();
-        }
-
-        session()->forget('cart_' . $userId);
-        session()->forget('cart_total');
-        session()->forget('applied_loyalty_points');
-
-        if ($request->payment_method == 'online') {
-            return $this->createVNPayPaymentLink($order);
-        }
-
-        Mail::to($user->user_email)->send(new OrderSuccessful($order));
-
-        return redirect()->route('checkout.success', ['order' => $order->id]);
-    }
 
 
     public function success()
@@ -271,6 +263,8 @@ class CheckoutController extends Controller
     
         return redirect()->route('checkout.success', ['order' => $order->id]);
     }
+
     
-    
-}    
+
+}
+

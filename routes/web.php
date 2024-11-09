@@ -47,6 +47,7 @@ Route::resource('/products', ProductController::class)->parameters([
 Route::post('/products/{product}/comments', [CommentController::class, 'store'])->name('comments.store');
 
 
+
 // Route cho giỏ hàng
 
 Route::middleware(['web'])->group(function () {
@@ -57,8 +58,9 @@ Route::middleware(['web'])->group(function () {
     Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
     Route::get('/cart/modal', [CartController::class, 'modal'])->name('cart.modal');
-    Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints']);
-    Route::post('/cart/remove-loyalty-points', [CartController::class, 'removeLoyaltyPoints']);
+    Route::post('/checkout/apply-loyalty-points', [CheckoutController::class, 'applyLoyaltyPoints'])->name('checkout.apply.loyalty.points');
+    Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints'])->name('cart.applyLoyaltyPoints');
+
 
     // Thanh Toán
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');

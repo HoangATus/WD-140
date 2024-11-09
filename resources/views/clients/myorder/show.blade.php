@@ -98,7 +98,7 @@
                                             <tr>
                                                 <th class="fw-bold" style="font-size: 18px;">Thành tiền :</th>
                                                 <th class="text-end" style="color: red;">
-                                                    {{ number_format($totalAmount, 0, ',', '.') }} VNĐ</th>
+                                                    {{ number_format($order->total, 0, ',', '.') }} VNĐ</th>
                                             </tr>
                                         </table>
                                     </div>
