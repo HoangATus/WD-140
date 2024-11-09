@@ -47,6 +47,7 @@ Route::resource('/products', ProductController::class)->parameters([
 Route::post('/products/{product}/comments', [CommentController::class, 'store'])->name('comments.store');
 
 
+
 // Route cho giỏ hàng
 
 Route::middleware(['web'])->group(function () {

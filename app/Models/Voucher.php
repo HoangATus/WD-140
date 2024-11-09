@@ -10,13 +10,17 @@ class Voucher extends Model
 {
     protected $fillable = [
         'code',
-        'discount_percent',
-        'max_discount_amount',
         'start_date',
         'end_date',
-        'is_public',
-        'is_active',
+        'type',
+        'discount_amount',
+        'discount_percentage',
+        'max_discount',
+        'quantity',
+        'status',
+        'usage_type'
     ];
+
     protected $dates = [
         'start_date',
         'end_date',
