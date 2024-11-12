@@ -19,8 +19,8 @@ class VoucherRequest extends FormRequest
             'end_date' => 'required|date|after:start_date',
             'is_active' => 'required|boolean',
             'is_public' => 'required|boolean',
-            'user_ids' => 'nullable|array',
-            'user_ids.*' => 'exists:users,id',
+             'user_ids' => 'nullable|array',
+            'user_ids.*' => 'exists:users,user_id',
         ];
     }
 

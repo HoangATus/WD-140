@@ -105,7 +105,7 @@
                 <label>Khách Hàng Được Sử Dụng (Nếu Không Công Khai)</label>
                 <select name="user_ids[]" class="form-control" multiple>
                     @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->user_name }}</option>
+                        <option value="{{ $user->user_id }}">{{ $user->user_name }}</option>
                     @endforeach
                 </select>
                 @error('user_ids')

@@ -22,14 +22,21 @@ class VoucherController extends Controller
         return view('admins.vouchers.create', compact('users'));
     }
 
+    // public function store(VoucherRequest $request)
+    // {
+       
+    //     $voucher = Voucher::create();
+    //     $voucher->users()->sync($request->user_ids); // Gán voucher cho khách hàng được chọn
+    //     return redirect()->route('admins.vouchers.index')->with('success', 'Voucher đã được tạo thành công!');
+    // }
     public function store(VoucherRequest $request)
     {
-       
-        $voucher = Voucher::create();
+        $validated = $request->validated();
+        $voucher = Voucher::create($validated);
         $voucher->users()->sync($request->user_ids); // Gán voucher cho khách hàng được chọn
         return redirect()->route('admins.vouchers.index')->with('success', 'Voucher đã được tạo thành công!');
     }
-
+    
     public function show($id)
     {
         $users = User::all(); // Lấy danh sách khách hàng

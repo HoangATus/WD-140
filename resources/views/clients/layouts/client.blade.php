@@ -67,7 +67,190 @@
         .category-box {
             transition: all 0.3s ease;
         }
+        header .navbar {
+    display: inline-block;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 15px;
+    z-index: 0;
+}
+footer.section-t-space.footer-section-2.footer-color-3 {
+    z-index: -1; /* Hoặc 0 nếu vẫn nổi lên */
+}
 
+
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+.voucher-list {
+    max-height: 300px;
+    /* Đặt chiều cao tối đa cho danh sách voucher */
+    overflow-y: auto;
+    /* Cho phép cuộn theo chiều dọc */
+    margin-top: 20px;
+    /* Tạo khoảng cách trên */
+    padding-right: 10px;
+    /* Thêm khoảng cách để tránh bị che bởi thanh cuộn */
+}
+
+.modal {
+    position: relative;
+    z-index: 2;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #FFF;
+    margin: 5% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.xx {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.tab {
+    padding: 5px 10px;
+    background-color: #f5f5f5;
+    border: none;
+    cursor: pointer;
+}
+
+.tab.active {
+    background-color: #e0e0e0;
+    font-weight: bold;
+}
+
+.hr {
+    z-index: 0;
+}
+
+.voucher-info {
+    flex: 1;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.cancel,
+.confirm {
+    padding: 10px;
+    width: 100px;
+    cursor: pointer;
+}
+
+.cancel {
+    background-color: #352eff;
+    color: #fff;
+}
+
+.confirm {
+
+    background-color: #417394;
+    color: white;
+}
+
+.voucher-item {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    /* Giảm padding để tạo khoảng cách nhỏ hơn giữa các nội dung */
+    margin-bottom: 10px;
+    /* Giảm khoảng cách giữa các mã giảm giá */
+    border-radius: 8px;
+    background-color: #f5f5f5;
+}
+
+.voucher-icon {
+    width: 70px;
+    /* Giữ kích thước icon vừa phải */
+    height: 70px;
+    margin-right: 12px;
+    /* Giảm khoảng cách giữa icon và thông tin mã giảm giá */
+}
+
+.voucher-info h4 {
+    color: #4CAF50;
+    font-size: 16px;
+    margin-bottom: 3px;
+    /* Giảm khoảng cách giữa tiêu đề và phần mô tả */
+}
+
+.voucher-info p {
+    margin-bottom: 3px;
+    /* Giảm khoảng cách giữa các dòng trong phần thông tin mã giảm giá */
+    font-size: 14px;
+}
+
+.expiry {
+    font-size: 10px;
+    color: #666;
+}
+
+.voucher-select {
+    margin-left: 8px;
+    transform: scale(1.5);
+    /* Tăng kích thước radio button nhưng vừa phải */
+    cursor: pointer;
+}
+
+.note {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: -8px;
+    /* Điều chỉnh để thu hẹp khoảng cách */
+}
+button:disabled {
+background-color: #ccc; /* Màu nền mờ hơn */
+color: #666; /* Màu chữ mờ hơn */
+cursor: not-allowed; /* Thay đổi con trỏ */
+opacity: 0.6; /* Độ mờ */
+}
+
+
+/* .footer{
+    z-index: 0;
+    display: inline-block;
+position: relative;
+    
+} */
         .category-box img {
             transition: all 0.3s ease;
             filter: none;
@@ -150,10 +333,29 @@
         <!-- Bg overlay Start -->
         <div class="bg-overlay"></div>
         <!-- Bg overlay End -->
-
+        {{-- <script src="//code.tidio.co/igkeujaraejp4md3vfbkxkwvoqn9q4lf.js" async></script> --}}
         <!-- latest jquery-->
         <script src="{{ asset('assets/clients/js/jquery-3.6.0.min.js') }}"></script>
-
+        {{-- <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+        <df-messenger
+          intent="WELCOME"
+          chat-title="Atus"
+          agent-id="53615cbf-5794-475e-aa76-e1b572e83d53"
+          language-code="vi"
+        ></df-messenger> --}}
+        <!-- Mã nhúng Chatbot.com -->
+<!-- Start of ChatBot (www.chatbot.com) code -->
+{{-- <script>
+    window.__ow = window.__ow || {};
+    window.__ow.organizationId = "398a317b-0e24-40c8-b2c8-48d5a72dc849";
+    window.__ow.template_id = "bfe32f50-1ac1-44bf-953e-c5b50450e1bd";
+    window.__ow.integration_name = "manual_settings";
+    window.__ow.product_name = "chatbot";   
+    ;(function(n,t,c){function i(n){return e._h?e._h.apply(null,n):e._q.push(n)}var e={_q:[],_h:null,_v:"2.0",on:function(){i(["on",c.call(arguments)])},once:function(){i(["once",c.call(arguments)])},off:function(){i(["off",c.call(arguments)])},get:function(){if(!e._h)throw new Error("[OpenWidget] You can't use getters before load.");return i(["get",c.call(arguments)])},call:function(){i(["call",c.call(arguments)])},init:function(){var n=t.createElement("script");n.async=!0,n.type="text/javascript",n.src="https://cdn.openwidget.com/openwidget.js",t.head.appendChild(n)}};!n.__ow.asyncInit&&e.init(),n.OpenWidget=n.OpenWidget||e}(window,document,[].slice))
+  </script>
+  <noscript>You need to <a href="https://www.chatbot.com/help/chat-widget/enable-javascript-in-your-browser/" rel="noopener nofollow">enable JavaScript</a> in order to use the AI chatbot tool powered by <a href="https://www.chatbot.com/" rel="noopener nofollow" target="_blank">ChatBot</a></noscript>
+  <!-- End of ChatBot code -->
+   --}}
         <!-- jquery ui-->
         <script src="{{ asset('assets/clients/js/jquery-ui.min.js') }}"></script>
 
