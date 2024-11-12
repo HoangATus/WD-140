@@ -8,6 +8,11 @@
                 <div class="col-12">
                     <div class="breadcrumb-contain">
                         <h2>Thanh Toán</h2>
+                        @if (session('errors'))
+                            <div class="alert alert-danger">
+                                {{ session('errors') }}
+                            </div>
+                        @endif
                         <nav>
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item">
@@ -33,6 +38,7 @@
                     <div class="left-sidebar-checkout">
                         <div class="checkout-detail-box">
                             <ul>
+
                                 <li>
                                     <div class="checkout-box">
                                         <div class="checkout-title">
@@ -111,37 +117,6 @@
                                             placeholder="Vui lòng điền...">
                                         <button class="btn-apply">Áp dụng</button>
                                     </div>
-                                    <script>
-                                        document.querySelector('.btn-apply').addEventListener('click', function() {
-                                            const voucherCode = document.getElementById('exampleFormControlInput1').value;
-                                            const totalAmount = {{ $total }}; // Tổng tiền gốc của đơn hàng
-
-                                            fetch('{{ route('apply.voucher') }}', {
-                                                    method: 'POST',
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                                    },
-                                                    body: JSON.stringify({
-                                                        code: voucherCode,
-                                                        total: totalAmount
-                                                    })
-                                                })
-                                                .then(response => response.json())
-                                                .then(data => {
-                                                    if (data.success) {
-                                                        // Cập nhật hiển thị giảm giá và tổng tiền mới
-                                                        document.getElementById('totalAmount').textContent = (totalAmount - data.discount)
-                                                            .toLocaleString() + ' VND';
-                                                        document.querySelector('.coupon-cart span').textContent = '- ' + data.discount
-                                                            .toLocaleString() + ' VND';
-                                                    } else {
-                                                        alert(data.message);
-                                                    }
-                                                })
-                                                .catch(error => console.error('Error:', error));
-                                        });
-                                    </script>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
@@ -150,34 +125,68 @@
                                         </h5>
                                     </div>
                                     <div class="form-check form-switch form-switch-primary">
-                                        <input class="form-check-input" type="checkbox" name="points" id="points"
-                                            value="{{ $user->points }}" style="padding: 12px 25px;">
+                                        <input class="form-check-input" type="checkbox" name="points"
+                                            id="points" value="{{ $user->points }}" style="padding: 12px 25px;">
                                     </div>
                                 </div>
-                                <h7 class="text-content">Điểm tích lũy của bạn: <span
-                                        id="availablePoints">{{ $user->points }} điểm</span></h7>
+                                <input type="hidden" id="pointsInput" name="points" value="0">
                             </div>
+                            <h7 class="text-content">Điểm tích lũy của bạn: <span
+                                    id="availablePoints">{{ $user->points }}
+                                    điểm</span></h7>
+                            <hr>
                             <ul>
                                 <li class="d-flex justify-content-between align-items-center"><strong>Tổng Tiền Hàng:
-                                    </strong> <span class="">{{ number_format($total, 0, ',', '.') }} VND</span>
+                                    </strong> <span id="totalAmount"
+                                        class="">{{ number_format($total, 0, ',', '.') }} VND</span>
                                 </li>
                             </ul>
-                            <ul>
-                                <li class="d-flex justify-content-between align-items-center my-2"><strong>Mã Giảm Giá:
-                                    </strong> <span class="">0 VND</span></li>
-                            </ul>
-                            <ul>
-                                <li class="d-flex justify-content-between align-items-center"><strong>Điểm tích lũy:
-                                    </strong> <span id="loyaltyPointsAmount">
-                                        0 VND</span></li>
-                            </ul>
+
+                            <div id="voucherDiscount" style="display: none;">
+                                <ul>
+                                    <li class="d-flex justify-content-between align-items-center my-2">
+                                        <strong>Mã Giảm Giá:</strong> <span>- 0 VND</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div id="pointsDiscountSection" style="display: none;">
+                                <ul>
+                                    <li class="d-flex justify-content-between align-items-center">
+                                        <strong>Điểm tích lũy:</strong> <span id="pointsDiscount">- 0 VND</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <input type="hidden" id="selectedVoucher" name="selectedVoucher">
+
                             <ul class="summery-total ">
                                 <li class="d-flex justify-content-between align-items-center"><strong>Thành tiền: </strong>
                                     <span class="price" id="totalAmount">{{ number_format($total, 0, ',', '.') }}
-                                        VND</span>
-                                </li>
+                                        VND</span></li>
                             </ul>
+                            <input type="hidden" name="initial_total" value="{{ $total }}">
+                            <input type="hidden" id="finalTotalInput" name="final_total" value="{{ $total }}">
                             <style>
+                                .no-scroll {
+                                    overflow: hidden;
+                                    height: 100vh;
+                                }
+
+                                .disabled-voucher {
+                                    opacity: 0.5;
+
+                                }
+
+                                .voucher-warning {
+                                    color: red;
+                                    font-size: 14px;
+                                    margin-top: 5px;
+                                }
+
+                                .hi {
+                                    position: absolute
+                                }
+
                                 .price {
                                     color: red;
                                 }
@@ -191,8 +200,6 @@
             </div>
         </div>
     </section>
-    <!-- Checkout section End -->
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const applyPointsCheckbox = document.getElementById("points");
@@ -203,19 +210,24 @@
             let appliedPoints = 0;
 
             function updateTotal() {
-                const discountAmount = appliedPoints;
+                const discountAmount = appliedPoints; 
                 const newTotal = originalTotal - discountAmount;
                 totalAmountElement.textContent = newTotal < 0 ? 0 : newTotal.toLocaleString() + ' VND';
-                loyaltyPointsAmountElement.textContent = discountAmount > 0 ? '- ' + discountAmount
-                .toLocaleString() + ' VND' : '0 VND';
+                loyaltyPointsAmountElement.textContent = discountAmount > 0 ? '- ' + discountAmount.toLocaleString() + ' VND' : '0 VND'; 
             }
 
             applyPointsCheckbox.addEventListener("change", function() {
-                appliedPoints = this.checked ? availablePoints : 0;
-                updateTotal();
+                appliedPoints = this.checked ? availablePoints : 0; 
+                updateTotal(); 
             });
 
-            updateTotal();
+            function updateTotal() {
+                let finalTotal = totalAmount - voucherDiscount - pointsDiscount;
+                finalTotal = Math.max(finalTotal, 0);
+
+                finalTotalElement.innerText = `${finalTotal.toLocaleString()} VND`;
+                document.getElementById('finalTotalInput').value = finalTotal;
+            }
         });
     </script>
 @endsection

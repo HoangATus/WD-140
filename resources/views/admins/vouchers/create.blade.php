@@ -73,6 +73,11 @@
             </div>
 
             <div class="form-group">
+                <label>Khách Hàng Được Sử Dụng (Nếu Không Công Khai)</label>
+                <select name="user_ids[]" class="form-control" multiple>
+                    @foreach ($users as $user)
+                        <option value="{{ $user->user_id }}">{{ $user->user_name }}</option>
+                    @endforeach
                 <label>Số Lượng Voucher:</label>
                 <input type="number" name="quantity" class="form-control @error('quantity') is-invalid @enderror" value="{{ old('quantity') }}" min="1" id="quantity">
                 @error('quantity')

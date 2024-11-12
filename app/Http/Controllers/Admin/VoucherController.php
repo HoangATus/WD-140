@@ -36,12 +36,28 @@ class VoucherController extends Controller
         return view('admins.vouchers.create');
     }
 
-    public function store(StoreVoucherRequest $request)
+    // public function store(VoucherRequest $request)
+    // {
+       
+    //     $voucher = Voucher::create();
+    //     $voucher->users()->sync($request->user_ids); // Gán voucher cho khách hàng được chọn
+    //     return redirect()->route('admins.vouchers.index')->with('success', 'Voucher đã được tạo thành công!');
+    // }
+    public function store(VoucherRequest $request)
     {
-
-        Voucher::create($request->all());
-        return redirect()->route('admins.vouchers.index')->with('success', 'Voucher đã được tạo thành công.');
+        $validated = $request->validated();
+        $voucher = Voucher::create($validated);
+        $voucher->users()->sync($request->user_ids); // Gán voucher cho khách hàng được chọn
+        return redirect()->route('admins.vouchers.index')->with('success', 'Voucher đã được tạo thành công!');
     }
+    
+    // public function show($id)
+    // public function store(StoreVoucherRequest $request)
+    // {
+
+    //     Voucher::create($request->all());
+    //     return redirect()->route('admins.vouchers.index')->with('success', 'Voucher đã được tạo thành công.');
+    // }
 
     public function edit(Voucher $voucher)
     {

@@ -51,6 +51,11 @@
                                             </ul>
                                         </div>
                                     @endif
+                                    @if(session('errorss'))
+                                    <div class="alert alert-danger">
+                                        {{ session('errorss') }}
+                                    </div>
+                                @endif
                                 
                                     <div class="col-12">
                                         <div class="form-floating theme-form-floating">

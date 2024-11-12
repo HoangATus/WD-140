@@ -10,23 +10,24 @@ class Voucher extends Model
 {
     protected $fillable = [
         'code',
+        'discount_percent',
+        'max_discount_amount',
+        'min_order_amount',
         'start_date',
         'end_date',
-        'type',
-        'discount_amount',
-        'discount_percentage',
-        'max_discount',
         'quantity',
-        'status',
-        'usage_type'
+        'is_public',
+        'is_active',
+        'created_by',
     ];
 
     protected $dates = [
         'start_date',
         'end_date',
     ];
-    public function users(): BelongsToMany
+    public function users()
     {
         return $this->belongsToMany(User::class, 'user_voucher', 'voucher_id', 'user_id');
     }
+
 }

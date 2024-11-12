@@ -38,6 +38,7 @@ use App\Http\Controllers\ReviewController;
 
 // Route cho trang chủ
 Route::get('/', [ShopController::class, 'index'])->name('home'); // Giả định phương thức index cho ShopController
+Route::get('/blog', [ShopController::class, 'blog'])->name('clients.blog');
 
 // Route cho sản phẩm
 Route::resource('/products', ProductController::class)->parameters([
@@ -69,6 +70,12 @@ Route::middleware(['web'])->group(function () {
 
     Route::get('/checkout2', [CheckoutController::class, 'checkout2'])->name('checkout.checkout2');
     Route::post('/checkout2/process2', [CheckoutController::class, 'process2'])->name('checkout2.process2');
+    Route::get('/checkout2/{id}/voucher', [CheckoutController::class, 'detailVoucher'])->name('clients.checkout.voucher');
+    Route::get('/voucher-details/{id}', [CheckoutController::class, 'show'])->name('clients.checkout.voucher');
+    Route::get('/user-vouchers', [CheckoutController::class, 'getUserVouchers']);
+    Route::get('/apply-voucher/{id}', [CheckoutController::class, 'applyVoucher']);
+    Route::get('/check-voucher/{code}', [CheckoutController::class, 'checkVoucher'])->name('check.voucher');
+    Route::post('/save-voucher', [CheckoutController::class, 'saveVoucher']);
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
