@@ -20,6 +20,7 @@ class Voucher extends Model
         'is_active',
         'created_by',
     ];
+
     protected $dates = [
         'start_date',
         'end_date',
