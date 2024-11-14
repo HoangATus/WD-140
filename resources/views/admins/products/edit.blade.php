@@ -9,7 +9,8 @@
 @section('content')
     {{-- {{ $product }} --}}
     {{-- {{$variants}} --}}
-    <form method="POST" action="{{ route('admins.products.update', $product->id) }}" id="product-form" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('admins.products.update', $product->id) }}" id="product-form"
+        enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <!-- New Product Add Start -->
@@ -218,7 +219,9 @@
                                                             <input type="file"
                                                                 name="variants[{{ $index }}][image]"
                                                                 class="form-control @error('variants.*.image') is-invalid @enderror">
-
+                                                            <input type="hidden"
+                                                                name="variants[{{ $index }}][old_image]"
+                                                                value="{{ $product->variants[$index]->image }}">
                                                             @if (!empty($product->variants[$index]->image))
                                                                 <img src="{{ Storage::url($product->variants[$index]->image) }}"
                                                                     alt="{{ $product->variants[$index]->name }}"
@@ -282,20 +285,21 @@
                                                                     let value = input.value.replace(/\./g, '').replace(' VNĐ', '').trim(); // Xóa định dạng VNĐ
                                                                     input.value = value; // Gán lại giá trị đã xóa định dạng
                                                                 });
-                                                        
+
                                                                 // Lặp qua các trường khác nếu có
-                                                                document.querySelectorAll('input[id^="variant-sale-price-"], input[id^="variant-listed-price-"]').forEach(function(input) {
-                                                                    let value = input.value.replace(/\./g, '').replace(' VNĐ', '').trim(); // Xóa định dạng VNĐ
-                                                                    input.value = value; // Gán lại giá trị đã xóa định dạng
-                                                                });
+                                                                document.querySelectorAll('input[id^="variant-sale-price-"], input[id^="variant-listed-price-"]')
+                                                                    .forEach(function(input) {
+                                                                        let value = input.value.replace(/\./g, '').replace(' VNĐ', '').trim(); // Xóa định dạng VNĐ
+                                                                        input.value = value; // Gán lại giá trị đã xóa định dạng
+                                                                    });
                                                             });
-                                                        
+
                                                             function removeCurrencyFormat(type, index) {
                                                                 let input = document.getElementById('variant-' + type + '-price-' + index);
                                                                 let value = input.value.replace(/\./g, '').replace(' VNĐ', '').trim();
                                                                 input.value = value;
                                                             }
-                                                        
+
                                                             function formatCurrency(type, index) {
                                                                 let input = document.getElementById('variant-' + type + '-price-' + index);
                                                                 let value = parseFloat(input.value.replace(/\./g, '').replace(',', '.'));
@@ -304,7 +308,7 @@
                                                                 }
                                                             }
                                                         </script>
-                                                        
+
                                                         <td>
                                                             <button type="button"
                                                                 class="btn btn-danger remove-variant-button">Xóa</button>
@@ -322,96 +326,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                function updateRowIndices() {
-                                    var variantTable = document.getElementById('variantTable').getElementsByTagName('tbody')[0];
-                                    for (var i = 0; i < variantTable.rows.length; i++) {
-                                        var row = variantTable.rows[i];
-                                        row.querySelector('select[name^="variants["]').name = `variants[${i + 1}][name]`;
-                                        row.querySelector('select[name^="variants["][attribute_size_name]').name =
-                                            `variants[${i + 1}][attribute_size_name]`;
-                                        row.querySelector('input[name^="variants["][quantity]').name = `variants[${i + 1}][quantity]`;
-                                        row.querySelector('input[name^="variants["][image]').name = `variants[${i + 1}][image]`;
-                                        row.querySelector('input[name^="variants["][variant_import_price]').name =
-                                            `variants[${i + 1}][variant_import_price]`;
-                                        row.querySelector('input[name^="variants["][variant_sale_price]').name =
-                                            `variants[${i + 1}][variant_sale_price]`;
-                                        row.querySelector('input[name^="variants["][variant_listed_price]').name =
-                                            `variants[${i + 1}][variant_listed_price]`;
-                                    }
-                                }
-
-                                function addVariantRow() {
-                                    var variantTable = document.getElementById('variantTable').getElementsByTagName('tbody')[0];
-                                    var rowCount = variantTable.rows.length;
-                                    var newRow = variantTable.insertRow(rowCount);
-                                    var cellColor = newRow.insertCell(0);
-                                    var cellSize = newRow.insertCell(1);
-                                    var cellQuantity = newRow.insertCell(2);
-                                    var cellImage = newRow.insertCell(3);
-                                    var cellImportPrice = newRow.insertCell(4);
-                                    var cellSalePrice = newRow.insertCell(5);
-                                    var cellListedPrice = newRow.insertCell(6);
-                                    var cellAction = newRow.insertCell(7);
-
-                                    cellColor.innerHTML = `
-                                        <select name="variants[${rowCount + 1}][name]" class="form-select">
-                                            <option selected>Màu</option>
-                                            @foreach ($colors as $id => $name)
-                                                <option value="{{ $id }}">{{ $name }}</option>
-                                            @endforeach
-                                        </select>
-                                    `;
-
-                                    cellSize.innerHTML = `
-                                        <select name="variants[${rowCount + 1}][attribute_size_name]" class="form-select">
-                                            <option selected>Size</option>
-                                            @foreach ($sizes as $size_id => $attribute_size_name)
-                                                <option value="{{ $size_id }}">{{ $attribute_size_name }}</option>
-                                            @endforeach
-                                        </select>
-                                    `;
-
-                                    cellQuantity.innerHTML = `
-                                        <input type="number" name="variants[${rowCount + 1}][quantity]" class="form-control" min="0" placeholder="Nhập số lượng...">
-                                    `;
-
-                                    cellImage.innerHTML = `
-                                        <input type="file" name="variants[${rowCount + 1}][image]" class="form-control">
-                                    `;
-
-                                    cellImportPrice.innerHTML = `
-                                        <input type="number" name="variants[${rowCount + 1}][variant_import_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá nhập...">
-                                    `;
-
-                                    cellSalePrice.innerHTML = `
-                                        <input type="number" name="variants[${rowCount + 1}][variant_sale_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá bán...">
-                                    `;
-
-                                    cellListedPrice.innerHTML = `
-                                        <input type="number" name="variants[${rowCount + 1}][variant_listed_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá niêm yết...">
-                                    `;
-
-                                    cellAction.innerHTML = `
-                                        <button type="button" class="btn btn-danger remove-variant-button">Xóa</button>
-                                    `;
-                                    newRow.querySelector('.remove-variant-button').addEventListener('click', function() {
-                                        newRow.remove();
-                                        updateRowIndices();
-                                    });
-                                }
-
-                                document.getElementById('addVariantButton').addEventListener('click', addVariantRow);
-                                document.querySelectorAll('.remove-variant-button').forEach(function(button) {
-                                    button.addEventListener('click', function() {
-                                        this.closest('tr').remove();
-                                        updateRowIndices();
-                                    });
-                                });
-                            });
-                        </script> --}}
-
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
                                 function updateRowIndices() {
