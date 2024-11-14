@@ -12,23 +12,23 @@ use Illuminate\Support\Facades\Storage;
 class CartController extends Controller
 {
     public function applyLoyaltyPoints(Request $request)
-{
-    $appliedPoints = $request->input('applied_points', 0);
-    $user = Auth::user();
-    $pointValue = 1; // Giá trị của mỗi điểm
+    {
+        $appliedPoints = $request->input('applied_points', 0);
+        $user = Auth::user();
+        $pointValue = 1;
 
-    $totalAfterDiscount = session('cart_total', 0); // Lấy tổng tiền giỏ hàng từ session
+        $totalAfterDiscount = session('cart_total', 0); // Lấy tổng tiền giỏ hàng từ session
 
 
-    // Lưu vào session
-    session([
-        'applied_loyalty_points' => $appliedPoints,
-        'checkout_total' => $totalAfterDiscount
-    ]);
+        // Lưu vào session
+        session([
+            'applied_loyalty_points' => $appliedPoints,
+            'checkout_total' => $totalAfterDiscount
+        ]);
 
-    return response()->json(['status' => 'success']);
-}
-public function index()
+        return response()->json(['status' => 'success']);
+    }
+    public function index()
     {
         $userId = Auth::id();
         $cart = session()->get('cart_' . $userId, []);
@@ -54,47 +54,6 @@ public function index()
         // Pass both the sum and totalAfterDiscount to the view
         return view('clients.cart.index', compact('cart', 'sum', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount'));
     }
-
-    // public function applyLoyaltyPoints(Request $request)
-    // {
-    //     $points = $request->input('points');
-    //     $appliedPoints = session()->get('applied_loyalty_points', 0);
-    //     $pointValue = 1;
-    //     $discountAmount = $points * $pointValue;
-    //     $total = max(0, $appliedPoints - $discountAmount);
-
-    //     session(['applied_loyalty_points' => $points, 'cart_total' => $total, 'discount_amount' => $discountAmount]);
-
-    //     return response()->json(['success' => true, 'new_total' => $total]);
-    // }
-
-
-    // public function applyLoyaltyPoints(Request $request)
-    // {
-    //     $points = $request->input('points'); // Points submitted via request
-    //     $loyaltyPoints = session()->get('loyaltyPoints', 0); // Retrieve user's available loyalty points
-
-    //     // Make sure the user can only apply up to their available points
-    //     $appliedPoints = min($points, $loyaltyPoints);
-    //     $pointValue = 1; // Each loyalty point worth $1
-    //     $discountAmount = $appliedPoints * $pointValue; // Calculate total discount
-    //     $currentTotal = session()->get('cart_total', 0); // Current cart total
-
-    //     // Calculate the new total after applying discount
-    //     $total = max(0, $currentTotal - $discountAmount);
-
-    //     // Store applied points and totals in session
-    //     session([
-    //         'applied_loyalty_points' => $appliedPoints,
-    //         'discount_amount' => $discountAmount,
-    //         'cart_total' => $total,
-    //         'checkout_total' => $total // Ensure to also update the checkout total
-    //     ]);
-
-    //     return response()->json(['success' => true, 'new_total' => $total]);
-    // }
-
-
     private function updateCartTotal($cart, $userId)
     {
         $sum = 0;

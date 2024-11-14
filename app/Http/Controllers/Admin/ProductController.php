@@ -211,31 +211,30 @@ class ProductController extends Controller
             if (!is_null($request->variants) && is_array($request->variants)) {
                 $variantIds = [];
                 foreach ($request->variants as $item) {
-                    if (isset($item['id'])) {
-                        $variant = Variant::find($item['id']);
-                        if ($variant) {
-                            $variantData = [
-                                'attribute_size_id' => $item['attribute_size_name'],
-                                'attribute_color_id' => $item['name'],
-                                'variant_listed_price' => $item['variant_listed_price'] ?? 0,
-                                'variant_sale_price' => $item['variant_sale_price'] ?? 0,
-                                'variant_import_price' => $item['variant_import_price'] ?? 0,
-                                'quantity' => $item['quantity'] ?? 0,
-                            ];
+                    // if (isset($item['id'])) {
+                    //     $variant = Variant::find($item['id']);
+                    //     if ($variant) {
+                    //         $variantData = [
+                    //             'attribute_size_id' => $item['attribute_size_name'],
+                    //             'attribute_color_id' => $item['name'],
+                    //             'variant_listed_price' => $item['variant_listed_price'] ?? 0,
+                    //             'variant_sale_price' => $item['variant_sale_price'] ?? 0,
+                    //             'variant_import_price' => $item['variant_import_price'] ?? 0,
+                    //             'quantity' => $item['quantity'] ?? 0,
+                    //         ];
+                    //         if (isset($item['image']) && $item['image'] instanceof \Illuminate\Http\UploadedFile) {
+                    //             if ($variant->image) {
+                    //                 Storage::delete($variant->image);
+                    //             }
+                    //             $variantData['image'] = Storage::put('variants', $item['image']);
+                    //         } else {
+                    //             $variantData['image'] = $variant->image;
+                    //         }
 
-                            if (isset($item['image']) && $item['image'] instanceof \Illuminate\Http\UploadedFile) {
-                                if ($variant->image) {
-                                    Storage::delete($variant->image);
-                                }
-                                $variantData['image'] = Storage::put('variants', $item['image']);
-                            } else {
-                                $variantData['image'] = $variant->image;
-                            }
-
-                            $variant->update($variantData);
-                            $variantIds[] = $variant->id;
-                        }
-                    } else {
+                    //         $variant->update($variantData);
+                    //         $variantIds[] = $variant->id;
+                    //     }
+                    // } else {
                         $newVariantData = [
                             'product_id' => $product->id,
                             'attribute_size_id' => $item['attribute_size_name'],
@@ -247,12 +246,19 @@ class ProductController extends Controller
                         ];
 
                         if (!empty($item['image']) && $item['image'] instanceof \Illuminate\Http\UploadedFile) {
+                            if (!empty($item['old_image']) && Storage::exists($item['old_image'])) {
+                                Storage::delete($item['old_image']); 
+                            }
+
                             $newVariantData['image'] = Storage::put('variants', $item['image']);
+                        }
+                        else if (!empty($item['old_image'])) {
+                            $newVariantData['image'] = $item['old_image']; 
                         }
 
                         $newVariant = Variant::create($newVariantData);
                         $variantIds[] = $newVariant->id;
-                    }
+                    // }
                 }
 
                 $product->variants()->whereNotIn('id', $variantIds)->delete();
