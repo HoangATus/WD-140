@@ -75,7 +75,7 @@
     z-index: 0;
 }
 footer.section-t-space.footer-section-2.footer-color-3 {
-    z-index: -1; /* Hoặc 0 nếu vẫn nổi lên */
+    z-index: -1; 
 }
 
 
@@ -90,13 +90,9 @@ body {
 
 .voucher-list {
     max-height: 300px;
-    /* Đặt chiều cao tối đa cho danh sách voucher */
     overflow-y: auto;
-    /* Cho phép cuộn theo chiều dọc */
     margin-top: 20px;
-    /* Tạo khoảng cách trên */
     padding-right: 10px;
-    /* Thêm khoảng cách để tránh bị che bởi thanh cuộn */
 }
 
 .modal {
@@ -191,31 +187,25 @@ body {
     align-items: center;
     border: 1px solid #ddd;
     padding: 10px;
-    /* Giảm padding để tạo khoảng cách nhỏ hơn giữa các nội dung */
     margin-bottom: 10px;
-    /* Giảm khoảng cách giữa các mã giảm giá */
     border-radius: 8px;
     background-color: #f5f5f5;
 }
 
 .voucher-icon {
     width: 70px;
-    /* Giữ kích thước icon vừa phải */
     height: 70px;
     margin-right: 12px;
-    /* Giảm khoảng cách giữa icon và thông tin mã giảm giá */
 }
 
 .voucher-info h4 {
     color: #4CAF50;
     font-size: 16px;
     margin-bottom: 3px;
-    /* Giảm khoảng cách giữa tiêu đề và phần mô tả */
 }
 
 .voucher-info p {
     margin-bottom: 3px;
-    /* Giảm khoảng cách giữa các dòng trong phần thông tin mã giảm giá */
     font-size: 14px;
 }
 
@@ -227,7 +217,6 @@ body {
 .voucher-select {
     margin-left: 8px;
     transform: scale(1.5);
-    /* Tăng kích thước radio button nhưng vừa phải */
     cursor: pointer;
 }
 
@@ -235,22 +224,14 @@ body {
     color: #ff0000;
     font-size: 12px;
     margin-top: -8px;
-    /* Điều chỉnh để thu hẹp khoảng cách */
 }
 button:disabled {
-background-color: #ccc; /* Màu nền mờ hơn */
-color: #666; /* Màu chữ mờ hơn */
-cursor: not-allowed; /* Thay đổi con trỏ */
-opacity: 0.6; /* Độ mờ */
+background-color: #ccc; 
+color: #666; 
+cursor: not-allowed; 
+opacity: 0.6; 
 }
 
-
-/* .footer{
-    z-index: 0;
-    display: inline-block;
-position: relative;
-    
-} */
         .category-box img {
             transition: all 0.3s ease;
             filter: none;

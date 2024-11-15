@@ -110,24 +110,62 @@
                                 </li>
                             </ul>
                             <div class="summery-contain">
-                                <div class="coupon-cart">
-                                    <h6 class="text-content mb-2">Mã giảm giá:</h6>
-                                    <div class="mb-3 coupon-box input-group">
-                                        <input type="text" class="form-control" id="exampleFormControlInput1"
-                                            placeholder="Vui lòng điền...">
-                                        <button class="btn-apply">Áp dụng</button>
+
+                                <div class="d-flex justify-content-between align-items-center my-2">
+                                    <h5>
+                                        <i class="fa-solid fa-ticket"></i> Mã giảm giá ATUS
+                                    </h5>
+                                    <a href="#" id="openModal">Chọn hoặc nhập mã</a>
+                                </div>
+
+                                <div id="voucherModal" class="modal">
+                                    <div class="modal-content">
+                                        <span class="close">&times;</span>
+                                        <h2 class="mb-4">Chọn ATUS Voucher</h2>
+
+                                        <div class="coupon-cart d-flex justify-content-between align-items-center">
+                                            <p class="m">Mã Voucher</p>
+
+                                            <div class="mb-3 coupon-box input-group ms-2">
+                                                <input type="text" class="form-control" id="voucherCod"
+                                                    {{-- ... --}} placeholder="Vui lòng điền...">
+                                                <button class="btn-apply" type="button" id="applyVoucherBt">Tìm
+                                                    {{-- .. --}}
+                                                    Kiếm</button>
+                                            </div>
+                                        </div>
+                                        <div id="voucherInfoContaine" style="display: none;">
+                                            <h4 id="voucherNam"></h4>
+                                            <p id="voucherDiscoun"></p>
+
+
+                                        </div>
+                                        <!-- Danh sách mã giảm giá -->
+                                        <div class="voucher-list">
+                                            <h3>Chọn 1 Voucher</h3>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="close-modal btn "
+                                                style="background-color: deepskyblue; color:rgb(255, 255, 255);">TRỞ
+                                                LẠI</a>
+                                            <a id="applyVoucherBtn" class="btn "
+                                                style="background-color: rgb(27, 100, 125) ; color:rgb(255, 255, 255);">
+                                                Áp dụng</a>
+                                        </div>
+
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h5 class="text-content">
-                                            Sử dụng toàn bộ điểm tích lũy
-                                        </h5>
-                                    </div>
-                                    <div class="form-check form-switch form-switch-primary">
-                                        <input class="form-check-input" type="checkbox" name="points"
-                                            id="points" value="{{ $user->points }}" style="padding: 12px 25px;">
-                                    </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="text-content">
+                                        Sử dụng toàn bộ điểm tích lũy
+                                    </h5>
+                                </div>
+                                <div class="form-check form-switch form-switch-primary">
+                                    <input class="form-check-input" type="checkbox" name="points" id="points"
+                                        value="{{ $user->points }}" style="padding: 12px 25px;"
+                                        @if ($user->points == 0) disabled @endif>
                                 </div>
                                 <input type="hidden" id="pointsInput" name="points" value="0">
                             </div>
@@ -161,8 +199,9 @@
 
                             <ul class="summery-total ">
                                 <li class="d-flex justify-content-between align-items-center"><strong>Thành tiền: </strong>
-                                    <span class="price" id="totalAmount">{{ number_format($total, 0, ',', '.') }}
-                                        VND</span></li>
+                                    <span class="price" id="finalTotal">{{ number_format($total, 0, ',', '.') }}
+                                        VND</span>
+                                </li>
                             </ul>
                             <input type="hidden" name="initial_total" value="{{ $total }}">
                             <input type="hidden" id="finalTotalInput" name="final_total" value="{{ $total }}">
@@ -202,23 +241,353 @@
     </section>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const applyPointsCheckbox = document.getElementById("points");
-            const totalAmountElement = document.querySelector(".summery-total span");
-            const loyaltyPointsAmountElement = document.getElementById("loyaltyPointsAmount");
-            const availablePoints = {{ $user->points }};
-            const originalTotal = {{ $total }};
-            let appliedPoints = 0;
 
-            function updateTotal() {
-                const discountAmount = appliedPoints; 
-                const newTotal = originalTotal - discountAmount;
-                totalAmountElement.textContent = newTotal < 0 ? 0 : newTotal.toLocaleString() + ' VND';
-                loyaltyPointsAmountElement.textContent = discountAmount > 0 ? '- ' + discountAmount.toLocaleString() + ' VND' : '0 VND'; 
+            document.getElementById('openModal').onclick = function() {
+                document.getElementById('voucherModal').style.display = 'block';
+                document.body.classList.add('no-scroll');
+            };
+
+
+            document.querySelector('.close-modal').onclick = function() {
+                document.getElementById('voucherModal').style.display = 'none';
+                document.body.classList.remove('no-scroll');
+            };
+
+
+            window.onclick = function(event) {
+                if (event.target === document.getElementById('voucherModal')) {
+                    document.getElementById('voucherModal').style.display = 'none';
+                    document.body.classList.remove('no-scroll');
+                }
+            };
+            let totalAmount = parseFloat("{{ $total }}");
+            let voucherDiscount = 0;
+            let pointsDiscount = 0;
+            if (availablePoints === 0) {
+                pointsCheckbox.disabled = true;
+            }
+            const totalAmountElement = document.getElementById("totalAmount");
+            const finalTotalElement = document.getElementById("finalTotal");
+            const voucherDiscountElement = document.getElementById("voucherDiscount");
+            const pointsDiscountSection = document.getElementById("pointsDiscountSection");
+            const pointsDiscountElement = document.getElementById("pointsDiscount");
+            const pointsCheckbox = document.getElementById("points");
+
+            totalAmountElement.innerText = `${totalAmount.toLocaleString()} VND`;
+            finalTotalElement.innerText = `${totalAmount.toLocaleString()} VND`;
+
+            document.getElementById('openModal').onclick = function() {
+                document.getElementById('voucherModal').style.display = 'block';
+            };
+
+            function loadUserVouchers() {
+                fetch('/user-vouchers', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const voucherListContainer = document.querySelector('.voucher-list');
+                        voucherListContainer.innerHTML = '';
+
+                        if (data.vouchers.length > 0) {
+
+                            data.vouchers.sort((a, b) => {
+                                const isAUsable = (a.discount_type === 'fixed' && totalAmount >= a
+                                        .min_order_amount) ||
+                                    (a.discount_type === 'percent' && totalAmount >= a
+                                    .min_order_amount);
+                                const isBUsable = (b.discount_type === 'fixed' && totalAmount >= b
+                                        .min_order_amount) ||
+                                    (b.discount_type === 'percent' && totalAmount >= b
+                                    .min_order_amount);
+
+
+                                if (isAUsable && isBUsable) {
+                                    if (a.discount_type === 'percent' && b.discount_type ===
+                                        'percent') {
+                                        return b.max_discount_amount - a.max_discount_amount;
+                                    }
+                                    if (a.discount_type === 'fixed' && b.discount_type === 'fixed') {
+                                        return b.discount_value - a.discount_value;
+                                    }
+
+                                    return b.discount_type === 'percent' ? 1 : -1;
+                                }
+
+
+                                if (isAUsable && !isBUsable) return -1;
+                                if (!isAUsable && isBUsable) return 1;
+
+                                return 0;
+                            });
+
+                            data.vouchers.forEach(voucher => {
+
+                                const usedPercent = (voucher.used_quantity / voucher.total_quantity) *
+                                    100;
+                                let usedPercentText = '';
+                                if (usedPercent >= 50) {
+                                    usedPercentText = `Đã dùng: ${Math.round(usedPercent)}%`;
+                                }
+
+                                const currentDate = new Date();
+                                const endDate = new Date(voucher.end_date);
+                                const timeDifference = endDate - currentDate;
+                                const hoursRemaining = Math.floor(timeDifference / (1000 * 60 * 60));
+                                const isExpiringSoon = hoursRemaining <= 24;
+
+
+                                const expiryText = isExpiringSoon ?
+                                    `Sắp hết hạn: Còn ${hoursRemaining} giờ` :
+                                    `HSD: ${endDate.toLocaleDateString('vi-VN')}`;
+
+                                let discountInfo = '';
+                                if (voucher.discount_type === 'percent') {
+                                    discountInfo =
+                                        `Giảm ${voucher.discount_percent}% - Giảm tối đa ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.max_discount_amount)}`;
+                                } else if (voucher.discount_type === 'fixed') {
+                                    discountInfo =
+                                        `Giảm ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.discount_value)} VND`;
+                                }
+
+
+                                let warningMessage = '';
+                                const isDisabled = (voucher.discount_type === 'fixed' && totalAmount <
+                                        voucher.min_order_amount) ||
+                                    (voucher.discount_type === 'percent' && totalAmount < voucher
+                                        .min_order_amount);
+
+                                if (isDisabled) {
+                                    const amountToSpend = voucher.min_order_amount - totalAmount;
+                                    warningMessage =
+                                        `<p class="voucher-warning" style="color: red;">Cần mua thêm ₫${amountToSpend.toLocaleString()} để áp dụng mã này.</p>`;
+                                }
+
+                                const voucherItem = document.createElement('div');
+                                voucherItem.className =
+                                    `voucher-item ${isDisabled ? 'disabled-voucher' : ''}`;
+                                const formattedAmount = new Intl.NumberFormat('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND'
+                                }).format(voucher.min_order_amount);
+
+                                voucherItem.innerHTML = `
+                    <img src="{{ asset('assets/clients/images/voucher1.png') }}" alt="Voucher Icon" class="voucher-icon">
+                    <div class="voucher-info">
+                        <h4><a href="/voucher-details/${voucher.id}" class="voucher-link">${voucher.code}</a></h4>
+                        <p>${discountInfo}</p>
+                        <p>Đơn Tối Thiểu ${formattedAmount}</p>
+                        <p class="expiry">
+                            <p class="used-percent">${usedPercentText}</p>
+                            ${expiryText}
+                            <a href="/voucher-details/${voucher.id}" class="voucher-conditions">Điều kiện</a>
+                        </p>  
+                        <p class="hi">${warningMessage}</p>
+                    </div>
+                   
+                    <input type="checkbox" class="voucher-select" name="selectedVoucher" id="voucher${voucher.id}"
+                        data-discount-type="${voucher.discount_type}"
+                        data-discount="${voucher.discount_value}"
+                        data-discount_percent="${voucher.discount_percent}"
+                        data-max-discount="${voucher.max_discount_amount}"
+                        data-min_order_amount="${voucher.min_order_amount}"
+                        ${isDisabled ? 'disabled' : ''}>
+                    <label for="voucher${voucher.id}"></label>
+                `;
+
+                                voucherListContainer.appendChild(voucherItem);
+                            });
+
+                            document.querySelectorAll('input[name="selectedVoucher"]').forEach(function(
+                                checkbox) {
+                                checkbox.addEventListener('change', function() {
+                                    document.querySelectorAll('input[name="selectedVoucher"]')
+                                        .forEach(function(otherCheckbox) {
+                                            if (otherCheckbox !== checkbox) {
+                                                otherCheckbox.checked = false;
+                                            }
+                                        });
+                                });
+                            });
+                        } else {
+                            voucherListContainer.innerHTML = '<p>Không có voucher nào khả dụng.</p>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi tải danh sách voucher:', error);
+                    });
             }
 
-            applyPointsCheckbox.addEventListener("change", function() {
-                appliedPoints = this.checked ? availablePoints : 0; 
-                updateTotal(); 
+
+            loadUserVouchers();
+
+            document.getElementById('applyVoucherBtn').onclick = function() {
+                const selectedVoucher = document.querySelector('input[name="selectedVoucher"]:checked');
+
+                if (!selectedVoucher) {
+                    voucherDiscount = 0;
+                    voucherDiscountElement.style.display = 'none';
+                    updateTotal();
+                    document.getElementById('voucherModal').style.display = 'none';
+                    return;
+                }
+
+                const voucherId = selectedVoucher.id.replace('voucher', '');
+                document.getElementById("selectedVoucher").value = voucherId;
+                const discountType = selectedVoucher.getAttribute('data-discount-type');
+                const discountValue = parseFloat(selectedVoucher.getAttribute('data-discount'));
+                const discountPercent = parseFloat(selectedVoucher.getAttribute('data-discount_percent')) / 100;
+                const maxDiscountAmount = parseFloat(selectedVoucher.getAttribute('data-max-discount'));
+                const minOrderAmount = parseFloat(selectedVoucher.getAttribute('data-min_order_amount'));
+
+                if (discountType === 'percent') {
+                    voucherDiscount = totalAmount * discountPercent;
+                    if (voucherDiscount > maxDiscountAmount) {
+                        voucherDiscount = maxDiscountAmount;
+                    }
+                } else if (discountType === 'fixed') {
+                    voucherDiscount = discountValue;
+                    // if (voucherDiscount > maxDiscountAmount) {
+                    //     voucherDiscount = maxDiscountAmount;
+                    // }
+                    if (voucherDiscount > totalAmount) {
+                        voucherDiscount = totalAmount;
+                    }
+                }
+
+                voucherDiscountElement.style.display = 'block';
+                voucherDiscountElement.querySelector('span').innerText =
+                    `- ${voucherDiscount.toLocaleString()} VND`;
+
+                updateTotal();
+                document.getElementById('voucherModal').style.display = 'none';
+            };
+
+            document.getElementById('applyVoucherBt').addEventListener('click', function() {
+                const voucherCode = document.getElementById('voucherCod').value.trim();
+
+                if (!voucherCode) {
+                    alert('Vui lòng nhập mã voucher để tìm kiếm.');
+                    return;
+                }
+
+                fetch(`/check-voucher/${voucherCode}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const voucherInfoContainer = document.getElementById('voucherInfoContaine');
+                        voucherInfoContainer.innerHTML = ''; // Xóa thông tin cũ
+
+                        if (data.success) {
+                            const voucherItem = document.createElement('div');
+                            voucherItem.className = 'voucher-item';
+                            voucherItem.innerHTML = `
+                <img src="{{ asset('assets/clients/images/voucher1.png') }}" alt="Voucher Icon" class="voucher-icon">
+                <div class="voucher-info">
+                    <h4>${data.voucher.code}</h4>
+                    <p>Giảm ${data.voucher.discount}% - Giảm tối đa ${data.voucher.max_discount_amount} VND</p>
+                    <p>Đơn Tối Thiểu ${data.voucher.min_order_amount} VND</p>
+                    <p class="expiry">HSD: ${new Date(data.voucher.end_date).toLocaleDateString('vi-VN')}</p>
+                </div>
+                <button style="color: #f5f5f5; border-radius: 3px; background-color: #417394;" 
+                        id="saveVoucherBtn" 
+                        ${data.is_saved ? 'disabled' : ''}>
+                    ${data.is_saved ? 'Đã lưu' : 'Lưu'}
+                </button>
+            `;
+
+                            voucherInfoContainer.appendChild(voucherItem);
+                            voucherInfoContainer.style.display = 'block';
+
+                            if (!data.is_saved) {
+                                document.getElementById('saveVoucherBtn').addEventListener('click',
+                                    function() {
+                                        saveVoucher(data.voucher.code);
+                                    }, {
+                                        once: true
+                                    });
+                            }
+                        } else {
+                            alert(data.message);
+                            voucherInfoContainer.style.display = 'none';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi tìm kiếm voucher:', error);
+                        alert('Đã xảy ra lỗi trong quá trình tìm kiếm voucher. Vui lòng thử lại sau.');
+                    });
+            });
+
+
+            //         const voucherModal = document.getElementById('voucherModal');
+            // document.querySelector('.close-modal').onclick = function() {
+            //     voucherModal.style.display = 'none';
+            // };
+
+            window.onclick = function(event) {
+                if (event.target === voucherModal) {
+                    voucherModal.style.display = 'none';
+                }
+            };
+            document.querySelector('.close').onclick = function() {
+                document.getElementById('voucherModal').style.display = 'none';
+            };
+
+            function saveVoucher(voucherCode) {
+                fetch(`/save-voucher`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            code: voucherCode
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Voucher đã được lưu vào danh sách của bạn!');
+                            const saveBtn = document.getElementById('saveVoucherBtn');
+                            saveBtn.innerText = 'Đã lưu';
+                            saveBtn.disabled = true;
+                            loadUserVouchers();
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi lưu voucher:', error);
+                    });
+            }
+
+            pointsCheckbox.addEventListener('change', function() {
+                if (pointsCheckbox.checked) {
+                    let availablePoints = parseFloat("{{ $user->points }}");
+                    let maxPointsValue = totalAmount - voucherDiscount;
+                    pointsDiscount = Math.min(availablePoints, maxPointsValue);
+
+                    pointsDiscountSection.style.display = 'block';
+                    pointsDiscountElement.innerText = `- ${pointsDiscount.toLocaleString()} VND`;
+
+                    document.getElementById('pointsInput').value = pointsDiscount;
+                } else {
+                    pointsDiscount = 0;
+                    pointsDiscountSection.style.display = 'none';
+
+                    document.getElementById('pointsInput').value = 0;
+                }
+
+                updateTotal();
             });
 
             function updateTotal() {

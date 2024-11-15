@@ -140,6 +140,26 @@
                         <span> Quản lý voucher </span>
                     </a>
                 </li>
+                
+                <li>
+                    <a href="#sidebarMaps" data-bs-toggle="collapse">
+                        <i data-feather="map"></i>
+                        <span> Quản lý Tin Tức </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarMaps">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='tp-link' href="{{ route('admins.news.index') }}">-  Danh sách Tin Tức</a>
+
+                            </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admins.news_categories.index') }}">-  Danh mục Tin Tức</a>
+
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
 
         </div>
