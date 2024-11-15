@@ -19,6 +19,7 @@ use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\DetailsofpurchaseorderController;
 use App\Http\Controllers\Clients\ProfileController;
 use App\Http\Controllers\MyOrderController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PurchasedOrderDetailsController;
 use App\Http\Controllers\ReviewController;
 
@@ -39,6 +40,7 @@ use App\Http\Controllers\ReviewController;
 // Route cho trang chủ
 Route::get('/', [ShopController::class, 'index'])->name('home'); // Giả định phương thức index cho ShopController
 Route::get('/blog', [ShopController::class, 'blog'])->name('clients.blog');
+Route::get('blog/{slug}', [ShopController::class, 'blogDetail'])->name('clients.blogDetail');
 
 // Route cho sản phẩm
 Route::resource('/products', ProductController::class)->parameters([
@@ -46,8 +48,6 @@ Route::resource('/products', ProductController::class)->parameters([
 ]);
 //Route comment
 Route::post('/products/{product}/comments', [CommentController::class, 'store'])->name('comments.store');
-
-
 
 // Route cho giỏ hàng
 

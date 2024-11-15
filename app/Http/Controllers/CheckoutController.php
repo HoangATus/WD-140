@@ -22,9 +22,10 @@ class CheckoutController extends Controller
     {
         $userId = Auth::id();
         $user = Auth::user();
+
         $cart = session()->get('cart_' . $userId, []);
-        
-        $loyaltyPoints = $user ? $user->points : 0;
+        $total = session()->get('cart_total', 0);
+        $sum = session()->get('cart_sum', 0);
         $appliedPoints = session()->get('applied_loyalty_points', 0);
         $discountAmount = session()->get('discount_amount', 0);
         $total = session()->get('cart_total', 0);
@@ -33,7 +34,6 @@ class CheckoutController extends Controller
         
         return view('clients.checkout.index', compact('user', 'cart', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount'));
     }
-    
 
     public function process(Request $request)
     {
@@ -246,12 +246,19 @@ class CheckoutController extends Controller
         foreach ($vouchers as $voucher) {
             $usedQuantity = Order::where('voucher_id', $voucher->id)->count();
             $totalVoucherQuantity = $voucher->quantity + $usedQuantity;
+    
+            // Tính tỷ lệ đã sử dụng
             $voucher->used_quantity = $usedQuantity;
             $voucher->total_quantity = $totalVoucherQuantity;
         }
     
         return response()->json(['vouchers' => $vouchers]);
     }
+    
+    
+
+
+
     public function saveVoucher(Request $request)
     {
         $request->validate([
@@ -310,7 +317,7 @@ public function checkout2(Request $request)
         ->where('end_date', '>=', now())
         ->where('quantity', '>', 0)
         ->whereHas('users', function ($query) use ($user) {
-            $query->where('user_voucher.user_id', $user->id); 
+            $query->where('user_voucher.user_id', $user->id); // Sửa để dùng 'id' chính xác
         })
         ->get();
 
@@ -417,16 +424,12 @@ public function checkout2(Request $request)
             }
     
          
-              Mail::to($user->user_email)->send(new OrderSuccessful($order));
+            //  Mail::to($user->user_email)->send(new OrderSuccessful($order));
             return redirect()->route('checkout.success', ['order' => $order->id]);
         } catch (\Exception $e) {
             Log::error('Lỗi khi xử lý thanh toán: ' . $e->getMessage());
             return redirect()->route('checkout.checkout2')->with('error', 'Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.');
         }
     }
-
     
 }
-
-
-

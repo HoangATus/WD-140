@@ -32,7 +32,8 @@ Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function
     Route::resource('orders', OrderController::class);
 
     Route::post('logout', [AuthController::class, 'logoutAdmin'])->name('logout');
-
+    Route::resource('news_categories', \App\Http\Controllers\Admin\NewsCategoryController::class);
+    Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
     // Routes for revenue statistics
     Route::get('/dashboard/year', [RevenueController::class, 'getRevenueByYear'])->name('dashboard.year');
     Route::get('/dashboard/day', [RevenueController::class, 'getRevenueByDay'])->name('dashboard.day');
