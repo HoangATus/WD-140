@@ -401,16 +401,25 @@
                                         <button type="button" class="btn btn-danger remove-variant-button">Xóa</button>
                                     `;
                                     newRow.querySelector('.remove-variant-button').addEventListener('click', function() {
-                                        newRow.remove();
-                                        updateRowIndices(); // Cập nhật chỉ số sau khi xóa
+                                        if (confirm('Bạn có chắc chắn muốn xóa?')) {
+                                            newRow.remove();
+                                            updateRowIndices();
+                                        }
                                     });
                                 }
 
                                 document.getElementById('addVariantButton').addEventListener('click', addVariantRow);
                                 document.querySelectorAll('.remove-variant-button').forEach(function(button) {
                                     button.addEventListener('click', function() {
-                                        this.closest('tr').remove();
-                                        updateRowIndices(); // Cập nhật chỉ số sau khi xóa
+                                        const variantTable = document.getElementById('variantTable').querySelector(
+                                            'tbody');
+                                        const rows = variantTable.rows;
+                                        if (rows.length <= 1) {
+                                            alert('Sản phẩm bắt buộc phải có biến thể');
+                                        } else if (confirm('Bạn có chắc chắn muốn xóa?')) {
+                                            this.closest('tr').remove();
+                                            updateRowIndices();
+                                        }
                                     });
                                 });
                             });

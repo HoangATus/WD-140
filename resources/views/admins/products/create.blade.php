@@ -106,7 +106,8 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="row mb-3">
-                                            <label for="product-description" class="form-label-title col-sm-3 mb-0">Mô tả sản phẩm</label>
+                                            <label for="product-description" class="form-label-title col-sm-3 mb-0">Mô tả
+                                                sản phẩm</label>
                                             <div class="col-sm-9">
                                                 <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="product-description"
                                                     rows="5" placeholder="Nhập mô tả sản phẩm...">{{ old('description') }}</textarea>
@@ -118,13 +119,13 @@
                                             </div>
                                             <script>
                                                 tinymce.init({
-                                                  selector: 'textarea#product-description',
-                                                  height: 300, // Chiều cao của trình soạn thảo
-                                                  plugins: 'lists link image preview', // Các plugin hữu ích
-                                                  toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image', // Thanh công cụ
-                                                  branding: false // Tắt logo TinyMCE
+                                                    selector: 'textarea#product-description',
+                                                    height: 300, // Chiều cao của trình soạn thảo
+                                                    plugins: 'lists link image preview', // Các plugin hữu ích
+                                                    toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image', // Thanh công cụ
+                                                    branding: false // Tắt logo TinyMCE
                                                 });
-                                              </script>
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
@@ -357,16 +358,19 @@
                                         <button type="button" class="btn btn-danger remove-variant-button">Xóa</button>
                                     `;
                                     newRow.querySelector('.remove-variant-button').addEventListener('click', function() {
-                                        newRow.remove();
-                                        updateRowIndices();
+                                        if (confirm('Bạn có chắc chắn muốn xóa?')) {
+                                            newRow.remove();
+                                            updateRowIndices();
+                                        }
                                     });
+
                                 }
 
                                 document.getElementById('addVariantButton').addEventListener('click', addVariantRow);
+
                                 document.querySelectorAll('.remove-variant-button').forEach(function(button) {
                                     button.addEventListener('click', function() {
-                                        this.closest('tr').remove();
-                                        updateRowIndices();
+                                        alert('Sản phẩm bắt buộc phải có biến');
                                     });
                                 });
                             });
