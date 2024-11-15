@@ -28,8 +28,11 @@ class CheckoutController extends Controller
         $sum = session()->get('cart_sum', 0);
         $appliedPoints = session()->get('applied_loyalty_points', 0);
         $discountAmount = session()->get('discount_amount', 0);
-
-        return view('clients.checkout.index', compact('user', 'cart', 'total', 'sum', 'appliedPoints', 'discountAmount'));
+        $total = session()->get('cart_total', 0);
+        $total = $total - $appliedPoints;
+        // dd(session()->all());
+        
+        return view('clients.checkout.index', compact('user', 'cart', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount'));
     }
 
     public function process(Request $request)
@@ -43,7 +46,7 @@ class CheckoutController extends Controller
             'phone'           => 'required|string|max:20',
             'address'         => 'required|string|max:500',
             'notes'           => 'nullable|string|max:1000',
-            'payment_method'  => 'required|in:cod,online',  // Chỉ chấp nhận COD hoặc online
+            'payment_method'  => 'required|in:cod,online',
         ]);
 
         $userId = Auth::id();

@@ -106,9 +106,10 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="row mb-3">
-                                            <label class="form-label-title col-sm-3 mb-0">Mô tả sản phẩm</label>
+                                            <label for="product-description" class="form-label-title col-sm-3 mb-0">Mô tả
+                                                sản phẩm</label>
                                             <div class="col-sm-9">
-                                                <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description"
+                                                <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="product-description"
                                                     rows="5" placeholder="Nhập mô tả sản phẩm...">{{ old('description') }}</textarea>
                                                 @error('description')
                                                     <div class="invalid-feedback">
@@ -116,6 +117,15 @@
                                                     </div>
                                                 @enderror
                                             </div>
+                                            <script>
+                                                tinymce.init({
+                                                    selector: 'textarea#product-description',
+                                                    height: 300, // Chiều cao của trình soạn thảo
+                                                    plugins: 'lists link image preview', // Các plugin hữu ích
+                                                    toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image', // Thanh công cụ
+                                                    branding: false // Tắt logo TinyMCE
+                                                });
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
@@ -273,81 +283,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <script>
-                            document.getElementById('addVariantButton').addEventListener('click', function() {
-                                // Get the variant table body
-                                var variantTable = document.getElementById('variantTable').getElementsByTagName('tbody')[0];
-                                var rowCount = variantTable.rows.length; // Get current row count
-                                var newRow = variantTable.insertRow(rowCount); // Insert a new row at the end
-
-                                // Create the new cells
-                                var cellSize = newRow.insertCell(0);
-                                var cellColor = newRow.insertCell(1);
-                                var cellQuantity = newRow.insertCell(2);
-                                var cellImage = newRow.insertCell(3);
-                                var cellImportPrice = newRow.insertCell(4);
-                                var cellSalePrice = newRow.insertCell(5);
-                                var cellListedPrice = newRow.insertCell(6);
-                                var cellAction = newRow.insertCell(7);
-
-                                // Populate the cells with input fields and select options
-                                cellSize.innerHTML = `
-                                    <select name="attribute_sizes[${rowCount + 1}][size]" class="form-select">
-                                         <option selected>Size</option>
-                                        @foreach ($sizes as $size_id => $size_name)
-                                            <option value="{{ $size_id }}">{{ $size_name }}</option>
-                                        @endforeach
-                                    </select>
-                                `;
-
-                                cellColor.innerHTML = `
-                                    <select name="variants[${rowCount + 1}][color]" class="form-select">
-                                        <option selected>Màu</option>
-                                        @foreach ($colors as $color_id => $color_name)
-                                            <option value="{{ $color_id }}">{{ $color_name }}</option>
-                                        @endforeach
-                                    </select>
-                                `;
-
-                                cellQuantity.innerHTML = `
-                                    <input type="number" name="variants[${rowCount + 1}][quantity]" class="form-control" min="0" placeholder="Nhập số lượng...">
-                                `;
-
-                                cellImage.innerHTML = `
-                                    <input type="file" name="variants[${rowCount + 1}][image]" class="form-control">
-                                `;
-
-                                cellImportPrice.innerHTML = `
-                                    <input type="number" name="variants[${rowCount + 1}][variant_import_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá nhập...">
-                                `;
-
-                                cellSalePrice.innerHTML = `
-                                    <input type="number" name="variants[${rowCount + 1}][variant_sale_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá bán...">
-                                `;
-
-                                cellListedPrice.innerHTML = `
-                                    <input type="number" name="variants[${rowCount + 1}][variant_listed_price]" class="form-control" step="0.01" min="0" placeholder="Nhập giá niêm yết...">
-                                `;
-
-                                // Add remove button
-                                cellAction.innerHTML = `
-                                    <button type="button" class="btn btn-danger remove-variant-button">Xóa</button>
-                                `;
-
-                                // Attach event listener to remove the row when the "Xóa" button is clicked
-                                newRow.querySelector('.remove-variant-button').addEventListener('click', function() {
-                                    this.closest('tr').remove();
-                                });
-                            });
-
-                            // Add event listener to all existing remove buttons on page load
-                            document.querySelectorAll('.remove-variant-button').forEach(function(button) {
-                                button.addEventListener('click', function() {
-                                    this.closest('tr').remove();
-                                });
-                            });
-                        </script> --}}
-
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
                                 function updateRowIndices() {
@@ -423,16 +358,19 @@
                                         <button type="button" class="btn btn-danger remove-variant-button">Xóa</button>
                                     `;
                                     newRow.querySelector('.remove-variant-button').addEventListener('click', function() {
-                                        newRow.remove();
-                                        updateRowIndices();
+                                        if (confirm('Bạn có chắc chắn muốn xóa?')) {
+                                            newRow.remove();
+                                            updateRowIndices();
+                                        }
                                     });
+
                                 }
 
                                 document.getElementById('addVariantButton').addEventListener('click', addVariantRow);
+
                                 document.querySelectorAll('.remove-variant-button').forEach(function(button) {
                                     button.addEventListener('click', function() {
-                                        this.closest('tr').remove();
-                                        updateRowIndices();
+                                        alert('Sản phẩm bắt buộc phải có biến');
                                     });
                                 });
                             });
