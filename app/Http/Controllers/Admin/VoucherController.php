@@ -33,7 +33,9 @@ class VoucherController extends Controller
 
     public function create()
     {
-        return view('admins.vouchers.create');
+        $users = User::all();
+
+        return view('admins.vouchers.create', compact('users'));
     }
 
     public function store(StoreVoucherRequest $request)
