@@ -62,8 +62,16 @@
 
                                     <li>
                                         <div class="user-list">
+                                            <i class="ri-eye-fill align-middle"></i>
+                                            {{-- <i data-feather="message-square"></i> --}}
+                                            <span> Đã xem: {{ $new->view_count }}</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="user-list">
+
                                             <i data-feather="message-square"></i>
-                                            <span>{{ $new->view_count }} Comment</span>
+                                            <span> Bình luận: {{ $commentCount }}</span>
                                         </div>
                                     </li>
                                 </ul>
@@ -114,131 +122,283 @@
                                 </div>
                             </section>
                             <!-- Slideshow Section End -->
-
                         </div>
-                        <div class="comment-box overflow-hidden">
+                        <div class="user-list d-flex align-items-center justify-content-end mt-2">
+                            <i class="ri-eye-fill align-middle me-2"></i>
+                            <span>Đã xem: {{ $new->view_count }}</span>
+                        </div>
+                        <div class="comment-box overflow-hidden" id="comment-section">
                             <div class="leave-title">
                                 <h3>Bình luận</h3>
                             </div>
-                        
                             <div class="user-comment-box">
-                                <ul>
-                                    <li>
-                                        <div class="user-box border-color">
-                                            <div class="reply-button">
-                                                <i class="fa-solid fa-reply"></i>
-                                                <span class="theme-color">Trả lời</span>
-                                            </div>
-                                            <div class="user-image">
-                                                <img src="../assets/images/inner-page/user/1.jpg"
-                                                    class="img-fluid blur-up lazyload" alt="">
-                                                <div class="user-name">
-                                                    <h6>30 Tháng 1, 2022</h6>
-                                                    <h5 class="text-content">Glenn Greer</h5>
+                                <ul id="comment-list">
+                                    @foreach ($new->comments as $comment)
+                                        @if ($comment->approved || auth()->id() === $comment->user_id || auth()->user()->is_admin)
+                                            <li id="comment-{{ $comment->id }}">
+                                                <div
+                                                    class="user-box border-color {{ !$comment->approved ? 'opacity-50' : '' }}">
+                                                    <div class="user-image">
+                                                        <img src="{{ asset('path-to-user-image/' . $comment->user->profile_image) }}"
+                                                            class="img-fluid blur-up lazyload" alt="User">
+                                                        <div class="user-name">
+                                                            <h6>{{ $comment->created_at->format('d/m/Y H:i') }}</h6>
+
+                                                            <h5 class="text-content">{{ $comment->user->user_name }}</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="user-contain">
+                                                        <p id="comment-text-{{ $comment->id }}" class="mx-3">
+                                                            {{ $comment->comment }}</p>
+                                                        @if (!$comment->approved)
+                                                            <span class="badge bg-warning text-dark  mx-3">Chờ phê
+                                                                duyệt</span>
+                                                        @endif
+
+                                                    </div>
+                                                    @if (auth()->check() && auth()->id() === $comment->user_id)
+                                                        <div class="comment-actions ">
+                                                            <button data-id="{{ $comment->id }}"
+                                                                class="btn btn-sm edit-comment"
+                                                                style="color: rgb(0, 123, 255)">Sửa</button>
+                                                            <button data-id="{{ $comment->id }}"
+                                                                class="btn btn-sm delete-comment"
+                                                                style="color: rgb(255, 0, 51)">Xóa</button>
+                                                        </div>
+                                                    @endif
                                                 </div>
-                                            </div>
-                        
-                                            <div class="user-contain">
-                                                <p>"Đề xuất này là một tình huống đôi bên cùng có lợi, sẽ gây ra một sự thay đổi mô hình tuyệt vời, và tạo ra sự gia tăng gấp nhiều lần trong các sản phẩm mang lại sự hiểu biết tốt hơn."</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                        
-                                    <li>
-                                        <div class="user-box border-color">
-                                            <div class="reply-button">
-                                                <i class="fa-solid fa-reply"></i>
-                                                <span class="theme-color">Trả lời</span>
-                                            </div>
-                                            <div class="user-image">
-                                                <img src="../assets/images/inner-page/user/2.jpg"
-                                                    class="img-fluid blur-up lazyload" alt="">
-                                                <div class="user-name">
-                                                    <h6>30 Tháng 1, 2022</h6>
-                                                    <h5 class="text-content">Glenn Greer</h5>
-                                                </div>
-                                            </div>
-                        
-                                            <div class="user-contain">
-                                                <p>"Ừ, tôi nghĩ có thể bạn đúng. Đúng rồi, cho tôi một chai Pepsi không ga. Dĩ nhiên, điệu nhảy 'Enchantment Under The Sea' họ dự định tham gia, đó là nơi họ hôn nhau lần đầu tiên. Bạn sẽ biết thôi. Bạn chắc chắn về cơn bão này không?"</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                        
-                                    <li class="li-padding">
-                                        <div class="user-box">
-                                            <div class="reply-button">
-                                                <i class="fa-solid fa-reply"></i>
-                                                <span class="theme-color">Trả lời</span>
-                                            </div>
-                                            <div class="user-image">
-                                                <img src="../assets/images/inner-page/user/3.jpg"
-                                                    class="img-fluid blur-up lazyload" alt="">
-                                                <div class="user-name">
-                                                    <h6>30 Tháng 1, 2022</h6>
-                                                    <h5 class="text-content">Glenn Greer</h5>
-                                                </div>
-                                            </div>
-                        
-                                            <div class="user-contain">
-                                                <p>"Phô mai, phô mai dê, phô mai cottage, phô mai roquefort, phô mai kem, phô mai pecorino, phô mai chân, khi phô mai ra mọi người đều vui."</p>
-                                            </div>
-                                        </div>
-                                    </li>
+                                            </li>
+                                        @endif
+                                    @endforeach
                                 </ul>
+                                <div id="edit-comment-modal" style="display: none; ">
+                                    <div class="modal-content">
+                                        <h5 class="mb-3" style="color: blue">Chỉnh sửa bình luận</h5>
+                                        <span class="close"id="cancel-edit-comment">&times;</span>
+
+                                        <textarea id="edit-comment-text" class="form-control" rows="4"></textarea>
+                                        <small class="text-danger" id="edit-comment-error" style="display: none;">Nội dung
+                                            bình luận không được để trống.</small>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <button id="cancel-edit-comment" class="btn  mt-3"
+                                                style="background-color: gray;">Hủy</button>
+                                            <button id="save-edit-comment" class="btn mt-3"
+                                                style="background-color: rgb(56, 43, 233)">Lưu</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <style>
+                                    #edit-comment-modal {
+
+                                        position: fixed;
+
+                                        top: 50%;
+                                        left: 50%;
+                                        transform: translate(-50%, -50%);
+                                        background: white;
+                                        padding: 20px;
+                                        border-radius: 5px;
+                                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                                        z-index: 1000;
+                                    }
+
+                                    #edit-comment-modal .modal-content {
+                                        /* max-width: 1000px */
+                                        width: 1000px;
+                                        margin: auto;
+                                    }
+                                </style>
+
                             </div>
                         </div>
-                        
+
                         <div class="leave-box">
-                            <div class="leave-title mt-0">
+                            <div class="leave-title">
                                 <h3>Để lại bình luận</h3>
                             </div>
-                        
                             <div class="leave-comment">
-                                <div class="comment-notes">
-                                    <p class="text-content mb-4">Địa chỉ email của bạn sẽ không được công khai. Các trường bắt buộc được đánh dấu</p>
-                                </div>
-                                <div class="row g-3">
-                                    <div class="col-xxl-4 col-lg-12 col-sm-6">
-                                        <div class="blog-input">
-                                            <input type="text" class="form-control" id="exampleFormControlInput1"
-                                                placeholder="Họ và tên">
+                                @if (auth()->check())
+                                    @php
+                                        $pendingComment = auth()
+                                            ->user()
+                                            ->comments()
+                                            ->where('news_id', $new->id)
+                                            ->where('approved', false)
+                                            ->first();
+                                    @endphp
+
+                                    <form id="comment-form">
+                                        @csrf
+                                        <div class="col-12">
+                                            <div class="blog-input mb-4">
+                                                <textarea class="form-control" name="comment" rows="4" placeholder="Viết bình luận của bạn..."></textarea>
+                                                <small class="text-danger" id="add-comment-error"
+                                                    style="display: none;">Nội dung bình luận không được để trống.</small>
+                                            </div>
                                         </div>
-                                    </div>
-                        
-                                    <div class="col-xxl-4 col-lg-12 col-sm-6">
-                                        <div class="blog-input">
-                                            <input type="email" class="form-control" id="exampleFormControlInput2"
-                                                placeholder="Nhập địa chỉ email">
-                                        </div>
-                                    </div>
-                        
-                                    <div class="col-xxl-4 col-lg-12 col-sm-6">
-                                        <div class="blog-input">
-                                            <input type="url" class="form-control" id="exampleFormControlInput3"
-                                                placeholder="Nhập URL">
-                                        </div>
-                                    </div>
-                        
-                                    <div class="col-12">
-                                        <div class="blog-input">
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Bình luận"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                                <div class="form-check d-flex mt-4 p-0">
-                                    <input class="checkbox_animated" type="checkbox" value=""
-                                        id="flexCheckDefault">
-                                    <label class="form-check-label text-content" for="flexCheckDefault">
-                                        <span class="color color-1">Lưu tên, email và website của tôi trong trình duyệt này để lần sau tôi bình luận.</span>
-                                    </label>
-                                </div>
-                        
-                                <button class="btn btn-animation ms-xxl-auto mt-xxl-0 mt-3 btn-md fw-bold">Đăng bình luận</button>
+                                        <button type="submit"
+                                            class="btn btn-animation ms-xxl-auto mt-xxl-0 mt-5 btn-md fw-bold">Đăng bình
+                                            luận</button>
+                                    </form>
+                                @else
+                                    <p>Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để bình luận.</p>
+                                @endif
                             </div>
                         </div>
-                        
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const commentForm = document.getElementById('comment-form');
+
+                                if (commentForm) {
+                                    commentForm.addEventListener('submit', function(e) {
+                                        e.preventDefault();
+
+                                        const commentTextarea = commentForm.querySelector('textarea[name="comment"]');
+                                        const commentText = commentTextarea.value.trim();
+                                        const addCommentError = document.getElementById('add-comment-error');
+
+                                        if (!commentText) {
+                                            addCommentError.style.display = 'block';
+                                            return;
+                                        } else {
+                                            addCommentError.style.display = 'none';
+                                        }
+
+                                        const formData = new FormData(commentForm);
+
+                                        fetch(`{{ route('comments.storeComment', $new->id) }}`, {
+                                                method: 'POST',
+                                                headers: {
+                                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                                        .content,
+                                                },
+                                                body: formData,
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    const createdAt = new Date(data.comment.created_at);
+                                                    const formattedDate =
+                                                        `${("0" + createdAt.getDate()).slice(-2)}/${("0" + (createdAt.getMonth() + 1)).slice(-2)}/${createdAt.getFullYear()} ${("0" + createdAt.getHours()).slice(-2)}:${("0" + createdAt.getMinutes()).slice(-2)}`;
+                                                    const commentList = document.getElementById('comment-list');
+                                                    const newComment = document.createElement('li');
+                                                    newComment.id = `comment-${data.comment.id}`;
+                                                    newComment.innerHTML = `
+                    <div class="user-box border-color ${data.comment.approved ? '' : 'opacity-50'}">
+                        <div class="user-image">
+                            <img src="path-to-user-image/${data.comment.user.profile_image}" class="img-fluid blur-up lazyload" alt="User">
+                            <div class="user-name">
+                                <h6>${formattedDate}</h6>
+                                <h5 class="text-content">${data.comment.user.user_name}</h5>
+                            </div>
+                        </div>
+                        <div class="user-contain">
+                            <p class="mx-3" id="comment-text-${data.comment.id}">
+                                ${data.comment.comment}
+                            </p>
+                            ${data.comment.approved ? '' : '<span class="badge bg-warning text-dark mx-3">Chờ phê duyệt</span>'}
+                        </div>
+                        <div class="comment-actions">
+                            <button data-id="${data.comment.id}" class="btn btn-sm edit-comment" style="color: rgb(0, 123, 255)">Sửa</button>
+                            <button data-id="${data.comment.id}" class="btn btn-sm delete-comment" style="color: rgb(255, 0, 51)">Xóa</button>
+                        </div>
+                    </div>
+                `;
+
+                                                    commentList.appendChild(newComment);
+                                                    commentForm.reset();
+
+                                                    alert('Bình luận của bạn đã được gửi thành công!');
+                                                } else {
+                                                    alert(data.message);
+                                                }
+                                            });
+                                    });
+                                }
+
+
+                                let currentCommentId = null;
+                                document.body.addEventListener('click', function(e) {
+                                    if (e.target.classList.contains('edit-comment')) {
+                                        currentCommentId = e.target.getAttribute('data-id');
+                                        const commentText = document.getElementById(`comment-text-${currentCommentId}`)
+                                            .textContent.trim();
+                                        document.getElementById('edit-comment-text').value = commentText;
+                                        document.getElementById('edit-comment-modal').style.display = 'block';
+                                    }
+                                });
+                                document.getElementById('cancel-edit-comment').addEventListener('click', function() {
+                                    currentCommentId = null;
+                                    document.getElementById('edit-comment-modal').style.display = 'none';
+                                });
+                                document.getElementById('save-edit-comment').addEventListener('click', function() {
+                                    const updatedText = document.getElementById('edit-comment-text').value.trim();
+                                    const editCommentError = document.getElementById('edit-comment-error');
+
+                                    if (!updatedText) {
+                                        editCommentError.style.display = 'block';
+                                        return;
+                                    } else {
+                                        editCommentError.style.display = 'none';
+                                    }
+                                    if (updatedText && currentCommentId) {
+                                        fetch(`/comments/${currentCommentId}`, {
+                                                method: 'PUT',
+                                                headers: {
+                                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                                        .content,
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify({
+                                                    comment: updatedText
+                                                }),
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    document.getElementById(`comment-text-${currentCommentId}`)
+                                                        .textContent = updatedText;
+                                                    document.getElementById('edit-comment-modal').style.display = 'none';
+                                                    alert('Bình luận đã được sửa thành công!');
+                                                } else {
+                                                    alert(data.message);
+                                                }
+                                            });
+                                    }
+                                });
+                                document.body.addEventListener('click', function(e) {
+                                    if (e.target.classList.contains('delete-comment')) {
+                                        const commentId = e.target.getAttribute('data-id');
+                                        if (confirm('Bạn có chắc muốn xóa?')) {
+                                            fetch(`{{ route('comments.delete', '') }}/${commentId}`, {
+                                                    method: 'DELETE',
+                                                    headers: {
+                                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                                            .content,
+                                                    },
+                                                })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    if (data.success) {
+                                                        const commentElement = document.getElementById(
+                                                            `comment-${commentId}`);
+                                                        commentElement.remove();
+                                                    } else {
+                                                        alert(data.message);
+                                                    }
+                                                });
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
+                        <style>
+                            .opacity-50 {
+                                opacity: 0.5;
+                            }
+                        </style>
                     </div>
 
                     <div class="col-md-3 ">

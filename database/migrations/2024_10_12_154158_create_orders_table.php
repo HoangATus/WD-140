@@ -39,7 +39,10 @@ return new class extends Migration
             $table->enum('status', ['pending', 'confirmed', 'shipped','delivered', 'completed', 'canceled','failed'])->default('pending');
             // Tạo trường 'status' với kiểu dữ liệu enum, chứa các trạng thái của đơn hàng.
             // Giá trị mặc định của trường này là 'pending', tức là đơn hàng đang chờ xử lý.
-            $table->bigInteger('discount')->default(0);
+            $table->decimal('discount', 10, 0)->default(0);
+            $table->decimal('points_discount', 10, 0)->default(0);
+            $table->decimal('voucher_discount', 10, 0)->default(0);
+
             $table->string('payment_method')->nullable();
             // Tạo trường 'payment_method' với kiểu dữ liệu chuỗi (string), dùng để lưu phương thức thanh toán.
             // Trường này có thể chứa giá trị null (không bắt buộc).

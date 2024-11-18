@@ -41,7 +41,6 @@ class CategoryController extends Controller
         $data = $request->except('cover');
     
     
-        $data['slug'] = $data['slug'] ?? Str::slug($request->name);
     
         if ($request->hasFile('cover')) {
             $data['cover'] = Storage::put(self::PATH_UPLOAD, $request->file('cover'));

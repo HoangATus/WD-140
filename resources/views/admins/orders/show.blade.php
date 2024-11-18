@@ -75,8 +75,16 @@
             <div class="row">
                 <div class="col-md-3 offset-md-9">
                     <div class="d-flex justify-content-between">
+                        <span><b>Tổng tiền hàng:</b></span>
+                        <span class="fw-bold">{{ number_format($item->price * $item->quantity) }} VNĐ</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span><b>Điểm thưởng:</b></span>
+                        <span class="text-danger">-{{ number_format($order->points_discount) }} VNĐ</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
                         <span><b>Mã giảm giá (Voucher):</b></span>
-                        <span class="text-danger">-{{ number_format($order->discount) }} VNĐ</span>
+                        <span class="text-danger">-{{ number_format($order->voucher_discount) }} VNĐ</span>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span><b>Tổng:</b></span>
