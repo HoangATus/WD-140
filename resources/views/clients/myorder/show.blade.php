@@ -91,10 +91,31 @@
                                                     {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
                                                 </td>
                                             </tr>
-                                            {{-- <tr>
-                                                <td class="fw-bold">Giảm giá</td>
-                                                <td class="text-end">-100.000 VND</td>
-                                            </tr> --}}
+                                            <tr>
+                                                <td class="fw-bold">Voucher</td>
+                                                <td class="text-end">
+                                                    @if($order->voucher)
+                                                        @php
+                                                            $voucher = $order->voucher;
+                                                            $discount = $voucher->max_discount_amount ?? 0;
+                                                            $discountPercentage = $voucher->discount_percent ?? 0;
+                                                            
+                                                            // Kiểm tra loại giảm giá
+                                                            if ($discount > 0) {
+                                                                $displayDiscount = number_format($discount) . ' đ';
+                                                            } elseif ($discountPercentage > 0) {
+                                                                $displayDiscount = $discountPercentage . '%';
+                                                            } else {
+                                                                $displayDiscount = 'Không áp dụng';
+                                                            }
+                                                        @endphp
+                                                        {{ $displayDiscount }}
+                                                    @else
+                                                        Không áp dụng
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            
                                             <tr>
                                                 <th class="fw-bold" style="font-size: 18px;">Thành tiền :</th>
                                                 <th class="text-end" style="color: red;">

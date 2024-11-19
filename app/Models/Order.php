@@ -136,6 +136,11 @@ class Order extends Model
             Log::warning('Không tìm thấy người dùng cho đơn hàng: ' . $this->id);
         }
     }
+
+    public function voucher()
+{
+    return $this->belongsTo(Voucher::class);
+}
     
     
     

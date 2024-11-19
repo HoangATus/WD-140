@@ -30,13 +30,30 @@ class ShopController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $products = Product::with('variants')->latest()->take(10)->get();
-        $banners = Banner::where('is_active', true)->get();
+{
+    // Lấy 10 sản phẩm mới nhất cùng với các biến thể
+    $products = Product::with('variants')->latest()->take(10)->get();
+    
+    // Lấy các sản phẩm bán chạy dựa trên trạng thái 'delivered' và 'completed'
+    $bestSellingProducts = Product::with('variants')
+        ->select('products.*')
+        ->join('order_items', 'products.id', '=', 'order_items.product_id')
+        ->join('orders', 'orders.id', '=', 'order_items.order_id')
+        ->whereIn('orders.status', ['delivered', 'completed'])
+        ->groupBy('products.id')
+        ->orderByRaw('SUM(order_items.quantity) DESC')
+        ->take(10)
+        ->get();
 
-        $categories = Category::query()->get();
-        return view('clients.index', compact('products', 'banners', 'categories'));
-    }
+    // Lấy các banner đang active
+    $banners = Banner::where('is_active', true)->get();
+
+    // Lấy tất cả các danh mục
+    $categories = Category::query()->get();
+
+    return view('clients.index', compact('products', 'bestSellingProducts', 'banners', 'categories'));
+}
+
 
     /**
      * Show the form for creating a new resource.
