@@ -24,9 +24,9 @@ class NewsCategoryController extends Controller
         $request->validate([
             'name' => 'required|unique:news_categories|max:255',
         ], [
-            'name.required' => 'Tiêu đề là bắt buộc.',
-            'name.unique' => 'Tiêu đề này đã tồn tại, vui lòng chọn tiêu đề khác.',
-            'name.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+            'name.required' => 'Tên danh mục là bắt buộc.',
+            'name.unique' => 'Tên danh mục này đã tồn tại, vui lòng nhập Tên danh mục khác.',
+            'name.max' => 'Tên danh mục không được vượt quá 255 ký tự.',
            
         ]);
         NewsCategory::create([
@@ -50,9 +50,9 @@ class NewsCategoryController extends Controller
         $request->validate([
             'name' => 'required|max:255|unique:news_categories,name,' . $category->id,
         ], [
-            'name.required' => 'Tiêu đề là bắt buộc.',
-            'name.unique' => 'Tiêu đề này đã tồn tại, vui lòng chọn tiêu đề khác.',
-            'name.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+            'name.required' => 'Tên danh mục là bắt buộc.',
+            'name.unique' => 'Tên danh mục này đã tồn tại, vui lòng nhập Tên danh mục khác.',
+            'name.max' => 'Tên danh mục không được vượt quá 255 ký tự.',
         ]);
     
         $category->update([

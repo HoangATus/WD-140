@@ -35,7 +35,7 @@
                                         <div class="mb-4 row align-items-center">
                                             <label class="form-label-title col-sm-3 mb-0"> Tên</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" type="text" name="name" placeholder="Category Name" value="{{ old('name') }}">
+                                                <input class="form-control" type="text" name="name" placeholder="Nhập tên danh mục" value="{{ old('name') }}">
                                                 @error('name')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror

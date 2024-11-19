@@ -22,15 +22,6 @@
                             </div>
 
                             <div class="mb-4 row align-items-center">
-                                <label class="form-label-title col-sm-3 mb-0">Slug</label>
-                                <div class="col-sm-9">
-                                    <p>{{ $category->slug }}</p>
-                                </div>
-                            </div>
-
-                          
-
-                            <div class="mb-4 row align-items-center">
                                 <label class="form-label-title col-sm-3 mb-0">Ảnh </label>
                                 <div class="col-sm-9">
                                     @if($category->cover)

@@ -73,7 +73,7 @@
                                     @if ($user->banned_until)
                                         <span class="badge bg-danger">Bị cấm đến {{ \Carbon\Carbon::parse($user->banned_until)->format('d/m/Y H:i') }}</span>
                                     @else
-                                        <span class="badge bg-danger">Bị cấm vĩnh viễn</span>
+                                        <span class="badge bg-danger">Bị cấm </span>
                                     @endif
                                 @else
                                     <span class="badge bg-success">Hoạt động</span>
@@ -86,12 +86,12 @@
             @if ($user->role !== 'Admin')
                                 
                                 @if (!$user->is_banned)
-                                    <form action="{{ route('admins.users.ban', $user) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('admins.users.ban', $user) }}" method="POST" class="d-inline"onsubmit="return confirm('Bạn có chắc muốn cấm tài khoản này không?');">
                                         @csrf
                                         <button type="submit" class="btn btn-warning btn-sm">Cấm</button>
                                     </form>
                                 @else
-                                    <form action="{{ route('admins.users.unban', $user) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('admins.users.unban', $user) }}" method="POST" class="d-inline"onsubmit="return confirm('Bạn có chắc muốn gỡ cấm tài khoản này không?');">
                                         @csrf
                                         <button type="submit" class="btn btn-success btn-sm">Gỡ cấm</button>
                                     </form>

@@ -35,35 +35,26 @@ class UserController extends Controller
 
         return view('admins.users.show', compact('user'));
     }
-
     public function ban(Request $request, User $user)
     {
         if ($user->role === 'Admin') {
             return back()->with(['message' => 'Không thể cấm tài khoản quản trị viên.']);
         }
-
+    
         $request->validate([
-            'banned_until' => 'nullable|date',
+            'banned_until' => 'required|date|after_or_equal:today',
+        ], [
+            'banned_until.required' => 'Vui lòng chọn ngày cấm.',
+            'banned_until.after_or_equal' => 'Ngày cấm phải lớn hơn hoặc bằng ngày hiện tại.',
         ]);
-
-        if ($request->banned_until && now()->greaterThan(now()->create($request->banned_until))) {
-            $user->is_banned = false;
-            $user->banned_until = null;
-            $user->save();
-
-            return redirect()->route('admins.users.index')->with('message', 'Tài khoản đang hoạt động bình thường vì ngày cấm bạn chọn đã qua.');
-        }
-
+    
         $user->is_banned = true;
-        $user->banned_until = $request->banned_until ? now()->create($request->banned_until) : null; // Tạo thời gian cấm từ input
+        $user->banned_until = now()->create($request->banned_until); 
         $user->save();
-
-        if ($request->banned_until) {
-            return redirect()->route('admins.users.index')->with('message', 'Người dùng đã bị cấm thành công đến ' . $user->banned_until->format('d/m/Y H:i') . '.');
-        }
-
-        return redirect()->route('admins.users.index')->with('message', 'Người dùng đã bị cấm thành công.');
+    
+        return redirect()->route('admins.users.index')->with('message', 'Người dùng đã bị cấm thành công đến ' . $user->banned_until->format('d/m/Y') . '.');
     }
+    
 
 
     /**

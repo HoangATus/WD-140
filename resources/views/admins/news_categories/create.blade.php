@@ -16,13 +16,13 @@
     @csrf
     <div class="mb-3">
         <label for="name" class="form-label">Tên Danh Mục</label>
-        <input type="text" name="name" id="name" class="form-control" >
+        <input type="text" name="name" id="name" placeholder="Nhập tên danh mục" class="form-control" >
         @error('name')
         <div class="text-danger">{{ $message }}</div>
     @enderror
     </div>
     <a href="{{ route('admins.news_categories.index') }}" class="btn btn-primary ">Quay lại</a>
-    <button type="submit" class="btn btn-primary">Thêm</button>
+    <button type="submit" class="btn btn-success">Thêm</button>
 </form>
 
 @endsection

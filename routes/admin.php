@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\RatingController;
 use App\Http\Controllers\Admin\RevenueController;
@@ -34,6 +35,8 @@ Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function
     Route::post('logout', [AuthController::class, 'logoutAdmin'])->name('logout');
     Route::resource('news_categories', \App\Http\Controllers\Admin\NewsCategoryController::class);
     Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
+    Route::post('news/comments/{id}/approve', [NewsController::class, 'approve'])->name('news.comments.approve');
+    Route::post('news/comments/{id}/unapprove', [NewsController::class, 'unapprove'])->name('news.comments.unapprove');
     // Routes for revenue statistics
     Route::get('/dashboard/year', [RevenueController::class, 'getRevenueByYear'])->name('dashboard.year');
     Route::get('/dashboard/day', [RevenueController::class, 'getRevenueByDay'])->name('dashboard.day');

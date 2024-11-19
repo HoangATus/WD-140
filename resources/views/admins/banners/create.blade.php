@@ -28,7 +28,7 @@
                                         <div class="mb-4 row align-items-center">
                                             <label class="form-label-title col-sm-3 mb-0">Tiêu đề</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" type="text" name="title" placeholder="Banner Title" value="{{ old('title') }}">
+                                                <input class="form-control" type="text" name="title" placeholder="Nhập tiêu đề banner" value="{{ old('title') }}">
                                                 @error('title')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror

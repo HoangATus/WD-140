@@ -50,6 +50,8 @@ class Order extends Model
         'total',
         'status',
         'discount',
+        'points_discount',
+        'voucher_discount',
         'payment_method',
         'payment_status',
         'cancellation_reason',
