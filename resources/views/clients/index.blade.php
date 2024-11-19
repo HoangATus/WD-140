@@ -75,7 +75,7 @@
         <div class="container-fluid-lg">
             <div class="section-b-space">
                 <div class="title">
-                    <h2 class="text-danger">SẢN PHẨM</h2>
+                    <h2 class="text-danger">SẢN PHẨM BÁN CHẠY</h2>
                 </div>
                 @if (session('successy'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -90,7 +90,7 @@
             @endif
                 <div class="container">
                     <div class="product-grid">
-                        @foreach ($products as $product)
+                        @foreach ($bestSellingProducts as $product)
                             <div class="product-box">
                                 <div class="product-img">
                                     <a href="{{ route('products.show', $product->slug) }}">
@@ -358,7 +358,7 @@
             <div class="container-fluid-lg">
                 <div class="section-b-space">
                     <div class="title">
-                        <h2 class=" text-danger">SẢN PHẨM BÁN CHẠY</h2>
+                        <h2 class=" text-danger">SẢN PHẨM</h2>
                     </div>
                     @if (session('successy'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -373,7 +373,7 @@
                 @endif
                     <div class="container">
                         <div class="product-grid">
-                            @foreach ($bestSellingProducts as $product)
+                            @foreach ($products as $product)
                                 <div class="product-box">
                                     <div class="product-img">
                                         <a href="{{ route('products.show', $product->slug) }}">
