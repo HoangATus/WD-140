@@ -1,4 +1,4 @@
-@extends('layouts.theme')
+@extends('layouts.auth')
 @section('content')
     <!-- Breadcrumb Section Start -->
     <section class="breadcrumb-section pt-0">

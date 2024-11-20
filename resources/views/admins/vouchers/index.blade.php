@@ -36,8 +36,8 @@
 
                     <form action="{{ route('admins.vouchers.index') }}" method="GET"
                         class="d-flex justify-content-between align-items-center mb-4">
-                        <!-- Số dòng hiển thị mỗi trang (select bên trái) -->
-                        <select name="per_page" class="form-select " onchange="this.form.submit()" style="width: 100px;">
+                        <!-- Số dòng hiển thị mỗi trang -->
+                        <select name="per_page" class="form-select" onchange="this.form.submit()" style="width: 100px;">
                             <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
                             <option value="25" {{ $perPage == 25 ? 'selected' : '' }}>25</option>
                             <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>50</option>
@@ -46,11 +46,9 @@
 
                         <div class="d-flex align-items-center">
                             <!-- Tìm kiếm -->
-                            <input type="text" name="search" class="form-control mr-2"
+                            <input type="text" name="search" class="form-control"
                                 placeholder="Tìm kiếm mã voucher..." value="{{ $search ?? '' }}"
                                 style="width: 200px; margin-right: 10px;">
-
-                            <!-- Nút tìm kiếm -->
                             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                         </div>
                     </form>
@@ -65,44 +63,45 @@
                                 <th>Giảm Giá</th>
                                 <th>Số Lượng</th>
                                 <th>Trạng Thái</th>
-                                <th>Phạm Vi Sử Dụng</th>
+                                <th>Trạng Thái Công Khai</th>
+                                {{-- <th>Phạm Vi</th> --}}
                                 <th>Thao Tác</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($vouchers as $voucher)
+                            @forelse ($vouchers as $voucher)
                                 <tr align="center">
                                     <td>{{ $voucher->code }}</td>
                                     <td>{{ \Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</td>
-                                    <td>{{ $voucher->type == 'amount' ? 'Mệnh giá' : '%' }}</td>
+                                    <td>{{ $voucher->discount_type == 'fixed' ? 'Mệnh giá' : '%' }}</td>
                                     <td>
-                                        @if ($voucher->type == 'amount')
-                                            {{ number_format($voucher->discount_amount, 0) }} VND
+                                        @if ($voucher->discount_type == 'fixed')
+                                            {{ number_format($voucher->discount_value, 0) }} VND
                                         @else
-                                            {{ $voucher->discount_percentage }}% (Tối đa
-                                            {{ number_format($voucher->max_discount, 0) }} VND)
+                                            {{ $voucher->discount_percent }}% (Tối đa
+                                            {{ number_format($voucher->max_discount_amount, 0) }} VND)
                                         @endif
                                     </td>
                                     <td>{{ $voucher->quantity }}</td>
                                     <td>
-                                        <span
-                                            class="badge 
-                                            {{ $voucher->status ? 'bg-success' : 'bg-danger' }}">
-                                            {{ $voucher->status ? 'Kích hoạt' : 'Vô hiệu hóa' }}
+                                        <span class="badge {{ $voucher->is_active ? 'bg-success' : 'bg-danger' }}">
+                                            {{ $voucher->is_active ? 'Hoạt động' : 'Vô hiệu hóa' }}
                                         </span>
                                     </td>
                                     <td>
-                                        <span
-                                            class="badge 
-                                            {{ $voucher->usage_type == 'all' ? 'bg-info' : 'bg-warning' }}">
+                                        <span class="badge {{ $voucher->is_public ? 'bg-info' : 'bg-warning' }}">
+                                            {{ $voucher->is_public  ? 'Công khai' : 'Ẩn' }}
+                                        </span>
+                                    </td>
+                                    {{-- <td>
+                                        <span class="badge {{ $voucher->usage_type == 'all' ? 'bg-primary' : 'bg-secondary' }}">
                                             {{ $voucher->usage_type == 'all' ? 'Mọi người' : 'Giới hạn' }}
                                         </span>
-                                    </td>
-
+                                    </td>                                     --}}
                                     <td>
-                                        <a href="{{ route('admins.vouchers.edit', $voucher->id) }}"
-                                            class="btn btn-warning">Chỉnh sửa</a>
+                                        <a href="{{ route('admins.vouchers.show', $voucher->id) }}" class="btn btn-primary">Xem</a>
+                                        <a href="{{ route('admins.vouchers.edit', $voucher->id) }}" class="btn btn-warning">Sửa</a>
                                         <form action="{{ route('admins.vouchers.destroy', $voucher->id) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
@@ -112,7 +111,11 @@
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="9" align="center">Không có voucher nào được tìm thấy!</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                     {{ $vouchers->links('pagination::bootstrap-5') }}

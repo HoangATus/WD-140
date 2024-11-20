@@ -19,6 +19,7 @@ use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\DetailsofpurchaseorderController;
 use App\Http\Controllers\Clients\ProfileController;
 use App\Http\Controllers\MyOrderController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PurchasedOrderDetailsController;
 use App\Http\Controllers\ReviewController;
 
@@ -38,6 +39,8 @@ use App\Http\Controllers\ReviewController;
 
 // Route cho trang chủ
 Route::get('/', [ShopController::class, 'index'])->name('home'); // Giả định phương thức index cho ShopController
+Route::get('/blog', [ShopController::class, 'blog'])->name('clients.blog');
+Route::get('blog/{slug}', [ShopController::class, 'blogDetail'])->name('clients.blogDetail');
 
 // Route cho sản phẩm
 Route::resource('/products', ProductController::class)->parameters([
@@ -45,8 +48,6 @@ Route::resource('/products', ProductController::class)->parameters([
 ]);
 //Route comment
 Route::post('/products/{product}/comments', [CommentController::class, 'store'])->name('comments.store');
-
-
 
 // Route cho giỏ hàng
 
@@ -60,6 +61,8 @@ Route::middleware(['web'])->group(function () {
     Route::get('/cart/modal', [CartController::class, 'modal'])->name('cart.modal');
     Route::post('/checkout/apply-loyalty-points', [CheckoutController::class, 'applyLoyaltyPoints'])->name('checkout.apply.loyalty.points');
     Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints'])->name('cart.applyLoyaltyPoints');
+    Route::post('/cart/proceedToCheckout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
+    
 
 
     // Thanh Toán
@@ -69,6 +72,12 @@ Route::middleware(['web'])->group(function () {
 
     Route::get('/checkout2', [CheckoutController::class, 'checkout2'])->name('checkout.checkout2');
     Route::post('/checkout2/process2', [CheckoutController::class, 'process2'])->name('checkout2.process2');
+    Route::get('/checkout2/{id}/voucher', [CheckoutController::class, 'detailVoucher'])->name('clients.checkout.voucher');
+    Route::get('/voucher-details/{id}', [CheckoutController::class, 'show'])->name('clients.checkout.voucher');
+    Route::get('/user-vouchers', [CheckoutController::class, 'getUserVouchers']);
+    Route::get('/apply-voucher/{id}', [CheckoutController::class, 'applyVoucher']);
+    Route::get('/check-voucher/{code}', [CheckoutController::class, 'checkVoucher'])->name('check.voucher');
+    Route::post('/save-voucher', [CheckoutController::class, 'saveVoucher']);
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

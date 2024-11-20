@@ -304,5 +304,27 @@
     border: 2px solid #ccc;
     transition: 0.3s ease;
 }
+/* Căn giữa nội dung trong các ô */
+td {
+    vertical-align: middle;
+    /* Căn giữa theo chiều dọc */
+    text-align: center;
+    /* Căn giữa theo chiều ngang */
+}
 
+/* Điều chỉnh kích thước ảnh để không chiếm nhiều diện tích */
+td img {
+    max-width: 100%;
+    /* Đảm bảo ảnh không vượt quá kích thước của ô */
+    height: auto;
+    /* Giữ tỷ lệ hình ảnh */
+    width: 80px;
+    /* Đặt chiều rộng cố định */
+}
+
+/* Căn giữa toàn bộ các ô trong hàng */
+tr {
+    text-align: center;
+}
 /*# sourceMappingURL=style.css.map */
+

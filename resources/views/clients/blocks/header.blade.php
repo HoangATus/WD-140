@@ -1,4 +1,4 @@
-<header class="">
+<header  >
     <div class="header-top">
         <div class="container-fluid-lg">
             <div class="row">
@@ -101,11 +101,12 @@
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="{{ url('/products') }}">Sản
                                                     phẩm</a>
+                                            </li><li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="{{ url('/blog') }}">Tin tức</a>
+                                            </li><li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="{{ url('/products') }}">Cửa hàng</a>
                                             </li>
-                                            <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="javascript:void(0)"
-                                                    data-bs-toggle="dropdown">Liên hệ</a>
-                                            </li>
+                                           
                                         </ul>
                                     </div>
                                 </div>

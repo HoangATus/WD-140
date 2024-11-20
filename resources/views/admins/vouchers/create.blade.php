@@ -36,121 +36,55 @@
 
             <div class="form-group">
                 <label>Loại Giảm Giá:</label>
-                <select name="type" class="form-control" id="discount-type" value="{{ old('type') }}">
-                    <option value="amount" {{ old('type') == 'amount' ? 'selected' : '' }}>Mệnh giá</option>
-                    <option value="percentage" {{ old('type') == 'percentage' ? 'selected' : '' }}>Phần trăm</option>
+                <select name="discount_type" class="form-control" id="discount-type" value="{{ old('discount_type') }}">
+                    <option value="fixed" {{ old('discount_type') == 'fixed' ? 'selected' : '' }}>Mệnh giá</option>
+                    <option value="percent" {{ old('discount_type') == 'percent' ? 'selected' : '' }}>Phần trăm</option>
                 </select>
-                @error('type')
-                    <span class="text-danger" id="type-error">{{ $message }}</span>
+                @error('discount_type')
+                    <span class="text-danger" id="discount-type-error">{{ $message }}</span>
                 @enderror
             </div>
 
-            <div class="form-group" id="discount-amount-group"
-                style="{{ old('type') == 'amount' ? 'display:block;' : 'display:none;' }}">
-                <label for="discount-amount">Mệnh Giá Giảm Giá:</label>
-                <input type="text" name="discount_amount"
-                    class="form-control @error('discount_amount') is-invalid @enderror"
-                    value="{{ old('discount_amount') }}" id="discount-amount" oninput="formatCurrency(this)"
-                    onblur="formatCurrency(this)">
-
-                @error('discount_amount')
-                    <span class="text-danger" id="discount-amount-error">{{ $message }}</span>
+            <div class="form-group" id="discount-value-div">
+                <label for="discount-value">Mệnh Giá Giảm Giá:</label>
+                <input type="text" name="discount_value"
+                    class="form-control @error('discount_value') is-invalid @enderror" value="{{ old('discount_value') }}"
+                    id="discount-value">
+                @error('discount_value')
+                    <span class="text-danger" id="discount-value-error">{{ $message }}</span>
                 @enderror
             </div>
 
-            <script>
-                // Hàm định dạng giá trị theo tiền tệ Việt Nam (VND)
-                function formatCurrency(input) {
-                    let value = input.value.replace(/\D/g, ''); // Loại bỏ ký tự không phải là số
-                    if (value) {
-                        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // Thêm dấu phẩy cho hàng nghìn
-                        input.value = value; // Thêm ký hiệu ₫ vào cuối
-                    } else {
-                        input.value = ""; // Nếu không có giá trị thì để trống
-                    }
-                }
-
-                // Hàm làm sạch giá trị trước khi gửi form
-                document.querySelector("form").addEventListener("submit", function() {
-                    let discountInput = document.getElementById("discount-amount");
-                    let rawValue = discountInput.value.replace(/\D/g, ''); // Loại bỏ ký tự không phải là số
-                    discountInput.value = rawValue; // Cập nhật giá trị input với giá trị số
-                });
-            </script>
-
-            <div class="form-group" id="discount-percentage-group"
-                style="{{ old('type') == 'percentage' ? 'display:block;' : 'display:none;' }}">
-                <label>Phần Trăm Giảm Giá:</label>
-                <input type="number" name="discount_percentage"
-                    class="form-control @error('discount_percentage') is-invalid @enderror"
-                    value="{{ old('discount_percentage') }}" min="1" max="100" id="discount-percentage">
-                @error('discount_percentage')
-                    <span class="text-danger" id="discount-percentage-error">{{ $message }}</span>
+            <div class="form-group" id="discount-percent-div" style="display: none;">
+                <label>Phần Trăm Giảm Giá (%):</label>
+                <input type="number" name="discount_percent"
+                    class="form-control @error('discount_percent') is-invalid @enderror"
+                    value="{{ old('discount_percent') }}" min="1" max="100" id="discount-percent">
+                @error('discount_percent')
+                    <span class="text-danger" id="discount-percent-error">{{ $message }}</span>
                 @enderror
+            </div>
 
-                <div class="form-group">
-                    <label for="max-discount">Tối Đa Giảm Giá:</label>
-                    <input type="text" name="max_discount"
-                        class="form-control @error('max_discount') is-invalid @enderror" value="{{ old('max_discount') }}"
-                        id="max-discount" oninput="formatCurrency(this)" onblur="formatCurrency(this)">
-
-                    @error('max_discount')
-                        <span class="text-danger" id="max-discount-error">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <script>
-                    // Hàm định dạng giá trị theo tiền tệ Việt Nam (VND)
-                    function formatCurrency(input) {
-                        let value = input.value.replace(/\D/g, ''); // Loại bỏ các ký tự không phải là số
-                        if (value) {
-                            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // Thêm dấu phẩy phân cách hàng nghìn
-                            input.value = value; // Thêm ký hiệu ₫ vào cuối
-                        } else {
-                            input.value = ""; // Nếu không có giá trị thì để trống
-                        }
-                    }
-
-                    // Làm sạch giá trị trước khi gửi form
-                    document.querySelector("form").addEventListener("submit", function() {
-                        let maxDiscountInput = document.getElementById("max-discount");
-                        let rawValue = maxDiscountInput.value.replace(/\D/g, ''); // Loại bỏ dấu phẩy và ký tự không phải số
-                        maxDiscountInput.value = rawValue; // Cập nhật giá trị của input với giá trị số thuần túy
-                    });
-                </script>
-
+            <div class="form-group" id="max-discount-amount-div" style="display: none;">
+                <label for="max_discount_amount">Tối Đa Giảm Giá:</label>
+                <input type="text" name="max_discount_amount"
+                    class="form-control @error('max_discount_amount') is-invalid @enderror"
+                    value="{{ old('max_discount_amount') }}" id="max-discount-amount">
+                @error('max_discount_amount')
+                    <span class="text-danger" id="max-discount-amount-error">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="form-group">
-                <label for="min_discount">Giá tối thiểu được giảm: </label>
-                <input type="text" name="min_discount" class="form-control @error('min_discount') is-invalid @enderror"
-                    value="{{ old('min_discount') }}" id="min_discount" oninput="formatCurrency(this)"
-                    onblur="formatCurrency(this)">
+                <label for="min_order_amount">Giá tối thiểu được giảm: </label>
+                <input type="text" name="min_order_amount"
+                    class="form-control @error('min_order_amount') is-invalid @enderror"
+                    value="{{ old('min_order_amount') }}" id="min_order_amount">
 
-                @error('min_discount')
-                    <span class="text-danger" id="min_discount-error">{{ $message }}</span>
+                @error('min_order_amount')
+                    <span class="text-danger" id="min_order_amount-error">{{ $message }}</span>
                 @enderror
             </div>
-
-            <script>
-                // Hàm định dạng giá trị theo tiền tệ Việt Nam (VND)
-                function formatCurrency(input) {
-                    let value = input.value.replace(/\D/g, ''); // Loại bỏ các ký tự không phải là số
-                    if (value) {
-                        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // Thêm dấu phẩy phân cách hàng nghìn
-                        input.value = value; // Thêm ký hiệu ₫ vào cuối
-                    } else {
-                        input.value = ""; // Nếu không có giá trị thì để trống
-                    }
-                }
-
-                // Làm sạch giá trị trước khi gửi form
-                document.querySelector("form").addEventListener("submit", function() {
-                    let maxDiscountInput = document.getElementById("min_discount");
-                    let rawValue = maxDiscountInput.value.replace(/\D/g, ''); // Loại bỏ dấu phẩy và ký tự không phải số
-                    maxDiscountInput.value = rawValue; // Cập nhật giá trị của input với giá trị số thuần túy
-                });
-            </script>
 
 
             <div class="form-group">
@@ -163,10 +97,10 @@
             </div>
 
             <div class="form-group">
-                <label>Trạng Thái Hiển Thị:</label>
-                <select name="visibility" class="form-control" id="visibility">
-                    <option value="public" {{ old('visibility') == 'public' ? 'selected' : '' }}>Công khai</option>
-                    <option value="hidden" {{ old('visibility') == 'hidden' ? 'selected' : '' }}>Ẩn</option>
+                <label for="is_public">Trạng Thái Công Khai:</label>
+                <select name="is_public" id="is_public" class="form-control">
+                    <option value="1" {{ old('is_public') == 1 ? 'selected' : '' }}>Công khai</option>
+                    <option value="0" {{ old('is_public') == 0 ? 'selected' : '' }}>Ẩn</option>
                 </select>
                 @error('visibility')
                     <span class="text-danger" id="visibility-error">{{ $message }}</span>
@@ -174,10 +108,10 @@
             </div>
 
             <div class="form-group">
-                <label>Trạng Thái:</label>
-                <select name="status" class="form-control" id="status">
-                    <option value="0" {{ old('status', 1) == 1 ? 'selected' : '' }}>Kích hoạt</option>
-                    <option value="1" {{ old('status') == 0 ? 'selected' : '' }}>Vô hiệu hóa</option>
+                <label for="is_active">Trạng Thái Hoạt Động:</label>
+                <select name="is_active" id="is_active" class="form-control">
+                    <option value="1" {{ old('is_active') == 1 ? 'selected' : '' }}>Kích hoạt</option>
+                    <option value="0" {{ old('is_active') == 0 ? 'selected' : '' }}>Vô hiệu hóa</option>
                 </select>
                 @error('status')
                     <span class="text-danger" id="status-error">{{ $message }}</span>
@@ -196,17 +130,13 @@
                 @enderror
             </div>
 
-            <!-- Div chứa danh sách người dùng với tìm kiếm và chọn tất cả -->
             <div class="form-group" id="user-list-group"
                 style="{{ old('usage_type') == 'restricted' ? 'display:block;' : 'display:none;' }}">
                 <label>Chọn Người Dùng:</label>
 
                 <div class="d-flex align-items-center mb-2">
-                    <!-- Ô tìm kiếm -->
                     <input type="text" id="user-search" class="form-control me-2" style="width:200px"
                         placeholder="Tìm kiếm người dùng..." onkeyup="filterUsers()">
-
-                    <!-- Nút chọn tất cả -->
                     <button type="button" id="select-all" class="btn btn-primary btn-sm"
                         onclick="toggleSelectAll()">Chọn tất cả</button>
                 </div>
@@ -228,102 +158,74 @@
             <button type="submit" class="btn btn-success mt-4">Tạo Voucher</button>
             <a href="{{ route('admins.vouchers.index') }}" class="btn btn-secondary  mt-4">Hủy</a>
         </form>
-
-        <script>
-            // Hàm định dạng giá trị theo tiền tệ Việt Nam (VND)
-            function formatCurrency(input) {
-                let value = input.value.replace(/\D/g, ''); // Loại bỏ các ký tự không phải là số
-                if (value) {
-                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // Thêm dấu phẩy phân cách hàng nghìn
-                    input.value = value; // Thêm ký hiệu ₫ vào cuối
-                } else {
-                    input.value = ""; // Nếu không có giá trị thì để trống
-                }
-            }
-
-            // Làm sạch giá trị trước khi gửi form
-            document.querySelector("form").addEventListener("submit", function() {
-                let maxDiscountInput = document.getElementById("min_discount");
-                let rawValue = maxDiscountInput.value.replace(/\D/g, ''); // Loại bỏ dấu phẩy và ký tự không phải số
-                maxDiscountInput.value = rawValue; // Cập nhật giá trị của input với giá trị số thuần túy
-            });
-
-            // Hàm ẩn thông báo lỗi và lớp 'is-invalid' khi người dùng nhập vào bất kỳ trường nào
-            function hideErrorMessage(inputId, errorMessageId) {
-                document.getElementById(inputId).addEventListener('input', function() {
-                    const errorMessage = document.getElementById(errorMessageId);
-                    const inputField = document.getElementById(inputId);
-
-                    if (errorMessage) {
-                        errorMessage.style.display = 'none'; // Ẩn thông báo lỗi khi người dùng nhập
-                    }
-
-                    // Loại bỏ lớp 'is-invalid' khi người dùng nhập dữ liệu
-                    inputField.classList.remove('is-invalid');
-                });
-            }
-            const checkboxes = document.querySelectorAll('#user-checkboxes input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const feedback = document.getElementById('users-error');
-                    if (feedback) {
-                        feedback.style.display = 'none'; // Ẩn thông báo lỗi khi checkbox thay đổi
-                    }
-                });
-            });
-            // Áp dụng cho tất cả các trường
-            hideErrorMessage('max_discount', 'max_discount-error');
-            hideErrorMessage('min_discount', 'min_discount-error');
-            hideErrorMessage('voucher-code', 'code-error');
-            hideErrorMessage('start-date', 'start-date-error');
-            hideErrorMessage('end-date', 'end-date-error');
-            hideErrorMessage('discount-amount', 'discount-amount-error');
-            hideErrorMessage('discount-percentage', 'discount-percentage-error');
-            hideErrorMessage('quantity', 'quantity-error');
-            hideErrorMessage('status', 'status-error');
-            hideErrorMessage('usage-type', 'usage-type-error');
-
-            // Hiển thị hoặc ẩn các nhóm giảm giá dựa trên loại giảm giá
-            document.getElementById('discount-type').addEventListener('change', function() {
-                const type = this.value;
-                document.getElementById('discount-amount-group').style.display = type === 'amount' ? 'block' : 'none';
-                document.getElementById('discount-percentage-group').style.display = type === 'percentage' ? 'block' :
-                    'none';
-            });
-
-            // Hiển thị hoặc ẩn nhóm người dùng dựa trên phạm vi sử dụng
-            document.getElementById('usage-type').addEventListener('change', function() {
-                const usageType = this.value;
-                document.getElementById('user-list-group').style.display = usageType === 'restricted' ? 'block' :
-                'none';
-            });
-
-            // Chức năng tìm kiếm người dùng
-            function filterUsers() {
-                const searchQuery = document.getElementById('user-search').value.toLowerCase();
-                const checkboxes = document.getElementsByClassName('user-checkbox');
-
-                for (let i = 0; i < checkboxes.length; i++) {
-                    const label = checkboxes[i].textContent.toLowerCase();
-                    checkboxes[i].style.display = label.includes(searchQuery) ? 'block' : 'none';
-                }
-            }
-
-            // Chức năng chọn tất cả / bỏ chọn tất cả
-            let selectAll = false;
-
-            function toggleSelectAll() {
-                const checkboxes = document.querySelectorAll('#user-checkboxes input[type="checkbox"]');
-                selectAll = !selectAll;
-
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = selectAll;
-                });
-
-                // Thay đổi text của nút dựa trên trạng thái chọn
-                document.getElementById('select-all').textContent = selectAll ? 'Bỏ chọn tất cả' : 'Chọn tất cả';
-            }
-        </script>
-
     </div>
+
+    <script>
+        function filterUsers() {
+            const searchTerm = document.getElementById("user-search").value.toLowerCase();
+            const checkboxes = document.querySelectorAll(".user-checkbox");
+            checkboxes.forEach(function(checkbox) {
+                const userName = checkbox.textContent.toLowerCase();
+                if (userName.includes(searchTerm)) {
+                    checkbox.style.display = "block";
+                } else {
+                    checkbox.style.display = "none";
+                }
+            });
+        }
+
+        function toggleSelectAll() {
+            const checkboxes = document.querySelectorAll("#user-checkboxes input[type='checkbox']");
+            const selectAllButton = document.getElementById("select-all");
+            let allChecked = true;
+
+
+            checkboxes.forEach(function(checkbox) {
+                if (!checkbox.checked) {
+                    allChecked = false;
+                }
+            });
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = !allChecked;
+            });
+
+            selectAllButton.textContent = allChecked ? "Chọn tất cả" : "Bỏ chọn tất cả";
+        }
+
+        document.getElementById("usage-type").addEventListener("change", function() {
+            const usageType = this.value;
+
+            if (usageType === 'restricted') {
+                document.getElementById('user-list-group').style.display = 'block';
+            } else {
+                document.getElementById('user-list-group').style.display = 'none';
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const discountTypeSelect = document.getElementById('discount-type');
+            const discountValueDiv = document.getElementById('discount-value-div');
+            const discountPercentDiv = document.getElementById('discount-percent-div');
+            const maxDiscountAmountDiv = document.getElementById('max-discount-amount-div');
+
+            function toggleDiscountFields() {
+                const discountType = discountTypeSelect.value;
+
+                if (discountType === 'fixed') {
+                    discountValueDiv.style.display = 'block';
+                    discountPercentDiv.style.display = 'none';
+                    maxDiscountAmountDiv.style.display = 'none';
+                } else if (discountType === 'percent') {
+                    discountValueDiv.style.display = 'none';
+                    discountPercentDiv.style.display = 'block';
+                    maxDiscountAmountDiv.style.display = 'block';
+                }
+            }
+
+            toggleDiscountFields();
+            discountTypeSelect.addEventListener('change', toggleDiscountFields);
+        });
+    </script>
 @endsection

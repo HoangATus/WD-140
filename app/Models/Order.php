@@ -49,11 +49,13 @@ class Order extends Model
         'notes',
         'total',
         'status',
+        'discount',
         'payment_method',
-        'payment_status', 
-        'cancellation_reason'
+        'payment_status',
+        'cancellation_reason',
+        'voucher_id',
     ];
-
+    
     public function items()
     {
         return $this->hasMany(OrderItem::class,'order_id');

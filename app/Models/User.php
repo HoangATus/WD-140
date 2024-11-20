@@ -58,8 +58,17 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'user_id', 'user_id');
     }
     
-    public function vouchers()
-    {
-        return $this->belongsToMany(Voucher::class, 'user_voucher');
-    }
+
+/**
+ * 
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+ */
+public function vouchers()
+{
+    return $this->belongsToMany(Voucher::class, 'user_voucher', 'user_id', 'voucher_id');
+}
+
+    
+
 }
