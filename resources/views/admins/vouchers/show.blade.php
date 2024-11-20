@@ -19,8 +19,8 @@
 
             <div class="form-group">
                 <label>Ngày Bắt Đầu:</label>
-                <input type="date" name="start_date" class="form-control @error('start_date') is-invalid @enderror" disabled
-                    value="{{ old('start_date', \Carbon\Carbon::parse($voucher->start_date)->format('Y-m-d')) }}"
+                <input type="date" name="start_date" class="form-control @error('start_date') is-invalid @enderror"
+                    disabled value="{{ old('start_date', \Carbon\Carbon::parse($voucher->start_date)->format('Y-m-d')) }}"
                     id="start-date">
                 @error('start_date')
                     <span class="text-danger" id="start-date-error">{{ $message }}</span>
@@ -143,7 +143,7 @@
             </div>
             <div class="form-group" id="user-list-group"
                 style="{{ old('usage_type', $voucher->usage_type) == 'restricted' ? 'display:block;' : 'display:none;' }}">
-               
+
 
                 <div class="checkbox-group mt-2" id="user-checkboxes">
                     @foreach ($users as $user)
@@ -163,4 +163,72 @@
         </form>
     </div>
 
+    <script>
+        function filterUsers() {
+            const searchTerm = document.getElementById("user-search").value.toLowerCase();
+            const checkboxes = document.querySelectorAll(".user-checkbox");
+            checkboxes.forEach(function(checkbox) {
+                const userName = checkbox.textContent.toLowerCase();
+                if (userName.includes(searchTerm)) {
+                    checkbox.style.display = "block";
+                } else {
+                    checkbox.style.display = "none";
+                }
+            });
+        }
+
+        function toggleSelectAll() {
+            const checkboxes = document.querySelectorAll("#user-checkboxes input[type='checkbox']");
+            const selectAllButton = document.getElementById("select-all");
+            let allChecked = true;
+
+
+            checkboxes.forEach(function(checkbox) {
+                if (!checkbox.checked) {
+                    allChecked = false;
+                }
+            });
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = !allChecked;
+            });
+
+            selectAllButton.textContent = allChecked ? "Chọn tất cả" : "Bỏ chọn tất cả";
+        }
+
+        document.getElementById("usage-type").addEventListener("change", function() {
+            const usageType = this.value;
+
+            if (usageType === 'restricted') {
+                document.getElementById('user-list-group').style.display = 'block';
+            } else {
+                document.getElementById('user-list-group').style.display = 'none';
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const discountTypeSelect = document.getElementById('discount-type');
+            const discountValueDiv = document.getElementById('discount-value-div');
+            const discountPercentDiv = document.getElementById('discount-percent-div');
+            const maxDiscountAmountDiv = document.getElementById('max-discount-amount-div');
+
+            function toggleDiscountFields() {
+                const discountType = discountTypeSelect.value;
+
+                if (discountType === 'fixed') {
+                    discountValueDiv.style.display = 'block';
+                    discountPercentDiv.style.display = 'none';
+                    maxDiscountAmountDiv.style.display = 'none';
+                } else if (discountType === 'percent') {
+                    discountValueDiv.style.display = 'none';
+                    discountPercentDiv.style.display = 'block';
+                    maxDiscountAmountDiv.style.display = 'block';
+                }
+            }
+
+            toggleDiscountFields();
+            discountTypeSelect.addEventListener('change', toggleDiscountFields);
+        });
+    </script>
 @endsection
