@@ -64,6 +64,8 @@ Route::middleware(['web'])->group(function () {
     Route::get('/cart/modal', [CartController::class, 'modal'])->name('cart.modal');
     Route::post('/checkout/apply-loyalty-points', [CheckoutController::class, 'applyLoyaltyPoints'])->name('checkout.apply.loyalty.points');
     Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints'])->name('cart.applyLoyaltyPoints');
+    Route::post('/cart/proceedToCheckout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
+    
 
 
     // Thanh Toán

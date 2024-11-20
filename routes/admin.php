@@ -55,3 +55,5 @@ Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function
 
     Route::resource('vouchers', VoucherController::class);
 });
+
+

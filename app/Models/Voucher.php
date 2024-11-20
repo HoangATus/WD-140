@@ -9,16 +9,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Voucher extends Model
 {
     protected $fillable = [
-        'code',
-        'discount_percent',
-        'max_discount_amount',
+        'code', 
+        'discount_type', 
+        'discount_value', 
+        'discount_percent', 
+        'max_discount_amount', 
+        'quantity', 
+        'start_date', 
+        'end_date', 
+        'is_active', 
+        'is_public', 
+        'usage_type',
         'min_order_amount',
-        'start_date',
-        'end_date',
-        'quantity',
-        'is_public',
-        'is_active',
-        'created_by',
     ];
     protected $dates = [
         'start_date',

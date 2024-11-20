@@ -52,8 +52,9 @@ class CartController extends Controller
         session(['cart_total' => $total, 'discount_amount' => $discountAmount]);
 
         // Pass both the sum and totalAfterDiscount to the view
-        return view('clients.cart.index', compact('cart', 'sum', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount'));
+        return view('clients.cart.index', compact('cart', 'sum', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount', 'user'));
     }
+
     private function updateCartTotal($cart, $userId)
     {
         $sum = 0;
@@ -169,4 +170,6 @@ class CartController extends Controller
 
         return response()->json(['count' => $count], 200);
     }
+
+    
 }

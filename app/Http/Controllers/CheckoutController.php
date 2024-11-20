@@ -28,11 +28,20 @@ class CheckoutController extends Controller
         $sum = session()->get('cart_sum', 0);
         $appliedPoints = session()->get('applied_loyalty_points', 0);
         $discountAmount = session()->get('discount_amount', 0);
-        $total = session()->get('cart_total', 0);
-        $total = $total - $appliedPoints;
+        $vouchers = Voucher::where('is_active', true)
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where('quantity', '>', 0)
+            ->whereHas('users', function ($query) use ($user) {
+                $query->where('user_voucher.user_id', $user->id); // Sửa để dùng 'id' chính xác
+            })
+            ->get();
+        // $total = session()->get('cart_total', 0);
+        // $total = $total - $appliedPoints;
         // dd(session()->all());
+        
 
-        return view('clients.checkout.index', compact('user', 'cart', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount'));
+        return view('clients.checkout.index', compact('user', 'cart', 'total', 'vouchers', 'appliedPoints', 'discountAmount'));
     }
 
     public function process(Request $request)
@@ -192,7 +201,6 @@ class CheckoutController extends Controller
         $voucher = Voucher::where('code', $code)
             ->where('is_active', true)
             ->where('is_public', true)
-            ->where('end_date', '>=', now())
             ->where('quantity', '>', 0)
             ->first();
 
@@ -219,8 +227,6 @@ class CheckoutController extends Controller
                     'code' => $voucher->code,
                     'discount' => $voucher->discount_percent,
                     'max_discount_amount' => $voucher->max_discount_amount,
-                    'discount_value' => $voucher->discount_value,
-                    'discount_type' => $voucher->discount_type,
                     'min_order_amount' => $voucher->min_order_amount,
                     'end_date' => $voucher->end_date,
                 ],
@@ -250,17 +256,13 @@ class CheckoutController extends Controller
             $usedQuantity = Order::where('voucher_id', $voucher->id)->count();
             $totalVoucherQuantity = $voucher->quantity + $usedQuantity;
 
-
+            // Tính tỷ lệ đã sử dụng
             $voucher->used_quantity = $usedQuantity;
             $voucher->total_quantity = $totalVoucherQuantity;
         }
 
         return response()->json(['vouchers' => $vouchers]);
     }
-
-
-
-
 
     public function saveVoucher(Request $request)
     {
@@ -286,6 +288,7 @@ class CheckoutController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Voucher đã được lưu!']);
     }
+    
     public function detailVoucher($id)
     {
 
@@ -320,7 +323,7 @@ class CheckoutController extends Controller
             ->where('end_date', '>=', now())
             ->where('quantity', '>', 0)
             ->whereHas('users', function ($query) use ($user) {
-                $query->where('user_voucher.user_id', $user->user_id);
+                $query->where('user_voucher.user_id', $user->id); // Sửa để dùng 'id' chính xác
             })
             ->get();
 
@@ -344,7 +347,6 @@ class CheckoutController extends Controller
                 'variant_id' => 'required|exists:variants,id',
                 'quantity' => 'required|integer|min:1',
                 'points' => 'nullable|integer|min:0|max:' . Auth::user()->points,
-                'pointsDiscount' => 'nullable|integer|min:0|max:' . Auth::user()->points,
                 'selectedVoucher' => 'nullable|exists:vouchers,id',
                 'final_total' => 'required|numeric|min:0',
                 'initial_total' => 'required|numeric|min:0',
@@ -357,6 +359,8 @@ class CheckoutController extends Controller
             if ($variant->quantity < $request->quantity) {
                 return redirect()->route('checkout.checkout2')->with('error', 'Số lượng sản phẩm không đủ.');
             }
+
+
             $order = Order::create([
                 'user_id' => $user->user_id,
                 'order_code' => $this->generateUniqueOrderCode(),
@@ -366,17 +370,17 @@ class CheckoutController extends Controller
                 'notes' => $request->notes,
                 'total' => $request->final_total,
                 'discount' => $request->initial_total - $request->final_total,
-                'points_discount' => $request->pointsDiscount ?? 0,
-                'voucher_discount' => $request->voucherDiscount ?? 0,
                 'status' => 'pending',
                 'payment_method' => $request->payment_method,
                 'voucher_id' => $request->selectedVoucher,
             ]);
-            if ($request->final_total == 0) {
-                $order->update(['payment_status' => 'paid']);
-            }
+
+
+
             $variant->quantity -= $request->quantity;
             $variant->save();
+
+
             OrderItem::create([
                 'order_id' => $order->id,
                 'variant_id' => $variant->id,
@@ -387,35 +391,46 @@ class CheckoutController extends Controller
                 'quantity' => $request->quantity,
                 'image' => Storage::url($variant->image),
             ]);
-            if ($request->has('pointsDiscount') && $request->pointsDiscount > 0) {
-                $user->points -= $request->pointsDiscount;
+
+
+            if ($request->has('points') && $request->points > 0) {
+                $user->points -= $request->points;
                 $user->save();
             }
+
+
             if ($request->has('selectedVoucher')) {
                 $voucher = Voucher::find($request->selectedVoucher);
                 if ($voucher) {
+
                     if ($voucher->quantity <= 0) {
-                        return back()->with('error', 'Voucher đã hết lượt.');
+                        return back()->with('errors', 'Voucher đã hết lượt.');
                     }
-                    if (Carbon::parse($voucher->end_date)->lessThan(Carbon::now())) {
-                        return back()->with('error', 'Voucher đã hết hạn.');
-                    }
+
+
                     $voucher->quantity -= 1;
                     $voucher->save();
+
+
                     $user->vouchers()->detach($voucher->id);
+
 
                     if ($voucher->quantity <= 0) {
                         $voucher->is_active = '0';
                         $voucher->save();
                     }
+                } else {
+                    Log::info('Voucher không tồn tại hoặc không hợp lệ.');
                 }
             }
+
 
             if ($request->payment_method == 'online') {
                 return $this->createVNPayPaymentLink($order);
             }
-            Mail::to($user->user_email)->send(new OrderSuccessful($order));
 
+
+            //  Mail::to($user->user_email)->send(new OrderSuccessful($order));
             return redirect()->route('checkout.success', ['order' => $order->id]);
         } catch (\Exception $e) {
             Log::error('Lỗi khi xử lý thanh toán: ' . $e->getMessage());

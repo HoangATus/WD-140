@@ -1,8 +1,6 @@
 @extends('admins.layouts.admin')
 
-@section('title')
-    Quản lý đơn hàng
-@endsection
+
 
 @section('content')
     <div class="row">
@@ -38,63 +36,88 @@
 
             <div class="form-group">
                 <label>Loại Giảm Giá:</label>
-                <select name="type" class="form-control" id="discount-type" value="{{ old('type') }}">
-                    <option value="amount" {{ old('type') == 'amount' ? 'selected' : '' }}>Mệnh giá</option>
-                    <option value="percentage" {{ old('type') == 'percentage' ? 'selected' : '' }}>Phần trăm</option>
+                <select name="discount_type" class="form-control" id="discount-type" value="{{ old('discount_type') }}">
+                    <option value="fixed" {{ old('discount_type') == 'fixed' ? 'selected' : '' }}>Mệnh giá</option>
+                    <option value="percent" {{ old('discount_type') == 'percent' ? 'selected' : '' }}>Phần trăm</option>
                 </select>
-                @error('type')
-                    <span class="text-danger" id="type-error">{{ $message }}</span>
+                @error('discount_type')
+                    <span class="text-danger" id="discount-type-error">{{ $message }}</span>
                 @enderror
             </div>
 
-            <div class="form-group" id="discount-amount-group" style="{{ old('type') == 'amount' ? 'display:block;' : 'display:none;' }}">
-                <label>Mệnh Giá Giảm Giá:</label>
-                <input type="number" name="discount_amount" class="form-control @error('discount_amount') is-invalid @enderror" value="{{ old('discount_amount') }}" id="discount-amount">
-                @error('discount_amount')
-                    <span class="text-danger" id="discount-amount-error">{{ $message }}</span>
+            <div class="form-group" id="discount-value-div">
+                <label for="discount-value">Mệnh Giá Giảm Giá:</label>
+                <input type="text" name="discount_value"
+                    class="form-control @error('discount_value') is-invalid @enderror" value="{{ old('discount_value') }}"
+                    id="discount-value">
+                @error('discount_value')
+                    <span class="text-danger" id="discount-value-error">{{ $message }}</span>
                 @enderror
             </div>
 
-            <div class="form-group" id="discount-percentage-group" style="{{ old('type') == 'percentage' ? 'display:block;' : 'display:none;' }}">
-                <label>Phần Trăm Giảm Giá:</label>
-                <input type="number" name="discount_percentage"
-                    class="form-control @error('discount_percentage') is-invalid @enderror" value="{{ old('discount_percentage') }}" min="1" max="100" id="discount-percentage">
-                @error('discount_percentage')
-                    <span class="text-danger" id="discount-percentage-error">{{ $message }}</span>
+            <div class="form-group" id="discount-percent-div" style="display: none;">
+                <label>Phần Trăm Giảm Giá (%):</label>
+                <input type="number" name="discount_percent"
+                    class="form-control @error('discount_percent') is-invalid @enderror"
+                    value="{{ old('discount_percent') }}" min="1" max="100" id="discount-percent">
+                @error('discount_percent')
+                    <span class="text-danger" id="discount-percent-error">{{ $message }}</span>
                 @enderror
+            </div>
 
-                <br>
-                <label>Tối Đa Giảm Giá:</label>
-                <input type="number" name="max_discount"
-                    class="form-control @error('max_discount') is-invalid @enderror" value="{{ old('max_discount') }}" id="max-discount">
-                @error('max_discount')
-                    <span class="text-danger" id="max-discount-error">{{ $message }}</span>
+            <div class="form-group" id="max-discount-amount-div" style="display: none;">
+                <label for="max_discount_amount">Tối Đa Giảm Giá:</label>
+                <input type="text" name="max_discount_amount"
+                    class="form-control @error('max_discount_amount') is-invalid @enderror"
+                    value="{{ old('max_discount_amount') }}" id="max-discount-amount">
+                @error('max_discount_amount')
+                    <span class="text-danger" id="max-discount-amount-error">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label>Khách Hàng Được Sử Dụng (Nếu Không Công Khai)</label>
-                <select name="user_ids[]" class="form-control" multiple>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->user_id }}">{{ $user->user_name }}</option>
-                    @endforeach
+                <label for="min_order_amount">Giá tối thiểu được giảm: </label>
+                <input type="text" name="min_order_amount"
+                    class="form-control @error('min_order_amount') is-invalid @enderror"
+                    value="{{ old('min_order_amount') }}" id="min_order_amount">
+
+                @error('min_order_amount')
+                    <span class="text-danger" id="min_order_amount-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+
+            <div class="form-group">
                 <label>Số Lượng Voucher:</label>
-                <input type="number" name="quantity" class="form-control @error('quantity') is-invalid @enderror" value="{{ old('quantity') }}" min="1" id="quantity">
+                <input type="number" name="quantity" class="form-control @error('quantity') is-invalid @enderror"
+                    value="{{ old('quantity') }}" min="1" id="quantity">
                 @error('quantity')
                     <span class="text-danger" id="quantity-error">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label>Trạng Thái:</label>
-                <select name="status" class="form-control" id="status">
-                    <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Kích hoạt</option>
-                    <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>Vô hiệu hóa</option>
+                <label for="is_public">Trạng Thái Công Khai:</label>
+                <select name="is_public" id="is_public" class="form-control">
+                    <option value="1" {{ old('is_public') == 1 ? 'selected' : '' }}>Công khai</option>
+                    <option value="0" {{ old('is_public') == 0 ? 'selected' : '' }}>Ẩn</option>
+                </select>
+                @error('visibility')
+                    <span class="text-danger" id="visibility-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="is_active">Trạng Thái Hoạt Động:</label>
+                <select name="is_active" id="is_active" class="form-control">
+                    <option value="1" {{ old('is_active') == 1 ? 'selected' : '' }}>Kích hoạt</option>
+                    <option value="0" {{ old('is_active') == 0 ? 'selected' : '' }}>Vô hiệu hóa</option>
                 </select>
                 @error('status')
                     <span class="text-danger" id="status-error">{{ $message }}</span>
                 @enderror
             </div>
+
 
             <div class="form-group">
                 <label>Phạm Vi Sử Dụng:</label>
@@ -106,45 +129,103 @@
                     <span class="text-danger" id="usage-type-error">{{ $message }}</span>
                 @enderror
             </div>
-            <br>
-            <button type="submit" class="btn btn-success">Tạo Voucher</button>
-            <a href="{{ route('admins.vouchers.index') }}" class="btn btn-secondary">Hủy</a>
 
+            <div class="form-group" id="user-list-group"
+                style="{{ old('usage_type') == 'restricted' ? 'display:block;' : 'display:none;' }}">
+                <label>Chọn Người Dùng:</label>
+
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" id="user-search" class="form-control me-2" style="width:200px"
+                        placeholder="Tìm kiếm người dùng..." onkeyup="filterUsers()">
+                    <button type="button" id="select-all" class="btn btn-primary btn-sm"
+                        onclick="toggleSelectAll()">Chọn tất cả</button>
+                </div>
+
+                <div class="checkbox-group mt-2" id="user-checkboxes">
+                    @foreach ($users as $user)
+                        <label class="user-checkbox">
+                            <input type="checkbox" name="users[]" value="{{ $user->user_id }}"
+                                {{ is_array(old('users')) && in_array($user->user_id, old('users')) ? 'checked' : '' }}>
+                            {{ $user->user_name }}
+                        </label><br>
+                    @endforeach
+                </div>
+                @error('users')
+                    <span class="text-danger" id="users-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <button type="submit" class="btn btn-success mt-4">Tạo Voucher</button>
+            <a href="{{ route('admins.vouchers.index') }}" class="btn btn-secondary  mt-4">Hủy</a>
         </form>
+    </div>
 
-        <script>
-            // Ẩn thông báo lỗi và lớp 'is-invalid' khi người dùng nhập vào bất kỳ trường nào
-            function hideErrorMessage(inputId, errorMessageId) {
-                document.getElementById(inputId).addEventListener('input', function() {
-                    const errorMessage = document.getElementById(errorMessageId);
-                    const inputField = document.getElementById(inputId);
+    <script>
+        function filterUsers() {
+            const searchTerm = document.getElementById("user-search").value.toLowerCase();
+            const checkboxes = document.querySelectorAll(".user-checkbox");
+            checkboxes.forEach(function(checkbox) {
+                const userName = checkbox.textContent.toLowerCase();
+                if (userName.includes(searchTerm)) {
+                    checkbox.style.display = "block";
+                } else {
+                    checkbox.style.display = "none";
+                }
+            });
+        }
 
-                    if (errorMessage) {
-                        errorMessage.style.display = 'none'; // Ẩn thông báo lỗi khi người dùng nhập
-                    }
+        function toggleSelectAll() {
+            const checkboxes = document.querySelectorAll("#user-checkboxes input[type='checkbox']");
+            const selectAllButton = document.getElementById("select-all");
+            let allChecked = true;
 
-                    // Loại bỏ lớp 'is-invalid' khi người dùng nhập dữ liệu
-                    inputField.classList.remove('is-invalid');
-                });
+
+            checkboxes.forEach(function(checkbox) {
+                if (!checkbox.checked) {
+                    allChecked = false;
+                }
+            });
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = !allChecked;
+            });
+
+            selectAllButton.textContent = allChecked ? "Chọn tất cả" : "Bỏ chọn tất cả";
+        }
+
+        document.getElementById("usage-type").addEventListener("change", function() {
+            const usageType = this.value;
+
+            if (usageType === 'restricted') {
+                document.getElementById('user-list-group').style.display = 'block';
+            } else {
+                document.getElementById('user-list-group').style.display = 'none';
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const discountTypeSelect = document.getElementById('discount-type');
+            const discountValueDiv = document.getElementById('discount-value-div');
+            const discountPercentDiv = document.getElementById('discount-percent-div');
+            const maxDiscountAmountDiv = document.getElementById('max-discount-amount-div');
+
+            function toggleDiscountFields() {
+                const discountType = discountTypeSelect.value;
+
+                if (discountType === 'fixed') {
+                    discountValueDiv.style.display = 'block';
+                    discountPercentDiv.style.display = 'none';
+                    maxDiscountAmountDiv.style.display = 'none';
+                } else if (discountType === 'percent') {
+                    discountValueDiv.style.display = 'none';
+                    discountPercentDiv.style.display = 'block';
+                    maxDiscountAmountDiv.style.display = 'block';
+                }
             }
 
-            // Áp dụng cho tất cả các trường
-            hideErrorMessage('voucher-code', 'code-error');
-            hideErrorMessage('start-date', 'start-date-error');
-            hideErrorMessage('end-date', 'end-date-error');
-            hideErrorMessage('discount-amount', 'discount-amount-error');
-            hideErrorMessage('discount-percentage', 'discount-percentage-error');
-            hideErrorMessage('max-discount', 'max-discount-error');
-            hideErrorMessage('quantity', 'quantity-error');
-            hideErrorMessage('status', 'status-error');
-            hideErrorMessage('usage-type', 'usage-type-error');
-
-            // Hiển thị hoặc ẩn các nhóm giảm giá dựa trên loại giảm giá
-            document.getElementById('discount-type').addEventListener('change', function() {
-                const type = this.value;
-                document.getElementById('discount-amount-group').style.display = type === 'amount' ? 'block' : 'none';
-                document.getElementById('discount-percentage-group').style.display = type === 'percentage' ? 'block' : 'none';
-            });
-        </script>
-    </div>
+            toggleDiscountFields();
+            discountTypeSelect.addEventListener('change', toggleDiscountFields);
+        });
+    </script>
 @endsection
