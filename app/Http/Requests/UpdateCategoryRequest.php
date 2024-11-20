@@ -19,7 +19,6 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function rules()
     {
-        // Lấy ID của danh mục hiện tại từ route
         $categoryId = $this->route('category') ? $this->route('category')->id : null;
 
         return [

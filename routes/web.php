@@ -11,6 +11,7 @@ use App\Http\Controllers\Clients\ProductController as ClientsProductController;
 use App\Http\Controllers\Clients\ShopController;
 use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Clients\CommentController;
 use App\Http\Controllers\Clients\FavoriteController;
@@ -19,7 +20,6 @@ use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\DetailsofpurchaseorderController;
 use App\Http\Controllers\Clients\ProfileController;
 use App\Http\Controllers\MyOrderController;
-use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PurchasedOrderDetailsController;
 use App\Http\Controllers\ReviewController;
 
@@ -41,6 +41,9 @@ use App\Http\Controllers\ReviewController;
 Route::get('/', [ShopController::class, 'index'])->name('home'); // Giả định phương thức index cho ShopController
 Route::get('/blog', [ShopController::class, 'blog'])->name('clients.blog');
 Route::get('blog/{slug}', [ShopController::class, 'blogDetail'])->name('clients.blogDetail');
+Route::post('/blog/{newsId}/comment', [ShopController::class, 'storeComment'])->name('comments.storeComment');
+Route::delete('/comments/{id}', [ShopController::class, 'deleteComment'])->name('comments.delete');
+Route::put('/comments/{id}', [ShopController::class, 'updateComment'])->name('comments.update');
 
 // Route cho sản phẩm
 Route::resource('/products', ProductController::class)->parameters([

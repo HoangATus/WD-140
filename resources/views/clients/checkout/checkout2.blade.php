@@ -140,7 +140,7 @@
 
 
                                         </div>
-                                        <!-- Danh sách mã giảm giá -->
+
                                         <div class="voucher-list">
                                             <h3>Chọn 1 Voucher</h3>
                                         </div>
@@ -148,7 +148,7 @@
                                             <a class="close-modal btn "
                                                 style="background-color: deepskyblue; color:rgb(255, 255, 255);">TRỞ
                                                 LẠI</a>
-                                            <a id="applyVoucherBtn" class="btn "
+                                            <a id="applyVoucherBtn" class=" btn"
                                                 style="background-color: rgb(27, 100, 125) ; color:rgb(255, 255, 255);">
                                                 Áp dụng</a>
                                         </div>
@@ -175,8 +175,9 @@
                             <hr>
                             <ul>
                                 <li class="d-flex justify-content-between align-items-center"><strong>Tổng Tiền Hàng:
-                                    </strong> <span id="totalAmount"
-                                        class="">{{ number_format($total, 0, ',', '.') }} VND</span>
+                                    </strong> <span id="totalAmount" class=""
+                                        data-total="{{ $total }}">{{ number_format($total, 0, ',', '.') }}
+                                        VND</span>
                                 </li>
                             </ul>
 
@@ -195,6 +196,8 @@
                                     </li>
                                 </ul>
                             </div>
+                            <input type="hidden" id="voucherDiscountInput" name="voucherDiscount" value="0">
+                            <input type="hidden" id="pontsDiscountInput" name="pointsDiscount" value="0">
                             <input type="hidden" id="selectedVoucher" name="selectedVoucher">
 
                             <ul class="summery-total ">
@@ -242,23 +245,24 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
-            document.getElementById('openModal').onclick = function() {
-                document.getElementById('voucherModal').style.display = 'block';
-                document.body.classList.add('no-scroll');
-            };
-
-
+ document.getElementById('openModal').addEventListener('click', function () {
+        document.getElementById('voucherModal').style.display = 'block';
+        document.body.classList.add('no-scroll'); 
+    });
+    document.querySelector('.close').addEventListener('click', function () {
+        document.getElementById('voucherModal').style.display = 'none';
+        document.body.classList.remove('no-scroll'); 
+    });
+    window.addEventListener('click', function (event) {
+        const modal = document.getElementById('voucherModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+            document.body.classList.remove('no-scroll'); 
+        }
+    });
             document.querySelector('.close-modal').onclick = function() {
                 document.getElementById('voucherModal').style.display = 'none';
                 document.body.classList.remove('no-scroll');
-            };
-
-
-            window.onclick = function(event) {
-                if (event.target === document.getElementById('voucherModal')) {
-                    document.getElementById('voucherModal').style.display = 'none';
-                    document.body.classList.remove('no-scroll');
-                }
             };
             let totalAmount = parseFloat("{{ $total }}");
             let voucherDiscount = 0;
@@ -276,9 +280,6 @@
             totalAmountElement.innerText = `${totalAmount.toLocaleString()} VND`;
             finalTotalElement.innerText = `${totalAmount.toLocaleString()} VND`;
 
-            document.getElementById('openModal').onclick = function() {
-                document.getElementById('voucherModal').style.display = 'block';
-            };
 
             function loadUserVouchers() {
                 fetch('/user-vouchers', {
@@ -299,11 +300,11 @@
                                 const isAUsable = (a.discount_type === 'fixed' && totalAmount >= a
                                         .min_order_amount) ||
                                     (a.discount_type === 'percent' && totalAmount >= a
-                                    .min_order_amount);
+                                        .min_order_amount);
                                 const isBUsable = (b.discount_type === 'fixed' && totalAmount >= b
                                         .min_order_amount) ||
                                     (b.discount_type === 'percent' && totalAmount >= b
-                                    .min_order_amount);
+                                        .min_order_amount);
 
 
                                 if (isAUsable && isBUsable) {
@@ -338,13 +339,15 @@
                                 const endDate = new Date(voucher.end_date);
                                 const timeDifference = endDate - currentDate;
                                 const hoursRemaining = Math.floor(timeDifference / (1000 * 60 * 60));
-                                const isExpiringSoon = hoursRemaining <= 24;
-
-
+                                const minutesRemaining = Math.floor((timeDifference % (1000 * 60 *
+                                    60)) / (1000 * 60));
+                                const isExpiringSoon = timeDifference > 0 && hoursRemaining < 24;
                                 const expiryText = isExpiringSoon ?
-                                    `Sắp hết hạn: Còn ${hoursRemaining} giờ` :
-                                    `HSD: ${endDate.toLocaleDateString('vi-VN')}`;
-
+                                    `Sắp hết hạn: Còn ${hoursRemaining} giờ ${minutesRemaining} phút` :
+                                    timeDifference > 0 ?
+                                    `HSD: ${endDate.toLocaleDateString('vi-VN')} ` :
+                                    'Voucher đã hết hạn';
+                                // ${endDate.toLocaleTimeString('vi-VN')}
                                 let discountInfo = '';
                                 if (voucher.discount_type === 'percent') {
                                     discountInfo =
@@ -378,7 +381,7 @@
                                 voucherItem.innerHTML = `
                     <img src="{{ asset('assets/clients/images/voucher1.png') }}" alt="Voucher Icon" class="voucher-icon">
                     <div class="voucher-info">
-                        <h4><a href="/voucher-details/${voucher.id}" class="voucher-link">${voucher.code}</a></h4>
+                       
                         <p>${discountInfo}</p>
                         <p>Đơn Tối Thiểu ${formattedAmount}</p>
                         <p class="expiry">
@@ -424,20 +427,20 @@
 
 
             loadUserVouchers();
-
             document.getElementById('applyVoucherBtn').onclick = function() {
                 const selectedVoucher = document.querySelector('input[name="selectedVoucher"]:checked');
-
                 if (!selectedVoucher) {
                     voucherDiscount = 0;
                     voucherDiscountElement.style.display = 'none';
-                    updateTotal();
+
                     document.getElementById('voucherModal').style.display = 'none';
+                    document.body.classList.remove('no-scroll'); 
+                    updateTotal();
                     return;
                 }
-
                 const voucherId = selectedVoucher.id.replace('voucher', '');
                 document.getElementById("selectedVoucher").value = voucherId;
+
                 const discountType = selectedVoucher.getAttribute('data-discount-type');
                 const discountValue = parseFloat(selectedVoucher.getAttribute('data-discount'));
                 const discountPercent = parseFloat(selectedVoucher.getAttribute('data-discount_percent')) / 100;
@@ -451,22 +454,46 @@
                     }
                 } else if (discountType === 'fixed') {
                     voucherDiscount = discountValue;
-                    // if (voucherDiscount > maxDiscountAmount) {
-                    //     voucherDiscount = maxDiscountAmount;
-                    // }
                     if (voucherDiscount > totalAmount) {
                         voucherDiscount = totalAmount;
                     }
                 }
+                if (voucherDiscount > 0) {
+                    voucherDiscountElement.style.display = 'block';
+                    voucherDiscountElement.querySelector('span').innerText =
+                        `- ${voucherDiscount.toLocaleString()} VND`;
+                } else {
+                    voucherDiscountElement.style.display = 'none';
+                }
+                if (voucherDiscount >= totalAmount) {
+                    pointsDiscount = 0;
+                    pointsCheckbox.checked = false;
+                    pointsCheckbox.disabled = true;
 
-                voucherDiscountElement.style.display = 'block';
-                voucherDiscountElement.querySelector('span').innerText =
-                    `- ${voucherDiscount.toLocaleString()} VND`;
+                    pointsDiscountSection.style.display = 'none';
+                } else {
+                    const remainingAmount = totalAmount - voucherDiscount;
 
-                updateTotal();
+                    if (pointsDiscount > remainingAmount) {
+                        pointsDiscount = remainingAmount;
+
+                    }
+
+                    if (pointsDiscount > 0) {
+                        pointsDiscountSection.style.display = 'block';
+                        pointsDiscountElement.innerText = `- ${pointsDiscount.toLocaleString()} VND`;
+                    } else {
+                        pointsDiscountSection.style.display = 'none';
+                    }
+                }
+
                 document.getElementById('voucherModal').style.display = 'none';
-            };
+                document.body.classList.remove('no-scroll'); 
+                document.getElementById('voucherDiscountInput').value = voucherDiscount;
+                document.getElementById('pontsDiscountInput').value = pointsDiscount;
+                updateTotal();
 
+            };
             document.getElementById('applyVoucherBt').addEventListener('click', function() {
                 const voucherCode = document.getElementById('voucherCod').value.trim();
 
@@ -485,25 +512,53 @@
                     .then(response => response.json())
                     .then(data => {
                         const voucherInfoContainer = document.getElementById('voucherInfoContaine');
-                        voucherInfoContainer.innerHTML = ''; // Xóa thông tin cũ
+                        voucherInfoContainer.innerHTML = '';
 
                         if (data.success) {
+                            const voucher = data.voucher;
                             const voucherItem = document.createElement('div');
-                            voucherItem.className = 'voucher-item';
+                            voucherItem.className = `voucher-item ${
+                    (voucher.discount_type === 'fixed' && totalAmount < voucher.min_order_amount) || 
+                    (voucher.discount_type === 'percent' && totalAmount < voucher.min_order_amount) 
+                    ? 'disabled-voucher' 
+                    : ''
+                }`;
+
+                            let discountInfo = '';
+                            if (voucher.discount_type === 'percent') {
+                                discountInfo =
+                                    `Giảm ${voucher.discount_percent}% - Giảm tối đa ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.max_discount_amount)}`;
+                            } else if (voucher.discount_type === 'fixed') {
+                                discountInfo =
+                                    `Giảm ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.discount_value)} VND`;
+                            }
+
+                            const currentDate = new Date();
+                            const endDate = new Date(voucher.end_date);
+                            const expiryText = endDate > currentDate ?
+                                `HSD: ${endDate.toLocaleDateString('vi-VN')}` :
+                                'Voucher đã hết hạn';
+
+                            const warningMessage = totalAmount < voucher.min_order_amount ?
+                                `<p class="voucher-warning" style="color: red;">Cần mua thêm ₫${(voucher.min_order_amount - totalAmount).toLocaleString()} để áp dụng mã này.</p>` :
+                                '';
+
                             voucherItem.innerHTML = `
-                <img src="{{ asset('assets/clients/images/voucher1.png') }}" alt="Voucher Icon" class="voucher-icon">
-                <div class="voucher-info">
-                    <h4>${data.voucher.code}</h4>
-                    <p>Giảm ${data.voucher.discount}% - Giảm tối đa ${data.voucher.max_discount_amount} VND</p>
-                    <p>Đơn Tối Thiểu ${data.voucher.min_order_amount} VND</p>
-                    <p class="expiry">HSD: ${new Date(data.voucher.end_date).toLocaleDateString('vi-VN')}</p>
-                </div>
-                <button style="color: #f5f5f5; border-radius: 3px; background-color: #417394;" 
+                    <img src="{{ asset('assets/clients/images/voucher1.png') }}" alt="Voucher Icon" class="voucher-icon">
+                    <div class="voucher-info">
+                      
+                        <p>${discountInfo}</p>
+                        <p>Đơn Tối Thiểu ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.min_order_amount)}</p>
+                        <p class="expiry">${expiryText}</p>
+                        ${warningMessage}
+                    </div>
+                    <button 
                         id="saveVoucherBtn" 
+                        style="color: #f5f5f5; border-radius: 3px; background-color: #417394;" 
                         ${data.is_saved ? 'disabled' : ''}>
-                    ${data.is_saved ? 'Đã lưu' : 'Lưu'}
-                </button>
-            `;
+                        ${data.is_saved ? 'Đã lưu' : 'Lưu'}
+                    </button>
+                `;
 
                             voucherInfoContainer.appendChild(voucherItem);
                             voucherInfoContainer.style.display = 'block';
@@ -511,7 +566,7 @@
                             if (!data.is_saved) {
                                 document.getElementById('saveVoucherBtn').addEventListener('click',
                                     function() {
-                                        saveVoucher(data.voucher.code);
+                                        saveVoucher(voucher.code);
                                     }, {
                                         once: true
                                     });
@@ -526,21 +581,6 @@
                         alert('Đã xảy ra lỗi trong quá trình tìm kiếm voucher. Vui lòng thử lại sau.');
                     });
             });
-
-
-            //         const voucherModal = document.getElementById('voucherModal');
-            // document.querySelector('.close-modal').onclick = function() {
-            //     voucherModal.style.display = 'none';
-            // };
-
-            window.onclick = function(event) {
-                if (event.target === voucherModal) {
-                    voucherModal.style.display = 'none';
-                }
-            };
-            document.querySelector('.close').onclick = function() {
-                document.getElementById('voucherModal').style.display = 'none';
-            };
 
             function saveVoucher(voucherCode) {
                 fetch(`/save-voucher`, {
@@ -579,12 +619,12 @@
                     pointsDiscountSection.style.display = 'block';
                     pointsDiscountElement.innerText = `- ${pointsDiscount.toLocaleString()} VND`;
 
-                    document.getElementById('pointsInput').value = pointsDiscount;
+                    document.getElementById('pontsDiscountInput').value = pointsDiscount;
                 } else {
                     pointsDiscount = 0;
                     pointsDiscountSection.style.display = 'none';
 
-                    document.getElementById('pointsInput').value = 0;
+                    document.getElementById('pontsDiscountInput').value = 0;
                 }
 
                 updateTotal();
@@ -592,10 +632,17 @@
 
             function updateTotal() {
                 let finalTotal = totalAmount - voucherDiscount - pointsDiscount;
+                if (finalTotal < 0) {
+                    finalTotal = 0;
+                }
                 finalTotal = Math.max(finalTotal, 0);
-
                 finalTotalElement.innerText = `${finalTotal.toLocaleString()} VND`;
                 document.getElementById('finalTotalInput').value = finalTotal;
+                if (pointsDiscount > 0) {
+                    pointsDiscountElement.style.display = 'block';
+                    pointsDiscountElement.querySelector('span').innerText =
+                        `- ${pointsDiscount.toLocaleString()} VND`;
+                }
             }
         });
     </script>

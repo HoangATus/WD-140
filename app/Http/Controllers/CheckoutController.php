@@ -331,7 +331,6 @@ class CheckoutController extends Controller
         $pointsToMoneyRate = 1;
         $discount = min($user->points * $pointsToMoneyRate, $total);
         $finalTotal = $total - $discount;
-        // dd(session()->all());
 
         return view('clients.checkout.checkout2', compact('variant', 'vouchers', 'user', 'quantity', 'total', 'discount', 'finalTotal'));
     }

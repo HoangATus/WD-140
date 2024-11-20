@@ -68,14 +68,14 @@
             </div>
         </div>
     </section>
-
+<br>
     <!-- Sản phẩm Section Start -->
     <div class="container">
 
         <div class="container-fluid-lg">
             <div class="section-b-space">
                 <div class="title">
-                    <h2>SẢN PHẨM</h2>
+                    <h2 class="text-danger">SẢN PHẨM BÁN CHẠY</h2>
                 </div>
                 @if (session('successy'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -90,7 +90,7 @@
             @endif
                 <div class="container">
                     <div class="product-grid">
-                        @foreach ($products as $product)
+                        @foreach ($bestSellingProducts as $product)
                             <div class="product-box">
                                 <div class="product-img">
                                     <a href="{{ route('products.show', $product->slug) }}">
@@ -352,6 +352,92 @@
                 </div>
             </div>
         </div>
+        <br>
+        <div class="container">
+
+            <div class="container-fluid-lg">
+                <div class="section-b-space">
+                    <div class="title">
+                        <h2 class=" text-danger">SẢN PHẨM</h2>
+                    </div>
+                    @if (session('successy'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('successy') }}
+                        </div>
+                    @endif
+    
+                    @if (session('errors'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('errors') }}
+                    </div>
+                @endif
+                    <div class="container">
+                        <div class="product-grid">
+                            @foreach ($products as $product)
+                                <div class="product-box">
+                                    <div class="product-img">
+                                        <a href="{{ route('products.show', $product->slug) }}">
+                                            <img src="{{ Storage::url($product->product_image_url) }}" class="img-fluid"
+                                                alt="{{ $product->product_name }}">
+                                        </a>
+                                    </div>
+                                    <div class="product-detail">
+                                        <div class="product-name">
+                                            <a
+                                                href="{{ route('products.show', $product->slug) }}">{{ $product->product_name }}</a>
+                                        </div>
+                                        <div class="product-ratin custom-rate">
+                                            <ul class="rating">
+                                                @php
+                                                    $averageRating = $product->ratings->avg('rating'); // Tính trung bình số sao
+                                                @endphp
+    
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <li>
+                                                        @if ($i <= $averageRating)
+                                                            <i data-feather="star" class="fill"></i> <!-- Sao đầy -->
+                                                        @else
+                                                            <i data-feather="star"></i> <!-- Sao rỗng -->
+                                                        @endif
+                                                    </li>
+                                                @endfor
+                                            </ul>
+                                        </div>
+                                        @if ($product->variants->isNotEmpty())
+                                            @php
+                                                $firstVariant = $product->variants->first();
+                                            @endphp
+                                            <div class="price">
+                                                <div class="sale-price">
+                                                    {{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }} VNĐ
+                                                </div>
+                                                <div class="listed-price">
+                                                    <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }}
+                                                        VNĐ</del>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        <div class="add-buttons d-flex align-items-center">
+                                            <button class="cart" onclick="addToCart()">
+                                                Thêm vào giỏ
+                                                <span class="add-icon bg-light-gray">
+                                                    <i class="bi bi-cart"></i>
+                                                </span>
+                                            </button>
+    
+                                            <form action="{{ route('clients.favorites.store') }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                <button class="cart-icon" name="product_id" value="{{ $product->id }}"
+                                                    type="submit">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
     </section>
     <section class="newsletter-section section-b-space">
     </section>

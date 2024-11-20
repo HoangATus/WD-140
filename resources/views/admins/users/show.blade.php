@@ -37,17 +37,40 @@
                 <a href="{{ route('admins.users.index') }}" class="btn btn-primary mt-3">Trở lại danh sách người dùng</a>
 
             </div>
-            @if ($user->role !== 'Admin')
-            <div class="mt-4">
-                <form action="{{ route('admins.users.ban', $user) }}" method="POST">
+            @if ($user->role !== 'Admin' && !$user->is_banned)
+            <div class="m-3">
+                <form action="{{ route('admins.users.ban', $user) }}" method="POST" id="banForm">
                     @csrf
                     <div class="mb-3">
                         <label for="banned_until" class="form-label">Cấm đến ngày:</label>
-                        <input type="date" name="banned_until" class="form-control">
+                        <input type="date" name="banned_until" class="form-control" id="bannedUntil">
+                        <span id="error-message" class="text-danger"></span> <!-- Thông báo lỗi -->
                     </div>
                     <button type="submit" class="btn btn-warning">Cấm người dùng</button>
                 </form>
             </div>
-            @endif
+        @endif
+        
+        <script>
+            document.getElementById('banForm').onsubmit = function (e) {
+    const bannedUntil = document.getElementById('bannedUntil').value;
+    const errorMessage = document.getElementById('error-message');
+    const today = new Date().toISOString().split('T')[0]; 
+    errorMessage.textContent = '';
+    if (!bannedUntil) {
+        e.preventDefault(); 
+        errorMessage.textContent = 'Vui lòng chọn ngày cấm.';
+        return false;
+    }
+
+    if (bannedUntil < today) {
+        e.preventDefault(); 
+        errorMessage.textContent = 'Ngày cấm phải lớn hơn hoặc bằng ngày hiện tại.';
+        return false;
+    }
+    return confirm('Bạn có chắc muốn cấm tài khoản này đến ngày đã chọn?');
+};
+
+        </script>
         </div>
     @endsection

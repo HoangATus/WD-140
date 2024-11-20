@@ -46,14 +46,6 @@
 
                                     <tbody>
                                         @foreach ($categories as $item)
-
-                                            {{-- <tr>
-                                                <td>{{ $item->id }}</td>
-                                                <td>{{ $item->name }}</td>
-                                                <td>
-                                                    <div style="width: 80px;height: 80px;">
-                                                        <img src="{{ asset('storage/' . $item->cover) }}" --}}
-
                                             <tr class="text-center">
                                                 <td class="align-middle">{{ $item->id }}</td>
                                                 <td class="align-middle">{{ $item->name }}</td>
