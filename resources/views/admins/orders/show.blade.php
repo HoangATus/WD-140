@@ -84,7 +84,22 @@
                     </div>
                     <div class="d-flex justify-content-between">
                         <span><b>Mã giảm giá (Voucher):</b></span>
-                        <span class="text-danger">-{{ number_format($order->voucher_discount) }} VNĐ</span>
+                        <span class="text-danger">@php
+                            $voucher = $order->voucher;
+                            $displayDiscount = 'Không áp dụng';
+                        
+                            if ($voucher) {
+                                // Kiểm tra loại giảm giá
+                                if ($voucher->discount_type === 'fixed' && $voucher->discount_value > 0) {
+                                    // Định dạng số tiền với dấu chấm
+                                    $displayDiscount ='- ' . number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
+                                } elseif ($voucher->discount_type === 'percent' && $voucher->discount_percent > 0) {
+                                    $displayDiscount = $voucher->discount_percent . '%';
+                                }
+                            }
+                        @endphp
+                        <td class="text-end">{{ $displayDiscount }}</td>
+                        </span>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span><b>Tổng:</b></span>

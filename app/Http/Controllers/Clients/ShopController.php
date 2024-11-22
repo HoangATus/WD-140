@@ -45,7 +45,7 @@ class ShopController extends Controller
         ->whereIn('orders.status', ['delivered', 'completed'])
         ->groupBy('products.id')
         ->orderByRaw('SUM(order_items.quantity) DESC')
-        ->take(10)
+        ->take(5)
         ->get();
 
     // Lấy các banner đang active

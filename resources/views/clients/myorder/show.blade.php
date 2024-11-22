@@ -91,31 +91,31 @@
                                                     {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="fw-bold">Voucher</td>
-                                                <td class="text-end">
-                                                    @if($order->voucher)
-                                                        @php
-                                                            $voucher = $order->voucher;
-                                                            $discount = $voucher->max_discount_amount ?? 0;
-                                                            $discountPercentage = $voucher->discount_percent ?? 0;
-                                                            
-                                                            // Kiểm tra loại giảm giá
-                                                            if ($discount > 0) {
-                                                                $displayDiscount = number_format($discount) . ' đ';
-                                                            } elseif ($discountPercentage > 0) {
-                                                                $displayDiscount = $discountPercentage . '%';
-                                                            } else {
-                                                                $displayDiscount = 'Không áp dụng';
-                                                            }
-                                                        @endphp
-                                                        {{ $displayDiscount }}
-                                                    @else
-                                                        Không áp dụng
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            
+                                            @php
+                                                $voucher = $order->voucher;
+                                                $displayDiscount = 'Không áp dụng';
+
+                                                if ($voucher) {
+                                                    // Kiểm tra loại giảm giá
+                                                    if (
+                                                        $voucher->discount_type === 'fixed' &&
+                                                        $voucher->discount_value > 0
+                                                    ) {
+                                                        // Định dạng số tiền với dấu chấm
+                                                        $displayDiscount =
+                                                          '- ' .  number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
+                                                    } elseif (
+                                                        $voucher->discount_type === 'percent' &&
+                                                        $voucher->discount_percent > 0
+                                                    ) {
+                                                        $displayDiscount = $voucher->discount_percent . '%';
+                                                    }
+                                                }
+                                            @endphp
+                                            <td class="fw-bold">Voucher</td>
+                                            <td class="text-end">{{ $displayDiscount }}</td>
+
+
                                             <tr>
                                                 <th class="fw-bold" style="font-size: 18px;">Thành tiền :</th>
                                                 <th class="text-end" style="color: red;">
@@ -317,8 +317,8 @@
 
     <style>
         /* .rating {
-                                                                                                                                                                                                                                                                                                                                                display: flex;
-                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                    display: flex;
+                                                                                                                                                                                                                                                                                                                                                } */
 
         .star {
             color: #d3d3d3;
