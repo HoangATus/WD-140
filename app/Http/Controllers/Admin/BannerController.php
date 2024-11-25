@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Http\Requests\StoreBannerRequest;
 use App\Http\Requests\UpdateBannerRequest;
+use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
@@ -27,7 +28,8 @@ class BannerController extends Controller
      */
     public function create()
     {
-        return view(self::PATH_VIEW . __FUNCTION__);
+        $categories = Category::all();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
     }
 
     /**
@@ -64,7 +66,8 @@ class BannerController extends Controller
      */
     public function edit(Banner $banner)
     {
-        return view(self::PATH_VIEW . __FUNCTION__, compact('banner'));
+        $categories = Category::all();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('banner', 'categories'));
     }
 
     /**

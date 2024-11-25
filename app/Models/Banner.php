@@ -11,13 +11,17 @@ class Banner extends Model
     protected $fillable = [
         'title',
         'image',
-        'link',
+        'category_id',
         'is_active',
         ];
     
         protected $casts = [
             'is_active' => 'boolean',
         ];
-
+        public function category()
+        {
+            return $this->belongsTo(Category::class);
+        }
+        
 
 }

@@ -50,7 +50,8 @@
                                 <th>ID</th>
                                 <th>Tiêu đề</th>
                                 <th>Ảnh</th>
-                                <th>Đường dẫn</th>
+                                <th>Danh mục</th>
+
                                 <th>Trạng thái</th>
                                 <th>Hành động</th>
                             </tr>
@@ -68,7 +69,7 @@
                                         </div>
                                     </td>
 
-                                    <td class="align-middle">{{ $item->link }}</td>
+                                    <td>{{ $item->category->name }}</td>
                                     <td class="align-middle">
 
                                         {!! $item->is_active

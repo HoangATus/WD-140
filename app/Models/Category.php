@@ -22,5 +22,9 @@ class Category extends Model
     {
         return $this->hasOne(Product::class);
     }
-
+    public function banners()
+    {
+        return $this->hasMany(Banner::class);
+    }
+    
 }

@@ -38,7 +38,6 @@
         <tr>
             <th>#</th>
             <th>Tiêu Đề</th>
-            <th>Slug</th>
             <th>Danh Mục</th>
             <th>Ảnh</th>
             <th>Tác Giả</th>
@@ -51,9 +50,8 @@
         @foreach($news as $item)
         <tr align="center">
             <td>{{ $item->id }}</td>
-            <td>{{ $item->title }}</td>
-            <td>{{ $item->slug }}</td>
-            <td>{{ $item->category->name }}</td>
+            <td>{{ Str::limit($item->title, 50, '...') }}</td>
+            <td>{{ Str::limit($item->category->name , 15, '...') }}</td>
             <td>
                 @if($item->image)
                 <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" width="100">
