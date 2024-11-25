@@ -49,8 +49,9 @@ class ShopController extends Controller
         ->get();
 
     // Lấy các banner đang active
-    $banners = Banner::where('is_active', true)->get();
-
+    $banners = Banner::where('is_active', true)
+    ->with('category')
+    ->get();
     // Lấy tất cả các danh mục
     $categories = Category::query()->get();
 
@@ -125,7 +126,7 @@ class ShopController extends Controller
     
         $existingPendingComment = $user->comments()->where('news_id', $newsId)->where('approved', false)->first();
         if ($existingPendingComment) {
-            return response()->json(['success' => false, 'message' => 'Bình luận đang chờ phê duyệt.'], 400);
+            return response()->json(['success' => false, 'message' => 'Bình luận đang chờ phê duyệt không thể bình luận tiếp.'], 400);
         }
     
         $comment = NewComment::create([
