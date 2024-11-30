@@ -11,7 +11,7 @@
         </div>
     @endif
     <div class="container">
-        <h1 class="my-4">Chi tiết đánh giá #{{ $rating->id }}</h1>
+        <h1 class="my-4">Chi tiết đánh giá</h1>
 
         <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
@@ -19,13 +19,16 @@
             </div>
             <div class="card-body">
                 <h6 class="card-subtitle mb-3 text-muted">Người dùng: {{ $rating->user->user_name }}</h6>
-                @if ($rating->orderItem && $rating->orderItem->image)
-                    <div class="mb-3">
-                        <img src="{{ $rating->orderItem->image }}" alt="Ảnh sản phẩm" style="width: 70px; height: auto;">
-                    </div>
-                @else
-                    <p>Không có hình ảnh sản phẩm</p>
-                @endif
+                <p class="card-text"><strong>Hình ảnh: </strong>
+                    @if ($rating->orderItem && $rating->orderItem->image)
+                        <div class="mb-3">
+                            <img src="{{ $rating->orderItem->image }}" alt="Ảnh sản phẩm"
+                                style="width: 70px; height: auto;">
+                        </div>
+                    @else
+                        <p>Không có hình ảnh sản phẩm</p>
+                    @endif
+                </p>
                 <p class="card-text"><strong>Đánh giá: </strong>
                     <span class="rating-stars">
                         @for ($i = 1; $i <= 5; $i++)

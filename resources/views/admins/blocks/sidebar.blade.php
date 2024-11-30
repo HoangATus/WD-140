@@ -13,7 +13,7 @@
                         <img src="{{ asset('assets/admins/images/logo-light.png') }}" alt="" height="24">
                     </span>
                 </a>
-                <a class='logo logo-dark' href='index.html'>
+                <a class='logo logo-dark' href='{{ route('admins.dashboard') }}'>
                     <span class="logo-sm">
                         <img src="{{ asset('assets/admins/images/logo-sm.png') }}" alt="" height="22">
                     </span>
@@ -59,18 +59,14 @@
                     <div class="collapse" id="sidebarAuth">
                         <ul class="nav-second-level">
                             <li>
-                                <a class='tp-link' href= "{{ route('admins.products.index') }}">- Quản lý sản phẩm</a>
+                                <a class='tp-link' href="{{ route('admins.products.index') }}">- Quản lý sản phẩm</a>
                             </li>
                             <li>
-                                <a class='tp-link' href= "{{ route('admins.products.create') }}">- Thêm mới sản phẩm</a>
+                                <a class='tp-link' href="{{ route('admins.products.create') }}">- Thêm mới sản phẩm</a>
                             </li>
-
                         </ul>
                     </div>
                 </li>
-
-
-
                 <li>
                     <a href="#sidebarExpages" data-bs-toggle="collapse">
                         <i class="ri-list-settings-line"></i>
@@ -90,11 +86,10 @@
                 </li>
                 <li>
                     <a href="{{ route('admins.users.index') }}">
-                        <i class="ri-user-line"></i> <!-- Thay đổi icon ở đây -->
+                        <i class="ri-user-line"></i>
                         Tài khoản
                     </a>
                 </li>
-
                 <li>
                     <a href="#sidebarAdvancedUI" data-bs-toggle="collapse">
                         <i data-feather="cpu"></i>
@@ -105,20 +100,16 @@
                         <ul class="nav-second-level">
                             <li>
                                 <a class='tp-link' href="{{ route('admins.banners.index') }}">- Quản lý Banner</a>
-
                             </li>
                             <li>
                                 <a class='tp-link' href="{{ route('admins.banners.create') }}">- Thêm mới Banner</a>
-
                             </li>
-
                         </ul>
                     </div>
                 </li>
                 <li>
                     <a class='tp-link' href="{{ route('admins.orders.index') }}">
                         <i data-feather="briefcase"></i>
-
                         <span> Quản lý đơn hàng </span>
                     </a>
                 </li>
@@ -140,7 +131,6 @@
                         <span> Quản lý voucher </span>
                     </a>
                 </li>
-                
                 <li>
                     <a href="#sidebarMaps" data-bs-toggle="collapse">
                         <i data-feather="map"></i>
@@ -150,22 +140,30 @@
                     <div class="collapse" id="sidebarMaps">
                         <ul class="nav-second-level">
                             <li>
-                                <a class='tp-link' href="{{ route('admins.news.index') }}">-  Danh sách Tin Tức</a>
-
+                                <a class='tp-link' href="{{ route('admins.news.index') }}">- Danh sách Tin Tức</a>
                             </li>
                             <li>
-                                <a class='tp-link' href="{{ route('admins.news_categories.index') }}">-  Danh mục Tin Tức</a>
-
+                                <a class='tp-link' href="{{ route('admins.news_categories.index') }}">- Danh mục Tin
+                                    Tức</a>
                             </li>
                         </ul>
                     </div>
                 </li>
             </ul>
-
         </div>
         <!-- End Sidebar -->
-
         <div class="clearfix"></div>
-
     </div>
+    <style>
+        /* CSS bỏ gạch chân cho toàn bộ liên kết trong sidebar */
+        .app-sidebar-menu a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .app-sidebar-menu a:hover {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
 </div>
