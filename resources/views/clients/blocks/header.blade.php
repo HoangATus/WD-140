@@ -91,21 +91,20 @@
                                     </div>
                                     <div class="offcanvas-body">
                                         <ul class="navbar-nav">
-                                            <li class="nav-item dropdown dropdown-mega">
+                                            <li class="nav-item dropdown dropdown-mega">    
                                                 <a class="nav-link dropdown-toggle ps-xl-2 ps-0"
                                                     href="{{ url('/') }}">Trang chủ</a>
-                                            <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="javascript:void(0)"
-                                                    data-bs-toggle="dropdown">Giới thiệu</a>
+                                            </li><li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="{{url('/gioi-thieu')}}">Giới thiệu</a>
                                             </li>
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="{{ url('/products') }}">Sản
                                                     phẩm</a>
                                             </li><li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="{{ url('/blog') }}">Tin tức</a>
-                                            </li><li class="nav-item dropdown">
+                                            {{-- </li><li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="{{ url('/products') }}">Cửa hàng</a>
-                                            </li>
+                                            </li> --}}
                                            
                                         </ul>
                                     </div>

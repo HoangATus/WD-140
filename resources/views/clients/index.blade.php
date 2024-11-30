@@ -70,8 +70,7 @@
     </section>
 <br>
     <!-- Sản phẩm Section Start -->
-    <div class="container">
-
+    <div class="">
         <div class="container-fluid-lg">
             <div class="section-b-space">
                 <div class="title">
@@ -353,8 +352,7 @@
             </div>
         </div>
         <br>
-        <div class="container">
-
+        <div class="">
             <div class="container-fluid-lg">
                 <div class="section-b-space">
                     <div class="title">
