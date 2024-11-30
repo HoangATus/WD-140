@@ -146,3 +146,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/favorites', [FavoriteController::class, 'store'])->name('clients.favorites.store');
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('clients.favorites.index');
 });
+
+// route trang gioi thieu
+Route::get('/gioi-thieu', function () {
+    return view('clients.introduce');
+})->name('about');

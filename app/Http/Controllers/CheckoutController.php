@@ -70,6 +70,7 @@ class CheckoutController extends Controller
         $usedPoints = session()->get('applied_loyalty_points', 0);
 
         $params['order_code'] = $this->generateUniqueOrderCode();
+        $paymentStatus = $request->payment_method == 'online' ? 'paid' : 'pending';
         $order = Order::create([
             'user_id'        => $userId,
             'order_code'     => $params['order_code'],
@@ -78,7 +79,7 @@ class CheckoutController extends Controller
             'address'        => $request->address,
             'notes'          => $request->notes,
             'total'          => $total,
-            'status'         => 'pending',
+            'payment_status' => $paymentStatus,
             'payment_method' => $request->payment_method,
         ]);
 
@@ -362,7 +363,7 @@ class CheckoutController extends Controller
                 return redirect()->route('checkout.checkout2')->with('error', 'Số lượng sản phẩm không đủ.');
             }
 
-
+            $paymentStatus = $request->payment_method == 'online' ? 'paid' : 'pending';
             $order = Order::create([
                 'user_id' => $user->user_id,
                 'order_code' => $this->generateUniqueOrderCode(),
@@ -372,9 +373,13 @@ class CheckoutController extends Controller
                 'notes' => $request->notes,
                 'total' => $request->final_total,
                 'discount' => $request->initial_total - $request->final_total,
+
+                'payment_status' => $paymentStatus,
+
                 'points_discount' => $request->pointsDiscount ?? 0,
                 'voucher_discount' => $request->voucherDiscount ?? 0,
-                'status' => 'pending',
+                
+
                 'payment_method' => $request->payment_method,
                 'voucher_id' => $request->selectedVoucher,
             ]);
