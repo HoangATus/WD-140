@@ -103,7 +103,9 @@
                                                     ) {
                                                         // Định dạng số tiền với dấu chấm
                                                         $displayDiscount =
-                                                          '- ' .  number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
+                                                            '- ' .
+                                                            number_format($voucher->discount_value, 0, ',', '.') .
+                                                            ' VNĐ';
                                                     } elseif (
                                                         $voucher->discount_type === 'percent' &&
                                                         $voucher->discount_percent > 0
@@ -132,14 +134,15 @@
                                                 <div class="row mb-4 pb-3 border-bottom align-items-center">
                                                     <!-- Đảm bảo các phần tử được căn giữa theo chiều dọc -->
                                                     <div class="col-md-3"> <!-- Kích thước ảnh chiếm 3 cột -->
-                                                        <a href="product-left-thumbnail.html" class="order-image">
+                                                        <a href="{{ route('products.show', $item->product->slug) }}"
+                                                            class="order-image">
                                                             <img src="{{ $item->image }}" class="img-fluid rounded"
                                                                 alt="" style="max-width: 50%;">
                                                         </a>
                                                     </div>
                                                     <div class="col-md-9"> <!-- Văn bản chiếm 9 cột còn lại -->
                                                         <div class="order-wrap">
-                                                            <a href="product-left-thumbnail.html">
+                                                            <a href="{{ route('products.show', $item->product->slug) }}">
                                                                 <h4 class="fw-bold"
                                                                     style="font-size: 20px; color: #025e75;">
                                                                     {{ $item->product_name }}</h4>
@@ -215,11 +218,11 @@
                                                         </div>
 
                                                         <form action="{{ route('orders.rate', $productItem->product_id) }}"
-                                                            method="POST">
+                                                            method="POST"
+                                                            onsubmit="return validateRating({{ $productItem->product_id }});">
                                                             @csrf
                                                             <input type="hidden" name="order_id"
                                                                 value="{{ $order->id }}">
-
                                                             <div class="d-flex align-items-center">
                                                                 <div class="rating"
                                                                     id="rating-{{ $productItem->product_id }}"
@@ -312,14 +315,40 @@
                 });
             });
         });
+
+        function validateRating(productId) {
+            const ratingInput = document.getElementById(`input-rating-${productId}`);
+            if (!ratingInput.value) {
+                alert("Vui lòng chọn số sao để đánh giá!");
+                return false;
+            }
+            return true;
+        }
+
+        // Event listener để xử lý khi người dùng chọn sao
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                const productId = this.dataset.productId;
+                const ratingValue = this.dataset.value;
+
+                // Cập nhật input hidden với giá trị số sao
+                document.getElementById(`input-rating-${productId}`).value = ratingValue;
+
+                // Highlight các ngôi sao được chọn
+                const stars = document.querySelectorAll(`#rating-${productId} .star`);
+                stars.forEach(star => {
+                    if (star.dataset.value <= ratingValue) {
+                        star.style.color = "gold"; // Màu vàng cho sao được chọn
+                    } else {
+                        star.style.color = "gray"; // Màu xám cho sao chưa chọn
+                    }
+                });
+            });
+        });
     </script>
 
 
     <style>
-        /* .rating {
-                                                                                                                                                                                                                                                                                                                                                    display: flex;
-                                                                                                                                                                                                                                                                                                                                                } */
-
         .star {
             color: #d3d3d3;
             /* Màu xám cho sao chưa chọn */
