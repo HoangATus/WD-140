@@ -67,9 +67,8 @@
                                 <span class="badge bg-primary">{{ $user->role }}</span>
                             </td>
                             <td>
-                                @if ($user->role === 'Admin')
-                                    <span class="badge bg-primary">Quản trị viên</span>
-                                @elseif ($user->is_banned)
+                              
+                                @if ($user->is_banned)
                                     @if ($user->banned_until)
                                         <span class="badge bg-danger">Bị cấm đến {{ \Carbon\Carbon::parse($user->banned_until)->format('d/m/Y H:i') }}</span>
                                     @else

@@ -50,7 +50,7 @@
         <div class="card-body">
             <table class="table table-bordered">
                 <thead>
-                    <tr>
+                    <tr align="center">
                         <th>STT</th>
                         <th>Tên Sản Phẩm</th>
                         <th>Biến Thể</th>
@@ -61,13 +61,13 @@
                 </thead>
                 <tbody>
                     @foreach ($order->orderItems as $index => $item)
-                        <tr>
+                        <tr align="center">
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $item->product_name }}</td>
                             <td>{{ $item->variant_name }}</td>
                             <td>{{ $item->quantity }}</td>
-                            <td>{{ number_format($item->price) }} VNĐ</td>
-                            <td>{{ number_format($item->price * $item->quantity) }} VNĐ</td>
+                            <td>{{ number_format($item->price, 0, ',', '.') }} VNĐ</td>
+                            <td>{{ number_format($item->price * $item->quantity, 0, ',', '.') }} VNĐ</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -76,37 +76,30 @@
                 <div class="col-md-3 offset-md-9">
                     <div class="d-flex justify-content-between">
                         <span><b>Tổng tiền hàng:</b></span>
-                        <span class="fw-bold">{{ number_format($item->price * $item->quantity) }} VNĐ</span>
+                        <span class="fw-bold">{{ number_format($item->price * $item->quantity, 0, ',', '.') }} VNĐ</span>
                     </div>
+            
+                    @if(!empty($order->points_discount) && $order->points_discount > 0)
                     <div class="d-flex justify-content-between">
                         <span><b>Điểm thưởng:</b></span>
-                        <span class="text-danger">-{{ number_format($order->points_discount) }} VNĐ</span>
+                        <span class="text-danger">-{{ number_format($order->points_discount, 0, ',', '.') }} VNĐ</span>
                     </div>
+                    @endif
+            
+                    @if(!empty($order->voucher_discount) && $order->voucher_discount > 0)
                     <div class="d-flex justify-content-between">
-                        <span><b>Mã giảm giá (Voucher):</b></span>
-                        <span class="text-danger">@php
-                            $voucher = $order->voucher;
-                            $displayDiscount = 'Không áp dụng';
-                        
-                            if ($voucher) {
-                                // Kiểm tra loại giảm giá
-                                if ($voucher->discount_type === 'fixed' && $voucher->discount_value > 0) {
-                                    // Định dạng số tiền với dấu chấm
-                                    $displayDiscount ='- ' . number_format($voucher->discount_value, 0, ',', '.') . ' VNĐ';
-                                } elseif ($voucher->discount_type === 'percent' && $voucher->discount_percent > 0) {
-                                    $displayDiscount = $voucher->discount_percent . '%';
-                                }
-                            }
-                        @endphp
-                        <td class="text-end">{{ $displayDiscount }}</td>
-                        </span>
+                        <span><b>Mã giảm giá:</b></span>
+                        <span class="text-danger">-{{ number_format($order->voucher_discount, 0, ',', '.') }} VNĐ</span>
                     </div>
+                    @endif
+            
                     <div class="d-flex justify-content-between">
-                        <span><b>Tổng:</b></span>
+                        <span><b>Thành tiền:</b></span>
                         <span class="fw-bold">{{ number_format($order->total) }} VNĐ</span>
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
     <div class="card mb-4">
@@ -116,7 +109,7 @@
         <div class="card-body">
             <table class="table table-bordered">
                 <thead>
-                    <tr>
+                    <tr align="center">
                         <th>STT</th>
                         <th>Trạng Thái Thay Đổi</th>
                         <th>Ghi Chú</th>
@@ -126,7 +119,7 @@
                 </thead>
                 <tbody>
                     @foreach ($order->statusChanges as $key => $statusChange)
-                        <tr>
+                        <tr align="center">
                             <td>{{ $key + 1 }}</td>
                             <td>
                                 {{ \App\Models\Order::$statuss[$statusChange->old_status] ?? $statusChange->old_status }}

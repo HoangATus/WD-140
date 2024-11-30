@@ -17,8 +17,8 @@ class UpdateBannerRequest extends FormRequest
 
         return [
             'title' => 'required|string|max:255|unique:banners,title,' . $bannersId,
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048', // Hình ảnh là tùy chọn
-            'link' => 'required|url|max:255',
+            'image' => 'nullable|image|max:5048', 
+            'category_id' => 'required',
             'description' => 'nullable|string|max:500',
         ];
     }
@@ -29,8 +29,7 @@ class UpdateBannerRequest extends FormRequest
             'title.required' => 'Tiêu đề không được bỏ trống.',
             'title.unique' => 'Tên Tiêu đề đã tồn tại.',
             'image.image' => 'File tải lên phải là một hình ảnh.',
-            'link.required' => 'Đường dẫn không được bỏ trống.',
-            'link.url' => 'Đường dẫn không hợp lệ.',
+            'category_id.required' => 'Vui lòng chọn danh mục.',
             'description.max' => 'Mô tả không được vượt quá 500 ký tự.',
         ];
     }

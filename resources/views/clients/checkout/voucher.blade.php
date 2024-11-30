@@ -78,7 +78,7 @@
                     <hr>
                     <li><strong>Thanh Toán</strong><br>Tất cả các hình thức thanh toán</li>
                     <hr>
-                    <li><strong>Thiết bị</strong><br>iOS, Android</li>
+                
                     <hr>
                     <li><strong>Xem chi tiết</strong><br>
                         Sử dụng mã giảm phí vận chuyển và thỏa điều kiện ưu đãi khi mua hàng trên Shopee:<br>

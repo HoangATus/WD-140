@@ -12,9 +12,7 @@
                 <p><strong>Số điện thoại:</strong> {{ $user->user_phone_number }}</p>
                 <p><strong>Vai trò:</strong> <span class="badge bg-primary">{{ $user->role }}</span></p>
                 <p><strong>Trạng thái:</strong>
-                    @if ($user->role === 'Admin')
-                        <span class="badge bg-primary">Quản trị viên</span>
-                    @elseif ($user->is_banned)
+                 @if ($user->is_banned)
                         <span class="badge bg-danger">Bị cấm</span>
                     @else
                         <span class="badge bg-success">Hoạt động</span>

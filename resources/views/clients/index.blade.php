@@ -23,9 +23,10 @@
                                     <div class="p-3" style="max-width: 700px;">
                                         <h4 class="text-light text-uppercase font-weight-medium mb-3">{{ $banner->title }}
                                         </h4>
-                                        @if ($banner->link)
-                                            <a href="{{ $banner->link }}" class="button-custom">Xem Ngay</a>
-                                        @endif
+                                        <a href="{{ route('shop.category', ['id' => $banner->category_id]) }}"
+                                            class="button-custom">
+                                            Xem Ngay</a>
+
                                     </div>
                                 </div>
                             </div>
@@ -68,7 +69,7 @@
             </div>
         </div>
     </section>
-<br>
+    <br>
     <!-- Sản phẩm Section Start -->
     <div class="">
         <div class="container-fluid-lg">
@@ -83,10 +84,10 @@
                 @endif
 
                 @if (session('errors'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('errors') }}
-                </div>
-            @endif
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('errors') }}
+                    </div>
+                @endif
                 <div class="container">
                     <div class="product-grid">
                         @foreach ($bestSellingProducts as $product)
@@ -363,12 +364,12 @@
                             {{ session('successy') }}
                         </div>
                     @endif
-    
+
                     @if (session('errors'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ session('errors') }}
-                    </div>
-                @endif
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('errors') }}
+                        </div>
+                    @endif
                     <div class="container">
                         <div class="product-grid">
                             @foreach ($products as $product)
@@ -389,7 +390,7 @@
                                                 @php
                                                     $averageRating = $product->ratings->avg('rating'); // Tính trung bình số sao
                                                 @endphp
-    
+
                                                 @for ($i = 1; $i <= 5; $i++)
                                                     <li>
                                                         @if ($i <= $averageRating)
@@ -422,7 +423,7 @@
                                                     <i class="bi bi-cart"></i>
                                                 </span>
                                             </button>
-    
+
                                             <form action="{{ route('clients.favorites.store') }}" method="POST"
                                                 class="d-inline">
                                                 @csrf

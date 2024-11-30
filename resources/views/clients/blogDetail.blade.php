@@ -174,16 +174,16 @@
                                 <div id="edit-comment-modal" style="display: none; ">
                                     <div class="modal-content">
                                         <h5 class="mb-3" style="color: blue">Chỉnh sửa bình luận</h5>
-                                        <span class="close"id="cancel-edit-comment">&times;</span>
+                                        <span class="close"id="cancel-comment">&times;</span>
 
                                         <textarea id="edit-comment-text" class="form-control" rows="4"></textarea>
                                         <small class="text-danger" id="edit-comment-error" style="display: none;">Nội dung
                                             bình luận không được để trống.</small>
                                         <div class="d-flex align-items-center justify-content-between">
                                             <button id="cancel-edit-comment" class="btn  mt-3"
-                                                style="background-color: gray;">Hủy</button>
+                                                style="background-color: gray; color:white">Hủy</button>
                                             <button id="save-edit-comment" class="btn mt-3"
-                                                style="background-color: rgb(56, 43, 233)">Lưu</button>
+                                                style="background-color: rgb(56, 43, 233); color:white">Lưu</button>
 
                                         </div>
                                     </div>
@@ -330,6 +330,10 @@
                                     }
                                 });
                                 document.getElementById('cancel-edit-comment').addEventListener('click', function() {
+                                    currentCommentId = null;
+                                    document.getElementById('edit-comment-modal').style.display = 'none';
+                                });
+                                document.getElementById('cancel-comment').addEventListener('click', function() {
                                     currentCommentId = null;
                                     document.getElementById('edit-comment-modal').style.display = 'none';
                                 });
