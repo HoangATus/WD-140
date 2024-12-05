@@ -86,7 +86,7 @@
                                 
                                     <div class="col-12">
                                         <div class="forgot-box">
-                                            <a href="{{ route('password.request') }}" class="forgot-password">Quên mật khẩu?</a>
+                                            <a href="" class="forgot-password">Quên mật khẩu?</a>
                                         </div>
                                     </div>
                                 
