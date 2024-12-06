@@ -182,6 +182,10 @@
                                                     <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i>
                                                         Đăng ký</a>
                                                 </li>
+                                                <li class="product-box-contain">
+                                                    <a href="{{ route('password.request') }}"><i class="fa-solid fa-key"></i>
+                                                        Quên mật khẩu</a>
+                                                </li>
                                             @endguest
 
                                             @auth
