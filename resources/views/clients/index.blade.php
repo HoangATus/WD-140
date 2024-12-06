@@ -89,7 +89,7 @@
                     </div>
                 @endif
                 <div class="container">
-                    <div class="product-grid">
+                    {{-- <div class="product-grid">
                         @foreach ($bestSellingProducts as $product)
                             <div class="product-box">
                                 <div class="product-img">
@@ -154,7 +154,7 @@
                                 </div>
                             </div>
                         @endforeach
-                    </div>
+                    </div> --}}
 
                     <style>
                         .product-grid {
@@ -359,15 +359,15 @@
                     <div class="title">
                         <h2 class=" text-danger">SẢN PHẨM</h2>
                     </div>
-                    @if (session('successy'))
+                    @if (session('successyy'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('successy') }}
+                            {{ session('successyy') }}
                         </div>
                     @endif
 
-                    @if (session('errors'))
+                    @if (session('errorss'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ session('errors') }}
+                            {{ session('errorss') }}
                         </div>
                     @endif
                     <div class="container">

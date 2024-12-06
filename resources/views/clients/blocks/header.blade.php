@@ -193,6 +193,11 @@
                                                     <a href="{{ route('profile.index') }}"><i class="fa-solid fa-user"></i>
                                                         Tài khoản</a>
                                                 </li>
+
+                                                <li class="product-box-contain">
+                                                    <a href="{{ route('orders.index') }}"><i class="fa-solid fa-list"></i>
+                                                        Đơn hàng</a>
+                                                </li>
                                                 @if (Auth::user()->role == 'Admin')
                                                     <li class="product-box-contain">
                                                         <a href="{{ route('admins.dashboard') }}"><i

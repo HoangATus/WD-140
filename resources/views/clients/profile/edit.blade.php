@@ -41,20 +41,15 @@
                         </div>
                         <div class="profile-box">
                             <div class="cover-image">
-                                <img src="../assets/images/inner-page/cover-img.jpg" class="img-fluid blur-up lazyload"
+                                 <img src="{{ asset('assets/images/inner-page/cover-img.jpg') }}" class="img-fluid blur-up lazyload"
                                     alt="">
                             </div>
 
                             <div class="profile-contain">
                                 <div class="profile-image">
                                     <div class="position-relative">
-                                        <img src="../assets/images/inner-page/user/1.jpg"
+                                      <img src="{{ asset('assets/images/inner-page/user/1.jpg') }}"
                                             class="blur-up lazyload update_img" alt="">
-                                        <div class="cover-icon">
-                                            <i class="fa-solid fa-pen">
-                                                <input type="file" onchange="readURL(this,0)">
-                                            </i>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -118,7 +113,7 @@
                                         @csrf
                                         @method('PUT')
                                         <div class="form-group">
-                                            <label for="user_name">Name:</label>
+                                            <label for="user_name">Họ và tên:</label>
                                             <input type="text" name="user_name" id="user_name" class="form-control mt-2"
                                                 value="{{ old('user_name', $user->user_name) }}">
                                         </div>

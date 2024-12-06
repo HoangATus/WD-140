@@ -12,7 +12,6 @@ class CommentController extends Controller
     public function store(Request $request, $productId)
     {
         $request->validate([
-            // 'user_name' => 'required|string|max:255',
             'comment' => 'required|string|max:1000',
         ]);
 
