@@ -1,3 +1,4 @@
+
 @extends('clients.layouts.client')
 @section('content')
     <!-- Breadcrumb Section Start -->
@@ -13,7 +14,7 @@
                                         <i class="fa-solid fa-house"></i>
                                     </a>
                                 </li>
-                                <li class="breadcrumb-item active">Lấy lại mật khẩu</li>
+                                <li class="breadcrumb-item active">Quên mật khẩu?</li>
                             </ol>
                         </nav>
                     </div>
@@ -36,18 +37,36 @@
                 <div class="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 mx-auto">
                     <div class="d-flex align-items-center justify-content-center h-100">
                         <div class="log-in-box">
-                            {{-- <div class="log-in-title">
-                                <h3>Welcome To Fastkart</h3>
-                                <h4>Forgot your password</h4>
-                            </div> --}}
+                            <div class="log-in-title">
+                                {{-- <h3>Welcome To Fastkart</h3> --}}
+                                <h4>Nhập địa chỉ email của bạn !</h4>
+                            </div>
 
                             <div class="input-box">
-                                <form action="{{ route('password.email') }}" method="POST">
+                                @if ($errors->any())
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+                                <form method="POST" class="row g-4" action="{{ route('password.email') }}">
                                     @csrf
-                                    <input type="email" name="email" placeholder="Nhập email của bạn" required>
-                                    <button type="submit">Gửi liên kết đặt lại mật khẩu</button>
-                                </form>                                
-                                
+                                    <div class="form-group">
+                                        <label for="email">Địa chỉ email</label>
+                                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}"  autofocus>
+                                    </div>
+                                    <button type="submit" class="btn btn-animation w-100">Gửi link reset mật khẩu</button>
+                                </form>
+                            
+                                @if (session('status'))
+                                    <div class="alert alert-success mt-3">
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -57,3 +76,28 @@
     </section>
     <!-- log in section end -->
 @endsection
+    <!-- log in section start -->
+    {{-- <section class="log-in-section section-b-space forgot-section">
+        <div class="container-fluid-lg w-100">
+            <div class="row">
+                <div class="container">
+                    <h2>Quên mật khẩu?</h2>
+                    <form method="POST" action="{{ route('password.email') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="email">Địa chỉ email</label>
+                            <input type="email" name="email" id="email" class="form-control" required autofocus>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Gửi link reset mật khẩu</button>
+                    </form>
+                
+                    @if (session('status'))
+                        <div class="alert alert-success mt-3">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </section> --}}
+    <!-- log in section end -->

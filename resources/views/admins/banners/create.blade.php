@@ -47,15 +47,21 @@
 
                            
                                         <div class="mb-4 row align-items-center">
-                                            <label class="form-label-title col-sm-3 mb-0">Đường dẫn</label>
+                                            <label class="form-label-title col-sm-3 mb-0">Danh mục: </label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" type="text" name="link" placeholder="Link URL" value="{{ old('link') }}">
-                                                @error('link')
-                                                    <span class="text-danger">{{ $message }}</span>
+                                                <select name="category_id" id="category_id" class="form-control" >
+                                                    <option value="">Chọn danh mục</option>
+                                                    @foreach($categories as $category)
+                                                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                            {{ $category->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('category_id')
+                                                    <div class="text-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
-
                                         <div class="mb-4 row align-items-center">
                                             
                                             <label class="col-sm-3 form-label-title">Trạng thái:</label>

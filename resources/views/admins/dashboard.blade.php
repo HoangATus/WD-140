@@ -19,7 +19,7 @@
                     <!-- First div -->
                     @foreach ($counts as $status => $count)
                         <div class="" style="flex: 0 0 14.2857%; /* 100% / 7 */; max-width: 14.2857%;">
-                            <div class="card">
+                            <div class="card" style=" height: 80px;">
                                 <div class="card-body d-flex align-items-center">
                                     <div class="fs-14 mb-1 flex-grow-1 fw-semibold text-black">{{ $status }}
                                     </div>

@@ -35,7 +35,7 @@ class ShopController extends Controller
     public function index()
 {
     // Lấy 10 sản phẩm mới nhất cùng với các biến thể
-    $products = Product::with('variants')->latest()->take(10)->get();
+    $products = Product::with('variants')->latest()->take(12)->get();
     
     // Lấy các sản phẩm bán chạy dựa trên trạng thái 'delivered' và 'completed'
     $bestSellingProducts = Product::with('variants')
@@ -45,12 +45,13 @@ class ShopController extends Controller
         ->whereIn('orders.status', ['delivered', 'completed'])
         ->groupBy('products.id')
         ->orderByRaw('SUM(order_items.quantity) DESC')
-        ->take(10)
+        ->take(6)
         ->get();
 
     // Lấy các banner đang active
-    $banners = Banner::where('is_active', true)->get();
-
+    $banners = Banner::where('is_active', true)
+    ->with('category')
+    ->get();
     // Lấy tất cả các danh mục
     $categories = Category::query()->get();
 
@@ -125,7 +126,7 @@ class ShopController extends Controller
     
         $existingPendingComment = $user->comments()->where('news_id', $newsId)->where('approved', false)->first();
         if ($existingPendingComment) {
-            return response()->json(['success' => false, 'message' => 'Bình luận đang chờ phê duyệt.'], 400);
+            return response()->json(['success' => false, 'message' => 'Bình luận đang chờ phê duyệt không thể bình luận tiếp.'], 400);
         }
     
         $comment = NewComment::create([

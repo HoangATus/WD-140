@@ -34,9 +34,9 @@
                             </div>
                             <!-- Slug -->
                             <div class="mb-4 row align-items-center">
-                                <label class="form-label-title col-sm-3 mb-0">Link</label>
+                                <label class="form-label-title col-sm-3 mb-0">Danh mục</label>
                                 <div class="col-sm-9">
-                                    <p>{{ $banner->link }}</p>
+                                    <p>{{ $banner->category->name }}</p>
                                 </div>
                             </div>
 

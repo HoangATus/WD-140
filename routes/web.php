@@ -134,7 +134,10 @@ Route::get('/register', [AuthController::class, 'showFormRegister'])->name('regi
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 // Route cho đặt lại mật khẩu
-
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [ForgotPasswordController::class, 'reset'])->name('password.update');
 // Route cho đăng xuất
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirmReceipt'])->name('orders.confirm-receipt');
@@ -146,3 +149,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/favorites', [FavoriteController::class, 'store'])->name('clients.favorites.store');
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('clients.favorites.index');
 });
+
+// route trang gioi thieu
+Route::get('/gioi-thieu', function () {
+    return view('clients.introduce');
+})->name('about');

@@ -62,16 +62,28 @@ class User extends Authenticatable
         return $this->hasMany(NewComment::class, 'user_id');
     }
 
-/**
- * 
- *
- * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
- */
-public function vouchers()
-{
-    return $this->belongsToMany(Voucher::class, 'user_voucher', 'user_id', 'voucher_id');
-}
+    /**
+     * 
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function vouchers()
+    {
+        return $this->belongsToMany(Voucher::class, 'user_voucher', 'user_id', 'voucher_id');
+    }
 
-    
+    public function getEmailForPasswordReset()
+    {
+        return $this->user_email;
+    }
 
+    public function getAuthPassword()
+    {
+        return $this->user_password;
+    }
+
+    public function getAuthEmail()
+    {
+        return $this->user_email;
+    }
 }

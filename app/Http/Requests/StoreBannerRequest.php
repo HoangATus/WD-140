@@ -15,8 +15,8 @@ class StoreBannerRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255|unique:banners,title',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5048',
-            'link' => 'required|url|max:255',
+            'image' => 'required|image|max:5048',
+            'category_id' => 'required',
             'description' => 'nullable|string|max:500',
         ];
     }
@@ -28,8 +28,7 @@ class StoreBannerRequest extends FormRequest
             'title.unique' => 'Tên Tiêu đề đã tồn tại.',
             'image.required' => 'Ảnh không được bỏ trống.',
             'image.image' => 'File tải lên phải là một hình ảnh.',
-            'link.required' => 'Đường dẫn không được bỏ trống.',
-            'link.url' => 'Đường dẫn không hợp lệ.',
+            'category_id.required' => 'Vui lòng chọn danh mục.',
             'description.max' => 'Mô tả không được vượt quá 500 ký tự.',
         ];
     }

@@ -45,12 +45,12 @@
                         <thead class="table-secondary">
                             <tr align="center">
                                 <th>ID</th>
-                                <th>Hình ảnh</th>
+                                {{-- <th>Hình ảnh</th> --}}
                                 <th>Sản phẩm</th>
                                 <th>Người dùng</th>
                                 <th>Đánh giá</th>
                                 <th>Nhận xét</th>
-                                <th>Thời gian</th>
+                                {{-- <th>Thời gian</th> --}}
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -58,14 +58,14 @@
                             @foreach ($ratings as $rating)
                                 <tr align="center">
                                     <td>{{ $rating->id }}</td>
-                                    <td>
+                                    {{-- <td>
                                         @if ($rating->orderItem)
                                             <img src="{{ $rating->orderItem->image }}" alt="Ảnh sản phẩm"
                                                 style="width: 70px; height: auto;">
                                         @else
                                             <p>Không có ảnh sản phẩm</p>
                                         @endif
-                                    </td>
+                                    </td> --}}
 
                                     <td>{{ $rating->product->product_name }}</td>
                                     <td>{{ $rating->user->user_name }}</td>
@@ -79,7 +79,7 @@
                                         @endfor
                                     </td>
                                     <td>{{ $rating->review }}</td>
-                                    <td>{{ $rating->created_at }}</td>
+                                    {{-- <td>{{ $rating->created_at }}</td> --}}
                                     <td>
                                         <a href="{{ route('admins.ratings.show', $rating) }}"
                                             class="btn btn-info btn-sm">Xem chi tiết</a>

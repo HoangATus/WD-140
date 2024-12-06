@@ -69,7 +69,6 @@ class CheckoutController extends Controller
 
         $params['order_code'] = $this->generateUniqueOrderCode();
         $paymentStatus = $request->payment_method == 'online' ? 'paid' : 'pending';
-        
         $order = Order::create([
             'user_id'        => $userId,
             'order_code'     => $params['order_code'],
@@ -201,6 +200,7 @@ class CheckoutController extends Controller
         $voucher = Voucher::where('code', $code)
             ->where('is_active', true)
             ->where('is_public', true)
+            ->where('end_date', '>=', now())
             ->where('quantity', '>', 0)
             ->first();
 
@@ -227,6 +227,8 @@ class CheckoutController extends Controller
                     'code' => $voucher->code,
                     'discount' => $voucher->discount_percent,
                     'max_discount_amount' => $voucher->max_discount_amount,
+                    'discount_value' => $voucher->discount_value,
+                    'discount_type' => $voucher->discount_type,
                     'min_order_amount' => $voucher->min_order_amount,
                     'end_date' => $voucher->end_date,
                 ],
@@ -256,7 +258,6 @@ class CheckoutController extends Controller
             $usedQuantity = Order::where('voucher_id', $voucher->id)->count();
             $totalVoucherQuantity = $voucher->quantity + $usedQuantity;
 
-            // Tính tỷ lệ đã sử dụng
             $voucher->used_quantity = $usedQuantity;
             $voucher->total_quantity = $totalVoucherQuantity;
         }
@@ -323,7 +324,7 @@ class CheckoutController extends Controller
             ->where('end_date', '>=', now())
             ->where('quantity', '>', 0)
             ->whereHas('users', function ($query) use ($user) {
-                $query->where('user_voucher.user_id', $user->id); // Sửa để dùng 'id' chính xác
+                $query->where('user_voucher.user_id', $user->user_id); 
             })
             ->get();
 
@@ -346,7 +347,7 @@ class CheckoutController extends Controller
                 'payment_method' => 'required|in:cod,online',
                 'variant_id' => 'required|exists:variants,id',
                 'quantity' => 'required|integer|min:1',
-                'points' => 'nullable|integer|min:0|max:' . Auth::user()->points,
+                'pointsDiscount' => 'nullable|integer|min:0|max:' . Auth::user()->points,
                 'selectedVoucher' => 'nullable|exists:vouchers,id',
                 'final_total' => 'required|numeric|min:0',
                 'initial_total' => 'required|numeric|min:0',
@@ -370,11 +371,21 @@ class CheckoutController extends Controller
                 'notes' => $request->notes,
                 'total' => $request->final_total,
                 'discount' => $request->initial_total - $request->final_total,
+
                 'payment_status' => $paymentStatus,
+
+                'points_discount' => $request->pointsDiscount ?? 0,
+                'voucher_discount' => $request->voucherDiscount ?? 0,
+                
+
                 'payment_method' => $request->payment_method,
                 'voucher_id' => $request->selectedVoucher,
             ]);
 
+
+            if ($request->final_total == 0) {
+                $order->update(['payment_status' => 'paid']);
+            }
             $variant->quantity -= $request->quantity;
             $variant->save();
 
@@ -391,8 +402,8 @@ class CheckoutController extends Controller
             ]);
 
 
-            if ($request->has('points') && $request->points > 0) {
-                $user->points -= $request->points;
+            if ($request->has('pointsDiscount') && $request->pointsDiscount > 0) {
+                $user->points -= $request->pointsDiscount;
                 $user->save();
             }
 
@@ -404,7 +415,9 @@ class CheckoutController extends Controller
                     if ($voucher->quantity <= 0) {
                         return back()->with('errors', 'Voucher đã hết lượt.');
                     }
-
+                    if (Carbon::parse($voucher->end_date)->lessThan(Carbon::now())) {
+                        return back()->with('error', 'Voucher đã hết hạn.');
+                    }
 
                     $voucher->quantity -= 1;
                     $voucher->save();
@@ -428,7 +441,7 @@ class CheckoutController extends Controller
             }
 
 
-            //  Mail::to($user->user_email)->send(new OrderSuccessful($order));
+             Mail::to($user->user_email)->send(new OrderSuccessful($order));
             return redirect()->route('checkout.success', ['order' => $order->id]);
         } catch (\Exception $e) {
             Log::error('Lỗi khi xử lý thanh toán: ' . $e->getMessage());
