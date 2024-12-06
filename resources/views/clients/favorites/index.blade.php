@@ -2,16 +2,58 @@
 
 @section('content')
     <div class="container">
+        <section class="home-section-2 home-section-bg pt-0 overflow-hidden">
+            @if ($banners->count() > 0)
+                <div id="header-carousel" class="carousel slide" data-ride="carousel">
+                    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @foreach ($banners as $id => $banner)
+                                <div class="carousel-item {{ $id == 0 ? 'active' : '' }}"
+                                    style="height: 410px; position: relative;">
+                                    <img class="img-fluid" src="{{ Storage::url($banner->image) }}" alt="Banner Image"
+                                        style="height: 100%; width: 100%; object-fit: cover;">
+    
+                                    <div class="overlay"
+                                        style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(148, 142, 142, 0.3);">
+                                    </div>
+    
+    
+                                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center"
+                                        style="z-index: 2;">
+                                        <div class="p-3" style="max-width: 700px;">
+                                            <h4 class="text-light text-uppercase font-weight-medium mb-3">{{ $banner->title }}
+                                            </h4>
+                                            <a href="{{ route('shop.category', ['id' => $banner->category_id]) }}"
+                                                class="button-custom">
+                                                Xem Ngay</a>
+    
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+            @else
+                <p class="text-center text-success">Hiện tại không có banner nào đang hoạt động.</p>
+            @endif
+        </section>
 
-        <div class="container-fluid-lg">
+        <div class="container-fluid-lg mt-3">
             <div class="section-b-space">
                 <div class="title">
                     <h2>Danh Sách Sản Phẩm Yêu Thích</h2>
                 </div>
                 <div class="container">
-                    @if (session('successy'))
+                    @if (session('successyy'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('successy') }}
+                            {{ session('successyy') }}
                         </div>
                     @endif
 
