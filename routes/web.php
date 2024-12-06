@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Clients\CommentController;
+use App\Http\Controllers\Clients\ContactController;
 use App\Http\Controllers\Clients\FavoriteController;
 use App\Http\Controllers\Clients\OrderController;
 use App\Http\Controllers\Clients\ProductController;
@@ -151,3 +152,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/gioi-thieu', function () {
     return view('clients.introduce');
 })->name('about');
+
+// lien he
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [ContactController::class, 'sendEmail'])->name('contact.send');

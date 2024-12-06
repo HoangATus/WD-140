@@ -23,7 +23,7 @@
                 <table class="table mt-5">
                     <thead>
                         <tr>
-                            <th scope="col"></th> <!-- Cột checkbox -->
+                            
                             <th scope="col">Ảnh Sản Phẩm</th>
                             <th scope="col">Tên Sản Phẩm</th>
                             <th scope="col">Biến Thể</th>
@@ -74,17 +74,17 @@
                         <div class="summery-box-2 " style="width:300px">
                             <div class="summery-contain">
 
-                                <div class="d-flex justify-content-between align-items-center my-2">
+                                {{-- <div class="d-flex justify-content-between align-items-center my-2">
                                     <h5>
                                         <i class="fa-solid fa-ticket"></i> Mã giảm giá ATUS
                                     </h5>
                                     <a href="#" id="openModal">Chọn hoặc nhập mã</a>
-                                </div>
+                                </div> --}}
 
                                 <div id="voucherModal" class="modal">
                                     <div class="modal-content">
                                         <span class="close">&times;</span>
-                                        <h2 class="mb-4">Chọn ATUS Voucher</h2>
+                                        {{-- <h2 class="mb-4">Chọn ATUS Voucher</h2> --}}
 
                                         <div class="coupon-cart d-flex justify-content-between align-items-center">
                                             <p class="m">Mã Voucher</p>

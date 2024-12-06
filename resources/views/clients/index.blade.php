@@ -1,7 +1,6 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Home Section Start -->
     <section class="home-section-2 home-section-bg pt-0 overflow-hidden">
         @if ($banners->count() > 0)
             <div id="header-carousel" class="carousel slide" data-ride="carousel">
@@ -23,8 +22,7 @@
                                     <div class="p-3" style="max-width: 700px;">
                                         <h4 class="text-light text-uppercase font-weight-medium mb-3">{{ $banner->title }}
                                         </h4>
-                                        <a href="{{ route('shop.category', ['id' => $banner->category_id]) }}"
-                                            class="button-custom">
+                                        <a href="{{ route('shop.category', ['id' => $banner->id]) }}" class="button-custom">
                                             Xem Ngay</a>
 
                                     </div>
@@ -44,8 +42,6 @@
             <p class="text-center text-success">Hiện tại không có banner nào đang hoạt động.</p>
         @endif
     </section>
-    <!-- Home Section End -->
-    <!-- Category Section Start -->
     <section>
         <div class="container-fluid-lg">
 
@@ -135,12 +131,13 @@
                                         </div>
                                     @endif
                                     <div class="add-buttons d-flex align-items-center">
-                                        <button class="cart" onclick="addToCart()">
+                                        <a class="cart button text-white"
+                                            href="{{ route('products.show', $product->slug) }}">
                                             Thêm vào giỏ
                                             <span class="add-icon bg-light-gray">
                                                 <i class="bi bi-cart"></i>
                                             </span>
-                                        </button>
+                                        </a>
 
                                         <form action="{{ route('clients.favorites.store') }}" method="POST"
                                             class="d-inline">
@@ -283,7 +280,6 @@
                             background-color: #417394;
                             color: white;
                             border: 2px solid transparent;
-                            /* Add transparent border for consistent button size */
                             border-radius: 8px;
                             cursor: pointer;
                             transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
@@ -295,24 +291,19 @@
                         .add-icon {
                             margin-left: 5px;
                         }
-
-                        /* Hover effects */
                         .cart:hover {
                             background-color: #355c74;
                             transform: scale(1.05);
                             border-color: #355c74;
                             border: none;
-                            /* Ensure border matches background color */
                         }
 
                         .cart-icon:hover {
                             background-color: #417394;
-                            color: white;
-                            /* Change icon color on hover */
+                            color: white;/
                             transform: scale(1.05);
                             border-color: #355c74;
-                            border: none;
-                            /* Darker border on hover */
+                            border: none;                           
                         }
                     </style>
                 </div>
@@ -359,7 +350,7 @@
                     <div class="title">
                         <h2 class=" text-danger">SẢN PHẨM</h2>
                     </div>
-                    @if (session('successy'))
+                    {{-- @if (session('successy'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             {{ session('successy') }}
                         </div>
@@ -369,7 +360,7 @@
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             {{ session('errors') }}
                         </div>
-                    @endif
+                    @endif --}}
                     <div class="container">
                         <div class="product-grid">
                             @foreach ($products as $product)
@@ -417,12 +408,13 @@
                                             </div>
                                         @endif
                                         <div class="add-buttons d-flex align-items-center">
-                                            <button class="cart" onclick="addToCart()">
+                                            <a class="cart button text-white"
+                                                href="{{ route('products.show', $product->slug) }}">
                                                 Thêm vào giỏ
                                                 <span class="add-icon bg-light-gray">
                                                     <i class="bi bi-cart"></i>
                                                 </span>
-                                            </button>
+                                            </a>
 
                                             <form action="{{ route('clients.favorites.store') }}" method="POST"
                                                 class="d-inline">
@@ -440,7 +432,19 @@
     </section>
     <section class="newsletter-section section-b-space">
     </section>
-    <!-- Newsletter Section End -->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6752f2c24304e3196aed5b3c/1iee08htm';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
 @endsection
 
 @section('scripts')

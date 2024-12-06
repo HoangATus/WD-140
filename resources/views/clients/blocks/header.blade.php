@@ -91,23 +91,24 @@
                                     </div>
                                     <div class="offcanvas-body">
                                         <ul class="navbar-nav">
-                                            <li class="nav-item dropdown dropdown-mega">    
-                                                <a class="nav-link dropdown-toggle ps-xl-2 ps-0"
-                                                    href="{{ url('/') }}">Trang chủ</a>
-                                            </li><li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="{{url('/gioi-thieu')}}">Giới thiệu</a>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ url('/') }}">Trang chủ</a>
                                             </li>
-                                            <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="{{ url('/products') }}">Sản
-                                                    phẩm</a>
-                                            </li><li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="{{ url('/blog') }}">Tin tức</a>
-                                            {{-- </li><li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="{{ url('/products') }}">Cửa hàng</a>
-                                            </li> --}}
-                                           
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ url('/gioi-thieu') }}">Giới thiệu</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ url('/products') }}">Sản phẩm</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ url('/blog') }}">Tin tức</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ url('/contact') }}">Liên hệ</a>
+                                            </li>
                                         </ul>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -185,6 +186,10 @@
                                             @endguest
 
                                             @auth
+                                            <li class="product-box-contain">
+                                                <a href="{{ route('orders.index') }}"><i class="fa-solid fa-list"></i>
+                                                    Đơn hàng</a>
+                                            </li>
                                                 <li class="product-box-contain">
                                                     <a href="{{ route('profile.index') }}"><i class="fa-solid fa-user"></i>
                                                         Tài khoản</a>

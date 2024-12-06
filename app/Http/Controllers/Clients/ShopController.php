@@ -35,7 +35,7 @@ class ShopController extends Controller
     public function index()
 {
     // Lấy 10 sản phẩm mới nhất cùng với các biến thể
-    $products = Product::with('variants')->latest()->take(12)->get();
+    $products = Product::with('variants')->latest()->take(10)->get();
     
     // Lấy các sản phẩm bán chạy dựa trên trạng thái 'delivered' và 'completed'
     $bestSellingProducts = Product::with('variants')
@@ -45,7 +45,7 @@ class ShopController extends Controller
         ->whereIn('orders.status', ['delivered', 'completed'])
         ->groupBy('products.id')
         ->orderByRaw('SUM(order_items.quantity) DESC')
-        ->take(6)
+        ->take(5)
         ->get();
 
     // Lấy các banner đang active

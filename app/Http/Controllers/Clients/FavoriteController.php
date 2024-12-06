@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,17 +36,20 @@ class FavoriteController extends Controller
 
     public function index()
     {
+        
         $favorites = Favorite::where('user_id', Auth::id())
             ->with(['product.ratings']) // eager load ratings
             ->get();
-
+         $banners = Banner::where('is_active', true)
+        ->with('category')
+        ->get();
         // Kiểm tra xem dữ liệu có được lấy đúng không
         if ($favorites->isEmpty()) {
             Log::info('Không có sản phẩm yêu thích nào.');
         } else {
             Log::info('Thông tin sản phẩm yêu thích:', $favorites->toArray());
         }
-        return view('clients.favorites.index', compact('favorites'));
+        return view('clients.favorites.index', compact('favorites','banners'));
     }
 
     public function destroy($id)

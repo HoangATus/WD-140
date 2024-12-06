@@ -80,6 +80,7 @@ class CheckoutController extends Controller
             'notes'          => $request->notes,
             'total'          => $total,
             'payment_status' => $paymentStatus,
+            'status'         => 'pending',
             'payment_method' => $request->payment_method,
         ]);
 
@@ -375,6 +376,7 @@ class CheckoutController extends Controller
                 'discount' => $request->initial_total - $request->final_total,
 
                 'payment_status' => $paymentStatus,
+                'status'         => 'pending',
 
                 'points_discount' => $request->pointsDiscount ?? 0,
                 'voucher_discount' => $request->voucherDiscount ?? 0,
