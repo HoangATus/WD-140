@@ -17,7 +17,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $user = Auth::user(); // Lấy thông tin người dùng đang đăng nhập
+        $user = Auth::user();
         return view('clients.profile.index', compact('user'));
 
     }
@@ -60,7 +60,6 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $user_id)
     {
-        // Validate the input fields
         $request->validate([
             'user_name' => 'required|string|max:255',
             'user_email' => 'required|email',
@@ -68,17 +67,14 @@ class ProfileController extends Controller
             'user_address' => 'required|string|max:255',
         ]);
     
-        // Find the user by ID
         $user = User::findOrFail($user_id);
-    
-        // Update user details
+ 
         $user->user_name = $request->user_name;
         $user->user_email = $request->user_email;
         $user->user_phone_number = $request->user_phone_number;
         $user->user_address = $request->user_address;
         $user->save();
     
-        // Redirect back with a success message
         return redirect()->route('profile.index', $user->user_id)->with('successy', 'Cập nhật thông tin thành công');
     }
     
