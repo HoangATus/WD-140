@@ -65,24 +65,26 @@ class ShopController extends Controller
     public function blog()
     {
         $hotNews = News::where('status', 1)->orderBy('view_count', 'desc')->first();
-        $relatedNews = News::where('status', 1)
-            ->where('id', '!=', $hotNews->id)
-            ->orderBy('created_at', 'desc')
-            ->take(3)
-            ->get();
-
-        $promotions = News::where('category_id', 1) 
+        if (!$hotNews) {
+            $relatedNews = collect(); 
+        } else {
+            $relatedNews = News::where('status', 1)
+                ->where('id', '!=', $hotNews->id)
+                ->orderBy('created_at', 'desc')
+                ->take(3)
+                ->get();
+        }
+        $promotions = News::where('category_id', 1)
             ->where('status', 1)
             ->orderBy('created_at', 'desc')
             ->take(3)
             ->get();
-
+    
         $popularNews = News::where('status', 1)
             ->orderBy('view_count', 'desc')
-            // ->take(10)
             ->get()
-            ->chunk(2); 
-
+            ->chunk(2);
+    
         $album = News::where('status', 1)
             ->orderBy('created_at', 'desc')
             ->take(3)
@@ -95,10 +97,9 @@ class ShopController extends Controller
                 ->get();
             return $category;
         });
-
-
+    
         return view('clients.blog', compact('hotNews', 'relatedNews', 'album', 'categories', 'promotions', 'popularNews'));
-    }
+    }    
 
     public function blogDetail($slug)
     {
@@ -112,7 +113,7 @@ class ShopController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
-        $promotions = News::where('status', 1)
+        $promotions = News::where('status', 1)  
             ->orderBy('created_at', 'desc')
             ->take(3)
             ->get();

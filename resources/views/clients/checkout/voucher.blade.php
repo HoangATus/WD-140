@@ -81,12 +81,24 @@
                 
                     <hr>
                     <li><strong>Xem chi tiết</strong><br>
-                        Sử dụng mã giảm phí vận chuyển và thỏa điều kiện ưu đãi khi mua hàng trên Shopee:<br>
-                        - Giảm tối đa ₫300K cho đơn hàng từ ₫100K.<br>
-                        Chỉ áp dụng cho một số người bán tham gia chương trình Freeship Xtra, Freeship Xtra Plus.<br>
-                        Đơn vị vận chuyển khả dụng: Nhanh, Hàng cồng kềnh và Quốc Tế.<br>
+                        Sử dụng mã giảm giá thỏa điều kiện ưu đãi khi mua hàng trên Atus:<br>
+                        <div>
+                            <span >Mã: {{ $voucher->code }}</span>
+                            
+                            @if($voucher->discount_type === 'percent')
+                                <p class="mb-0">
+                                    Giảm {{ $voucher->discount_percent }}% - Giảm tối đa {{ number_format($voucher->max_discount_amount, 0, ',', '.') }}₫<br>
+                                    Đơn tối thiểu: {{ number_format($voucher->min_order_amount, 0, ',', '.') }}₫
+                                </p>
+                            @elseif($voucher->discount_type === 'fixed')
+                                <p class="mb-0">
+                                    Giảm {{ number_format($voucher->discount_value, 0, ',', '.') }}₫<br>
+                                    Đơn tối thiểu: {{ number_format($voucher->min_order_amount, 0, ',', '.') }}₫
+                                </p>
+                            @endif
+                        </div>                      
                         Chỉ áp dụng cho một số người dùng nhất định.<br>
-                        Mã chỉ được hoàn theo quy định của Shopee.<br>
+                        Mã chỉ được hoàn theo quy định của Atus.<br>
                         Số lượt sử dụng có hạn, chương trình và mã có thể kết thúc khi hết lượt ưu đãi hoặc khi hết hạn
                         ưu đãi, tùy điều kiện nào đến trước.
                     </li>

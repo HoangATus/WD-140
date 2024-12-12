@@ -77,6 +77,8 @@
 
     <!-- Main Content Section -->
     <section class="blog-section section-b-space">
+        @if ($hotNews || $relatedNews->isNotEmpty() || $popularNews->isNotEmpty() || $album->isNotEmpty() || $categories->isNotEmpty())
+        @if ($hotNews)
         <div class="container-fluid-lg">
             <div class="row mb-5">
                 <div class="col-md-9 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
@@ -100,6 +102,7 @@
                                 </a>
                             </div>
                         </div>
+                        @endif
                     </div>
                     <div style="height: 610px;" class="col-md-5   d-flex flex-column justify-content-between">
                         @foreach ($relatedNews as $news)
@@ -242,6 +245,14 @@
         </div>
         </div>
         </div>
+             @else
+            <!-- No News Section -->
+            <div class="container">
+                <div class="no-news">
+                    Không có tin tức nào
+                </div>
+            </div>
+        @endif
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"

@@ -87,6 +87,16 @@
                                                             <label class="form-check-label" for="payment_online">Thanh toán
                                                                 trực tuyến</label>
                                                         </div>
+                                                        <p id="warningMessage"
+                                                            style="display: none; color: red; font-size: 14px; margin-top: 5px;">
+                                                            Thành tiền phải lớn hơn 5.000 VND để sử dụng thanh toán trực
+                                                            tuyến.
+                                                        </p>
+                                                        <style>
+                                                            .form-check-input:disabled+.form-check-label {
+                                                                opacity: 0.5;
+                                                            }
+                                                        </style>
                                                     </div>
                                                 </div>
                                         </div>
@@ -245,21 +255,21 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
- document.getElementById('openModal').addEventListener('click', function () {
-        document.getElementById('voucherModal').style.display = 'block';
-        document.body.classList.add('no-scroll'); 
-    });
-    document.querySelector('.close').addEventListener('click', function () {
-        document.getElementById('voucherModal').style.display = 'none';
-        document.body.classList.remove('no-scroll'); 
-    });
-    window.addEventListener('click', function (event) {
-        const modal = document.getElementById('voucherModal');
-        if (event.target === modal) {
-            modal.style.display = 'none';
-            document.body.classList.remove('no-scroll'); 
-        }
-    });
+            document.getElementById('openModal').addEventListener('click', function() {
+                document.getElementById('voucherModal').style.display = 'block';
+                document.body.classList.add('no-scroll');
+            });
+            document.querySelector('.close').addEventListener('click', function() {
+                document.getElementById('voucherModal').style.display = 'none';
+                document.body.classList.remove('no-scroll');
+            });
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('voucherModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.classList.remove('no-scroll');
+                }
+            });
             document.querySelector('.close-modal').onclick = function() {
                 document.getElementById('voucherModal').style.display = 'none';
                 document.body.classList.remove('no-scroll');
@@ -347,14 +357,13 @@
                                     timeDifference > 0 ?
                                     `HSD: ${endDate.toLocaleDateString('vi-VN')} ` :
                                     'Voucher đã hết hạn';
-                                // ${endDate.toLocaleTimeString('vi-VN')}
                                 let discountInfo = '';
                                 if (voucher.discount_type === 'percent') {
                                     discountInfo =
                                         `Giảm ${voucher.discount_percent}% - Giảm tối đa ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.max_discount_amount)}`;
                                 } else if (voucher.discount_type === 'fixed') {
                                     discountInfo =
-                                        `Giảm ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.discount_value)} VND`;
+                                        `Giảm ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.discount_value)} `;
                                 }
 
 
@@ -434,7 +443,7 @@
                     voucherDiscountElement.style.display = 'none';
 
                     document.getElementById('voucherModal').style.display = 'none';
-                    document.body.classList.remove('no-scroll'); 
+                    document.body.classList.remove('no-scroll');
                     updateTotal();
                     return;
                 }
@@ -488,7 +497,7 @@
                 }
 
                 document.getElementById('voucherModal').style.display = 'none';
-                document.body.classList.remove('no-scroll'); 
+                document.body.classList.remove('no-scroll');
                 document.getElementById('voucherDiscountInput').value = voucherDiscount;
                 document.getElementById('pontsDiscountInput').value = pointsDiscount;
                 updateTotal();
@@ -523,6 +532,18 @@
                     ? 'disabled-voucher' 
                     : ''
                 }`;
+                            const currentDate = new Date();
+                            const endDate = new Date(voucher.end_date);
+                            const timeDifference = endDate - currentDate;
+                            const hoursRemaining = Math.floor(timeDifference / (1000 * 60 * 60));
+                            const minutesRemaining = Math.floor((timeDifference % (1000 * 60 *
+                                60)) / (1000 * 60));
+                            const isExpiringSoon = timeDifference > 0 && hoursRemaining < 24;
+                            const expiryText = isExpiringSoon ?
+                                `Sắp hết hạn: Còn ${hoursRemaining} giờ ${minutesRemaining} phút` :
+                                timeDifference > 0 ?
+                                `HSD: ${endDate.toLocaleDateString('vi-VN')} ` :
+                                'Voucher đã hết hạn';
 
                             let discountInfo = '';
                             if (voucher.discount_type === 'percent') {
@@ -530,17 +551,13 @@
                                     `Giảm ${voucher.discount_percent}% - Giảm tối đa ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.max_discount_amount)}`;
                             } else if (voucher.discount_type === 'fixed') {
                                 discountInfo =
-                                    `Giảm ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.discount_value)} VND`;
+                                    `Giảm ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.discount_value)} `;
                             }
 
-                            const currentDate = new Date();
-                            const endDate = new Date(voucher.end_date);
-                            const expiryText = endDate > currentDate ?
-                                `HSD: ${endDate.toLocaleDateString('vi-VN')}` :
-                                'Voucher đã hết hạn';
+
 
                             const warningMessage = totalAmount < voucher.min_order_amount ?
-                                `<p class="voucher-warning" style="color: red;">Cần mua thêm ₫${(voucher.min_order_amount - totalAmount).toLocaleString()} để áp dụng mã này.</p>` :
+                                `<p class="voucher-warning" style="color: red;">Cần mua thêm VND${(voucher.min_order_amount - totalAmount).toLocaleString()} để áp dụng mã này.</p>` :
                                 '';
 
                             voucherItem.innerHTML = `
@@ -635,15 +652,22 @@
                 if (finalTotal < 0) {
                     finalTotal = 0;
                 }
-                finalTotal = Math.max(finalTotal, 0);
+
                 finalTotalElement.innerText = `${finalTotal.toLocaleString()} VND`;
                 document.getElementById('finalTotalInput').value = finalTotal;
-                if (pointsDiscount > 0) {
-                    pointsDiscountElement.style.display = 'block';
-                    pointsDiscountElement.querySelector('span').innerText =
-                        `- ${pointsDiscount.toLocaleString()} VND`;
+
+                const paymentOnlineRadio = document.getElementById('payment_online');
+                const warningMessage = document.getElementById('warningMessage');
+
+                if (finalTotal < 5000) {
+                    paymentOnlineRadio.disabled = true;
+                    warningMessage.style.display = 'block';
+                } else {
+                    paymentOnlineRadio.disabled = false;
+                    warningMessage.style.display = 'none';
                 }
             }
+
         });
     </script>
 @endsection

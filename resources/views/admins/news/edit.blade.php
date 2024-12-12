@@ -64,7 +64,7 @@
     <a href="{{ route('admins.news.index') }}" class="btn btn-primary mt-4">Quay lại</a>
 
     <button type="submit" class="btn btn-success mt-4">Cập nhật</button>
-</form>
+{{-- </form>
 <script src="https://cdn.tiny.cloud/1/5295v44r4zfl5gwqkcm0psdangh32j05wix7wt26sozmkz9r/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
 
@@ -91,6 +91,6 @@
     exportword_converter_options: { 'document': { 'size': 'Letter' } },
     importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline',	'defaults': 'inline', } },
   });
-</script>
+</script> --}}
 
 @endsection

@@ -43,6 +43,8 @@
                                         <span class="badge bg-success text-white">
                                             <i class="fas fa-thumbs-up"></i> Hoàn thành
                                         </span>
+                                        @elseif ($order->status == 'failed')
+                                        <span class="badge bg-secondary">Giao Hàng Thất Bại</span>
                                     @elseif ($order->status == 'canceled')
                                         <span class="badge bg-danger text-white">
                                             <i class="fas fa-times-circle"></i> Đã hủy
@@ -50,6 +52,12 @@
                                     @endif
                                 </td>
                                 <td>
+                                    @if (in_array($order->payment_method, ['online']) && $order->payment_status == 'pending' && $order->status != 'canceled')
+                                    <a href="{{ route('clients.retryPayment', $order->id) }}" class="btn btn-warning me-3"
+                                       style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">
+                                        Thanh Toán Lại
+                                    </a>
+                                @endif                                
                                     <a href="{{ route('orders.show', $order->id) }}" class="btn btn-sm btn-outline-primary">
                                         <i class="fas fa-eye"></i> Xem Chi Tiết
                                     </a>
