@@ -4,27 +4,19 @@
 
 @section('content')
     <div class="row">
-        <h2>Chỉnh sửa Voucher</h2>
-        <form action="{{ route('admins.vouchers.update', $voucher->id) }}" method="POST">
-            @csrf
-            @method('PUT')
+        <h2>Cập nhật Voucher</h2>
+        <form>
             <div class="form-group">
                 <label>Mã Voucher:</label>
                 <input type="text" name="code" class="form-control @error('code') is-invalid @enderror" disabled
                     value="{{ old('code', $voucher->code) }}" id="voucher-code">
-                @error('code')
-                    <span class="text-danger" id="code-error">{{ $message }}</span>
-                @enderror
             </div>
 
             <div class="form-group">
                 <label>Ngày Bắt Đầu:</label>
-                <input type="date" name="start_date" class="form-control @error('start_date') is-invalid @enderror"
-                    disabled value="{{ old('start_date', \Carbon\Carbon::parse($voucher->start_date)->format('Y-m-d')) }}"
+                <input type="date" name="start_date" class="form-control @error('start_date') is-invalid @enderror" disabled
+                    value="{{ old('start_date', \Carbon\Carbon::parse($voucher->start_date)->format('Y-m-d')) }}"
                     id="start-date">
-                @error('start_date')
-                    <span class="text-danger" id="start-date-error">{{ $message }}</span>
-                @enderror
             </div>
 
             <div class="form-group">
@@ -32,54 +24,39 @@
                 <input type="date" name="end_date" class="form-control @error('end_date') is-invalid @enderror" disabled
                     value="{{ old('end_date', \Carbon\Carbon::parse($voucher->end_date)->format('Y-m-d')) }}"
                     id="end-date">
-                @error('end_date')
-                    <span class="text-danger" id="end-date-error">{{ $message }}</span>
-                @enderror
             </div>
 
             <div class="form-group">
                 <label>Loại Giảm Giá:</label>
-                <select name="discount_type" class="form-control" id="discount-type" disabled>
+                <select name="discount_type" class="form-control" id="discount-type" value="{{ old('discount_type') }}" disabled>
                     <option value="fixed" {{ old('discount_type', $voucher->discount_type) == 'fixed' ? 'selected' : '' }}>
                         Mệnh giá</option>
                     <option value="percent"
                         {{ old('discount_type', $voucher->discount_type) == 'percent' ? 'selected' : '' }}>Phần trăm
                     </option>
                 </select>
-                @error('discount_type')
-                    <span class="text-danger" id="discount-type-error">{{ $message }}</span>
-                @enderror
             </div>
 
             <div class="form-group" id="discount-value-div">
                 <label for="discount-value">Mệnh Giá Giảm Giá:</label>
                 <input type="text" name="discount_value"
-                    class="form-control @error('discount_value') is-invalid @enderror" disabled
+                    class="form-control @error('discount_value') is-invalid @enderror"  disabled
                     value="{{ old('discount_value', $voucher->discount_value) }}" id="discount-value">
-                @error('discount_value')
-                    <span class="text-danger" id="discount-value-error">{{ $message }}</span>
-                @enderror
             </div>
 
             <div class="form-group" id="discount-percent-div" style="display: none;">
                 <label>Phần Trăm Giảm Giá (%):</label>
                 <input type="number" name="discount_percent"
-                    class="form-control @error('discount_percent') is-invalid @enderror" disabled
+                    class="form-control @error('discount_percent') is-invalid @enderror"
                     value="{{ old('discount_percent', $voucher->discount_percent) }}" min="1" max="100"
                     id="discount-percent">
-                @error('discount_percent')
-                    <span class="text-danger" id="discount-percent-error">{{ $message }}</span>
-                @enderror
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="max-discount-amount-div" style="display: none;">
                 <label for="max_discount_amount">Tối Đa Giảm Giá:</label>
                 <input type="text" name="max_discount_amount"
                     class="form-control @error('max_discount_amount') is-invalid @enderror" disabled
-                    value="{{ old('max_discount_amount', $voucher->max_discount_amount) }}" id="max_discount_amount">
-                @error('max_discount_amount')
-                    <span class="text-danger" id="max-discount-amount-error">{{ $message }}</span>
-                @enderror
+                    value="{{ old('max_discount_amount', $voucher->max_discount_amount) }}" id="max-discount-amount">
             </div>
 
             <div class="form-group">
@@ -87,10 +64,6 @@
                 <input type="text" name="min_order_amount"
                     class="form-control @error('min_order_amount') is-invalid @enderror" disabled
                     value="{{ old('min_order_amount', $voucher->min_order_amount) }}" id="min_order_amount">
-
-                @error('min_order_amount')
-                    <span class="text-danger" id="min_order_amount-error">{{ $message }}</span>
-                @enderror
             </div>
 
 
@@ -98,9 +71,6 @@
                 <label>Số Lượng Voucher:</label>
                 <input type="number" name="quantity" class="form-control @error('quantity') is-invalid @enderror" disabled
                     value="{{ old('quantity', $voucher->quantity) }}" min="1" id="quantity">
-                @error('quantity')
-                    <span class="text-danger" id="quantity-error">{{ $message }}</span>
-                @enderror
             </div>
 
             <div class="form-group">
@@ -110,9 +80,6 @@
                     </option>
                     <option value="0" {{ old('is_public', $voucher->is_public) == 0 ? 'selected' : '' }}>Ẩn</option>
                 </select>
-                @error('visibility')
-                    <span class="text-danger" id="visibility-error">{{ $message }}</span>
-                @enderror
             </div>
 
             <div class="form-group">
@@ -123,9 +90,6 @@
                     <option value="0" {{ old('is_active', $voucher->is_active) == 0 ? 'selected' : '' }}>Vô hiệu hóa
                     </option>
                 </select>
-                @error('status')
-                    <span class="text-danger" id="status-error">{{ $message }}</span>
-                @enderror
             </div>
 
 
@@ -137,13 +101,10 @@
                     <option value="restricted"
                         {{ old('usage_type', $voucher->usage_type) == 'restricted' ? 'selected' : '' }}>Giới hạn</option>
                 </select>
-                @error('usage_type')
-                    <span class="text-danger" id="usage-type-error">{{ $message }}</span>
-                @enderror
             </div>
+
             <div class="form-group" id="user-list-group"
                 style="{{ old('usage_type', $voucher->usage_type) == 'restricted' ? 'display:block;' : 'display:none;' }}">
-
 
                 <div class="checkbox-group mt-2" id="user-checkboxes">
                     @foreach ($users as $user)
@@ -154,10 +115,6 @@
                         </label><br>
                     @endforeach
                 </div>
-
-                @error('users')
-                    <span class="text-danger" id="users-error">{{ $message }}</span>
-                @enderror
             </div>
             <a href="{{ route('admins.vouchers.index') }}" class="btn btn-secondary  mt-4">Hủy</a>
         </form>

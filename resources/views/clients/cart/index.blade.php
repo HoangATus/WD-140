@@ -23,7 +23,7 @@
                 <table class="table mt-5">
                     <thead>
                         <tr>
-                            <th scope="col"></th> <!-- Cột checkbox -->
+                            {{-- <th scope="col"></th> <!-- Cột checkbox --> --}}
                             <th scope="col">Ảnh Sản Phẩm</th>
                             <th scope="col">Tên Sản Phẩm</th>
                             <th scope="col">Biến Thể</th>
