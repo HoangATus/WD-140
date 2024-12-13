@@ -82,7 +82,7 @@
                             <p>{{ $new->content }}</p>
                         </div>
                         <div class="mt-5">
-                            <h2 class="mb-3">Tham khảo thêm</h2>
+                            <h2 class="mb-3">Bài liên quan</h2>
                             <!-- Slideshow Section Start -->
                             <section class="related-news-carousel">
                                 <div id="relatedNewsCarousel" class="carousel slide" data-bs-ride="carousel"

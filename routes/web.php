@@ -76,12 +76,16 @@ Route::middleware(['web'])->group(function () {
 
     Route::get('/checkout2', [CheckoutController::class, 'checkout2'])->name('checkout.checkout2');
     Route::post('/checkout2/process2', [CheckoutController::class, 'process2'])->name('checkout2.process2');
-    Route::get('/checkout2/{id}/voucher', [CheckoutController::class, 'detailVoucher'])->name('clients.checkout.voucher');
-    Route::get('/voucher-details/{id}', [CheckoutController::class, 'show'])->name('clients.checkout.voucher');
+    Route::get('/voucher-details/{id}', [CheckoutController::class, 'detailVoucher'])->name('clients.checkout.voucher');
     Route::get('/user-vouchers', [CheckoutController::class, 'getUserVouchers']);
     Route::get('/apply-voucher/{id}', [CheckoutController::class, 'applyVoucher']);
     Route::get('/check-voucher/{code}', [CheckoutController::class, 'checkVoucher'])->name('check.voucher');
     Route::post('/save-voucher', [CheckoutController::class, 'saveVoucher']);
+    Route::get('/vnpay-callback', [CheckoutController::class, 'vnpayCallback'])->name('vnpay.callback');
+    Route::get('checkout2/pending/{order}', [CheckoutController::class, 'pending'])->name('checkout.pending');
+    Route::get('my-orders/{id}/retry-payment', [OrderController::class, 'retryPayment'])->name('clients.retryPayment');
+    Route::post('my-orders/{id}/process-retry-payment', [OrderController::class, 'processRetryPayment'])->name('orders.processRetryPayment');
+    
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
