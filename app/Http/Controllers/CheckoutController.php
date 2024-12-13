@@ -36,10 +36,8 @@ class CheckoutController extends Controller
                 $query->where('user_voucher.user_id', $user->id); // Sửa để dùng 'id' chính xác
             })
             ->get();
-        // $total = session()->get('cart_total', 0);
-        // $total = $total - $appliedPoints;
         // dd(session()->all());
-        
+
 
         return view('clients.checkout.index', compact('user', 'cart', 'total', 'vouchers', 'appliedPoints', 'discountAmount'));
     }
@@ -70,6 +68,7 @@ class CheckoutController extends Controller
         $usedPoints = session()->get('applied_loyalty_points', 0);
 
         $params['order_code'] = $this->generateUniqueOrderCode();
+        $paymentStatus = $request->payment_method == 'online' ? 'paid' : 'pending';
         $order = Order::create([
             'user_id'        => $userId,
             'order_code'     => $params['order_code'],
@@ -78,7 +77,7 @@ class CheckoutController extends Controller
             'address'        => $request->address,
             'notes'          => $request->notes,
             'total'          => $total,
-            'status'         => 'pending',
+            'payment_status' => $paymentStatus,
             'payment_method' => $request->payment_method,
         ]);
 
@@ -133,14 +132,14 @@ class CheckoutController extends Controller
      */
     public function createVNPayPaymentLink($order)
     {
-        $vnp_TmnCode = env('VNP_TMN_CODE'); // Mã website do VNPay cấp
-        $vnp_HashSecret = env('VNP_HASH_SECRET'); // Chuỗi bí mật
+        $vnp_TmnCode = env('VNP_TMN_CODE');
+        $vnp_HashSecret = env('VNP_HASH_SECRET');
         $vnp_Url = env('VNP_URL');
         $vnp_ReturnUrl = env('VNP_RETURN_URL');
 
-        $vnp_TxnRef = $order->order_code; // Mã đơn hàng
+        $vnp_TxnRef = $order->order_code;
         $vnp_OrderInfo = "Thanh toán đơn hàng " . $order->order_code;
-        $vnp_Amount = $order->total * 100; // Số tiền VNPay yêu cầu nhân 100 (VND)
+        $vnp_Amount = $order->total * 100;
         $vnp_Locale = 'vn';
         $vnp_IpAddr = request()->ip();
 
@@ -175,11 +174,11 @@ class CheckoutController extends Controller
 
         $vnp_Url = $vnp_Url . "?" . $query;
         if (isset($vnp_HashSecret)) {
-            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); // Tạo chuỗi hash
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
 
-        return redirect()->away($vnp_Url); // Chuyển hướng người dùng đến link thanh toán VNPay
+        return redirect()->away($vnp_Url);
     }
 
     function generateUniqueOrderCode()
@@ -290,7 +289,7 @@ class CheckoutController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Voucher đã được lưu!']);
     }
-    
+
     public function detailVoucher($id)
     {
 
@@ -325,7 +324,7 @@ class CheckoutController extends Controller
             ->where('end_date', '>=', now())
             ->where('quantity', '>', 0)
             ->whereHas('users', function ($query) use ($user) {
-                $query->where('user_voucher.user_id', $user->user_id); 
+                $query->where('user_voucher.user_id', $user->user_id);
             })
             ->get();
 
@@ -362,7 +361,7 @@ class CheckoutController extends Controller
                 return redirect()->route('checkout.checkout2')->with('error', 'Số lượng sản phẩm không đủ.');
             }
 
-
+            $paymentStatus = $request->payment_method == 'online' ? 'paid' : 'pending';
             $order = Order::create([
                 'user_id' => $user->user_id,
                 'order_code' => $this->generateUniqueOrderCode(),
@@ -372,9 +371,13 @@ class CheckoutController extends Controller
                 'notes' => $request->notes,
                 'total' => $request->final_total,
                 'discount' => $request->initial_total - $request->final_total,
+
+                'payment_status' => $paymentStatus,
+
                 'points_discount' => $request->pointsDiscount ?? 0,
                 'voucher_discount' => $request->voucherDiscount ?? 0,
-                'status' => 'pending',
+
+
                 'payment_method' => $request->payment_method,
                 'voucher_id' => $request->selectedVoucher,
             ]);
@@ -438,7 +441,7 @@ class CheckoutController extends Controller
             }
 
 
-             Mail::to($user->user_email)->send(new OrderSuccessful($order));
+            Mail::to($user->user_email)->send(new OrderSuccessful($order));
             return redirect()->route('checkout.success', ['order' => $order->id]);
         } catch (\Exception $e) {
             Log::error('Lỗi khi xử lý thanh toán: ' . $e->getMessage());
