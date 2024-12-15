@@ -42,17 +42,15 @@
         <p class="text-center text-success">Hiện tại không có banner nào đang hoạt động.</p>
     @endif
 </section>
-    <div class="container">
-
         <div class="container-fluid-lg mt-3">
             <div class="section-b-space">
                 <div class="title">
                     <h2 class= "text-center">Danh Sách Sản Phẩm Yêu Thích</h2>
                 </div>
                 <div class="container">
-                    @if (session('successy'))
+                    @if (session('successyy'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('successy') }}
+                            {{ session('successyy') }}
                         </div>
                     @endif
 

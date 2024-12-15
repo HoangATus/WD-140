@@ -99,18 +99,17 @@
                                         <a
                                             href="{{ route('products.show', $product->slug) }}">{{ $product->product_name }}</a>
                                     </div>
-                                    <div class="product-ratin custom-rate">
+                                    <div class="product-rating custom-rate">
                                         <ul class="rating">
                                             @php
-                                                $averageRating = $product->ratings->avg('rating'); // Tính trung bình số sao
+                                                $averageRating = $product->ratings->avg('rating');
                                             @endphp
-
                                             @for ($i = 1; $i <= 5; $i++)
                                                 <li>
                                                     @if ($i <= $averageRating)
-                                                        <i data-feather="star" class="fill"></i> <!-- Sao đầy -->
+                                                        <i data-feather="star" class="fill"></i>
                                                     @else
-                                                        <i data-feather="star"></i> <!-- Sao rỗng -->
+                                                        <i data-feather="star"></i>
                                                     @endif
                                                 </li>
                                             @endfor
@@ -152,164 +151,142 @@
                             </div>
                         @endforeach
                     </div>
-
-                    <style>
-                        .product-grid {
-                            display: grid;
-                            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                            /* Để tự động điều chỉnh kích thước */
-                            gap: 20px;
-                        }
-
-                        .product-box {
-                            border: 1px solid #ccc;
-                            border-radius: 15px;
-                            padding: 15px;
-                            transition: transform 0.2s;
-                            background-color: #fff;
-                            overflow: hidden;
-                            display: flex;
-                            /* Sử dụng flex để căn chỉnh nội dung */
-                            flex-direction: column;
-                            /* Sắp xếp theo chiều dọc */
-                        }
-
-                        .product-box:hover {
-                            transform: scale(1.05);
-                        }
-
-                        .product-image img {
-                            border-radius: 8px;
-                            max-width: 100%;
-                            height: 180px;
-                            object-fit: contain;
-                        }
-
-                        .product-img {
-                            padding: 10px;
-                            position: relative;
-                            overflow: hidden;
-                            box-sizing: border-box;
-                            text-align: center;
-                        }
-
-                        .product-img img {
-                            max-width: 100%;
-                            /* Đảm bảo hình ảnh không vượt quá chiều rộng của khung */
-                            max-height: 155px;
-                            /* Giới hạn chiều cao tối đa để tránh vỡ hình */
-                            width: auto;
-                            height: auto;
-                            object-fit: contain;
-                            /* Giúp ảnh vừa khung mà không bị méo */
-                            border-radius: 8px;
-                        }
-
-
-                        .product-detail {
-                            text-align: center;
-                            flex: 1;
-                            /* Cho phép nội dung chiếm không gian còn lại */
-                        }
-
-                        .product-name {
-                            font-weight: bold;
-                            color: #333;
-                            -webkit-line-clamp: 1;
-                            -webkit-box-orient: vertical;
-                            display: -webkit-box;
-                            overflow: hidden;
-                        }
-
-                        .product-ratin {
-                            display: -webkit-box;
-                            display: -ms-flexbox;
-                            display: flex;
-                            justify-content: center;
-                            -webkit-box-align: center;
-                            -ms-flex-align: center;
-                            align-items: center;
-                        }
-
-                        .price {
-                            margin-top: 10px;
-                            font-size: 13px;
-                        }
-
-                        .sale-price {
-                            font-size: 16px;
-                            color: #d9534f;
-                            font-weight: bold;
-                        }
-
-                        .listed-price {
-                            font-size: 13px;
-                            color: #999;
-                            text-decoration: line-through;
-                        }
-
-                        .add-buttons {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 10px;
-                            /* Adds space between the two buttons */
-                            margin-top: 10px;
-                        }
-
-                        .cart {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            background-color: #417394;
-                            color: white;
-                            border: 2px solid transparent;
-                            /* Add transparent border for consistent button size */
-                            border-radius: 8px;
-                            cursor: pointer;
-                            transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
-                            font-weight: bold;
-                            padding: 6px;
-                            font-size: 14px;
-                        }
-
-                        .cart-icon {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            background-color: #417394;
-                            color: white;
-                            border: 2px solid transparent;
-                            border-radius: 8px;
-                            cursor: pointer;
-                            transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
-                            font-weight: bold;
-                            padding: 6px;
-                            font-size: 15px;
-                        }
-
-                        .add-icon {
-                            margin-left: 5px;
-                        }
-                        .cart:hover {
-                            background-color: #355c74;
-                            transform: scale(1.05);
-                            border-color: #355c74;
-                            border: none;
-                        }
-
-                        .cart-icon:hover {
-                            background-color: #417394;
-                            color: white;/
-                            transform: scale(1.05);
-                            border-color: #355c74;
-                            border: none;                           
-                        }
-                    </style>
                 </div>
+
             </div>
         </div>
     </div>
+    <style>
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .product-box {
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            padding: 15px;
+            transition: transform 0.2s;
+            background-color: #fff;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-box:hover {
+            transform: scale(1.05);
+        }
+
+        .product-img {
+            padding: 10px;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .product-img img {
+            max-width: 100%;
+            height: 180px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .product-detail {
+            text-align: center;
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: bold;
+            color: #333;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+            overflow: hidden;
+        }
+
+        .product-rating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .price {
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .sale-price {
+            font-size: 16px;
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+        .listed-price {
+            font-size: 13px;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .add-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .cart {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #417394;
+            color: white;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
+            font-weight: bold;
+            padding: 6px;
+            font-size: 14px;
+        }
+
+        .cart-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #417394;
+            color: white;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
+            font-weight: bold;
+            padding: 6px;
+            font-size: 15px;
+        }
+
+        .add-icon {
+            margin-left: 5px;
+        }
+
+        .cart:hover {
+            background-color: #355c74;
+            transform: scale(1.05);
+            border-color: #355c74;
+            border: none;
+        }
+
+        .cart-icon:hover {
+            background-color: #417394;
+            color: white;
+            transform: scale(1.05);
+            border-color: #355c74;
+            border: none;
+        }
+    </style>
 
     <section>
         <div class="container-fluid-lg">
@@ -350,17 +327,6 @@
                     <div class="title">
                         <h2 class=" text-danger">SẢN PHẨM</h2>
                     </div>
-                    {{-- @if (session('successy'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('successy') }}
-                        </div>
-                    @endif
-
-                    @if (session('errors'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ session('errors') }}
-                        </div>
-                    @endif --}}
                     <div class="container">
                         <div class="product-grid">
                             @foreach ($products as $product)

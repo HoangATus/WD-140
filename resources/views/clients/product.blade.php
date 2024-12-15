@@ -149,6 +149,17 @@
                             </div>
                         </div>
 
+                        @if (session('successyy'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('successyy') }}
+                        </div>
+                    @endif
+
+                    @if (session('errorss'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('errorss') }}
+                        </div>
+                    @endif
                         <div class="top-filter-menu">
                             <div class="category-dropdown">
                                 <h5 class="text-content">Sắp xếp theo :</h5>

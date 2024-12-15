@@ -114,9 +114,23 @@
                                                     }
                                                 }
                                             @endphp
-                                            <td class="fw-bold">Voucher</td>
+                                            <td class="fw-bold">Voucher :</td>
                                             <td class="text-end">{{ $displayDiscount }}</td>
+                                            @php
+                                            $displayPoints = 'Không sử dụng';
 
+                                            if (!empty($order->points_discount) && $order->points_discount > 0) {
+                                                $displayPoints =
+                                                    '- ' .
+                                                    number_format($order->points_discount, 0, ',', '.') .
+                                                    ' VNĐ';
+                                            }
+                                        @endphp
+
+                                        <tr>
+                                            <td class="fw-bold">Điểm tích lũy :</td>
+                                            <td class="text-end">{{ $displayPoints }}</td>
+                                        </tr>
 
                                             <tr>
                                                 <th class="fw-bold" style="font-size: 18px;">Thành tiền :</th>
