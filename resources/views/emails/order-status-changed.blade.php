@@ -112,10 +112,10 @@
                     @foreach($orderItems as $item)
                         <tr>
                             <td style="border: 1px solid #ddd; padding: 10px;">
-                                <img src="{{ $item->image }}"
-                                alt="{{ $item->product_name }}"style="max-width: 100px;">
-                               
+                                <img src="{{ asset(Storage::url($item->image)) }}" 
+                                     alt="{{ $item->product_name }}" style="max-width: 100px;">
                             </td>
+                            
                            
                             <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->product_name }}</td>
                             <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->variant_name }}</td>

@@ -342,7 +342,7 @@
                                             <a
                                                 href="{{ route('products.show', $product->slug) }}">{{ $product->product_name }}</a>
                                         </div>
-                                        <div class="product-ratin custom-rate">
+                                        <div class="product-rating custom-rate">
                                             <ul class="rating">
                                                 @php
                                                     $averageRating = $product->ratings->avg('rating'); // Tính trung bình số sao

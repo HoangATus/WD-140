@@ -56,7 +56,7 @@ class NewsController extends Controller
             'content' => $request->content,
             'image' => $imagePath,
             'author' => $request->author ?? 'admins',
-            'status' => $request->status ?? 1,
+            'status' => $request->status ? 1 : 0,
             'category_id' => $request->category_id,
         ]);
 
@@ -131,7 +131,7 @@ class NewsController extends Controller
             'content' => $request->content,
             'image' => $imagePath,
             'author' => $request->author ?? 'admins',
-            'status' => $request->status ?? 1,
+            'status' => $request->status ? 1:0,
             'category_id' => $request->category_id,
         ]);
 

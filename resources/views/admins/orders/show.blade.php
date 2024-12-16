@@ -56,7 +56,7 @@
                         <th>Biến Thể</th>
                         <th>Số Lượng</th>
                         <th>Giá Bán</th>
-                        <th>Thành Tiền</th>
+                        <th>Tổng tiền hàng</th>
                     </tr>
                 </thead>
                 <tbody>

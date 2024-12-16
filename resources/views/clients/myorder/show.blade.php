@@ -62,10 +62,14 @@
                                                         <span class="badge badge-info">Đã xác nhận</span>
                                                     @elseif ($order->status == 'shipped')
                                                         <span class="badge badge-primary">Đang giao hàng</span>
+                                                        @elseif ($order->status == 'failed')
+                                                        <span class="badge bg-secondary">Giao Hàng Thất Bại</span>
+                                                 
                                                     @elseif ($order->status == 'completed')
                                                         <span class="badge badge-success">Hoàn thành</span>
                                                     @elseif ($order->status == 'canceled')
                                                         <span class="badge badge-danger">Đã hủy</span>
+                                                        <p class="text-danger">({{$order->cancellation_reason}})</p>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -275,7 +279,12 @@
                                                 style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">Hủy Đơn
                                                 Hàng</a>
                                         @endif
-
+                                        @if (in_array($order->payment_method, ['online']) && $order->payment_status == 'pending' && $order->status != 'canceled')
+                                        <a href="{{ route('clients.retryPayment', $order->id) }}" class="btn btn-warning me-3"
+                                           style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">
+                                            Thanh Toán Lại
+                                        </a>
+                                    @endif                                    
 
                                         @if ($order->status == 'canceled')
                                             <form action="{{ route('orders.reorder', $order->id) }}" method="POST"

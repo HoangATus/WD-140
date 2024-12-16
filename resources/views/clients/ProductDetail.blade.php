@@ -101,17 +101,6 @@
                                             </div>
                                         </div>
                                     @endforeach
-
-                                    <!-- Thumbnails từ variants -->
-                                    @foreach ($variantImages as $variantImage)
-                                        <div>
-                                            <div class="sidebar-image">
-                                                <img src="{{ Storage::url($variantImage->image) }}"
-                                                    class="img-fluid blur-up lazyload"
-                                                    alt="{{ $product->product_name }} Variant">
-                                            </div>
-                                        </div>
-                                    @endforeach
                                 </div>
                             </div>
                         </div>
