@@ -57,6 +57,7 @@ Route::post('/products/{product}/comments', [CommentController::class, 'store'])
 
 Route::middleware(['web'])->group(function () {
     // Giỏ Hàng
+    Route::middleware(['auth'])->group(function () {
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
@@ -66,7 +67,7 @@ Route::middleware(['web'])->group(function () {
     Route::post('/checkout/apply-loyalty-points', [CheckoutController::class, 'applyLoyaltyPoints'])->name('checkout.apply.loyalty.points');
     Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints'])->name('cart.applyLoyaltyPoints');
     Route::post('/cart/proceedToCheckout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
-
+    });
 
 
     // Thanh Toán

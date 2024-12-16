@@ -101,20 +101,10 @@
                                             </div>
                                         </div>
                                     @endforeach
-
-                                    <!-- Thumbnails từ variants -->
-                                    @foreach ($variantImages as $variantImage)
-                                        <div>
-                                            <div class="sidebar-image">
-                                                <img src="{{ Storage::url($variantImage->image) }}"
-                                                    class="img-fluid blur-up lazyload"
-                                                    alt="{{ $product->product_name }} Variant">
-                                            </div>
-                                        </div>
-                                    @endforeach
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -240,6 +230,25 @@
                             <button onclick="buyNow()" class="btn btn-md bg-danger cart-button text-white w-50">Mua
                                 ngay</button>
                         </div>
+                        <script>
+                            function addToCart() {
+                                if (!isLoggedIn) {
+                                    alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.');
+                                    window.location.href = '/login'; // Chuyển hướng đến trang đăng nhập
+                                    return;
+                                }
+                                // Gọi API hoặc thực hiện logic thêm vào giỏ hàng
+                            }
+
+                            function buyNow() {
+                                if (!isLoggedIn) {
+                                    alert('Bạn cần đăng nhập để mua sản phẩm.');
+                                    window.location.href = '/login'; // Chuyển hướng đến trang đăng nhập
+                                    return;
+                                }
+                                // Gọi API hoặc thực hiện logic mua ngay
+                            }
+                        </script>
                     </div>
                 </div>
             </div>
@@ -629,6 +638,15 @@
             /* Darker border on hover */
         }
     </style>
+
+    <script>
+        const variantStock = @json($variantStock);
+    </script>
+    <script>
+        const cartData = @json(session('cart_' . Auth::id(), []));
+    </script>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const colorOptions = document.querySelectorAll('#color-options .btn-color');
@@ -796,54 +814,132 @@
             });
         });
 
-        // Hàm Thêm vào Giỏ Hàng
-        function addToCart() {
-            console.log('addToCart function called');
-            const variantId = document.getElementById('selected-variant-id').value;
-            const quantity = document.getElementById('quantity-input').value;
+        // hàm thêm sản phẩm 
+        document.addEventListener('DOMContentLoaded', function() {
+            // Biến chứa số lượng tồn kho của các biến thể
+            const variantStock = @json($variantStock);
 
-            console.log('Variant ID:', variantId);
-            console.log('Quantity:', quantity);
-
-            if (!variantId) {
-                alert('Vui lòng chọn một biến thể hợp lệ.');
-                return;
+            // Hàm lấy số lượng giỏ hàng
+            function fetchCartCount() {
+                axios.get('{{ route('cart.count') }}')
+                    .then(response => {
+                        document.getElementById('cart-count').textContent = response.data.count;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching cart count:', error);
+                    });
             }
 
-            axios.post('{{ route('cart.add') }}', {
-                    variant_id: variantId,
-                    quantity: quantity
-                })
-                .then(response => {
-                    console.log('Add to cart response:', response);
-                    alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
-                    // Tùy chọn: Cập nhật biểu tượng giỏ hàng
-                    // Ví dụ: Cập nhật số lượng sản phẩm trong giỏ hàng ở header
-                    // document.getElementById('cart-count').textContent = response.data.cart_count;
-                })
-                .catch(error => {
-                    console.error('Add to cart error:', error);
-                    if (error.response && error.response.data && error.response.data.message) {
-                        alert(error.response.data.message);
-                    } else {
-                        alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
-                    }
-                });
-        }
+            // Gọi hàm khi trang tải
+            fetchCartCount();
 
-        function buyNow() {
-            const variantId = document.getElementById('selected-variant-id').value;
-            const quantity = document.getElementById('quantity-input').value;
+            // Hàm kiểm tra trạng thái đăng nhập
+            function checkLogin() {
+                return {{ auth()->check() ? 'true' : 'false' }};
+            }
 
-            if (!variantId) {
-                alert('Vui lòng chọn một biến thể hợp lệ.');
-                return;
-            }
-            if (quantity <= 0) {
-                alert('Vui lòng chọn số lượng hợp lệ.');
-                return;
-            }
-            window.location.href = `{{ route('checkout.checkout2') }}?variant_id=${variantId}&quantity=${quantity}`;
-        }
+            // Hàm thêm sản phẩm vào giỏ hàng
+            window.addToCart = function() {
+                console.log('addToCart function called');
+
+                const isLoggedIn = checkLogin();
+                if (!isLoggedIn) {
+                    alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.');
+                    window.location.href = '/login';
+                    return;
+                }
+
+                const variantId = document.getElementById('selected-variant-id').value;
+                const quantity = parseInt(document.getElementById('quantity-input').value);
+
+                console.log('Variant ID:', variantId);
+                console.log('Quantity:', quantity);
+
+                if (!variantId) {
+                    alert('Vui lòng chọn đầy đủ thông tin của sản phẩm.');
+                    return;
+                }
+
+                if (!variantStock[variantId]) {
+                    alert('Sản phẩm đã được thêm toàn bộ số lượng vào giỏ hàng.');
+                    return;
+                }
+
+                const availableStock = variantStock[variantId];
+                if (quantity > availableStock) {
+                    alert(`Không thể thêm quá số lượng tồn kho. Tồn kho hiện tại: ${availableStock}`);
+                    return;
+                }
+
+                axios.post('{{ route('cart.add') }}', {
+                        variant_id: variantId,
+                        quantity: quantity
+                    })
+                    .then(response => {
+                        console.log('Add to cart response:', response);
+                        alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
+                        fetchCartCount(); // Cập nhật số lượng giỏ hàng
+                        // Cập nhật tồn kho sau khi thêm
+                        variantStock[variantId] -= quantity;
+                    })
+                    .catch(error => {
+                        console.error('Add to cart error:', error);
+                        if (error.response && error.response.data && error.response.data.message) {
+                            alert(error.response.data.message);
+                        } else {
+                            alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
+                        }
+                    });
+            };
+
+            // Hàm Mua ngay
+            window.buyNow = function() {
+                console.log('buyNow function called');
+
+                const isLoggedIn = checkLogin();
+                console.log('isLoggedIn:', isLoggedIn);
+
+                if (!isLoggedIn) {
+                    alert('Bạn cần đăng nhập để mua sản phẩm.');
+                    window.location.href = '/login';
+                    return;
+                }
+
+                const variantId = document.getElementById('selected-variant-id').value;
+                const quantity = parseInt(document.getElementById('quantity-input').value);
+
+                if (!variantId) {
+                    alert('Vui lòng chọn một biến thể hợp lệ.');
+                    return;
+                }
+
+                if (quantity <= 0) {
+                    alert('Vui lòng chọn số lượng hợp lệ.');
+                    return;
+                }
+
+                if (typeof cartData === 'undefined') {
+                    console.error('cartData is undefined. Setting it to an empty object.');
+                    var cartData = {}; // Khởi tạo nếu chưa tồn tại
+                }
+
+                if (!variantStock[variantId]) {
+                    alert('Biến thể này không tồn tại trong kho.');
+                    return;
+                }
+
+                const availableStock = variantStock[variantId];
+                const cartQuantity = cartData[variantId] || 0; // Lấy số lượng trong giỏ hàng (0 nếu không có)
+                const remainingStock = availableStock - cartQuantity;
+
+                if (quantity > remainingStock) {
+                    alert(`Không thể mua quá số lượng tồn kho. Số lượng còn lại: ${remainingStock}`);
+                    return;
+                }
+
+                window.location.href = `/checkout2?variant_id=${variantId}&quantity=${quantity}`;
+            };
+
+        });
     </script>
 @endsection

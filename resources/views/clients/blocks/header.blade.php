@@ -1,4 +1,4 @@
-<header  >
+<header>
     <div class="header-top">
         <div class="container-fluid-lg">
             <div class="row">
@@ -91,23 +91,27 @@
                                     </div>
                                     <div class="offcanvas-body">
                                         <ul class="navbar-nav">
-                                            <li class="nav-item dropdown dropdown-mega">    
-                                                <a class="nav-link dropdown-toggle ps-xl-2 ps-0"
-                                                    href="{{ url('/') }}">Trang chủ</a>
-                                            </li><li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="{{url('/gioi-thieu')}}">Giới thiệu</a>
+                                            <li class="nav-item dropdown dropdown-mega">
+                                                <a class="nav-link ps-xl-2 ps-0" href="{{ url('/') }}">Trang chủ</a>
                                             </li>
                                             <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="{{ url('/products') }}">Sản
-                                                    phẩm</a>
-                                            </li><li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="{{ url('/blog') }}">Tin tức</a>
-                                            {{-- </li><li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="{{ url('/products') }}">Cửa hàng</a>
-                                            </li> --}}
-                                           
+                                                <a class="nav-link" href="{{ url('/gioi-thieu') }}">Giới thiệu</a>
+                                            </li>
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link" href="{{ url('/products') }}">Sản phẩm</a>
+                                            </li>
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link" href="{{ url('/blog') }}">Tin tức</a>
+                                            </li>
+                                            {{-- 
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link" href="{{ url('/products') }}">Cửa hàng</a>
+                                            </li> 
+                                            --}}
                                         </ul>
                                     </div>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
@@ -150,15 +154,14 @@
                                 <li class="right-side">
                                     <div class="onhover-dropdown header-badge">
                                         <button type="button" class="btn p-0 position-relative header-wishlist">
-                                            <a href="{{ route('cart.index') }}"><i data-feather="shopping-cart"></i>
-                                                <span class="position-absolute top-0 start-100 translate-middle badge"
-                                                    id="cart-count">0</span>
+                                            <a href="{{ route('cart.index') }}">
+                                                <i data-feather="shopping-cart"></i>
+                                                <span class="position-absolute top-0 start-100 translate-middle badge" id="cart-count">0</span>
                                             </a>
                                         </button>
-
-
                                     </div>
                                 </li>
+                                
                                 <li class="right-side onhover-dropdown">
                                     <div class="delivery-login-box">
                                         <div class="delivery-icon">
@@ -183,19 +186,22 @@
                                                         Đăng ký</a>
                                                 </li>
                                                 <li class="product-box-contain">
-                                                    <a href="{{ route('password.request') }}"><i class="fa-solid fa-key"></i>
+                                                    <a href="{{ route('password.request') }}"><i
+                                                            class="fa-solid fa-key"></i>
                                                         Quên mật khẩu</a>
                                                 </li>
                                             @endguest
 
                                             @auth
                                                 <li class="product-box-contain">
-                                                    <a href="{{ route('profile.index') }}"><i class="fa-solid fa-user"></i>
+                                                    <a href="{{ route('profile.index') }}"><i
+                                                            class="fa-solid fa-user"></i>
                                                         Tài khoản</a>
                                                 </li>
 
                                                 <li class="product-box-contain">
-                                                    <a href="{{ route('orders.index') }}"><i class="fa-solid fa-list"></i>
+                                                    <a href="{{ route('orders.index') }}"><i
+                                                            class="fa-solid fa-list"></i>
                                                         Đơn hàng</a>
                                                 </li>
                                                 @if (Auth::user()->role == 'Admin')
