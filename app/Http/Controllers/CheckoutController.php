@@ -79,6 +79,7 @@ class CheckoutController extends Controller
             'notes'          => $request->notes,
             'total'          => $total,
             'payment_status' => $paymentStatus,
+            'status'         => 'pending',
             'payment_method' => $request->payment_method,
         ]);
 
@@ -436,6 +437,8 @@ if ($variant->quantity < $quantity) {
     if ($request->payment_method == 'online' && $request->final_total < 5000) {
         return redirect()->back()->with('error', 'Đơn hàng thanh toán , Đơn hàng phải có Thành tiền tối thiểu là 5,000 VND.');
     }
+    $paymentStatus = $request->payment_method == 'online' ? 'paid' : 'pending';
+
             $order = Order::create([
                 'user_id' => $user->user_id,
                 'order_code' => $this->generateUniqueOrderCode(),
@@ -444,6 +447,13 @@ if ($variant->quantity < $quantity) {
                 'address' => $request->address,
                 'notes' => $request->notes,
                 'total' => $request->final_total,
+
+                'discount' => $request->initial_total - $request->final_total,
+
+                'payment_status' => $paymentStatus,
+                'status'         => 'pending',
+
+
                 'points_discount' => $request->pointsDiscount ?? 0,
                 'voucher_discount' => $request->voucherDiscount ?? 0,
                 'status' => 'pending',

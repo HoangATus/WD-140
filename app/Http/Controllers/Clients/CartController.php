@@ -32,28 +32,40 @@ class CartController extends Controller
     {
         $userId = Auth::id();
         $cart = session()->get('cart_' . $userId, []);
-        $sum = 0;
 
-        // Calculate the sum of all items in the cart
-        foreach ($cart as $item) {
-            $sum += $item['price'] * $item['quantity'];
+        // Lấy danh sách các variant ID từ giỏ hàng
+        $variantIds = array_keys($cart);
+
+        // Truy vấn tồn kho từ cơ sở dữ liệu
+        $variants = Variant::whereIn('id', $variantIds)->get();
+
+        foreach ($cart as $variantId => &$item) {
+            $variant = $variants->firstWhere('id', $variantId);
+
+            // Đảm bảo thông tin tồn kho được thêm vào từng item trong giỏ hàng
+            $item['stock'] = $variant ? $variant->quantity : 0;
         }
 
+        // Lưu lại giỏ hàng đã cập nhật
+        session()->put('cart_' . $userId, $cart);
+
+        $sum = array_reduce($cart, function ($carry, $item) {
+            return $carry + ($item['price'] * $item['quantity']);
+        }, 0);
+
+        // Các biến khác
         $user = User::find($userId);
         $loyaltyPoints = $user ? $user->points : 0;
         $appliedPoints = session()->get('applied_loyalty_points', 0);
         $pointValue = 1;
         $discountAmount = $appliedPoints * $pointValue;
-
-        // Calculate the total after applying discounts, ensuring it doesn't go below zero
         $total = max(0, $sum - $discountAmount);
 
-        // Store totals in session
         session(['cart_total' => $total, 'discount_amount' => $discountAmount]);
 
-        // Pass both the sum and totalAfterDiscount to the view
         return view('clients.cart.index', compact('cart', 'sum', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount', 'user'));
     }
+
 
     private function updateCartTotal($cart, $userId)
     {
@@ -81,18 +93,30 @@ class CartController extends Controller
     public function update(Request $request)
     {
         $variantId = $request->input('variant_id');
-        $quantity = $request->input('quantity');
+        $newQuantity = $request->input('quantity');
 
-        $cart = session()->get('cart_' . Auth::id(), []);
-        if (isset($cart[$variantId])) {
-            $cart[$variantId]['quantity'] = $quantity;
+        $variant = Variant::find($variantId);
+
+        if (!$variant) {
+            return response()->json(['error' => 'Sản phẩm không tồn tại.'], 404);
         }
 
-        session()->put('cart_' . Auth::id(), $cart);
+        // Kiểm tra tồn kho
+        if ($newQuantity > $variant->quantity) {
+            return response()->json(['error' => 'Số lượng không được vượt quá tồn kho hiện tại.'], 400);
+        }
 
-        $this->updateCartTotal($cart, Auth::id());
+        // Cập nhật giỏ hàng
+        $userId = Auth::id();
+        $cart = session()->get('cart_' . $userId, []);
 
-        return response()->json(['total' => session()->get('cart_total')]);
+        if (isset($cart[$variantId])) {
+            $cart[$variantId]['quantity'] = $newQuantity;
+        }
+
+        session()->put('cart_' . $userId, $cart);
+
+        return response()->json(['success' => 'Cập nhật thành công.']);
     }
 
     public function add(Request $request)
@@ -106,12 +130,13 @@ class CartController extends Controller
 
         $variant = Variant::with(['product', 'color', 'size'])->findOrFail($request->variant_id);
 
-        if ($variant->quantity < $request->quantity) {
-            return response()->json(['message' => 'Số lượng sản phẩm không đủ.'], 400);
-        }
-
-        // Lấy giỏ hàng hiện tại
         $cart = session()->get('cart_' . $userId, []);
+        $currentQuantityInCart = isset($cart[$variant->id]) ? $cart[$variant->id]['quantity'] : 0;
+        $requestedQuantity = $currentQuantityInCart + $request->quantity;
+
+        if ($requestedQuantity > $variant->quantity) {
+            return response()->json(['message' => 'Bạn đã thêm toàn bộ số lượng sản phẩm vào giỏ hàng.'], 400);
+        }
 
         if (isset($cart[$variant->id])) {
             $cart[$variant->id]['quantity'] += $request->quantity;
@@ -170,6 +195,4 @@ class CartController extends Controller
 
         return response()->json(['count' => $count], 200);
     }
-
-    
 }

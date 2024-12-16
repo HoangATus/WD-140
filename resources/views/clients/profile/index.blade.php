@@ -50,6 +50,7 @@
                                     <div class="position-relative">
                                         <img src="../assets/images/inner-page/user/1.jpg"
                                             class="blur-up lazyload update_img" alt="">
+
                                     </div>
                                 </div>
 
@@ -64,14 +65,17 @@
                         <ul class="nav nav-pills user-nav-pills" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="pills-dashboard-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-dashboard" type="button"><i data-feather="home"></i>
-                                    Hồ sơ</button>
+                                    data-bs-target="#pills-dashboard" type="button">
+                                    <i data-feather="home"></i> Hồ sơ
+                                </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-order-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-order" type="button"><i data-feather="shopping-bag"></i>Đơn
-                                    Hàng</button>
+                                <a href="{{ route('orders.index') }}" class="nav-link">
+                                    <i data-feather="shopping-bag"></i> Đơn Hàng
+                                </a>
                             </li>
+
+
                             {{-- <li class="nav-item" role="presentation">
                             <button class="nav-link" id="pills-wishlist-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-wishlist" type="button"><i data-feather="heart"></i>
@@ -90,6 +94,29 @@
                         </ul>
                     </div>
                 </div>
+                <style>
+                    .user-nav-pills {
+                        display: flex;
+                        justify-content: start;
+                        gap: 10px;
+                    }
+
+                    .user-nav-pills .nav-item {
+                        list-style: none;
+                    }
+
+                    .nav-link {
+                        display: inline-flex;
+                        align-items: center;
+                        padding: 10px 15px;
+                        text-decoration: none;
+                    }
+
+                    .nav-link.active {
+                        background-color: #f8f9fa;
+                        border-radius: 5px;
+                    }
+                </style>
 
                 <div class="col-xxl-9 col-lg-8">
                     <button class="btn left-dashboard-show btn-animation btn-md fw-bold d-block mb-4 d-lg-none">Show
@@ -193,8 +220,8 @@
                                                         class="text-title">{{ $user->user_phone_number }}</b></h6>
                                                 </h6>
                                                 <h6 class="text-content">Điểm tích lũy: <b
-                                                    class="text-title">{{ $user->points }} điểm</b>
-                                            </h6>
+                                                        class="text-title">{{ $user->points }} điểm</b>
+                                                </h6>
                                             </div>
                                         </div>
 

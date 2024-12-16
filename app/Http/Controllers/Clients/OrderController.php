@@ -97,18 +97,10 @@ class OrderController extends Controller
 
         $oldStatus = $order->status;
         $order->status = Order::STATUS_CANCELED;
-
         $order->cancellation_reason = $request->cancellation_reason;
         $order->save();
 
-        foreach ($order->orderItems as $orderItem) {
-            $variant = Variant::find($orderItem->variant_id);
-            if ($variant) {
-                $variant->quantity += $orderItem->quantity;
-                $variant->save();
-            }
-        }
-
+        // Loại bỏ phục hồi tồn kho
         $order->statusChanges()->create([
             'old_status' => $oldStatus,
             'new_status' => Order::STATUS_CANCELED,
@@ -116,8 +108,7 @@ class OrderController extends Controller
             'changed_by' => auth()->id(),
         ]);
 
-
-        return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được hủy thành công và tồn kho đã được phục hồi.');
+        return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được hủy thành công.');
     }
 
     public function confirmReceipt(Order $order)

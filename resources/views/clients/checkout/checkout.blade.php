@@ -2,44 +2,7 @@
 
 @section('content')
     <!-- mobile fix menu start -->
-    <div class="mobile-menu d-md-none d-block mobile-cart">
-        <ul>
-            <li class="active">
-                <a href="index.html">
-                    <i class="iconly-Home icli"></i>
-                    <span>Home</span>
-                </a>
-            </li>
 
-            <li class="mobile-category">
-                <a href="javascript:void(0)">
-                    <i class="iconly-Category icli js-link"></i>
-                    <span>Category</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="search.html" class="search-box">
-                    <i class="iconly-Search icli"></i>
-                    <span>Search</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="wishlist.html" class="notifi-wishlist">
-                    <i class="iconly-Heart icli"></i>
-                    <span>My Wish</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="cart.html">
-                    <i class="iconly-Bag-2 icli fly-cate"></i>
-                    <span>Cart</span>
-                </a>
-            </li>
-        </ul>
-    </div>
     <!-- mobile fix menu end -->
 
     <!-- Breadcrumb Section Start -->
@@ -187,8 +150,8 @@
                                                     d="M8.296.747c.532-.972 1.393-.973 1.925 0l2.665 4.872 4.876 2.66c.974.532.975 1.393 0 1.926l-4.875 2.666-2.664 4.876c-.53.972-1.39.973-1.924 0l-2.664-4.876L.76 10.206c-.972-.532-.973-1.393 0-1.925l4.872-2.66L8.296.746z">
                                                 </path>
                                             </svg>
-                                            <svg class="checkmark__check" height="36" viewBox="0 0 48 36"
-                                                width="48" xmlns="http://www.w3.org/2000/svg">
+                                            <svg class="checkmark__check" height="36" viewBox="0 0 48 36" width="48"
+                                                xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="M47.248 3.9L43.906.667a2.428 2.428 0 0 0-3.344 0l-23.63 23.09-9.554-9.338a2.432 2.432 0 0 0-3.345 0L.692 17.654a2.236 2.236 0 0 0 .002 3.233l14.567 14.175c.926.894 2.42.894 3.342.01L47.248 7.128c.922-.89.922-2.34 0-3.23">
                                                 </path>
