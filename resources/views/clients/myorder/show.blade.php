@@ -82,6 +82,7 @@
                                                 <td class="fw-bold">Trạng thái thanh toán :</td>
                                                 <td class="text-end">{{ $order->payment }}</td>
                                             </tr>
+
                                             <tr>
                                                 <td class="fw-bold">Tổng tiền hàng :</td>
                                                 <td class="text-end">
@@ -90,7 +91,7 @@
                                                     @endphp
                                                     @foreach ($order->items as $item)
                                                         @php
-                                                            $totalAmount += $item->price * $item->quantity; // Cộng dồn giá của từng sản phẩm
+                                                            $totalAmount += $item->price * $item->quantity; 
                                                         @endphp
                                                     @endforeach
                                                     {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
@@ -252,10 +253,15 @@
                                     <div class="d-flex justify-content-center align-items-center mt-4">
                                         @if ($order->status === 'pending')
                                             <a href="{{ route('orders.cancel.form', $order->id) }}"
-                                                class="btn btn-danger me-3"
-                                                style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">Hủy Đơn
-                                                Hàng</a>
+                                                class="btn btn-danger me-3 btn-cancel-order"
+                                                data-payment-method="{{ $order->payment_method }}"
+                                                data-payment-status="{{ $order->payment_status }}"
+                                                style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">
+                                                Hủy Đơn Hàng
+                                            </a>
                                         @endif
+
+
                                         @if (in_array($order->payment_method, ['online']) && $order->payment_status == 'pending' && $order->status != 'canceled')
                                             <a href="{{ route('clients.retryPayment', $order->id) }}"
                                                 class="btn btn-warning me-3"
@@ -346,8 +352,40 @@
                 });
             });
         });
+        document.querySelectorAll('.btn-cancel-order').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Ngăn chặn hành động mặc định
+
+                const url = this.href; // Lấy URL từ thuộc tính href
+                const isOnlinePaid = this.dataset.paymentMethod === 'online' && this.dataset
+                    .paymentStatus === 'paid';
+
+                let message = 'Bạn có chắc chắn muốn hủy đơn hàng này không?';
+                if (isOnlinePaid) {
+                    message =
+                        'Đơn hàng đã thanh toán online. Cửa hàng sẽ không hoàn tiền nếu bạn hủy. Bạn có chắc chắn muốn tiếp tục không?';
+                }
+
+                // Hiển thị hộp thoại xác nhận
+                Swal.fire({
+                    title: 'Xác nhận hủy đơn hàng',
+                    text: message,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Đồng ý',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url; // Tiếp tục đến URL
+                    }
+                });
+            });
+        });
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         .star {

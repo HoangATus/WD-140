@@ -42,7 +42,7 @@
             <p class="text-center text-success">Hiện tại không có banner nào đang hoạt động.</p>
         @endif
     </section>
-    <div class="container-fluid-lg mt-3">
+    <div class="container-fluid-lg mt-5">
         <div class="section-b-space">
             <div class="title">
                 <h2 class= "text-center">Danh Sách Sản Phẩm Yêu Thích</h2>
