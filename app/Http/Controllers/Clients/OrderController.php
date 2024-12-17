@@ -73,16 +73,30 @@ class OrderController extends Controller
 
     public function cancel(Request $request, Order $order)
     {
+        $request->validate([
+            'cancellation_reason' => 'required|string|min:5|max:500',
+        ], [
+            'cancellation_reason.required' => 'Vui lòng nhập lý do hủy đơn hàng.',
+            'cancellation_reason.string' => 'Lý do hủy đơn hàng phải là một chuỗi ký tự.',
+            'cancellation_reason.min' => 'Lý do hủy đơn hàng phải có ít nhất 5 ký tự.',
+            'cancellation_reason.max' => 'Lý do hủy đơn hàng không được vượt quá 500 ký tự.',
+        ]);
+
+        // Kiểm tra quyền hủy đơn hàng
         $this->authorize('cancel', $order);
 
+        // Không cho phép hủy nếu đơn hàng đã xác nhận
         if ($order->status === Order::STATUS_CONFIRMED) {
             return redirect()->route('orders.index')->with('error', 'Bạn không thể hủy đơn hàng đã được xác nhận.');
         }
 
-        $request->validate([
-            'cancellation_reason' => 'required|string|max:1000',
-        ]);
+        // Kiểm tra thanh toán online
+        if ($order->payment_method === 'online' && $order->payment_status === 'paid') {
+            // Lưu thông báo không hoàn tiền
+            session()->flash('warning', 'Đơn hàng đã thanh toán online. Cửa hàng sẽ không hoàn tiền.');
+        }
 
+        // Cập nhật trạng thái đơn hàng
         $oldStatus = $order->status;
         $order->status = Order::STATUS_CANCELED;
         $order->cancellation_reason = $request->cancellation_reason;
@@ -97,6 +111,8 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được hủy thành công.');
     }
+
+
 
     public function confirmReceipt(Order $order)
     {
@@ -149,9 +165,15 @@ class OrderController extends Controller
 
         $rating = new Rating();
         $rating->order_item_id = $orderItem->id;
+<<<<<<< HEAD
         $rating->product_id = $orderItem->product_id;
         $rating->variant_id = $orderItem->variant_id;
         $rating->order_id = $order->id;
+=======
+        $rating->product_id = $orderItem->product_id; // Gán giá trị cho product_id
+        $rating->variant_id = $orderItem->variant_id;
+        $rating->order_id = $order->id; // Gán giá trị cho order_id
+>>>>>>> e515311060a895ddb49bff7f112504e9c1450e1d
         $rating->rating = $request->input('rating');
         $rating->review = $request->input('review');
         $rating->user_id = auth()->id();

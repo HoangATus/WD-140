@@ -65,11 +65,6 @@
                                     <i data-feather="home"></i> Hồ sơ
                                 </button>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <a href="{{ route('orders.index') }}" class="nav-link">
-                                    <i data-feather="shopping-bag"></i> Đơn Hàng
-                                </a>
-                            </li>
 
                         </ul>
                     </div>

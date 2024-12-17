@@ -79,6 +79,7 @@
                                                 <td class="fw-bold">Trạng thái thanh toán :</td>
                                                 <td class="text-end">{{ $order->payment }}</td>
                                             </tr>
+
                                             <tr>
                                                 <td class="fw-bold">Tổng tiền hàng :</td>
                                                 <td class="text-end">
@@ -93,6 +94,7 @@
                                                     {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
                                                 </td>
                                             </tr>
+
                                             @php
                                                 $voucher = $order->voucher;
                                                 $displayDiscount = 'Không áp dụng';
@@ -116,14 +118,20 @@
                                             @endphp
                                             <td class="fw-bold">Voucher :</td>
                                             <td class="text-end">{{ $displayDiscount }}</td>
+                                          
                                             @php
                                                 $displayPoints = 'Không sử dụng';
 
+<<<<<<< HEAD
                                                 if (isset($order->points_discount) && $order->points_discount > 0) {
+=======
+                                                if (!empty($order->points_discount) && $order->points_discount > 0) {
+>>>>>>> e515311060a895ddb49bff7f112504e9c1450e1d
                                                     $displayPoints =
                                                         '- ' .
                                                         number_format($order->points_discount, 0, ',', '.') .
                                                         ' VNĐ';
+<<<<<<< HEAD
                                                 } else {
                                                     $displayPoints = 'Không sử dụng';
                                                 }
@@ -134,6 +142,16 @@
                                                 <td class="fw-bold">Điểm tích lũy :</td>
                                                 <td class="text-end">{{ $displayPoints }}</td>
                                             </tr>
+=======
+                                                }
+                                            @endphp
+
+                                            <tr>
+                                                <td class="fw-bold">Điểm tích lũy :</td>
+                                                <td class="text-end">{{ $displayPoints }}</td>
+                                            </tr>
+
+>>>>>>> e515311060a895ddb49bff7f112504e9c1450e1d
 
                                             <tr>
                                                 <th class="fw-bold" style="font-size: 18px;">Thành tiền :</th>
@@ -272,10 +290,15 @@
                                     <div class="d-flex justify-content-center align-items-center mt-4">
                                         @if ($order->status === 'pending')
                                             <a href="{{ route('orders.cancel.form', $order->id) }}"
-                                                class="btn btn-danger me-3"
-                                                style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">Hủy Đơn
-                                                Hàng</a>
+                                                class="btn btn-danger me-3 btn-cancel-order"
+                                                data-payment-method="{{ $order->payment_method }}"
+                                                data-payment-status="{{ $order->payment_status }}"
+                                                style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">
+                                                Hủy Đơn Hàng
+                                            </a>
                                         @endif
+
+
                                         @if (in_array($order->payment_method, ['online']) && $order->payment_status == 'pending' && $order->status != 'canceled')
                                             <a href="{{ route('clients.retryPayment', $order->id) }}"
                                                 class="btn btn-warning me-3"
@@ -359,8 +382,40 @@
                 });
             });
         });
+        document.querySelectorAll('.btn-cancel-order').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Ngăn chặn hành động mặc định
+
+                const url = this.href; // Lấy URL từ thuộc tính href
+                const isOnlinePaid = this.dataset.paymentMethod === 'online' && this.dataset
+                    .paymentStatus === 'paid';
+
+                let message = 'Bạn có chắc chắn muốn hủy đơn hàng này không?';
+                if (isOnlinePaid) {
+                    message =
+                        'Đơn hàng đã thanh toán online. Cửa hàng sẽ không hoàn tiền nếu bạn hủy. Bạn có chắc chắn muốn tiếp tục không?';
+                }
+
+                // Hiển thị hộp thoại xác nhận
+                Swal.fire({
+                    title: 'Xác nhận hủy đơn hàng',
+                    text: message,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Đồng ý',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url; // Tiếp tục đến URL
+                    }
+                });
+            });
+        });
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         .star {
