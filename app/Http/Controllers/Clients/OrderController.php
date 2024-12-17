@@ -116,7 +116,8 @@ class OrderController extends Controller
         $order->cancellation_reason = $request->cancellation_reason;
         $order->save();
 
-        // Ghi log thay đổi trạng thái
+
+        // Loại bỏ phục hồi tồn kho
         $order->statusChanges()->create([
             'old_status' => $oldStatus,
             'new_status' => Order::STATUS_CANCELED,

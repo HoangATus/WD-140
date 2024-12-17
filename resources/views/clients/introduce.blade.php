@@ -29,16 +29,36 @@
                 <h3>Hoàng Thanh Tú</h3>
                 <p>Trưởng nhóm</p>
             </div>
-            {{-- <div class="member">
-                <img src="/images/member2.jpg" alt="Designer">
-                <h3>Trần Thị B</h3>
-                <p>Nhà Thiết Kế</p>
+            <div class="member">
+                <img src="{{ asset('assets/clients/images/dat.jpg') }}" alt="CEO">
+                <h3>Nguyễn Quang Đạt</h3>
+                <p>Thành viên</p>
             </div>
             <div class="member">
-                <img src="/images/member3.jpg" alt="Marketing">
-                <h3>Phạm Văn C</h3>
-                <p>Trưởng Phòng Marketing</p>
-            </div> --}}
+                <img src="{{ asset('assets/clients/images/do.png') }}" alt="CEO">
+                <h3>Lê Quang Đô</h3>
+                <p>Thành viên</p>
+            </div>
+            <div class="member">
+                <img src="{{ asset('assets/clients/images/kien.jpg') }}" alt="CEO">
+                <h3>Nguyễn Trung Kiên</h3>
+                <p>Thành viên</p>
+            </div>
+            <div class="member">
+                <img src="{{ asset('assets/clients/images/son.jpg') }}" alt="CEO">
+                <h3>Nguyễn Nhất Sơn</h3>
+                <p>Thành viên</p>
+            </div>
+            <div class="member">
+                <img src="{{ asset('assets/clients/images/thuan.jpg') }}" alt="CEO">
+                <h3>Trần Văn Thuần</h3>
+                <p>Thành viên</p>
+            </div>
+            <div class="member">
+                <img src="{{ asset('assets/clients/images/tho.jpg') }}" alt="CEO">
+                <h3>Phạm Quang Thọ</h3>
+                <p>Thành viên</p>
+            </div>
         </div>
     </div>
 </div>
@@ -94,5 +114,18 @@
         color: #666;
     }
 </style>
+<script type="text/javascript">
+    var Tawk_API = Tawk_API || {},
+        Tawk_LoadStart = new Date();
+    (function() {
+        var s1 = document.createElement("script"),
+            s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/6752f2c24304e3196aed5b3c/1iee08htm';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+    })();
+</script>
 @endsection
 
