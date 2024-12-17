@@ -60,11 +60,22 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $user_id)
     {
-        $request->validate([
-            'user_name' => 'required|string|max:255',
-            'user_email' => 'required|email',
-            'user_phone_number' => 'required|string|digits:10',
-            'user_address' => 'required|string|max:255',
+        $validatedData = $request->validate([
+            'user_name' => 'required|string|max:255', 
+            'user_email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/|max:255|unique:users,user_email,' . $user_id . ',user_id', 
+            'user_phone_number' => 'required|regex:/^0\d{9}$/|unique:users,user_phone_number,' . $user_id . ',user_id',
+            'user_address' => 'required|string|max:500',
+        ], [
+
+            'user_name.required' => 'Họ và tên không được để trống.',
+            'user_email.required' => 'Email không được để trống.',
+            'user_email.email' => 'Email chưa đúng định dạng.',
+            'user_email.regex' => 'Email phải có dấu "@" và tên miền hợp lệ.',
+            'user_email.unique' => 'Email đã được sử dụng.',
+            'user_phone_number.unique' => 'Số điện thoại đã được sử dụng.',
+            'user_phone_number.required' => 'Số điện thoại không được để trống.',
+            'user_phone_number.regex' => 'Số điện thoại phải bắt đầu bằng số 0 và có 10 chữ số.',
+            'user_address.required' => 'Địa chỉ không được để trống.',
         ]);
     
         $user = User::findOrFail($user_id);

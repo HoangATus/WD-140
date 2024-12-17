@@ -121,7 +121,7 @@
                                             @endphp
                                             <td class="fw-bold">Voucher :</td>
                                             <td class="text-end">{{ $displayDiscount }}</td>
-
+                                          
                                             @php
                                                 $displayPoints = 'Không sử dụng';
 

@@ -50,6 +50,7 @@
                                     <div class="position-relative">
                                         <img src="../assets/images/inner-page/user/1.jpg"
                                             class="blur-up lazyload update_img" alt="">
+
                                     </div>
                                 </div>
 
@@ -64,32 +65,36 @@
                         <ul class="nav nav-pills user-nav-pills" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="pills-dashboard-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-dashboard" type="button"><i data-feather="home"></i>
-                                    Hồ sơ</button>
+                                    data-bs-target="#pills-dashboard" type="button">
+                                    <i data-feather="home"></i> Hồ sơ
+                                </button>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-order-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-order" type="button"><i data-feather="shopping-bag"></i>Đơn
-                                    Hàng</button>
-                            </li>
-                            {{-- <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-wishlist-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-wishlist" type="button"><i data-feather="heart"></i>
-                                Danh Sách Yêu Thích</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-card-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-card" type="button" role="tab"><i
-                                    data-feather="credit-card"></i> Thẻ Đã Lưu</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-address-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-address" type="button" role="tab"><i
-                                    data-feather="map-pin"></i>Địa Chỉ</button>
-                        </li> --}}
                         </ul>
                     </div>
                 </div>
+                <style>
+                    .user-nav-pills {
+                        display: flex;
+                        justify-content: start;
+                        gap: 10px;
+                    }
+
+                    .user-nav-pills .nav-item {
+                        list-style: none;
+                    }
+
+                    .nav-link {
+                        display: inline-flex;
+                        align-items: center;
+                        padding: 10px 15px;
+                        text-decoration: none;
+                    }
+
+                    .nav-link.active {
+                        background-color: #f8f9fa;
+                        border-radius: 5px;
+                    }
+                </style>
 
                 <div class="col-xxl-9 col-lg-8">
                     <button class="btn left-dashboard-show btn-animation btn-md fw-bold d-block mb-4 d-lg-none">Show
@@ -114,48 +119,6 @@
                                         </h6>
                                     </div>
 
-                                    {{-- <div class="total-box">
-                                        <div class="row g-sm-4 g-3">
-                                            <div class="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
-                                                <div class="total-contain">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/order.svg"
-                                                        class="img-1 blur-up lazyload" alt="">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/order.svg"
-                                                        class="blur-up lazyload" alt="">
-                                                    <div class="total-detail">
-                                                        <h5>Tổng đơn hàng</h5>
-                                                        <h3>3658</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
-                                                <div class="total-contain">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/pending.svg"
-                                                        class="img-1 blur-up lazyload" alt="">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/pending.svg"
-                                                        class="blur-up lazyload" alt="">
-                                                    <div class="total-detail">
-                                                        <h5>Tổng số đơn hàng</h5>
-                                                        <h3>254</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
-                                                <div class="total-contain">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/wishlist.svg"
-                                                        class="img-1 blur-up lazyload" alt="">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/wishlist.svg"
-                                                        class="blur-up lazyload" alt="">
-                                                    <div class="total-detail">
-                                                        <h5>Tổng số danh sách yêu thích</h5>
-                                                        <h3>32158</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
                                     @if (session('successy'))
                                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                                             {{ session('successy') }}
@@ -193,8 +156,8 @@
                                                         class="text-title">{{ $user->user_phone_number }}</b></h6>
                                                 </h6>
                                                 <h6 class="text-content">Điểm tích lũy: <b
-                                                    class="text-title">{{ $user->points }} điểm</b>
-                                            </h6>
+                                                        class="text-title">{{ $user->points }} điểm</b>
+                                                </h6>
                                             </div>
                                         </div>
 

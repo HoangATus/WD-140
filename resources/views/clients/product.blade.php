@@ -103,26 +103,26 @@
 
                                                 <div class="form-check ps-0 m-0 category-list-box mt-3">
                                                     <input class="checkbox_animated" id="fruit" type="checkbox"
-                                                        name="price_range[]" value="0-100000"
-                                                        {{ in_array('0-100000', request('price_range', [])) ? 'checked' : '' }}>
+                                                        name="price_range[]" value="0-300000"
+                                                        {{ in_array('0-300000', request('price_range', [])) ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="fruit">
-                                                        <span class="name"> 0 - 100k</span>
+                                                        <span class="name"> 0 - 300k</span>
                                                     </label>
                                                 </div>
                                                 <div class="form-check ps-0 m-0 category-list-box mt-2">
                                                     <input class="checkbox_animated" id="fruit" type="checkbox"
                                                         name="price_range[]" value="100000-200000"
-                                                        {{ in_array('100000-200000', request('price_range', [])) ? 'checked' : '' }}>
+                                                        {{ in_array('300000-500000', request('price_range', [])) ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="fruit">
-                                                        <span class="name"> 100k - 200k</span>
+                                                        <span class="name"> 300k - 500k</span>
                                                     </label>
                                                 </div>
                                                 <div class="form-check ps-0 m-0 category-list-box mt-2">
                                                     <input class="checkbox_animated" id="fruit" type="checkbox"
-                                                        name="price_range[]" value="200000-500000"
-                                                        {{ in_array('200000-500000', request('price_range', [])) ? 'checked' : '' }}>
+                                                        name="price_range[]" value="500000"
+                                                        {{ in_array('500000', request('price_range', [])) ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="fruit">
-                                                        <span class="name"> 300k - 500k</span>
+                                                        <span class="name"> trên 500k</span>
                                                     </label>
                                                 </div>
 
@@ -426,4 +426,17 @@
         </div>
     </section>
     <!-- Shop Section End -->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6752f2c24304e3196aed5b3c/1iee08htm';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
 @endsection
