@@ -1,7 +1,7 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Breadcrumb Section Start -->
+
     <section class="breadcrumb-section">
         <div class="container">
             <nav aria-label="breadcrumb">
@@ -12,9 +12,7 @@
             </nav>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
 
-    <!-- Cart Section Start -->
     <section class="cart-section">
         <div class="container">
             <h2>Giỏ Hàng</h2>
@@ -35,7 +33,7 @@
                         text-align: center;
                         border-bottom: 1px solid #ddd;
                         vertical-align: middle;
-                        /* Căn giữa theo chiều dọc */
+
                     }
 
                     .cart-table th {
@@ -114,7 +112,7 @@
                         align-items: center;
                         justify-content: center;
                         margin: auto;
-                        /* Căn giữa trong ô */
+
                         height: 40px;
                     }
 
@@ -208,11 +206,6 @@
                                         </a>
                                     </li>
 
-                                    {{-- <li>
-                                        <button onclick="location.href = 'index.html';"
-                                            class="btn btn-light shopping-button text-dark">
-                                            <i class="fa-solid fa-arrow-left-long"></i>Return To Shopping</button>
-                                    </li> --}}
                                 </ul>
                             </div>
                         </div>
@@ -230,7 +223,6 @@
             @endif
         </div>
     </section>
-    <!-- Cart Section End -->
 
     @include('clients.blocks.assets.js')
 
@@ -242,7 +234,6 @@
             const availablePoints = parseInt(document.getElementById('availablePoints').textContent) || 0;
             let appliedLoyaltyPoints = 0;
 
-            // Calculate the initial total from the total price elements
             let initialTotal = calculateTotal();
             updateCartTotal(initialTotal);
 
@@ -251,12 +242,10 @@
                 checkbox.checked = false;
             }
 
-            // Cập nhật tổng tiền
             function updateCartTotal(newTotal) {
                 cartTotal.textContent = new Intl.NumberFormat('vi-VN').format(newTotal) + ' VNĐ';
             }
 
-            // Tính toán tổng tiền giỏ hàng
             function calculateTotal() {
                 let total = 0;
                 document.querySelectorAll('.total-price').forEach(el => {
@@ -265,22 +254,12 @@
                 return total;
             }
 
-            // Cập nhật tổng tiền với điểm tích lũy
             function updateTotalWithLoyaltyPoints() {
-                let total = initialTotal; // Keep using the initial total for calculations
+                let total = initialTotal;
                 let adjustedTotal = total - appliedLoyaltyPoints;
                 updateCartTotal(Math.max(adjustedTotal, 0));
             }
 
-            // Xử lý sự kiện khi checkbox thay đổi
-            // checkbox.addEventListener('change', function() {
-            //     if (this.checked) {
-            //         appliedLoyaltyPoints = Math.min(availablePoints, initialTotal);
-            //     } else {
-            //         appliedLoyaltyPoints = 0;
-            //     }
-            //     updateTotalWithLoyaltyPoints();
-            // });
             checkbox.addEventListener('change', function() {
                 if (this.checked) {
                     appliedLoyaltyPoints = Math.min(availablePoints, initialTotal);
@@ -289,7 +268,6 @@
                 }
                 updateTotalWithLoyaltyPoints();
 
-                // Gửi yêu cầu lưu vào session
                 axios.post('{{ route('cart.applyLoyaltyPoints') }}', {
                     applied_points: appliedLoyaltyPoints
                 }).then(response => {
@@ -299,7 +277,6 @@
                 });
             });
 
-            // Cập nhật giá trị sau khi thay đổi số lượng
             function updateQuantity(row, newQuantity) {
                 const variantId = row.getAttribute('data-variant-id');
                 const price = parseInt(row.querySelector('td:nth-child(4)').textContent.replace(/\D/g, ''));
@@ -326,18 +303,17 @@
                     });
             }
 
-            // Xử lý nút tăng và giảm số lượng
             document.querySelectorAll('.btn-increase').forEach(button => {
                 button.addEventListener('click', function() {
                     const row = this.closest('tr');
                     const input = row.querySelector('.quantity-input');
-                    const stock = parseInt(row.getAttribute('data-stock')); // Lấy tồn kho
+                    const stock = parseInt(row.getAttribute('data-stock'));
                     const currentQuantity = parseInt(input.value);
 
                     if (currentQuantity < stock) {
                         const newQuantity = currentQuantity + 1;
                         input.value = newQuantity;
-                        updateQuantity(row, newQuantity); // Gọi API cập nhật
+                        updateQuantity(row, newQuantity);
                     } else {
                         alert(`Số lượng không được vượt quá ${stock}.`);
                     }
@@ -354,33 +330,30 @@
                 });
             });
 
-            // Xử lý thay đổi trực tiếp trong input số lượng
             document.querySelectorAll('.quantity-input').forEach(input => {
                 input.addEventListener('change', function() {
                     const row = this.closest('tr');
                     const stock = parseInt(row.getAttribute(
-                        'data-stock')); // Lấy số lượng tồn kho từ data attribute
+                        'data-stock'));
                     const newQuantity = parseInt(this.value);
 
                     if (newQuantity > stock) {
                         alert(`Số lượng không được vượt quá tồn kho (${stock}).`);
-                        this.value = stock; // Reset lại giá trị trong input về tồn kho tối đa
+                        this.value = stock;
                         return;
                     }
 
                     if (newQuantity < 1) {
                         alert('Số lượng phải ít nhất là 1.');
-                        this.value = 1; // Reset lại giá trị trong input về 1
+                        this.value = 1;
                         return;
                     }
 
-                    // Gửi request để cập nhật số lượng nếu hợp lệ
                     updateQuantity(row, newQuantity);
                 });
             });
 
 
-            // Xử lý xóa sản phẩm khỏi giỏ hàng
             document.querySelectorAll('.btn-remove').forEach(button => {
                 button.addEventListener('click', function() {
                     const row = this.closest('tr');
@@ -391,14 +364,11 @@
                                 variant_id: variantId
                             })
                             .then(response => {
-                                // Remove the row from the cart
-                                row.remove();
 
-                                // Recalculate total
+                                row.remove();
                                 initialTotal = calculateTotal();
                                 updateTotalWithLoyaltyPoints();
 
-                                // Check if the cart is empty and display a message
                                 if (document.querySelectorAll('.cart-section tbody tr')
                                     .length === 0) {
                                     document.querySelector('.cart-section').innerHTML = `

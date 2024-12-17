@@ -15,32 +15,28 @@ class ContactController extends Controller
     }
 
     public function sendEmail(Request $request)
-{
-    // Validate dữ liệu từ form
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email',
-        'message' => 'required|string',
-    ]);
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'message' => 'required|string',
+        ]);
 
-    // Lấy dữ liệu từ form
-    $data = [
-        'name' => $request->input('name'),
-        'email' => $request->input('email'),
-        'messageContent' => $request->input('message'),
-    ];
+        $data = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'messageContent' => $request->input('message'),
+        ];
 
-    // Gửi email
-    Mail::send('clients.emails.contact', $data, function ($message) use ($data) {
-        $message->from($data['email'], $data['name']) // Email khách hàng gửi đi
-                ->to('hoangthanhtu135@gmail.com')    // Email của bạn
+        Mail::send('clients.emails.contact', $data, function ($message) use ($data) {
+            $message->from($data['email'], $data['name'])
+                ->to('hoangthanhtu135@gmail.com')
                 ->subject('New Contact Form Submission');
-        // Dự phòng nếu email khách hàng không hợp lệ
-    if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-        $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-    }        
-    });
+            if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            }
+        });
 
-    return back()->with('success', 'Thông tin của bạn đã được gửi thành công!');
-}
+        return back()->with('success', 'Thông tin của bạn đã được gửi thành công!');
+    }
 }

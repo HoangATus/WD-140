@@ -7,7 +7,6 @@
 @section('css')
 @endsection
 @section('content')
-    <!-- New Product Add Start -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">

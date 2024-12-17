@@ -31,7 +31,6 @@ class AuthController extends Controller
             return redirect('/'); 
         }
 
-        // Đăng nhập thất bại
         return back()->withErrors(['loginError' => 'Thông tin đăng nhập không đúng']);
     }
 
@@ -88,7 +87,7 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    // admin
+
 
     public function showFormLoginAdmin()
     {

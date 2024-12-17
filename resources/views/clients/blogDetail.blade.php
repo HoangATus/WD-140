@@ -1,6 +1,5 @@
 @extends('clients.layouts.client')
 @section('content')
-    <!-- Breadcrumb Section Start -->
     <style>
         .banner-contain-2 {
             background-image: url('{{ asset('assets/images/banner1.jpg') }}');
@@ -13,7 +12,7 @@
             color: white;
         }
     </style>
-    <!-- Poster Section Start -->
+
     <section>
         <div class="container-fluid-lg">
             <div class="banner-contain-2 hover-effect">
@@ -22,7 +21,6 @@
             </div>
         </div>
 
-        <!-- Blog Details Section Start -->
         <section class="blog-section section-b-space">
 
 
@@ -63,7 +61,6 @@
                                     <li>
                                         <div class="user-list">
                                             <i class="ri-eye-fill align-middle"></i>
-                                            {{-- <i data-feather="message-square"></i> --}}
                                             <span> Đã xem: {{ $new->view_count }}</span>
                                         </div>
                                     </li>
@@ -83,7 +80,7 @@
                         </div>
                         <div class="mt-5">
                             <h2 class="mb-3">Bài liên quan</h2>
-                            <!-- Slideshow Section Start -->
+
                             <section class="related-news-carousel">
                                 <div id="relatedNewsCarousel" class="carousel slide" data-bs-ride="carousel"
                                     data-bs-interval="5000">
@@ -121,7 +118,7 @@
 
                                 </div>
                             </section>
-                            <!-- Slideshow Section End -->
+
                         </div>
                         <div class="user-list d-flex align-items-center justify-content-end mt-2">
                             <i class="ri-eye-fill align-middle me-2"></i>
@@ -205,7 +202,6 @@
                                     }
 
                                     #edit-comment-modal .modal-content {
-                                        /* max-width: 1000px */
                                         width: 1000px;
                                         margin: auto;
                                     }
@@ -427,7 +423,7 @@
 
                 </div>
         </section>
-        <!-- Blog Details Section End -->
+
         <script type="text/javascript">
             var Tawk_API = Tawk_API || {},
                 Tawk_LoadStart = new Date();

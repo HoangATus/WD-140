@@ -1,7 +1,6 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Breadcrumb Section Start -->
     <section class="breadcrumb-section pt-0">
         <div class="container-fluid-lg">
             <div class="row">
@@ -23,9 +22,7 @@
             </div>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
 
-    <!-- Checkout section Start -->
     <section class="checkout-section-2 section-b-space">
         <div class="container-fluid-lg">
             <div class="row g-sm-4 g-3">
@@ -36,24 +33,29 @@
                                 <li>
                                     <div class="checkout-box">
                                         <div class="checkout-title">
-                                            <h4>Thông Tin Giao Hàng <p>Mã đơn hàng:{{$order->order_code}}</p></h4>
+                                            <h4>Thông Tin Giao Hàng <p>Mã đơn hàng:{{ $order->order_code }}</p>
+                                            </h4>
                                         </div>
                                         <div class="shipping-info">
-                                            <form action="{{ route('orders.processRetryPayment', $order->id) }}" method="POST">
+                                            <form action="{{ route('orders.processRetryPayment', $order->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 <div class="form-group">
                                                     <label for="name">Tên Người Nhận</label>
-                                                    <input type="text" class="form-control" id="name" name="name" value="{{ $order->name }}" required>
+                                                    <input type="text" class="form-control" id="name" name="name"
+                                                        value="{{ $order->name }}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="phone">Số Điện Thoại</label>
-                                                    <input type="text" class="form-control" id="phone" name="phone" value="{{ $order->phone }}" required>
+                                                    <input type="text" class="form-control" id="phone" name="phone"
+                                                        value="{{ $order->phone }}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="address">Địa Chỉ</label>
-                                                    <input type="text" class="form-control" id="address" name="address" value="{{ $order->address }}" required>
+                                                    <input type="text" class="form-control" id="address" name="address"
+                                                        value="{{ $order->address }}" required>
                                                 </div>
 
                                                 <div class="form-group">
@@ -94,54 +96,60 @@
                             <ul class="summery-contain">
                                 @foreach ($order->orderItems as $item)
                                     <li>
-                                       <img src="{{ $item->image }}"class="img-fluid blur-up lazyloaded checkout-image"
-                                        alt="{{ $item->product_name }}">
+                                        <img src="{{ $item->image }}"class="img-fluid blur-up lazyloaded checkout-image"
+                                            alt="{{ $item->product_name }}">
                                         <h6>{{ $item->product_name }} <span><strong>X {{ $item->quantity }}</strong></span>
-                                        <a class="price">{{ number_format($item->price * $item->quantity, 0, ',', '.') }} VND</a></h6>
+                                            <a class="price">{{ number_format($item->price * $item->quantity, 0, ',', '.') }}
+                                                VND</a>
+                                        </h6>
                                     </li>
-                               
+
                             </ul>
                             <br>
                             <ul>
                                 <li class="d-flex justify-content-between align-items-center"><strong>Tổng Tiền Hàng:
-                                    </strong> <span id="totalAmount" class="fw-bold" >{{ number_format($item->price * $item->quantity, 0, ',', '.') }}
+                                    </strong> <span id="totalAmount"
+                                        class="fw-bold">{{ number_format($item->price * $item->quantity, 0, ',', '.') }}
                                         VND</span>
                                 </li>
                             </ul>
-                             @endforeach
+                            @endforeach
                             @if ($order->voucher_discount > 0)
-                            <div id="voucherDiscount" >
-                                <ul>
-                                    <li class="d-flex justify-content-between align-items-center my-2">
-                                        <strong>Mã Giảm Giá:</strong> <span>- {{ number_format($order->voucher_discount, 0, ',', '.') }} VND</span>
-                                    </li>
-                                </ul>
-                            </div>
+                                <div id="voucherDiscount">
+                                    <ul>
+                                        <li class="d-flex justify-content-between align-items-center my-2">
+                                            <strong>Mã Giảm Giá:</strong> <span>-
+                                                {{ number_format($order->voucher_discount, 0, ',', '.') }} VND</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             @endif
 
                             @if ($order->points_discount > 0)
-                            <div id="pointsDiscountSection">
-                                <ul>
-                                    <li class="d-flex justify-content-between align-items-center">
-                                        <strong>Điểm tích lũy:</strong> <span id="pointsDiscount">- {{ number_format($order->points_discount, 0, ',', '.') }} VND</span>
-                                    </li>
-                                </ul>
-                            </div>
+                                <div id="pointsDiscountSection">
+                                    <ul>
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            <strong>Điểm tích lũy:</strong> <span id="pointsDiscount">-
+                                                {{ number_format($order->points_discount, 0, ',', '.') }} VND</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             @endif
                             <ul class="summery-total ">
                                 <li class="d-flex justify-content-between align-items-center"><strong>Thành tiền: </strong>
-                                    <span class="text-danger fw-bold" id="finalTotal">{{ number_format($order->total, 0, ',', '.') }}
+                                    <span class="text-danger fw-bold"
+                                        id="finalTotal">{{ number_format($order->total, 0, ',', '.') }}
                                         VND</span>
                                 </li>
                             </ul>
-                            <button class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold" type="submit">Thanh Toán</button>
-                        </form>
-                           
+                            <button class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold" type="submit">Thanh
+                                Toán</button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Checkout section End -->
 @endsection

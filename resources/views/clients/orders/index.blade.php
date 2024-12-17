@@ -1,9 +1,7 @@
-<!-- resources/views/orders/index.blade.php -->
-
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Breadcrumb Section Start -->
+
     <section class="breadcrumb-section">
         <div class="container">
             <nav aria-label="breadcrumb">
@@ -14,9 +12,7 @@
             </nav>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
 
-    <!-- Orders Section Start -->
     <section class="orders-section">
         <div class="container">
             <h2>Đơn Hàng Của Tôi</h2>
@@ -72,7 +68,6 @@
         @push('scripts')
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
-                    // Sự kiện khi nhấn nút "Xóa" khỏi giỏ hàng
                     document.querySelectorAll('.remove-from-cart').forEach(function(button) {
                         button.addEventListener('click', function() {
                             const variantId = this.getAttribute('data-variant-id');
@@ -82,13 +77,11 @@
                                         variant_id: variantId
                                     })
                                     .then(response => {
-                                        // Xóa dòng sản phẩm khỏi bảng
                                         const row = document.querySelector(
                                             `tr[data-variant-id="${variantId}"]`);
                                         row.remove();
 
-                                        // Cập nhật tổng tiền
-                                        location.reload(); // Hoặc cập nhật tổng tiền bằng JavaScript
+                                        location.reload();
                                     })
                                     .catch(error => {
                                         console.error(error);
@@ -103,7 +96,6 @@
                         });
                     });
 
-                    // Sự kiện khi thay đổi số lượng sản phẩm
                     document.querySelectorAll('.quantity-input').forEach(function(input) {
                         input.addEventListener('change', function() {
                             const variantId = this.getAttribute('data-variant-id');
@@ -114,8 +106,7 @@
                                     quantity: quantity
                                 })
                                 .then(response => {
-                                    // Cập nhật thành tiền cho dòng sản phẩm
-                                    location.reload(); // Hoặc cập nhật thành tiền bằng JavaScript
+                                    location.reload();
                                 })
                                 .catch(error => {
                                     console.error(error);

@@ -1,6 +1,6 @@
 @extends('clients.layouts.client')
 @section('content')
-    <!-- Breadcrumb Section Start -->
+
     <section class="breadcrumb-section pt-0">
         <div class="container-fluid-lg">
             <div class="row">
@@ -22,9 +22,7 @@
             </div>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
 
-    <!-- Poster Section Start -->
     <section>
         <div class="container-fluid-lg">
             <div class="row">
@@ -45,21 +43,12 @@
                             </div>
                         </div>
 
-                        {{-- <div>
-                                <div class="banner-contain-2 hover-effect">
-                                    <img src="https://theme.hstatic.net/200000690725/1001078549/14/slide_3_img.jpg?v=474" class=" rounded-3 blur-up lazyload" width="100%" height="400" alt="">
-                                </div>
-                            </div> --}}
-
-
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Poster Section End -->
 
-    <!-- Shop Section Start -->
     <section class="section-b-space shop-section">
         <div class="container-fluid-lg">
             <div class="row">
@@ -150,16 +139,16 @@
                         </div>
 
                         @if (session('successyy'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('successyy') }}
-                        </div>
-                    @endif
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('successyy') }}
+                            </div>
+                        @endif
 
-                    @if (session('errorss'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ session('errorss') }}
-                        </div>
-                    @endif
+                        @if (session('errorss'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('errorss') }}
+                            </div>
+                        @endif
                         <div class="top-filter-menu">
                             <div class="category-dropdown">
                                 <h5 class="text-content">Sắp xếp theo :</h5>
@@ -234,16 +223,15 @@
                                                 <div class="product-ratin custom-rate">
                                                     <ul class="rating">
                                                         @php
-                                                            $averageRating = $product->ratings->avg('rating'); // Tính trung bình số sao
+                                                            $averageRating = $product->ratings->avg('rating');
                                                         @endphp
 
                                                         @for ($i = 1; $i <= 5; $i++)
                                                             <li>
                                                                 @if ($i <= $averageRating)
                                                                     <i data-feather="star" class="fill"></i>
-                                                                    <!-- Sao đầy -->
                                                                 @else
-                                                                    <i data-feather="star"></i> <!-- Sao rỗng -->
+                                                                    <i data-feather="star"></i>
                                                                 @endif
                                                             </li>
                                                         @endfor
@@ -320,7 +308,6 @@
                                 background-color: #417394;
                                 color: white;
                                 border: 2px solid transparent;
-                                /* Add transparent border for consistent button size */
                                 border-radius: 8px;
                                 cursor: pointer;
                                 transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
@@ -425,7 +412,7 @@
             </div>
         </div>
     </section>
-    <!-- Shop Section End -->
+
     <script type="text/javascript">
         var Tawk_API = Tawk_API || {},
             Tawk_LoadStart = new Date();

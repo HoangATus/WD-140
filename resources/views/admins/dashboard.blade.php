@@ -11,11 +11,9 @@
             </div>
         </div>
 
-        <!-- start row -->
         <div class="row">
             <div class="col-md-12 col-xl-12">
                 <div class="row g-3">
-                    <!-- First div -->
                     @foreach ($counts as $status => $count)
                         <div class="" style="flex: 0 0 14.2857%; /* 100% / 7 */; max-width: 14.2857%;">
                             <div class="card" style=" height: 80px;">
@@ -28,7 +26,7 @@
                         </div>
                     @endforeach
                 </div>
-            </div> <!-- end sales -->
+            </div>
         </div>
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
@@ -43,7 +41,6 @@
                         <h5 class="card-title mb-0">Thống Kê Doanh Thu và Lợi nhuận</h5>
                     </div>
                     <div class="card-body">
-                        <!-- Date Filter -->
                         <div class="filter-container">
                             <div class="filter-tabs">
                                 <button class="filter-tab active" onclick="selectFilter('day')">Ngày</button>
@@ -76,14 +73,10 @@
                                     <input type="text" class="filter-input"id="dateRangeInput" name="daterange"
                                         class="range-date">
                                 </div>
-                                {{-- <div id="rangeInput" class="filter-input range-input" style="display: none;">
-                                    <input type="date" id="startDate" class="range-date" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" onchange="fetchRangeRevenue()">
-                                    ~
-                                    <input type="date" id="endDate" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" class="range-date" onchange="fetchRangeRevenue()">
-                                </div> --}}
+
                             </div>
                         </div>
-                        <!-- Render Revenue Chart -->
+
                         <div id="revenueChart" class="apex-charts mt-4"></div>
                     </div>
                 </div>
@@ -91,7 +84,7 @@
         </div>
     </div>
     <div class="container mt-5">
-        <!-- Form lọc theo tháng -->
+
         <form method="GET" action="{{ route('admin.dashboard') }}" class="mb-4">
             <div class="row g-3 align-items-end">
                 <div class="col-auto">
@@ -120,7 +113,7 @@
                     {{ session('message') }}
                 </div>
             @endif
-            <!-- Top 5 Sản Phẩm Bán Chạy Nhất -->
+
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Bán Chạy Nhất</h5>
                 <div class="border p-3 mb-3">
@@ -145,7 +138,7 @@
                     @endforelse
                 </div>
             </div>
-            <!-- Top 5 Sản Phẩm Doanh Thu Cao Nhất -->
+
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Doanh Thu Cao Nhất</h5>
                 <div class="border p-3 mb-3">
@@ -170,7 +163,7 @@
                 </div>
             </div>
 
-            <!-- Top 5 Sản Phẩm Lợi Nhuận Cao Nhất -->
+
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Lợi Nhuận Cao Nhất</h5>
                 <div class="border p-3 mb-3">

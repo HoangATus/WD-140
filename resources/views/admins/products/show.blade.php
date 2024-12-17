@@ -5,10 +5,7 @@
 @endsection
 
 @section('content')
-    {{-- <form method="POST" action="" enctype="multipart/form-data">
-        @csrf --}}
-    <!-- New Product Add Start -->
-    {{-- {{ $product }} --}}
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -88,7 +85,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- cart -->
                     <div class="card">
                         <div class="card-body">
                             <div class="card-header-2">
@@ -106,7 +102,6 @@
                                                 <th>Giá nhập</th>
                                                 <th>Giá sale</th>
                                                 <th>Giá bán</th>
-                                                {{-- <th>Hành động</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -139,8 +134,7 @@
     </div>
     <div class="d-flex justify-content-end">
         <a href="{{ route('admins.products.index') }}" class="btn btn-secondary me-2">Quay lại</a>
-        {{-- <button type="submit" class="btn btn-primary">Sửa</button> --}}
     </div>
-    <!-- New Product Add End -->
+
     </form>
 @endsection

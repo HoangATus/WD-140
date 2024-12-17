@@ -9,7 +9,7 @@
 @section('content')
     <form method="POST" action="{{ route('admins.products.store') }}" enctype="multipart/form-data">
         @csrf
-        <!-- New Product Add Start -->
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -120,10 +120,10 @@
                                             <script>
                                                 tinymce.init({
                                                     selector: 'textarea#product-description',
-                                                    height: 300, // Chiều cao của trình soạn thảo
-                                                    plugins: 'lists link image preview', // Các plugin hữu ích
+                                                    height: 300,
+                                                    plugins: 'lists link image preview',
                                                     toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image', // Thanh công cụ
-                                                    branding: false // Tắt logo TinyMCE
+                                                    branding: false
                                                 });
                                             </script>
                                         </div>
@@ -131,7 +131,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- cart -->
+
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-header-2">
@@ -382,7 +382,7 @@
         <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-primary">Tạo mới</button>
         </div>
-        <!-- New Product Add End -->
+
     </form>
 @endsection
 

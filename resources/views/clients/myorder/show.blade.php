@@ -1,7 +1,6 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- User Dashboard Section Start -->
     <section class="user-dashboard-section section-b-space">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <div class="container-fluid-lg">
@@ -62,14 +61,13 @@
                                                         <span class="badge badge-info">Đã xác nhận</span>
                                                     @elseif ($order->status == 'shipped')
                                                         <span class="badge badge-primary">Đang giao hàng</span>
-                                                        @elseif ($order->status == 'failed')
+                                                    @elseif ($order->status == 'failed')
                                                         <span class="badge bg-secondary">Giao Hàng Thất Bại</span>
-                                                 
                                                     @elseif ($order->status == 'completed')
                                                         <span class="badge badge-success">Hoàn thành</span>
                                                     @elseif ($order->status == 'canceled')
                                                         <span class="badge badge-danger">Đã hủy</span>
-                                                        <p class="text-danger">({{$order->cancellation_reason}})</p>
+                                                        <p class="text-danger">({{ $order->cancellation_reason }})</p>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -85,11 +83,11 @@
                                                 <td class="fw-bold">Tổng tiền hàng :</td>
                                                 <td class="text-end">
                                                     @php
-                                                        $totalAmount = 0; // Biến để lưu tổng tiền
+                                                        $totalAmount = 0;
                                                     @endphp
                                                     @foreach ($order->items as $item)
                                                         @php
-                                                            $totalAmount += $item->price * $item->quantity; // Cộng dồn giá của từng sản phẩm
+                                                            $totalAmount += $item->price * $item->quantity;
                                                         @endphp
                                                     @endforeach
                                                     {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
@@ -100,12 +98,10 @@
                                                 $displayDiscount = 'Không áp dụng';
 
                                                 if ($voucher) {
-                                                    // Kiểm tra loại giảm giá
                                                     if (
                                                         $voucher->discount_type === 'fixed' &&
                                                         $voucher->discount_value > 0
                                                     ) {
-                                                        // Định dạng số tiền với dấu chấm
                                                         $displayDiscount =
                                                             '- ' .
                                                             number_format($voucher->discount_value, 0, ',', '.') .
@@ -121,20 +117,23 @@
                                             <td class="fw-bold">Voucher :</td>
                                             <td class="text-end">{{ $displayDiscount }}</td>
                                             @php
-                                            $displayPoints = 'Không sử dụng';
+                                                $displayPoints = 'Không sử dụng';
 
-                                            if (!empty($order->points_discount) && $order->points_discount > 0) {
-                                                $displayPoints =
-                                                    '- ' .
-                                                    number_format($order->points_discount, 0, ',', '.') .
-                                                    ' VNĐ';
-                                            }
-                                        @endphp
+                                                if (isset($order->points_discount) && $order->points_discount > 0) {
+                                                    $displayPoints =
+                                                        '- ' .
+                                                        number_format($order->points_discount, 0, ',', '.') .
+                                                        ' VNĐ';
+                                                } else {
+                                                    $displayPoints = 'Không sử dụng';
+                                                }
 
-                                        <tr>
-                                            <td class="fw-bold">Điểm tích lũy :</td>
-                                            <td class="text-end">{{ $displayPoints }}</td>
-                                        </tr>
+                                            @endphp
+
+                                            <tr>
+                                                <td class="fw-bold">Điểm tích lũy :</td>
+                                                <td class="text-end">{{ $displayPoints }}</td>
+                                            </tr>
 
                                             <tr>
                                                 <th class="fw-bold" style="font-size: 18px;">Thành tiền :</th>
@@ -150,15 +149,14 @@
                                         @if ($orderItems->count() > 0)
                                             @foreach ($orderItems as $item)
                                                 <div class="row mb-4 pb-3 border-bottom align-items-center">
-                                                    <!-- Đảm bảo các phần tử được căn giữa theo chiều dọc -->
-                                                    <div class="col-md-3"> <!-- Kích thước ảnh chiếm 3 cột -->
+                                                    <div class="col-md-3">
                                                         <a href="{{ route('products.show', $item->product->slug) }}"
                                                             class="order-image">
                                                             <img src="{{ $item->image }}" class="img-fluid rounded"
                                                                 alt="" style="max-width: 50%;">
                                                         </a>
                                                     </div>
-                                                    <div class="col-md-9"> <!-- Văn bản chiếm 9 cột còn lại -->
+                                                    <div class="col-md-9">
                                                         <div class="order-wrap">
                                                             <a href="{{ route('products.show', $item->product->slug) }}">
                                                                 <h4 class="fw-bold"
@@ -197,7 +195,6 @@
                                         @endif
                                     </div>
 
-                                    {{-- danh gia --}}
 
                                     @if ($order->status == 'completed')
                                         @php
@@ -209,7 +206,6 @@
 
                                         @foreach ($groupedItems as $productId => $items)
                                             @php
-                                                // Lấy một biến thể để hiển thị thông tin sản phẩm chính
                                                 $productItem = $items->first();
                                                 $isRated = $productItem
                                                     ->rating()
@@ -235,7 +231,8 @@
                                                                 {{ $items->pluck('variant_name')->join(', ') }}</p>
                                                         </div>
 
-                                                        <form action="{{ route('orders.rate', $productItem->product_id) }}"
+                                                        <form
+                                                            action="{{ route('orders.rate', $productItem->product_id) }}"
                                                             method="POST"
                                                             onsubmit="return validateRating({{ $productItem->product_id }});">
                                                             @csrf
@@ -280,18 +277,17 @@
                                                 Hàng</a>
                                         @endif
                                         @if (in_array($order->payment_method, ['online']) && $order->payment_status == 'pending' && $order->status != 'canceled')
-                                        <a href="{{ route('clients.retryPayment', $order->id) }}" class="btn btn-warning me-3"
-                                           style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">
-                                            Thanh Toán Lại
-                                        </a>
-                                    @endif                                    
+                                            <a href="{{ route('clients.retryPayment', $order->id) }}"
+                                                class="btn btn-warning me-3"
+                                                style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">
+                                                Thanh Toán Lại
+                                            </a>
+                                        @endif
 
                                         @if ($order->status == 'canceled')
                                             <form action="{{ route('orders.reorder', $order->id) }}" method="POST"
                                                 style="display: inline-block;">
                                                 @csrf
-                                                {{-- <button type="submit" class="btn btn-sm btn-success"
-                                                    onclick="return confirm('Bạn có muốn mua lại đơn hàng này?')">Mua Lại</button> --}}
                                             </form>
                                         @endif
                                         <a href="{{ url('/') }}" class="btn btn-secondary"
@@ -324,11 +320,9 @@
                         var ratingValue = this.getAttribute('data-value');
                         var productId = this.getAttribute('data-product-id');
 
-                        // Đặt giá trị rating vào input hidden
                         document.getElementById('input-rating-' + productId).value =
                             ratingValue;
 
-                        // Cập nhật giao diện sao đã chọn
                         document.querySelectorAll('#rating-' + productId + ' .star')
                             .forEach(function(star) {
                                 star.style.color = star.getAttribute('data-value') <=
@@ -348,22 +342,19 @@
             return true;
         }
 
-        // Event listener để xử lý khi người dùng chọn sao
         document.querySelectorAll('.star').forEach(star => {
             star.addEventListener('click', function() {
                 const productId = this.dataset.productId;
                 const ratingValue = this.dataset.value;
 
-                // Cập nhật input hidden với giá trị số sao
                 document.getElementById(`input-rating-${productId}`).value = ratingValue;
 
-                // Highlight các ngôi sao được chọn
                 const stars = document.querySelectorAll(`#rating-${productId} .star`);
                 stars.forEach(star => {
                     if (star.dataset.value <= ratingValue) {
-                        star.style.color = "gold"; // Màu vàng cho sao được chọn
+                        star.style.color = "gold";
                     } else {
-                        star.style.color = "gray"; // Màu xám cho sao chưa chọn
+                        star.style.color = "gray";
                     }
                 });
             });
@@ -374,14 +365,12 @@
     <style>
         .star {
             color: #d3d3d3;
-            /* Màu xám cho sao chưa chọn */
             transition: color 0.3s;
         }
 
         .star:hover,
         .star.selected {
             color: #ffcc00;
-            /* Màu vàng cho sao khi chọn */
         }
 
         .order-summary-table td,
@@ -401,14 +390,12 @@
 
         .rating {
             font-size: 20px;
-            /* Giảm kích thước sao */
             cursor: pointer;
         }
 
         .rating .star:hover,
         .rating .star.active {
             color: #ffaa00;
-            /* Màu khi di chuột hoặc đã chọn */
         }
 
         textarea {
@@ -418,14 +405,12 @@
 
         .btn {
             padding: 6px 12px;
-            /* Điều chỉnh kích thước nút */
             font-size: 14px;
-            /* Giảm kích thước chữ trên nút */
+            all: unset;
         }
 
         img.img-fluid.rounded {
             max-width: 80%;
-            /* Điều chỉnh kích thước ảnh sản phẩm */
             height: auto;
             border-radius: 10px;
         }

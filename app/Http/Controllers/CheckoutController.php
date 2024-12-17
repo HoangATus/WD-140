@@ -437,7 +437,6 @@ if ($variant->quantity < $quantity) {
     if ($request->payment_method == 'online' && $request->final_total < 5000) {
         return redirect()->back()->with('error', 'Đơn hàng thanh toán , Đơn hàng phải có Thành tiền tối thiểu là 5,000 VND.');
     }
-    $paymentStatus = $request->payment_method == 'online' ? 'paid' : 'pending';
 
             $order = Order::create([
                 'user_id' => $user->user_id,
@@ -450,7 +449,6 @@ if ($variant->quantity < $quantity) {
 
                 'discount' => $request->initial_total - $request->final_total,
 
-                'payment_status' => $paymentStatus,
                 'status'         => 'pending',
 
 

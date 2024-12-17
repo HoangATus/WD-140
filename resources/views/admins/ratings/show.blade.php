@@ -33,9 +33,9 @@
                     <span class="rating-stars">
                         @for ($i = 1; $i <= 5; $i++)
                             @if ($i <= $rating->rating)
-                                <i class="fas fa-star text-warning"></i> <!-- Sao đầy -->
+                                <i class="fas fa-star text-warning"></i>
                             @else
-                                <i class="far fa-star text-warning"></i> <!-- Sao trống -->
+                                <i class="far fa-star text-warning"></i>
                             @endif
                         @endfor
                     </span>
@@ -88,7 +88,6 @@
 </script>
 
 @section('style-libs')
-    <!-- Tùy chỉnh thêm nếu cần -->
     <style>
         .card {
             border-radius: 10px;

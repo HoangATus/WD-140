@@ -30,12 +30,9 @@ class ShopController extends Controller
         return view('clients.product', compact('listProduct', 'listCategory', 'category'));
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        // Lấy 10 sản phẩm mới nhất cùng với các biến thể
+
         $products = Product::with('variants')->latest()->take(10)->get();
 
 
@@ -44,36 +41,29 @@ class ShopController extends Controller
             ->join('order_items', 'products.id', '=', 'order_items.product_id')
             ->join('orders', 'orders.id', '=', 'order_items.order_id')
             ->whereIn('orders.status', ['delivered', 'completed'])
-            // Lọc theo thời gian của đơn hàng trong tháng hiện tại
             ->whereBetween('orders.created_at', [
-                Carbon::now()->startOfMonth(),  // Bắt đầu tháng hiện tại
-                Carbon::now()->endOfMonth(),    // Kết thúc tháng hiện tại
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth(),
             ])
             ->groupBy('products.id')
             ->orderByRaw('SUM(order_items.quantity) DESC')
             ->take(5)
             ->get();
 
-        // Lấy các banner đang active
         $banners = Banner::where('is_active', true)
             ->with('category')
             ->get();
-        // Lấy tất cả các danh mục
         $categories = Category::query()->get();
 
         return view('clients.index', compact('products', 'bestSellingProducts', 'banners', 'categories'));
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function blog()
     {
         $hotNews = News::where('status', 1)->orderBy('view_count', 'desc')->first();
 
         if (!$hotNews) {
-            $relatedNews = collect(); 
+            $relatedNews = collect();
         } else {
             $relatedNews = News::where('status', 1)
                 ->where('id', '!=', $hotNews->id)
@@ -87,7 +77,7 @@ class ShopController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(3)
             ->get();
-    
+
         $popularNews = News::where('status', 1)
             ->orderBy('view_count', 'desc')
             ->get()
@@ -105,9 +95,9 @@ class ShopController extends Controller
                 ->get();
             return $category;
         });
-    
+
         return view('clients.blog', compact('hotNews', 'relatedNews', 'album', 'categories', 'promotions', 'popularNews'));
-    }    
+    }
 
     public function blogDetail($slug)
     {
@@ -121,7 +111,7 @@ class ShopController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
-        $promotions = News::where('status', 1)  
+        $promotions = News::where('status', 1)
             ->orderBy('created_at', 'desc')
             ->take(3)
             ->get();
@@ -182,41 +172,26 @@ class ShopController extends Controller
         return response()->json(['success' => false, 'message' => 'Bạn không có quyền xóa bình luận này.'], 403);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

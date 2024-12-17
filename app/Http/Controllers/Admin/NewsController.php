@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -43,7 +44,7 @@ class NewsController extends Controller
             'image.required' => 'Hình ảnh là bắt buộc.',
             'image.max' => 'Kích thước hình ảnh không được vượt quá 5MB.',
         ]);
-        
+
 
         $imagePath = null;
         if ($request->hasFile('image')) {
@@ -67,20 +68,20 @@ class NewsController extends Controller
         $comment = NewComment::findOrFail($id);
         $comment->approved = true;
         $comment->save();
-    
+
         return redirect()->route('admins.news.show', $comment->news_id)->with('message', 'Bình luận đã được phê duyệt');
     }
-    
+
     public function unapprove($id)
     {
         $comment = NewComment::findOrFail($id);
         $comment->approved = false;
         $comment->save();
-    
+
         return redirect()->route('admins.news.show', $comment->news_id)->with('message', 'Bình luận đã hủy phê duyệt');
     }
-    
-    
+
+
 
 
     public function edit($id)
@@ -91,11 +92,11 @@ class NewsController extends Controller
     }
     public function show($id)
     {
-        $news = News::with('category', 'comments')->findOrFail($id); 
+        $news = News::with('category', 'comments')->findOrFail($id);
         $commentCount = $news->comments->count();
-        return view('admins.news.show', compact('news','commentCount'));
+        return view('admins.news.show', compact('news', 'commentCount'));
     }
-    
+
     public function update(Request $request, $id)
     {
         $news = News::findOrFail($id);
@@ -110,7 +111,6 @@ class NewsController extends Controller
             'title.unique' => 'Tiêu đề này đã tồn tại, vui lòng chọn tiêu đề khác.',
             'title.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
             'content.required' => 'Nội dung là bắt buộc.',
-            // 'image.required' => 'Hình ảnh là bắt buộc.',
             'category_id.required' => 'Vui lòng chọn danh mục.',
             'image.image' => 'File tải lên phải là một hình ảnh.',
             'image.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg, webp, hoặc gif.',
@@ -131,7 +131,7 @@ class NewsController extends Controller
             'content' => $request->content,
             'image' => $imagePath,
             'author' => $request->author ?? 'admins',
-            'status' => $request->status ? 1:0,
+            'status' => $request->status ? 1 : 0,
             'category_id' => $request->category_id,
         ]);
 
@@ -144,10 +144,9 @@ class NewsController extends Controller
         if ($news->image) {
             Storage::disk('public')->delete($news->image);
         }
-    
+
         $news->delete();
-    
+
         return redirect()->route('admins.news.index')->with('success', 'Tin tức đã được xóa!');
     }
-    
 }

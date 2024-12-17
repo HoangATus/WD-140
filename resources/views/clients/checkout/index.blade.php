@@ -1,7 +1,6 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- mobile fix menu start -->
     <div class="mobile-menu d-md-none d-block mobile-cart">
         <ul>
             <li class="active">
@@ -40,9 +39,7 @@
             </li>
         </ul>
     </div>
-    <!-- mobile fix menu end -->
 
-    <!-- Breadcrumb Section Start -->
     <section class="breadcrumb-section pt-0">
         <div class="container-fluid-lg">
             <div class="row">
@@ -64,9 +61,7 @@
             </div>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
 
-    <!-- Checkout section Start -->
     <section class="checkout-section-2 section-b-space">
         @if (count($cart) > 0)
             <div class="container-fluid-lg">
@@ -153,37 +148,37 @@
                                     @endforeach
                                 </ul>
                                 <div class="summery-contain">
-    
+
                                     <div class="d-flex justify-content-between align-items-center my-2">
                                         <h5>
                                             <i class="fa-solid fa-ticket"></i> Mã giảm giá ATUS
                                         </h5>
                                         <a href="#" id="openModal">Chọn hoặc nhập mã</a>
                                     </div>
-    
+
                                     <div id="voucherModal" class="modal">
                                         <div class="modal-content">
                                             <span class="close">&times;</span>
                                             <h2 class="mb-4">Chọn ATUS Voucher</h2>
-    
+
                                             <div class="coupon-cart d-flex justify-content-between align-items-center">
                                                 <p class="m">Mã Voucher</p>
-    
+
                                                 <div class="mb-3 coupon-box input-group ms-2">
                                                     <input type="text" class="form-control" id="voucherCod"
-                                                        {{-- ... --}} placeholder="Vui lòng điền...">
+                                                        placeholder="Vui lòng điền...">
                                                     <button class="btn-apply" type="button" id="applyVoucherBt">Tìm
-                                                        {{-- .. --}}
+
                                                         Kiếm</button>
                                                 </div>
                                             </div>
                                             <div id="voucherInfoContaine" style="display: none;">
                                                 <h4 id="voucherNam"></h4>
                                                 <p id="voucherDiscoun"></p>
-    
-    
+
+
                                             </div>
-    
+
                                             <div class="voucher-list">
                                                 <h3>Chọn 1 Voucher</h3>
                                             </div>
@@ -195,7 +190,7 @@
                                                     style="background-color: rgb(27, 100, 125) ; color:rgb(255, 255, 255);">
                                                     Áp dụng</a>
                                             </div>
-    
+
                                         </div>
                                     </div>
                                 </div>
@@ -223,7 +218,7 @@
                                             VND</span>
                                     </li>
                                 </ul>
-    
+
                                 <div id="voucherDiscount" style="display: none;">
                                     <ul>
                                         <li class="d-flex justify-content-between align-items-center my-2">
@@ -231,7 +226,7 @@
                                         </li>
                                     </ul>
                                 </div>
-    
+
                                 <div id="pointsDiscountSection" style="display: none;">
                                     <ul>
                                         <li class="d-flex justify-content-between align-items-center">
@@ -242,36 +237,38 @@
                                 <input type="hidden" id="voucherDiscountInput" name="voucherDiscount" value="0">
                                 <input type="hidden" id="pontsDiscountInput" name="pointsDiscount" value="0">
                                 <input type="hidden" id="selectedVoucher" name="selectedVoucher">
-    
+
                                 <ul class="summery-total ">
-                                    <li class="d-flex justify-content-between align-items-center"><strong>Thành tiền: </strong>
+                                    <li class="d-flex justify-content-between align-items-center"><strong>Thành tiền:
+                                        </strong>
                                         <span class="price" id="finalTotal">{{ number_format($total, 0, ',', '.') }}
                                             VND</span>
                                     </li>
                                 </ul>
                                 <input type="hidden" name="initial_total" value="{{ $total }}">
-                                <input type="hidden" id="finalTotalInput" name="final_total" value="{{ $total }}">
+                                <input type="hidden" id="finalTotalInput" name="final_total"
+                                    value="{{ $total }}">
                                 <style>
                                     .no-scroll {
                                         overflow: hidden;
                                         height: 100vh;
                                     }
-    
+
                                     .disabled-voucher {
                                         opacity: 0.5;
-    
+
                                     }
-    
+
                                     .voucher-warning {
                                         color: red;
                                         font-size: 14px;
                                         margin-top: 5px;
                                     }
-    
+
                                     .hi {
                                         position: absolute
                                     }
-    
+
                                     .price {
                                         color: red;
                                     }
@@ -283,14 +280,12 @@
                     </div>
                     </form>
                     <script>
-                        // Get the checkbox element for applying loyalty points
                         let checkbox = document.getElementById('applied_loyalty_points');
 
                         checkbox.addEventListener('change', function() {
-                            // Determine applied loyalty points based on checkbox status
+
                             let appliedLoyaltyPoints = this.checked ? Math.min(availablePoints, initialTotal) : 0;
 
-                            // Send AJAX request to update the applied loyalty points in the session
                             fetch('/checkout/apply-loyalty-points', {
                                     method: 'POST',
                                     headers: {
@@ -305,7 +300,7 @@
                                 .then(response => response.json())
                                 .then(data => {
                                     if (data.success) {
-                                        // Update the total displayed in the frontend
+
                                         document.getElementById('total_display').textContent = data.new_total;
                                     } else {
                                         console.error('Failed to apply loyalty points');
@@ -378,8 +373,6 @@
 
                                     <div class="order-contain">
                                         <h3 class="theme-color">Đặt hàng thành công</h3>
-                                        {{-- <h5 class="text-content">Thanh toán thành công và đơn hàng của bạn đang trên đường</h5> --}}
-                                        {{-- <h6>Mã giao dịch: 1708031724431131</h6> --}}
 
 
                                     </div>
@@ -405,7 +398,6 @@
             </section>
         @endif
     </section>
-    <!-- Checkout section End -->
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -619,9 +611,7 @@
                     }
                 } else if (discountType === 'fixed') {
                     voucherDiscount = discountValue;
-                    // if (voucherDiscount > maxDiscountAmount) {
-                    //     voucherDiscount = maxDiscountAmount;
-                    // }
+
                     if (voucherDiscount > totalAmount) {
                         voucherDiscount = totalAmount;
                     }
@@ -653,7 +643,7 @@
                     .then(response => response.json())
                     .then(data => {
                         const voucherInfoContainer = document.getElementById('voucherInfoContaine');
-                        voucherInfoContainer.innerHTML = ''; // Xóa thông tin cũ
+                        voucherInfoContainer.innerHTML = '';
 
                         if (data.success) {
                             const voucherItem = document.createElement('div');
@@ -695,11 +685,6 @@
                     });
             });
 
-
-            //         const voucherModal = document.getElementById('voucherModal');
-            // document.querySelector('.close-modal').onclick = function() {
-            //     voucherModal.style.display = 'none';
-            // };
 
             window.onclick = function(event) {
                 if (event.target === voucherModal) {

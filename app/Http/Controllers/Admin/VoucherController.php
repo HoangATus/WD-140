@@ -117,7 +117,7 @@ class VoucherController extends Controller
             'discount_value' => 'required_if:discount_type,fixed|nullable|numeric|min:0',
             'discount_percent' => 'required_if:discount_type,percent|nullable|numeric|min:1|max:100',
             'max_discount_amount' => 'required_if:discount_type,percent|nullable|numeric|min:0',
-            'min_order_amount' => 'required|numeric|min:0',
+            'min_order_amount' => 'required_if:discount_type,fixed|nullable|numeric|min:0',
             'quantity' => 'required|integer|min:1',
             'is_public' => 'required|boolean',
             'is_active' => 'required|boolean',
@@ -162,6 +162,8 @@ class VoucherController extends Controller
             'users.required_if' => 'Danh sách người dùng là bắt buộc khi phạm vi sử dụng là giới hạn.',
             'users.array' => 'Danh sách người dùng phải là một mảng.',
             'users.*.exists' => 'Người dùng được chọn không tồn tại.',
+            'discount_percent.min' => 'Giảm giá phần trăm phải lớn hơn hoặc bằng 1%.',
+            'discount_percent.max' => 'Giảm giá phần trăm không được vượt quá 100%.',
         ]);
 
         if ($validator->fails()) {
@@ -188,9 +190,9 @@ class VoucherController extends Controller
         ]);
 
         if ($request->usage_type == 'restricted') {
-            $voucher->users()->sync($request->users); 
+            $voucher->users()->sync($request->users);
         } else {
-            $voucher->users()->detach(); 
+            $voucher->users()->detach();
         }
 
         return redirect()->route('admins.vouchers.index')->with('success', 'Voucher đã được cập nhật thành công!');

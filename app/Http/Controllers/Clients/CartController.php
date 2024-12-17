@@ -17,10 +17,8 @@ class CartController extends Controller
         $user = Auth::user();
         $pointValue = 1;
 
-        $totalAfterDiscount = session('cart_total', 0); // Lấy tổng tiền giỏ hàng từ session
+        $totalAfterDiscount = session('cart_total', 0);
 
-
-        // Lưu vào session
         session([
             'applied_loyalty_points' => $appliedPoints,
             'checkout_total' => $totalAfterDiscount
@@ -32,28 +30,22 @@ class CartController extends Controller
     {
         $userId = Auth::id();
         $cart = session()->get('cart_' . $userId, []);
-
-        // Lấy danh sách các variant ID từ giỏ hàng
         $variantIds = array_keys($cart);
 
-        // Truy vấn tồn kho từ cơ sở dữ liệu
         $variants = Variant::whereIn('id', $variantIds)->get();
 
         foreach ($cart as $variantId => &$item) {
             $variant = $variants->firstWhere('id', $variantId);
 
-            // Đảm bảo thông tin tồn kho được thêm vào từng item trong giỏ hàng
             $item['stock'] = $variant ? $variant->quantity : 0;
         }
 
-        // Lưu lại giỏ hàng đã cập nhật
         session()->put('cart_' . $userId, $cart);
 
         $sum = array_reduce($cart, function ($carry, $item) {
             return $carry + ($item['price'] * $item['quantity']);
         }, 0);
 
-        // Các biến khác
         $user = User::find($userId);
         $loyaltyPoints = $user ? $user->points : 0;
         $appliedPoints = session()->get('applied_loyalty_points', 0);
@@ -101,12 +93,10 @@ class CartController extends Controller
             return response()->json(['error' => 'Sản phẩm không tồn tại.'], 404);
         }
 
-        // Kiểm tra tồn kho
         if ($newQuantity > $variant->quantity) {
             return response()->json(['error' => 'Số lượng không được vượt quá tồn kho hiện tại.'], 400);
         }
 
-        // Cập nhật giỏ hàng
         $userId = Auth::id();
         $cart = session()->get('cart_' . $userId, []);
 
@@ -157,9 +147,6 @@ class CartController extends Controller
         return response()->json(['message' => 'Sản phẩm đã được thêm vào giỏ hàng thành công.'], 200);
     }
 
-    /**
-     * Xóa sản phẩm khỏi giỏ hàng
-     */
     public function remove(Request $request)
     {
         $userId = Auth::id();
@@ -180,9 +167,6 @@ class CartController extends Controller
         return response()->json(['message' => 'Sản phẩm không tồn tại trong giỏ hàng.'], 404);
     }
 
-    /**
-     * Đếm tổng số lượng sản phẩm trong giỏ hàng
-     */
     public function count()
     {
         $userId = Auth::id();

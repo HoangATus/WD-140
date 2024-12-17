@@ -17,8 +17,6 @@ class ForgotPasswordController extends Controller
     // use SendsPasswordResetEmails;
 
     /**
-     * Hiển thị form nhập email.
-     *
      * @return \Illuminate\View\View
      */
     public function showLinkRequestForm()

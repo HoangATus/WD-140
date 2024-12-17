@@ -53,30 +53,28 @@
         </div>
     </div>
     <style>
-        /* Ẩn dấu mũi tên nếu có */
         .theme-form-select {
             position: relative;
         }
 
         .theme-form-select::after {
             display: none;
-            /* Ẩn pseudo-element thường dùng để tạo dấu mũi tên */
+
         }
 
-        /* Tùy chỉnh lại phần hiển thị */
         .language-display,
         .currency-display {
             display: flex;
             align-items: center;
             gap: 8px;
-            /* Khoảng cách giữa icon và chữ */
+
             font-size: 16px;
-            /* Cỡ chữ tùy chỉnh */
+
             font-weight: bold;
-            /* Làm đậm chữ nếu cần */
+
         }
 
-        /* Tùy chỉnh hình ảnh */
+
         .language-display img {
             width: 24px;
             height: 24px;
@@ -115,11 +113,10 @@
                         </div>
 
                         <style>
-                            /* Tùy chỉnh cho thanh tìm kiếm */
                             .search-box {
                                 max-width: 400px;
                                 margin: 0 auto;
-                                /* Canh giữa */
+
                                 padding: 10px;
                             }
 
@@ -127,43 +124,41 @@
                                 display: flex;
                                 align-items: center;
                                 border: 2px solid #007bff;
-                                /* Viền xanh nổi bật */
+
                                 border-radius: 30px;
                                 overflow: hidden;
-                                /* Bo tròn các góc */
+
                                 background-color: #fff;
                                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                                /* Hiệu ứng bóng đổ */
+
                             }
 
-                            /* Ô nhập liệu */
                             .search-input {
                                 border: none;
                                 outline: none;
-                                padding: 10px 20px;
+                                padding: 8px 15px;
                                 font-size: 16px;
                                 flex: 1;
                                 border-top-left-radius: 50px;
-                                /* Bo góc trên trái */
+
                                 border-bottom-left-radius: 30px;
-                                /* Bo góc dưới trái */
+
                             }
 
-                            /* Nút tìm kiếm */
                             .search-btn {
                                 background-color: #2d5681;
                                 color: #fff;
                                 border: none;
                                 padding: 11px 21px;
-                                /* Tăng padding để nút rộng hơn */
+
                                 cursor: pointer;
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
                                 border-top-right-radius: 30px;
-                                /* Bo góc trên phải */
+
                                 border-bottom-right-radius: 30px;
-                                /* Bo góc dưới phải */
+
                                 transition: background-color 0.3s ease;
                             }
 
@@ -172,12 +167,10 @@
                                 height: 22px;
                             }
 
-                            /* Hiệu ứng hover cho nút tìm kiếm */
                             .search-btn:hover {
                                 background-color: #0056b3;
                             }
 
-                            /* Tùy chỉnh hiệu ứng khi focus vào ô tìm kiếm */
                             .search-input:focus {
                                 background-color: #f8f9fa;
                             }
@@ -216,15 +209,12 @@
                                             display: flex;
                                             justify-content: center;
                                             padding: 0;
-                                            gap: 30px;
-                                            /* Điều chỉnh khoảng cách tùy ý */
+                                            gap: 23px;
+
                                         }
 
                                         ul.text-center .nav-link {
                                             font-size: 18px;
-                                            /* Điều chỉnh cỡ chữ tùy ý, ví dụ: 18px */
-                                            /* font-weight: bold; */
-                                            /* Tùy chọn: làm chữ đậm hơn nếu cần */
                                         }
                                     </style>
 

@@ -5,11 +5,9 @@
 @endsection
 
 @section('css')
-
 @endsection
 
 @section('content')
-    <!-- New Category Add Start -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -20,22 +18,15 @@
                                 <div class="card-header-2">
                                     <h5>Tạo mới danh mục</h5>
                                 </div>
-                                {{-- @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif --}}
-                                <form action="{{ route('admins.categories.store') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('admins.categories.store') }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <div class="theme-form theme-form-2 mega-form">
                                         <div class="mb-4 row align-items-center">
                                             <label class="form-label-title col-sm-3 mb-0"> Tên</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" type="text" name="name" placeholder="Nhập tên danh mục" value="{{ old('name') }}">
+                                                <input class="form-control" type="text" name="name"
+                                                    placeholder="Nhập tên danh mục" value="{{ old('name') }}">
                                                 @error('name')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -46,11 +37,11 @@
                                             <label class="col-sm-3 col-form-label form-label-title">Ảnh</label>
                                             <div class="form-group col-sm-9">
                                                 <input type="file" class="form-control" name="cover">
-                                               
+
                                             </div>
                                         </div>
 
-                                      
+
 
                                         <div class="row">
                                             <div class="col-sm-9 offset-sm-3">
@@ -67,9 +58,7 @@
             </div>
         </div>
     </div>
-    <!-- New Category Add End -->
 @endsection
 
 @section('js')
-
 @endsection

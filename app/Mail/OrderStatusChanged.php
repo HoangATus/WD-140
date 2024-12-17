@@ -25,9 +25,7 @@ class OrderStatusChanged extends Mailable
     public function build()
     {
         return $this->subject('Cập nhật trạng thái đơn hàng của bạn #'.$this->order->order_code)  
-                    ->to($this->order->user->user_email)  
-                    // ->cc('cc@example.com')           
-                    // ->bcc('bcc@example.com')         
+                    ->to($this->order->user->user_email)         
                     ->view('emails.order-status-changed')
                     ->with([
                         'orderCode' => $this->order->order_code,

@@ -1,7 +1,6 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Phần Điều Hướng Bắt Đầu -->
     <section class="breadcrumb-section pt-0">
         <div class="container-fluid-lg">
             <div class="row">
@@ -23,10 +22,7 @@
             </div>
         </div>
     </section>
-    <!-- Phần Điều Hướng Kết Thúc -->
 
-
-    <!-- Phần Bảng Điều Khiển Người Dùng Bắt Đầu -->
     <section class="user-dashboard-section section-b-space">
         <div class="container-fluid-lg">
             <div class="row">
@@ -75,22 +71,6 @@
                                 </a>
                             </li>
 
-
-                            {{-- <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-wishlist-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-wishlist" type="button"><i data-feather="heart"></i>
-                                Danh Sách Yêu Thích</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-card-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-card" type="button" role="tab"><i
-                                    data-feather="credit-card"></i> Thẻ Đã Lưu</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-address-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-address" type="button" role="tab"><i
-                                    data-feather="map-pin"></i>Địa Chỉ</button>
-                        </li> --}}
                         </ul>
                     </div>
                 </div>
@@ -141,48 +121,6 @@
                                         </h6>
                                     </div>
 
-                                    {{-- <div class="total-box">
-                                        <div class="row g-sm-4 g-3">
-                                            <div class="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
-                                                <div class="total-contain">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/order.svg"
-                                                        class="img-1 blur-up lazyload" alt="">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/order.svg"
-                                                        class="blur-up lazyload" alt="">
-                                                    <div class="total-detail">
-                                                        <h5>Tổng đơn hàng</h5>
-                                                        <h3>3658</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
-                                                <div class="total-contain">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/pending.svg"
-                                                        class="img-1 blur-up lazyload" alt="">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/pending.svg"
-                                                        class="blur-up lazyload" alt="">
-                                                    <div class="total-detail">
-                                                        <h5>Tổng số đơn hàng</h5>
-                                                        <h3>254</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-xxl-4 col-lg-6 col-md-4 col-sm-6">
-                                                <div class="total-contain">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/wishlist.svg"
-                                                        class="img-1 blur-up lazyload" alt="">
-                                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/svg/wishlist.svg"
-                                                        class="blur-up lazyload" alt="">
-                                                    <div class="total-detail">
-                                                        <h5>Tổng số danh sách yêu thích</h5>
-                                                        <h3>32158</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
                                     @if (session('successy'))
                                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                                             {{ session('successy') }}
@@ -190,7 +128,7 @@
                                     @endif
 
                                     <div class="dashboard-title">
-                                        {{-- <h3>Thông tin tài khoản</h3> --}}
+
                                     </div>
 
 
@@ -206,7 +144,6 @@
                                                         class="text-title">{{ $user->user_name }}</b></h6>
                                                 <h6 class="text-content">Email: <b
                                                         class="text-title">{{ $user->user_email }}</b></h6>
-                                                {{-- <a href="javascript:void(0)">Change Password</a> --}}
                                             </div>
                                         </div>
 
@@ -258,5 +195,4 @@
             </div>
         </div>
     </section>
-    <!-- User Dashboard Section End -->
 @endsection

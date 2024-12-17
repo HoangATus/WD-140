@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     const PATH_VIEW = 'admins.banners.';
     const PATH_UPLOAD = 'banners';
     public function index()
@@ -22,19 +19,11 @@ class BannerController extends Controller
         $banners = Banner::query()->latest('id')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('banners'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $categories = Category::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreBannerRequest $request)
     {
         $data = $request->except('image');
@@ -51,28 +40,17 @@ class BannerController extends Controller
 
         return redirect()->route('admins.banners.index')->with('message', 'Thêm mới thành công');
     }
-
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Banner $banner)
     {
         return view(self::PATH_VIEW . __FUNCTION__, compact('banner'));
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Banner $banner)
     {
         $categories = Category::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('banner', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(UpdateBannerRequest $request, Banner $banner)
     {
         $data = $request->except('image');
@@ -94,9 +72,7 @@ class BannerController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     */
+ 
     public function destroy(Banner $banner)
     {
         $activeBannersCount = Banner::where('is_active', 1)->count();

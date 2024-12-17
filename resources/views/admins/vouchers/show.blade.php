@@ -48,7 +48,7 @@
                 <label>Phần Trăm Giảm Giá (%):</label>
                 <input type="number" name="discount_percent"
                     class="form-control @error('discount_percent') is-invalid @enderror"
-                    value="{{ old('discount_percent', $voucher->discount_percent) }}" min="1" max="100"
+                    value="{{ old('discount_percent', $voucher->discount_percent) }}"  disabled
                     id="discount-percent">
             </div>
 
@@ -59,12 +59,13 @@
                     value="{{ old('max_discount_amount', $voucher->max_discount_amount) }}" id="max-discount-amount">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="min-discount-amount-div" style="display: none;">
                 <label for="min_order_amount">Giá tối thiểu được giảm: </label>
-                <input type="text" name="min_order_amount"
-                    class="form-control @error('min_order_amount') is-invalid @enderror" disabled
-                    value="{{ old('min_order_amount', $voucher->min_order_amount) }}" id="min_order_amount">
+                <input type="text" name="min_order_amount" 
+                    class="form-control @error('min_order_amount') is-invalid @enderror"
+                    value="{{ old('min_order_amount') }}" id="min_order_amount">
             </div>
+
 
 
             <div class="form-group">
@@ -169,16 +170,19 @@
             const discountValueDiv = document.getElementById('discount-value-div');
             const discountPercentDiv = document.getElementById('discount-percent-div');
             const maxDiscountAmountDiv = document.getElementById('max-discount-amount-div');
+            const minDiscountAmountDiv = document.getElementById('min-discount-amount-div');
 
             function toggleDiscountFields() {
                 const discountType = discountTypeSelect.value;
 
                 if (discountType === 'fixed') {
                     discountValueDiv.style.display = 'block';
+                    minDiscountAmountDiv.style.display = 'block';
                     discountPercentDiv.style.display = 'none';
                     maxDiscountAmountDiv.style.display = 'none';
                 } else if (discountType === 'percent') {
                     discountValueDiv.style.display = 'none';
+                    minDiscountAmountDiv.style.display = 'none';
                     discountPercentDiv.style.display = 'block';
                     maxDiscountAmountDiv.style.display = 'block';
                 }
