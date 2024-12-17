@@ -6,6 +6,7 @@ use App\Mail\OrderSuccessful;
 use App\Models\Order;
 use App\Models\Variant;
 use App\Models\OrderItem;
+use App\Models\Product;
 use App\Models\User;
 use App\Models\UserVoucher;
 use App\Models\Voucher;
@@ -33,7 +34,7 @@ class CheckoutController extends Controller
             ->where('end_date', '>=', now())
             ->where('quantity', '>', 0)
             ->whereHas('users', function ($query) use ($user) {
-                $query->where('user_voucher.user_id', $user->id); // Sửa để dùng 'id' chính xác
+                $query->where('user_voucher.user_id', $user->user_id); // Sửa để dùng 'id' chính xác
             })
             ->get();
         // dd(session()->all());
@@ -135,7 +136,7 @@ class CheckoutController extends Controller
         $vnp_TmnCode = env('VNP_TMN_CODE');
         $vnp_HashSecret = env('VNP_HASH_SECRET');
         $vnp_Url = env('VNP_URL');
-        $vnp_ReturnUrl = env('VNP_RETURN_URL');
+        $vnp_ReturnUrl = route('vnpay.callback');
 
         $vnp_TxnRef = $order->order_code;
         $vnp_OrderInfo = "Thanh toán đơn hàng " . $order->order_code;
@@ -180,6 +181,77 @@ class CheckoutController extends Controller
 
         return redirect()->away($vnp_Url);
     }
+    public function vnpayCallback(Request $request)
+    {
+        try {
+            $vnp_HashSecret = env('VNP_HASH_SECRET');
+            $inputData = $request->all();
+            $vnp_SecureHash = $inputData['vnp_SecureHash'];
+            unset($inputData['vnp_SecureHash']);
+            unset($inputData['vnp_SecureHashType']);
+
+            ksort($inputData);
+            $hashData = "";
+            foreach ($inputData as $key => $value) {
+                $hashData .= '&' . urlencode($key) . '=' . urlencode($value);
+            }
+            $hashData = trim($hashData, '&');
+            $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+
+            if ($secureHash !== $vnp_SecureHash) {
+                return redirect()->back()->with('error', 'Xác thực không thành công.');
+            }
+
+            $orderCode = $inputData['vnp_TxnRef'];
+            $order = Order::where('order_code', $orderCode)->first();
+
+            if (!$order) {
+                return redirect()->back()->with('error', 'Đơn hàng không tồn tại.');
+            }
+
+            if ($inputData['vnp_ResponseCode'] === '00') {
+                $order->update(['payment_status' => 'paid']);
+                return redirect()->route('checkout.success', ['order' => $order->id])
+                    ->with('success', 'Thanh toán thành công!');
+            } else {
+                $order->update(['payment_status' => 'pending']);
+                return redirect()->route('checkout.pending', ['order' => $order->id])
+                    ->with('errorss', 'Thanh toán ko thành công!');
+            }
+        } catch (\Exception $e) {
+            Log::error('Lỗi khi xử lý callback VNPay: ' . $e->getMessage());
+            return redirect()->route('checkout.checkout2')->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
+        }
+    }
+    public function pending(Order $order)
+    {
+        if ($order->payment_status === 'paid') {
+            return redirect()->route('home')->with('error', 'Đơn hàng này đã được thanh toán.');
+        }
+
+        if ($order->status === 'canceled') {
+            return redirect()->route('home')->with('error', 'Đơn hàng này đã bị hủy.');
+        }
+        if (
+            $order->payment_method === 'online'
+            && $order->payment_status === 'pending'
+            && $order->created_at <= Carbon::now()->subHours(24)
+        ) {
+            $order->payment_status = 'failed';
+            $order->status = 'canceled';
+            $order->save();
+        }
+        $remainingTime = Carbon::parse($order->created_at)->addDay()->diffInSeconds(now());
+
+        $categoryIds = $order->orderItems->pluck('product.category_id')->unique();
+
+        $relatedProducts = Product::whereIn('category_id', $categoryIds)
+            ->whereNotIn('id', $order->orderItems->pluck('product_id'))
+            ->limit(10)
+            ->get();
+
+        return view('clients.checkout.pending', compact('order', 'remainingTime', 'relatedProducts'));
+    }
 
     function generateUniqueOrderCode()
     {
@@ -189,11 +261,7 @@ class CheckoutController extends Controller
 
         return $orderCode;
     }
-    public function show($id)
-    {
-        $voucher = Voucher::findOrFail($id);
-        return view('clients.checkout.voucher', compact('voucher'));
-    }
+
 
     public function checkVoucher($code)
     {
@@ -225,7 +293,7 @@ class CheckoutController extends Controller
                 'voucher' => [
                     'id' => $voucher->id,
                     'code' => $voucher->code,
-                    'discount' => $voucher->discount_percent,
+                    'discount_percent' => $voucher->discount_percent,
                     'max_discount_amount' => $voucher->max_discount_amount,
                     'discount_value' => $voucher->discount_value,
                     'discount_type' => $voucher->discount_type,
@@ -277,7 +345,6 @@ class CheckoutController extends Controller
             return response()->json(['success' => false, 'message' => 'Voucher không tồn tại.']);
         }
 
-        // $user = auth()->user();
         $userId = Auth::id();
         $user = User::find($userId);
 
@@ -308,14 +375,21 @@ class CheckoutController extends Controller
 
         $variantId = $request->input('variant_id');
         $quantity = $request->input('quantity');
+        $variant = Variant::find($variantId);
 
-        if (!$variantId || !$quantity || $quantity < 1) {
-            return redirect()->route('home')->with('error', 'Thông tin không hợp lệ.');
+        if (!$variant) {
+            return redirect()->route('products.index')
+                ->with('error', 'Không tìm thấy sản phẩm.');
         }
 
-        $variant = Variant::find($variantId);
-        if (!$variant || $variant->quantity < $quantity) {
-            return redirect()->route('home')->with('error', 'Sản phẩm không đủ số lượng.');
+        if (!$quantity || $quantity < 1) {
+            return redirect()->route('products.show', ['slug' => $variant->product->slug])
+                ->with('error', 'Thông tin không hợp lệ.');
+        }
+
+        if ($variant->quantity < $quantity) {
+            return redirect()->route('products.show', ['slug' => $variant->product->slug])
+                ->with('error', 'Sản phẩm không đủ số lượng.');
         }
 
         $user = auth()->user();
@@ -357,11 +431,14 @@ class CheckoutController extends Controller
             $user = User::find($userId);
             $variant = Variant::with(['color', 'size'])->find($request->variant_id);
 
-            if ($variant->quantity < $request->quantity) {
-                return redirect()->route('checkout.checkout2')->with('error', 'Số lượng sản phẩm không đủ.');
-            }
 
-            $paymentStatus = $request->payment_method == 'online' ? 'paid' : 'pending';
+            if ($variant->quantity < $request->quantity) {
+                return redirect()->route('products.show', ['slug' => $variant->product->slug])
+                    ->with('error', 'Số lượng sản phẩm không đủ.');
+            }
+            if ($request->payment_method == 'online' && $request->final_total < 5000) {
+                return redirect()->back()->with('error', 'Đơn hàng thanh toán , Đơn hàng phải có Thành tiền tối thiểu là 5,000 VND.');
+            }
             $order = Order::create([
                 'user_id' => $user->user_id,
                 'order_code' => $this->generateUniqueOrderCode(),
@@ -370,14 +447,9 @@ class CheckoutController extends Controller
                 'address' => $request->address,
                 'notes' => $request->notes,
                 'total' => $request->final_total,
-                'discount' => $request->initial_total - $request->final_total,
-
-                'payment_status' => $paymentStatus,
-
                 'points_discount' => $request->pointsDiscount ?? 0,
                 'voucher_discount' => $request->voucherDiscount ?? 0,
-
-
+                'status' => 'pending',
                 'payment_method' => $request->payment_method,
                 'voucher_id' => $request->selectedVoucher,
             ]);

@@ -31,6 +31,7 @@ class Order extends Model
     public static $payment = [
         'pending' => 'Chờ Thanh Toán',
         'paid' => 'Đã Thanh Toán',
+        'failed' => 'Thanh Toán thất bại',
     ];
     public function getStatussAttribute()
     {
@@ -49,7 +50,6 @@ class Order extends Model
         'notes',
         'total',
         'status',
-        'discount',
         'points_discount',
         'voucher_discount',
         'payment_method',

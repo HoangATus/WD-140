@@ -13,6 +13,7 @@ use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Clients\CommentController;
 use App\Http\Controllers\Clients\FavoriteController;
 use App\Http\Controllers\Clients\OrderController;
@@ -65,7 +66,7 @@ Route::middleware(['web'])->group(function () {
     Route::post('/checkout/apply-loyalty-points', [CheckoutController::class, 'applyLoyaltyPoints'])->name('checkout.apply.loyalty.points');
     Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints'])->name('cart.applyLoyaltyPoints');
     Route::post('/cart/proceedToCheckout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
-    
+
 
 
     // Thanh Toán
@@ -75,12 +76,16 @@ Route::middleware(['web'])->group(function () {
 
     Route::get('/checkout2', [CheckoutController::class, 'checkout2'])->name('checkout.checkout2');
     Route::post('/checkout2/process2', [CheckoutController::class, 'process2'])->name('checkout2.process2');
-    Route::get('/checkout2/{id}/voucher', [CheckoutController::class, 'detailVoucher'])->name('clients.checkout.voucher');
-    Route::get('/voucher-details/{id}', [CheckoutController::class, 'show'])->name('clients.checkout.voucher');
+    Route::get('/voucher-details/{id}', [CheckoutController::class, 'detailVoucher'])->name('clients.checkout.voucher');
     Route::get('/user-vouchers', [CheckoutController::class, 'getUserVouchers']);
     Route::get('/apply-voucher/{id}', [CheckoutController::class, 'applyVoucher']);
     Route::get('/check-voucher/{code}', [CheckoutController::class, 'checkVoucher'])->name('check.voucher');
     Route::post('/save-voucher', [CheckoutController::class, 'saveVoucher']);
+    Route::get('/vnpay-callback', [CheckoutController::class, 'vnpayCallback'])->name('vnpay.callback');
+    Route::get('checkout2/pending/{order}', [CheckoutController::class, 'pending'])->name('checkout.pending');
+    Route::get('my-orders/{id}/retry-payment', [OrderController::class, 'retryPayment'])->name('clients.retryPayment');
+    Route::post('my-orders/{id}/process-retry-payment', [OrderController::class, 'processRetryPayment'])->name('orders.processRetryPayment');
+    
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
@@ -133,8 +138,10 @@ Route::get('/register', [AuthController::class, 'showFormRegister'])->name('regi
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 // Route cho đặt lại mật khẩu
-Route::get('/password/reset', [AuthController::class, 'showformRequest'])->name('password.request');
-
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [ForgotPasswordController::class, 'reset'])->name('password.update');
 // Route cho đăng xuất
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirmReceipt'])->name('orders.confirm-receipt');
@@ -146,3 +153,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/favorites', [FavoriteController::class, 'store'])->name('clients.favorites.store');
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('clients.favorites.index');
 });
+
+// route trang gioi thieu
+Route::get('/gioi-thieu', function () {
+    return view('clients.introduce');
+})->name('about');

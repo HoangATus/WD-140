@@ -62,10 +62,13 @@
                                                         <span class="badge badge-info">Đã xác nhận</span>
                                                     @elseif ($order->status == 'shipped')
                                                         <span class="badge badge-primary">Đang giao hàng</span>
+                                                    @elseif ($order->status == 'failed')
+                                                        <span class="badge bg-secondary">Giao Hàng Thất Bại</span>
                                                     @elseif ($order->status == 'completed')
                                                         <span class="badge badge-success">Hoàn thành</span>
                                                     @elseif ($order->status == 'canceled')
                                                         <span class="badge badge-danger">Đã hủy</span>
+                                                        <p class="text-danger">({{ $order->cancellation_reason }})</p>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -235,7 +238,8 @@
                                                                 {{ $items->pluck('variant_name')->join(', ') }}</p>
                                                         </div>
 
-                                                        <form action="{{ route('orders.rate', $productItem->product_id) }}"
+                                                        <form
+                                                            action="{{ route('orders.rate', $productItem->product_id) }}"
                                                             method="POST"
                                                             onsubmit="return validateRating({{ $productItem->product_id }});">
                                                             @csrf
@@ -275,11 +279,22 @@
                                     <div class="d-flex justify-content-center align-items-center mt-4">
                                         @if ($order->status === 'pending')
                                             <a href="{{ route('orders.cancel.form', $order->id) }}"
-                                                class="btn btn-danger me-3"
-                                                style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">Hủy Đơn
-                                                Hàng</a>
+                                                class="btn btn-danger me-3 btn-cancel-order"
+                                                data-payment-method="{{ $order->payment_method }}"
+                                                data-payment-status="{{ $order->payment_status }}"
+                                                style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">
+                                                Hủy Đơn Hàng
+                                            </a>
                                         @endif
 
+
+                                        @if (in_array($order->payment_method, ['online']) && $order->payment_status == 'pending' && $order->status != 'canceled')
+                                            <a href="{{ route('clients.retryPayment', $order->id) }}"
+                                                class="btn btn-warning me-3"
+                                                style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">
+                                                Thanh Toán Lại
+                                            </a>
+                                        @endif
 
                                         @if ($order->status == 'canceled')
                                             <form action="{{ route('orders.reorder', $order->id) }}" method="POST"
@@ -363,8 +378,40 @@
                 });
             });
         });
+        document.querySelectorAll('.btn-cancel-order').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Ngăn chặn hành động mặc định
+
+                const url = this.href; // Lấy URL từ thuộc tính href
+                const isOnlinePaid = this.dataset.paymentMethod === 'online' && this.dataset
+                    .paymentStatus === 'paid';
+
+                let message = 'Bạn có chắc chắn muốn hủy đơn hàng này không?';
+                if (isOnlinePaid) {
+                    message =
+                        'Đơn hàng đã thanh toán online. Cửa hàng sẽ không hoàn tiền nếu bạn hủy. Bạn có chắc chắn muốn tiếp tục không?';
+                }
+
+                // Hiển thị hộp thoại xác nhận
+                Swal.fire({
+                    title: 'Xác nhận hủy đơn hàng',
+                    text: message,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Đồng ý',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url; // Tiếp tục đến URL
+                    }
+                });
+            });
+        });
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         .star {

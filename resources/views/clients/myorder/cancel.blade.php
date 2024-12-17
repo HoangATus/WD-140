@@ -21,7 +21,7 @@
                             <div class="form-group">
                                 <label for="cancellation_reason" class="font-weight-bold">Lý do hủy đơn hàng:</label>
                                 <textarea name="cancellation_reason" id="cancellation_reason"
-                                    class="form-control @error('cancellation_reason') is-invalid @enderror" rows="5" required
+                                    class="form-control @error('cancellation_reason') is-invalid @enderror" rows="5"
                                     placeholder="Nhập lý do bạn muốn hủy đơn hàng">{{ old('cancellation_reason') }}</textarea>
 
                                 @error('cancellation_reason')

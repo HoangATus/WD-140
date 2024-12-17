@@ -50,11 +50,6 @@
                                     <div class="position-relative">
                                         <img src="../assets/images/inner-page/user/1.jpg"
                                             class="blur-up lazyload update_img" alt="">
-                                        <div class="cover-icon">
-                                            <i class="fa-solid fa-pen">
-                                                <input type="file" onchange="readURL(this,0)">
-                                            </i>
-                                        </div>
                                     </div>
                                 </div>
 

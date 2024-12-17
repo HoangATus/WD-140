@@ -35,7 +35,7 @@ class ShopController extends Controller
     public function index()
 {
     // Lấy 10 sản phẩm mới nhất cùng với các biến thể
-    $products = Product::with('variants')->latest()->take(10)->get();
+    $products = Product::with('variants')->latest()->take(12)->get();
     
     // Lấy các sản phẩm bán chạy dựa trên trạng thái 'delivered' và 'completed'
     $bestSellingProducts = Product::with('variants')
@@ -45,7 +45,7 @@ class ShopController extends Controller
         ->whereIn('orders.status', ['delivered', 'completed'])
         ->groupBy('products.id')
         ->orderByRaw('SUM(order_items.quantity) DESC')
-        ->take(5)
+        ->take(6)
         ->get();
 
     // Lấy các banner đang active
@@ -65,24 +65,26 @@ class ShopController extends Controller
     public function blog()
     {
         $hotNews = News::where('status', 1)->orderBy('view_count', 'desc')->first();
-        $relatedNews = News::where('status', 1)
-            ->where('id', '!=', $hotNews->id)
-            ->orderBy('created_at', 'desc')
-            ->take(3)
-            ->get();
-
-        $promotions = News::where('category_id', 1) 
+        if (!$hotNews) {
+            $relatedNews = collect(); 
+        } else {
+            $relatedNews = News::where('status', 1)
+                ->where('id', '!=', $hotNews->id)
+                ->orderBy('created_at', 'desc')
+                ->take(3)
+                ->get();
+        }
+        $promotions = News::where('category_id', 1)
             ->where('status', 1)
             ->orderBy('created_at', 'desc')
             ->take(3)
             ->get();
-
+    
         $popularNews = News::where('status', 1)
             ->orderBy('view_count', 'desc')
-            // ->take(10)
             ->get()
-            ->chunk(2); 
-
+            ->chunk(2);
+    
         $album = News::where('status', 1)
             ->orderBy('created_at', 'desc')
             ->take(3)
@@ -95,10 +97,9 @@ class ShopController extends Controller
                 ->get();
             return $category;
         });
-
-
+    
         return view('clients.blog', compact('hotNews', 'relatedNews', 'album', 'categories', 'promotions', 'popularNews'));
-    }
+    }    
 
     public function blogDetail($slug)
     {
@@ -112,7 +113,7 @@ class ShopController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
-        $promotions = News::where('status', 1)
+        $promotions = News::where('status', 1)  
             ->orderBy('created_at', 'desc')
             ->take(3)
             ->get();
