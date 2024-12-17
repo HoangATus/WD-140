@@ -64,6 +64,8 @@
                                                         <span class="badge badge-primary">Đang giao hàng</span>
                                                     @elseif ($order->status == 'failed')
                                                         <span class="badge bg-secondary">Giao Hàng Thất Bại</span>
+                                                    @elseif ($order->status == 'delivered')
+                                                        <span class="badge bg-success">Giao Hàng Thành Công </span>
                                                     @elseif ($order->status == 'completed')
                                                         <span class="badge badge-success">Hoàn thành</span>
                                                     @elseif ($order->status == 'canceled')
@@ -89,55 +91,27 @@
                                                     @endphp
                                                     @foreach ($order->items as $item)
                                                         @php
-                                                            $totalAmount += $item->price * $item->quantity; // Cộng dồn giá của từng sản phẩm
+                                                            $totalAmount += $item->price * $item->quantity; 
                                                         @endphp
                                                     @endforeach
                                                     {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
                                                 </td>
                                             </tr>
 
-                                            @php
-                                                $voucher = $order->voucher;
-                                                $displayDiscount = 'Không áp dụng';
-
-                                                if ($voucher) {
-                                                    // Kiểm tra loại giảm giá
-                                                    if (
-                                                        $voucher->discount_type === 'fixed' &&
-                                                        $voucher->discount_value > 0
-                                                    ) {
-                                                        // Định dạng số tiền với dấu chấm
-                                                        $displayDiscount =
-                                                            '- ' .
-                                                            number_format($voucher->discount_value, 0, ',', '.') .
-                                                            ' VNĐ';
-                                                    } elseif (
-                                                        $voucher->discount_type === 'percent' &&
-                                                        $voucher->discount_percent > 0
-                                                    ) {
-                                                        $displayDiscount = $voucher->discount_percent . '%';
-                                                    }
-                                                }
-                                            @endphp
-                                            <td class="fw-bold">Voucher :</td>
-                                            <td class="text-end">{{ $displayDiscount }}</td>
-                                          
-                                            @php
-                                                $displayPoints = 'Không sử dụng';
-
-                                                if (!empty($order->points_discount) && $order->points_discount > 0) {
-                                                    $displayPoints =
-                                                        '- ' .
-                                                        number_format($order->points_discount, 0, ',', '.') .
-                                                        ' VNĐ';
-                                                }
-                                            @endphp
+                                            @if (!empty($order->voucher_discount) && $order->voucher_discount > 0)
+                                                <td class="fw-bold">Voucher :</td>
+                                                <td class="text-end">
+                                                    -{{ number_format($order->voucher_discount, 0, ',', '.') }} VNĐ</td>
+                                            @endif
 
                                             <tr>
-                                                <td class="fw-bold">Điểm tích lũy :</td>
-                                                <td class="text-end">{{ $displayPoints }}</td>
-                                            </tr>
+                                                @if (!empty($order->points_discount) && $order->points_discount > 0)
+                                                    <td class="fw-bold">Điểm tích lũy :</td>
+                                                    <td class="text-end">
+                                                        -{{ number_format($order->points_discount, 0, ',', '.') }} VNĐ</td>
+                                                @endif
 
+                                            </tr>
 
                                             <tr>
                                                 <th class="fw-bold" style="font-size: 18px;">Thành tiền :</th>

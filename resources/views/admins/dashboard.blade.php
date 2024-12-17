@@ -32,7 +32,7 @@
         </div>
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
-                <h4 class="fs-18 fw-semibold m-0">Thống kê đơn hàng</h4>
+                <h4 class="fs-18 fw-semibold m-0"># Thống Kê Doanh Thu và Lợi nhuận</h4>
             </div>
         </div>
 
@@ -64,23 +64,19 @@
                                         onchange="fetchMonthlyRevenue()">
                                 </div>
                                 <select id="yearInput" class="filter-input" onchange="fetchYearlyRevenue()">
-                                    @php
-                                        $currentYear = \Carbon\Carbon::now()->year;
-                                    @endphp
-                                    @for ($i = 0; $i <= 5; $i++)
-                                        <option value="{{ $currentYear - $i }}">{{ $currentYear - $i }}</option>
-                                    @endfor
+                       
+                                 @foreach ($revenu as $year)
+                                 <option value="{{ $year }}" {{ $year == $currentYear ? 'selected' : '' }}>
+                                    {{ $year }}
+                                </option>
+                                 @endforeach
                                 </select>
 
                                 <div id="rangeInput" style="display: none; border: none; outline: none;">
                                     <input type="text" class="filter-input"id="dateRangeInput" name="daterange"
                                         class="range-date">
                                 </div>
-                                {{-- <div id="rangeInput" class="filter-input range-input" style="display: none;">
-                                    <input type="date" id="startDate" class="range-date" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" onchange="fetchRangeRevenue()">
-                                    ~
-                                    <input type="date" id="endDate" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" class="range-date" onchange="fetchRangeRevenue()">
-                                </div> --}}
+                            
                             </div>
                         </div>
                         <!-- Render Revenue Chart -->
