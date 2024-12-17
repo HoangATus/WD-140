@@ -42,7 +42,8 @@
                         <div class="profile-box">
                             <div class="cover-image">
 
-                                <img src="{{ asset('assets/images/inner-page/cover-img.jpg') }}" class="img-fluid blur-up lazyload" alt="anh">
+                                <img src="{{ asset('assets/images/inner-page/cover-img.jpg') }}"
+                                    class="img-fluid blur-up lazyload" alt="anh">
 
                             </div>
 
@@ -51,7 +52,7 @@
                                     <div class="position-relative">
 
                                         <img src="{{ asset('assets/images/inner-page/user/1.jpg') }}">
-                                       
+
 
                                     </div>
                                 </div>
@@ -117,32 +118,47 @@
                                         @method('PUT')
                                         <div class="form-group">
                                             <label for="user_name">Họ và tên:</label>
-                                            <input type="text" name="user_name" id="user_name" class="form-control mt-2"
+                                            <input type="text" name="user_name" id="user_name"
+                                                class="form-control mt-2 @error('user_name') is-invalid @enderror"
                                                 value="{{ old('user_name', $user->user_name) }}">
+                                            @error('user_name')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="form-group mt-2">
                                             <label for="user_email">Email:</label>
-                                            <input type="email" name="user_email" id="user_email"
-                                                class="form-control mt-2"
+                                            <input name="user_email" id="user_email"
+                                                class="form-control mt-2 @error('user_email') is-invalid @enderror"
                                                 value="{{ old('user_email', $user->user_email) }}">
+                                            @error('user_email')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
-                                        {{-- <div class="form-group mt-2">
-                                        <label for="user_password">Mật khẩu:</label>
-                                        <input type="password" name="user_password" id="user_password"
-                                            class="form-control mt-2"
-                                            value="{{ old('user_password', $user->user_password) }}">
-                                    </div> --}}
                                         <div class="form-group mt-2">
                                             <label for="user_phone_number">Số điện thoại:</label>
                                             <input type="number" name="user_phone_number" id="user_phone_number"
-                                                class="form-control mt-2"
+                                                class="form-control mt-2 @error('user_phone_number') is-invalid @enderror"
                                                 value="{{ old('user_phone_number', $user->user_phone_number) }}">
+                                            @error('user_phone_number')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="form-group mt-2">
                                             <label for="user_address">Địa chỉ:</label>
                                             <input type="text" name="user_address" id="user_address"
-                                                class="form-control mt-2"
+                                                class="form-control mt-2 @error('user_address') is-invalid @enderror"
                                                 value="{{ old('user_address', $user->user_address) }}">
+                                            @error('user_address')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
 
 
