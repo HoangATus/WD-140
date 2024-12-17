@@ -69,6 +69,7 @@ Route::middleware(['web'])->group(function () {
     Route::post('/checkout/apply-loyalty-points', [CheckoutController::class, 'applyLoyaltyPoints'])->name('checkout.apply.loyalty.points');
     Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints'])->name('cart.applyLoyaltyPoints');
     Route::post('/cart/proceedToCheckout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
+    Route::post('/cart/update-total', [CartController::class, 'updateCarTotal'])->name('cart.updateTotal');
 
 
 

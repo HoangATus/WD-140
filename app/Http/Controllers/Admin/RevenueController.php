@@ -19,8 +19,8 @@ class RevenueController extends Controller
         $month = $request->input('month');
         $year = $request->input('year');
         $monthYear = $request->input('month');
-        
-    
+
+
         if ($monthYear) {
             $month = Carbon::parse($monthYear)->month;
             $year = Carbon::parse($monthYear)->year;
@@ -28,33 +28,38 @@ class RevenueController extends Controller
             $month = now()->month;
             $year = now()->year;
         }
-    
+
         if (!$month || !$year) {
             $month = now()->format('m');
             $year = now()->format('Y');
         }
-    
+
         if (!is_numeric($month) || !is_numeric($year)) {
             return back()->withErrors(['month' => 'Tháng hoặc năm không hợp lệ.']);
         }
-    
+
         $month = (int)$month;
         $year = (int)$year;
-    
+
         if ($month < 1 || $month > 12 || $year < 1900 || $year > now()->year) {
             return back()->withErrors(['month' => 'Tháng hoặc năm không hợp lệ.']);
         }
-    
+
         try {
             $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         } catch (Exception $e) {
             return back()->withErrors(['month' => 'Có lỗi xảy ra khi tính số ngày trong tháng.']);
         }
-    
+
         $currentYear = Carbon::now()->year;
         $years = range($currentYear - 5, $currentYear);
-    
-        // Kiểm tra nếu không có doanh thu cho năm và tháng chọn
+        $revenu  = DB::table('orders')
+            ->selectRaw('YEAR(created_at) as year') 
+            ->distinct() 
+            ->orderByDesc('year') 
+            ->pluck('year'); 
+
+       
         $revenues = DB::table('orders')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->join('variants', 'order_items.variant_id', '=', 'variants.id')
@@ -69,13 +74,13 @@ class RevenueController extends Controller
             ->groupBy('year')
             ->orderBy('year', 'ASC')
             ->get();
-    
-        // Kiểm tra nếu không có dữ liệu doanh thu cho năm, tháng hiện tại
+
+       
         if ($revenues->isEmpty()) {
             return redirect()->route('admin.dashboard', ['month' => now()->format('Y-m')])
                 ->with('message', 'Không có dữ liệu doanh thu cho tháng và năm này. Đã chuyển về tháng hiện tại.');
         }
-    
+
         $revenueData = [];
         foreach ($years as $year) {
             $data = $revenues->firstWhere('year', $year);
@@ -85,7 +90,7 @@ class RevenueController extends Controller
                 'profit' => $data ? $data->profit : 0,
             ];
         }
-    
+
         $statuses = Order::$statuss;
         $desiredStatuses = [
             'pending',
@@ -96,18 +101,17 @@ class RevenueController extends Controller
             'failed',
             'canceled',
         ];
-    
+
         $counts = [];
         foreach ($desiredStatuses as $key) {
             $label = $statuses[$key] ?? $key;
             $counts[$label] = Order::where('status', $key)
                 ->count();
         }
-    
+
         $data = $this->calculateRevenueAndProfit($month, $year);
-    
-        // Kiểm tra nếu không có dữ liệu cho sản phẩm bán chạy, sản phẩm doanh thu cao, lợi nhuận cao
-        $topSellingProducts = OrderItem::select(
+
+           $topSellingProducts = OrderItem::select(
             'order_items.product_id',
             'order_items.product_name',
             'products.product_image_url',
@@ -122,12 +126,12 @@ class RevenueController extends Controller
             ->orderByDesc('total_quantity')
             ->limit(5)
             ->get();
-    
+
         if ($topSellingProducts->isEmpty()) {
             return redirect()->route('admin.dashboard', ['month' => now()->format('Y-m')])
                 ->with('message', 'Không có dữ liệu sản phẩm bán chạy cho tháng và năm này. Đã chuyển về tháng hiện tại.');
         }
-    
+
         $topRevenueProducts = OrderItem::select(
             'order_items.product_id',
             'order_items.product_name',
@@ -143,12 +147,12 @@ class RevenueController extends Controller
             ->orderByDesc('total_revenue')
             ->limit(5)
             ->get();
-    
+
         if ($topRevenueProducts->isEmpty()) {
             return redirect()->route('admin.dashboard', ['month' => now()->format('Y-m')])
                 ->with('message', 'Không có dữ liệu sản phẩm doanh thu cao cho tháng và năm này. Đã chuyển về tháng hiện tại.');
         }
-    
+
         $topProfitProducts = OrderItem::select(
             'order_items.product_id',
             'order_items.product_name',
@@ -165,15 +169,15 @@ class RevenueController extends Controller
             ->orderByDesc('total_profit')
             ->limit(5)
             ->get();
-    
+
         if ($topProfitProducts->isEmpty()) {
             return redirect()->route('admin.dashboard', ['month' => now()->format('Y-m')])
                 ->with('message', 'Không có dữ liệu sản phẩm lợi nhuận cao cho tháng và năm này. Đã chuyển về tháng hiện tại.');
         }
-    
-        return view('admins.dashboard', compact('month', 'year', 'topSellingProducts', 'topRevenueProducts', 'topProfitProducts', 'daysInMonth','counts'));
+
+        return view('admins.dashboard', compact('month', 'revenu', 'year', 'topSellingProducts', 'topRevenueProducts', 'topProfitProducts', 'daysInMonth', 'counts', 'currentYear'));
     }
-    
+
 
 
 

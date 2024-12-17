@@ -79,19 +79,19 @@
                         <span class="fw-bold">{{ number_format($item->price * $item->quantity, 0, ',', '.') }} VNĐ</span>
                     </div>
             
-                    {{-- @if(!empty($order->points_discount) && $order->points_discount > 0) --}}
+                    @if(!empty($order->points_discount) && $order->points_discount > 0)
                     <div class="d-flex justify-content-between">
                         <span><b>Điểm thưởng:</b></span>
                         <span class="text-danger">-{{ number_format($order->points_discount, 0, ',', '.') }} VNĐ</span>
                     </div>
-                    {{-- @endif --}}
+                    @endif
             
-                    {{-- @if(!empty($order->voucher_discount) && $order->voucher_discount > 0) --}}
+                    @if(!empty($order->voucher_discount) && $order->voucher_discount > 0)
                     <div class="d-flex justify-content-between">
                         <span><b>Mã giảm giá:</b></span>
                         <span class="text-danger">-{{ number_format($order->voucher_discount, 0, ',', '.') }} VNĐ</span>
                     </div>
-                    {{-- @endif --}}
+                    @endif
             
                     <div class="d-flex justify-content-between">
                         <span><b>Thành tiền:</b></span>

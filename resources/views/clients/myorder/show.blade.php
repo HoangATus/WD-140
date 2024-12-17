@@ -62,14 +62,15 @@
                                                         <span class="badge badge-info">Đã xác nhận</span>
                                                     @elseif ($order->status == 'shipped')
                                                         <span class="badge badge-primary">Đang giao hàng</span>
-                                                        @elseif ($order->status == 'failed')
+                                                    @elseif ($order->status == 'failed')
                                                         <span class="badge bg-secondary">Giao Hàng Thất Bại</span>
-                                                 
+                                                    @elseif ($order->status == 'delivered')
+                                                        <span class="badge bg-success">Giao Hàng Thành Công </span>
                                                     @elseif ($order->status == 'completed')
                                                         <span class="badge badge-success">Hoàn thành</span>
                                                     @elseif ($order->status == 'canceled')
                                                         <span class="badge badge-danger">Đã hủy</span>
-                                                        <p class="text-danger">({{$order->cancellation_reason}})</p>
+                                                        <p class="text-danger">({{ $order->cancellation_reason }})</p>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -95,46 +96,21 @@
                                                     {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
                                                 </td>
                                             </tr>
-                                            @php
-                                                $voucher = $order->voucher;
-                                                $displayDiscount = 'Không áp dụng';
 
-                                                if ($voucher) {
-                                                    // Kiểm tra loại giảm giá
-                                                    if (
-                                                        $voucher->discount_type === 'fixed' &&
-                                                        $voucher->discount_value > 0
-                                                    ) {
-                                                        // Định dạng số tiền với dấu chấm
-                                                        $displayDiscount =
-                                                            '- ' .
-                                                            number_format($voucher->discount_value, 0, ',', '.') .
-                                                            ' VNĐ';
-                                                    } elseif (
-                                                        $voucher->discount_type === 'percent' &&
-                                                        $voucher->discount_percent > 0
-                                                    ) {
-                                                        $displayDiscount = $voucher->discount_percent . '%';
-                                                    }
-                                                }
-                                            @endphp
-                                            <td class="fw-bold">Voucher :</td>
-                                            <td class="text-end">{{ $displayDiscount }}</td>
-                                            @php
-                                            $displayPoints = 'Không sử dụng';
+                                            @if (!empty($order->voucher_discount) && $order->voucher_discount > 0)
+                                                <td class="fw-bold">Voucher :</td>
+                                                <td class="text-end">
+                                                    -{{ number_format($order->voucher_discount, 0, ',', '.') }} VNĐ</td>
+                                            @endif
 
-                                            if (!empty($order->points_discount) && $order->points_discount > 0) {
-                                                $displayPoints =
-                                                    '- ' .
-                                                    number_format($order->points_discount, 0, ',', '.') .
-                                                    ' VNĐ';
-                                            }
-                                        @endphp
+                                            <tr>
+                                                @if (!empty($order->points_discount) && $order->points_discount > 0)
+                                                    <td class="fw-bold">Điểm tích lũy :</td>
+                                                    <td class="text-end">
+                                                        -{{ number_format($order->points_discount, 0, ',', '.') }} VNĐ</td>
+                                                @endif
 
-                                        <tr>
-                                            <td class="fw-bold">Điểm tích lũy :</td>
-                                            <td class="text-end">{{ $displayPoints }}</td>
-                                        </tr>
+                                            </tr>
 
                                             <tr>
                                                 <th class="fw-bold" style="font-size: 18px;">Thành tiền :</th>
@@ -235,7 +211,8 @@
                                                                 {{ $items->pluck('variant_name')->join(', ') }}</p>
                                                         </div>
 
-                                                        <form action="{{ route('orders.rate', $productItem->product_id) }}"
+                                                        <form
+                                                            action="{{ route('orders.rate', $productItem->product_id) }}"
                                                             method="POST"
                                                             onsubmit="return validateRating({{ $productItem->product_id }});">
                                                             @csrf
@@ -280,11 +257,12 @@
                                                 Hàng</a>
                                         @endif
                                         @if (in_array($order->payment_method, ['online']) && $order->payment_status == 'pending' && $order->status != 'canceled')
-                                        <a href="{{ route('clients.retryPayment', $order->id) }}" class="btn btn-warning me-3"
-                                           style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">
-                                            Thanh Toán Lại
-                                        </a>
-                                    @endif                                    
+                                            <a href="{{ route('clients.retryPayment', $order->id) }}"
+                                                class="btn btn-warning me-3"
+                                                style="font-size: 14px; padding: 8px 16px; border-radius: 8px;">
+                                                Thanh Toán Lại
+                                            </a>
+                                        @endif
 
                                         @if ($order->status == 'canceled')
                                             <form action="{{ route('orders.reorder', $order->id) }}" method="POST"
