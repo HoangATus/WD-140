@@ -189,7 +189,7 @@ class RevenueController extends Controller
             'dates' => $dates,
             'revenue' => $revenue,
             'profit' => $profit,
-            'totalRevenue' => $totalRevenue, // Trả về tổng doanh thu
+            'totalRevenue' => $totalRevenue, 
             'totalOrders' => $totalOrders,     // Trả về tổng số đơn hàng
             'weekDates' => $weekDates,
         ];
@@ -440,4 +440,6 @@ class RevenueController extends Controller
 
         return response()->json($formattedData);
     }
+
+    
 }

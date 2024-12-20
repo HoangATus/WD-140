@@ -24,11 +24,37 @@ class CheckoutController extends Controller
         $userId = Auth::id();
         $user = Auth::user();
 
+        // Lấy giỏ hàng từ session
         $cart = session()->get('cart_' . $userId, []);
         $total = session()->get('cart_total', 0);
         $sum = session()->get('cart_sum', 0);
         $appliedPoints = session()->get('applied_loyalty_points', 0);
         $discountAmount = session()->get('discount_amount', 0);
+
+        // Kiểm tra và điều chỉnh số lượng sản phẩm trong giỏ hàng với số lượng tồn kho
+        foreach ($cart as $variantId => &$item) {
+            $variant = Variant::find($variantId);
+
+            if ($variant) {
+                // Nếu số lượng sản phẩm trong giỏ hàng vượt quá tồn kho, chỉnh sửa số lượng
+                if ($item['quantity'] > $variant->quantity) {
+                    // Điều chỉnh số lượng về tồn kho tối đa
+                    $item['quantity'] = $variant->quantity;
+                }
+            }
+        }
+
+        // Tính lại tổng tiền giỏ hàng sau khi điều chỉnh số lượng
+        $total = 0;
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['quantity'];
+        }
+
+        // Cập nhật lại vào session
+        session()->put('cart_' . $userId, $cart);
+        session()->put('cart_total', $total);
+
+        // Lấy các voucher khả dụng
         $vouchers = Voucher::where('is_active', true)
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
@@ -38,18 +64,9 @@ class CheckoutController extends Controller
             })
             ->get();
 
-        // Kiểm tra số lượng sản phẩm trong giỏ hàng với số lượng tồn kho
-        foreach ($cart as $variantId => $item) {
-            $variant = Variant::find($variantId);
-
-            if ($variant && $item['quantity'] > $variant->quantity) {
-                // Nếu vượt quá số lượng tồn kho, trả thông báo lỗi và không cho phép vào checkout
-                return redirect()->route('cart.index')->with('error', 'Số lượng sản phẩm trong giỏ hàng vượt quá số lượng tồn kho cho một hoặc nhiều sản phẩm.');
-            }
-        }
-
         return view('clients.checkout.index', compact('user', 'cart', 'total', 'vouchers', 'appliedPoints', 'discountAmount'));
     }
+
 
 
     public function process(Request $request)
@@ -322,25 +339,43 @@ class CheckoutController extends Controller
     public function getUserVouchers()
     {
         $user = auth()->user();
-        $vouchers = Voucher::where('is_active', true)
+
+        $vouchers = Voucher::where('is_active', true) // Only get active vouchers
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->where('quantity', '>', 0)
-            ->whereHas('users', function ($query) use ($user) {
-                $query->where('user_voucher.user_id', $user->user_id);
+            ->where(function ($query) {
+                $query->where('usage_type', 'all');
+            })
+            ->orWhere(function ($query) use ($user) {
+                $query->where('usage_type', 'restricted')
+                    ->whereHas('users', function ($query) use ($user) {
+                        $query->where('user_voucher.user_id', $user->user_id);
+                    });
             })
             ->orderByDesc('max_discount_amount')
             ->get();
+
+        // Filter out any vouchers that are inactive
+        $vouchers = $vouchers->filter(function ($voucher) {
+            return $voucher->is_active;
+        });
+
         foreach ($vouchers as $voucher) {
             $usedQuantity = Order::where('voucher_id', $voucher->id)->count();
-            $totalVoucherQuantity = $voucher->quantity + $usedQuantity;
+            $totalVoucherQuantity = $voucher->quantity - $usedQuantity;
 
             $voucher->used_quantity = $usedQuantity;
             $voucher->total_quantity = $totalVoucherQuantity;
         }
 
-        return response()->json(['vouchers' => $vouchers]);
+        return response()->json([
+            'vouchers' => $vouchers,
+            'status' => 'active',  // Reflect the activation status here if needed
+        ]);
     }
+
+
 
     public function saveVoucher(Request $request)
     {
