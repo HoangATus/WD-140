@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
-use App\Models\Category;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,29 +16,34 @@ class FavoriteController extends Controller
         $request->validate([
             'product_id' => 'required|exists:products,id',
         ]);
+
+        // Kiểm tra xem sản phẩm đã tồn tại trong danh sách yêu thích của người dùng chưa
         $exists = Favorite::where('user_id', Auth::id())
             ->where('product_id', $request->product_id)
             ->exists();
+
         if ($exists) {
-            return back()->with('errorss', 'Sản phẩm này đã có trong danh sách yêu thích.');
+            return back()->with('errors', 'Sản phẩm này đã có trong danh sách yêu thích.');
         }
+
+        // Nếu sản phẩm chưa tồn tại, thêm vào danh sách yêu thích
         Favorite::create([
             'user_id' => Auth::id(),
             'product_id' => $request->product_id,
         ]);
-        return redirect()->back()->with('successyy', 'Sản phẩm đã được thêm vào danh sách yêu thích.');
+        return redirect()->back()->with('successy', 'Sản phẩm đã được thêm vào danh sách yêu thích.');
     }
 
     public function index()
     {
-        $banners = Banner::where('is_active', true)
-        ->with('category')
-        ->get();
-        $categories = Category::query()->get();
-        
+
         $favorites = Favorite::where('user_id', Auth::id())
-            ->with(['product.ratings'])
+            ->with(['product.ratings']) // eager load ratings
             ->get();
+        $banners = Banner::where('is_active', true)
+            ->with('category')
+            ->get();
+        // Kiểm tra xem dữ liệu có được lấy đúng không
         if ($favorites->isEmpty()) {
             Log::info('Không có sản phẩm yêu thích nào.');
         } else {
@@ -50,11 +54,27 @@ class FavoriteController extends Controller
 
     public function destroy($id)
     {
-        $favorite = Favorite::findOrFail($id);
+        // Tìm sản phẩm yêu thích theo ID
+        $favorite = Favorite::find($id);
+
+        // Nếu sản phẩm không tồn tại
+        if (!$favorite) {
+            return redirect()->back()->with('errorss', 'Sản phẩm không còn trong danh sách yêu thích.');
+        }
+
+        // Kiểm tra quyền sở hữu
         if ($favorite->user_id !== auth()->id()) {
             return redirect()->back()->with('errorss', 'Bạn không có quyền xóa sản phẩm này.');
         }
-        $favorite->delete();
-        return redirect()->route('clients.favorites.index')->with('successyy', 'Sản phẩm đã được xóa khỏi danh sách yêu thích.');
+
+        // Xóa sản phẩm yêu thích
+        try {
+            $favorite->delete();
+            return redirect()->route('clients.favorites.index')->with('successyy', 'Sản phẩm đã được xóa khỏi danh sách yêu thích.');
+        } catch (\Exception $e) {
+            // Ghi log lỗi và thông báo cho người dùng
+            Log::error('Lỗi khi xóa sản phẩm yêu thích:', ['error' => $e->getMessage()]);
+            return redirect()->back()->with('errorss', 'Đã xảy ra lỗi. Vui lòng thử lại sau.');
+        }
     }
 }

@@ -77,6 +77,8 @@
 
     <!-- Main Content Section -->
     <section class="blog-section section-b-space">
+        @if ($hotNews || $relatedNews->isNotEmpty() || $popularNews->isNotEmpty() || $album->isNotEmpty() || $categories->isNotEmpty())
+        @if ($hotNews)
         <div class="container-fluid-lg">
             <div class="row mb-5">
                 <div class="col-md-9 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
@@ -100,6 +102,7 @@
                                 </a>
                             </div>
                         </div>
+                        @endif
                     </div>
                     <div style="height: 610px;" class="col-md-5   d-flex flex-column justify-content-between">
                         @foreach ($relatedNews as $news)
@@ -242,6 +245,30 @@
         </div>
         </div>
         </div>
+
+        <script type="text/javascript">
+            var Tawk_API = Tawk_API || {},
+                Tawk_LoadStart = new Date();
+            (function() {
+                var s1 = document.createElement("script"),
+                    s0 = document.getElementsByTagName("script")[0];
+                s1.async = true;
+                s1.src = 'https://embed.tawk.to/6752f2c24304e3196aed5b3c/1iee08htm';
+                s1.charset = 'UTF-8';
+                s1.setAttribute('crossorigin', '*');
+                s0.parentNode.insertBefore(s1, s0);
+            })();
+        </script>
+
+             @else
+            <!-- No News Section -->
+            <div class="container">
+                <div class="no-news">
+                    Không có tin tức nào
+                </div>
+            </div>
+        @endif
+
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"

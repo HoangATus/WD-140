@@ -31,28 +31,57 @@
                 <div class="col-lg-3">
                     <ul class="about-list right-nav-about">
                         <li class="right-nav-list">
-                            <div class="dropdown theme-form-select">
-                                <button class="btn dropdown-toggle" type="button" id="select-language"
-                                    data-bs-toggle="dropdown">
+                            <div class="theme-form-select">
+                                <div class="language-display">
                                     <img src="{{ asset('assets/clients/images/covietnam.webp') }}"
                                         class="img-fluid blur-up lazyload" alt="">
                                     <span>Tiếng Việt</span>
-                                </button>
+                                </div>
                             </div>
                         </li>
                         <li class="right-nav-list">
-                            <div class="dropdown theme-form-select">
-                                <button class="btn dropdown-toggle" type="button" id="select-dollar"
-                                    data-bs-toggle="dropdown">
+                            <div class="theme-form-select">
+                                <div class="currency-display">
                                     <span>VND</span>
-                                </button>
+                                </div>
                             </div>
                         </li>
                     </ul>
                 </div>
+
             </div>
         </div>
     </div>
+    <style>
+        /* Ẩn dấu mũi tên nếu có */
+        .theme-form-select {
+            position: relative;
+        }
+
+        .theme-form-select::after {
+            display: none;
+            /* Ẩn pseudo-element thường dùng để tạo dấu mũi tên */
+        }
+
+        /* Tùy chỉnh lại phần hiển thị */
+        .language-display,
+        .currency-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            /* Khoảng cách giữa icon và chữ */
+            font-size: 16px;
+            /* Cỡ chữ tùy chỉnh */
+            font-weight: bold;
+            /* Làm đậm chữ nếu cần */
+        }
+
+        /* Tùy chỉnh hình ảnh */
+        .language-display img {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
 
     <div class="top-nav top-header sticky-header">
         <div class="container-fluid-lg">
@@ -70,16 +99,90 @@
                                 alt="">
                         </a>
                         <div class="search-box">
-                            <div class="input-group">
-                                <form action="{{ route('products.index') }}" method="GET">
-                                    <input type="search" name="search" class="form-control"
-                                        placeholder="Tìm kiếm......." value="{{ request('search') }}">
-                                    {{-- <button class="btn" type="submit" id="button-addon2">
-                                    <i data-feather="search"></i>
-                                </button> --}}
-                                </form>
-                            </div>
+                            <form action="{{ route('products.index') }}" method="GET" class="search-form">
+                                <div class="input-group">
+                                    <input type="search" name="search" class="form-control search-input"
+                                        placeholder="Tìm kiếm..." value="{{ request('search') }}">
+                                    <button type="submit" class="btn search-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="currentColor" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
+
+                        <style>
+                            /* Tùy chỉnh cho thanh tìm kiếm */
+                            .search-box {
+                                max-width: 400px;
+                                margin: 0 auto;
+                                /* Canh giữa */
+                                padding: 10px;
+                            }
+
+                            .search-form .input-group {
+                                display: flex;
+                                align-items: center;
+                                border: 2px solid #007bff;
+                                /* Viền xanh nổi bật */
+                                border-radius: 30px;
+                                overflow: hidden;
+                                /* Bo tròn các góc */
+                                background-color: #fff;
+                                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                                /* Hiệu ứng bóng đổ */
+                            }
+
+                            /* Ô nhập liệu */
+                            .search-input {
+                                border: none;
+                                outline: none;
+                                padding: 10px 20px;
+                                font-size: 16px;
+                                flex: 1;
+                                border-top-left-radius: 50px;
+                                /* Bo góc trên trái */
+                                border-bottom-left-radius: 30px;
+                                /* Bo góc dưới trái */
+                            }
+
+                            /* Nút tìm kiếm */
+                            .search-btn {
+                                background-color: #2d5681;
+                                color: #fff;
+                                border: none;
+                                padding: 11px 21px;
+                                /* Tăng padding để nút rộng hơn */
+                                cursor: pointer;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                border-top-right-radius: 30px;
+                                /* Bo góc trên phải */
+                                border-bottom-right-radius: 30px;
+                                /* Bo góc dưới phải */
+                                transition: background-color 0.3s ease;
+                            }
+
+                            .search-btn svg {
+                                width: 22px;
+                                height: 22px;
+                            }
+
+                            /* Hiệu ứng hover cho nút tìm kiếm */
+                            .search-btn:hover {
+                                background-color: #0056b3;
+                            }
+
+                            /* Tùy chỉnh hiệu ứng khi focus vào ô tìm kiếm */
+                            .search-input:focus {
+                                background-color: #f8f9fa;
+                            }
+                        </style>
+
 
                         <div class="header-nav-middle">
                             <div class="main-nav navbar navbar-expand-xl navbar-light navbar-sticky">
@@ -90,28 +193,41 @@
                                             data-bs-dismiss="offcanvas"></button>
                                     </div>
                                     <div class="offcanvas-body">
-                                        <ul class="navbar-nav">
-                                            <li class="nav-item dropdown dropdown-mega">
-                                                <a class="nav-link ps-xl-2 ps-0" href="{{ url('/') }}">Trang chủ</a>
+                                        <ul class="text-center">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ url('/') }}">Trang chủ</a>
                                             </li>
-                                            <li class="nav-item dropdown">
+                                            <li class="nav-item">
                                                 <a class="nav-link" href="{{ url('/gioi-thieu') }}">Giới thiệu</a>
                                             </li>
-                                            <li class="nav-item dropdown">
+                                            <li class="nav-item">
                                                 <a class="nav-link" href="{{ url('/products') }}">Sản phẩm</a>
                                             </li>
-                                            <li class="nav-item dropdown">
+                                            <li class="nav-item">
                                                 <a class="nav-link" href="{{ url('/blog') }}">Tin tức</a>
                                             </li>
-                                            {{-- 
-                                            <li class="nav-item dropdown">
-                                                <a class="nav-link" href="{{ url('/products') }}">Cửa hàng</a>
-                                            </li> 
-                                            --}}
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ url('/contact') }}">Liên hệ</a>
+                                            </li>
                                         </ul>
                                     </div>
-                                    
-                                    
+                                    <style>
+                                        ul.text-center {
+                                            display: flex;
+                                            justify-content: center;
+                                            padding: 0;
+                                            gap: 30px;
+                                            /* Điều chỉnh khoảng cách tùy ý */
+                                        }
+
+                                        ul.text-center .nav-link {
+                                            font-size: 18px;
+                                            /* Điều chỉnh cỡ chữ tùy ý, ví dụ: 18px */
+                                            /* font-weight: bold; */
+                                            /* Tùy chọn: làm chữ đậm hơn nếu cần */
+                                        }
+                                    </style>
+
                                 </div>
                             </div>
                         </div>
@@ -154,14 +270,15 @@
                                 <li class="right-side">
                                     <div class="onhover-dropdown header-badge">
                                         <button type="button" class="btn p-0 position-relative header-wishlist">
-                                            <a href="{{ route('cart.index') }}">
-                                                <i data-feather="shopping-cart"></i>
-                                                <span class="position-absolute top-0 start-100 translate-middle badge" id="cart-count">0</span>
+                                            <a href="{{ route('cart.index') }}"><i data-feather="shopping-cart"></i>
+                                                <span class="position-absolute top-0 start-100 translate-middle badge"
+                                                    id="cart-count">0</span>
                                             </a>
                                         </button>
+
+
                                     </div>
                                 </li>
-                                
                                 <li class="right-side onhover-dropdown">
                                     <div class="delivery-login-box">
                                         <div class="delivery-icon">
@@ -194,15 +311,14 @@
 
                                             @auth
                                                 <li class="product-box-contain">
-                                                    <a href="{{ route('profile.index') }}"><i
-                                                            class="fa-solid fa-user"></i>
-                                                        Tài khoản</a>
-                                                </li>
-
-                                                <li class="product-box-contain">
                                                     <a href="{{ route('orders.index') }}"><i
                                                             class="fa-solid fa-list"></i>
                                                         Đơn hàng</a>
+                                                </li>
+                                                <li class="product-box-contain">
+                                                    <a href="{{ route('profile.index') }}"><i
+                                                            class="fa-solid fa-user"></i>
+                                                        Tài khoản</a>
                                                 </li>
                                                 @if (Auth::user()->role == 'Admin')
                                                     <li class="product-box-contain">

@@ -11,10 +11,13 @@ use App\Http\Controllers\Clients\ProductController as ClientsProductController;
 use App\Http\Controllers\Clients\ShopController;
 use App\Http\Controllers\OrdersuccessController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\RevenueController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Clients\CommentController;
+use App\Http\Controllers\Clients\ContactController;
 use App\Http\Controllers\Clients\FavoriteController;
 use App\Http\Controllers\Clients\OrderController;
 use App\Http\Controllers\Clients\ProductController;
@@ -57,32 +60,36 @@ Route::post('/products/{product}/comments', [CommentController::class, 'store'])
 
 Route::middleware(['web'])->group(function () {
     // Giỏ Hàng
-    Route::middleware(['auth'])->group(function () {
-        Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-        Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-        Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
-        Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
-        Route::get('/cart/modal', [CartController::class, 'modal'])->name('cart.modal');
-        Route::post('/checkout/apply-loyalty-points', [CheckoutController::class, 'applyLoyaltyPoints'])->name('checkout.apply.loyalty.points');
-        Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints'])->name('cart.applyLoyaltyPoints');
-        Route::post('/cart/proceedToCheckout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
-        
-        
-        // Thanh Toán
-        Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-    });
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+    Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+    Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
+    Route::get('/cart/modal', [CartController::class, 'modal'])->name('cart.modal');
+    Route::post('/checkout/apply-loyalty-points', [CheckoutController::class, 'applyLoyaltyPoints'])->name('checkout.apply.loyalty.points');
+    Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints'])->name('cart.applyLoyaltyPoints');
+    Route::post('/cart/proceedToCheckout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
+    Route::post('/cart/update-total', [CartController::class, 'updateCarTotal'])->name('cart.updateTotal');
+
+
+
+    // Thanh Toán
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
     Route::get('/checkout2', [CheckoutController::class, 'checkout2'])->name('checkout.checkout2');
     Route::post('/checkout2/process2', [CheckoutController::class, 'process2'])->name('checkout2.process2');
-    Route::get('/checkout2/{id}/voucher', [CheckoutController::class, 'detailVoucher'])->name('clients.checkout.voucher');
-    Route::get('/voucher-details/{id}', [CheckoutController::class, 'show'])->name('clients.checkout.voucher');
+    Route::get('/voucher-details/{id}', [CheckoutController::class, 'detailVoucher'])->name('clients.checkout.voucher');
     Route::get('/user-vouchers', [CheckoutController::class, 'getUserVouchers']);
     Route::get('/apply-voucher/{id}', [CheckoutController::class, 'applyVoucher']);
     Route::get('/check-voucher/{code}', [CheckoutController::class, 'checkVoucher'])->name('check.voucher');
     Route::post('/save-voucher', [CheckoutController::class, 'saveVoucher']);
+    Route::get('/vnpay-callback', [CheckoutController::class, 'vnpayCallback'])->name('vnpay.callback');
+    Route::get('checkout2/pending/{order}', [CheckoutController::class, 'pending'])->name('checkout.pending');
+    Route::get('my-orders/{id}/retry-payment', [OrderController::class, 'retryPayment'])->name('clients.retryPayment');
+    Route::post('my-orders/{id}/process-retry-payment', [OrderController::class, 'processRetryPayment'])->name('orders.processRetryPayment');
+    
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
@@ -155,3 +162,11 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/gioi-thieu', function () {
     return view('clients.introduce');
 })->name('about');
+
+// lien he
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [ContactController::class, 'sendEmail'])->name('contact.send');
+
+
+
+Route::get('/admin/dashboard', [RevenueController::class, 'index'])->name('admin.dashboard');
