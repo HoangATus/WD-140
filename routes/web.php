@@ -89,7 +89,7 @@ Route::middleware(['web'])->group(function () {
     Route::get('checkout2/pending/{order}', [CheckoutController::class, 'pending'])->name('checkout.pending');
     Route::get('my-orders/{id}/retry-payment', [OrderController::class, 'retryPayment'])->name('clients.retryPayment');
     Route::post('my-orders/{id}/process-retry-payment', [OrderController::class, 'processRetryPayment'])->name('orders.processRetryPayment');
-    
+
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
