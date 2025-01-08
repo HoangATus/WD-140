@@ -18,12 +18,13 @@ class Variant extends Model
         'variant_sale_price',
         'variant_import_price',
         'quantity',
-        'image',   
+        'image',
     ];
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
     }
+
     public function color()
     {
         return $this->belongsTo(Color::class, 'attribute_color_id');

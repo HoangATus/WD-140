@@ -63,13 +63,13 @@ Route::middleware(['web'])->group(function () {
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-    Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
     Route::get('/cart/modal', [CartController::class, 'modal'])->name('cart.modal');
     Route::post('/checkout/apply-loyalty-points', [CheckoutController::class, 'applyLoyaltyPoints'])->name('checkout.apply.loyalty.points');
     Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints'])->name('cart.applyLoyaltyPoints');
     Route::post('/cart/proceedToCheckout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
     Route::post('/cart/update-total', [CartController::class, 'updateCarTotal'])->name('cart.updateTotal');
+    Route::delete('/cart/{variant_id}', [CartController::class, 'destroy'])->name('cart.destroy');
 
 
 

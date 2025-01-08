@@ -150,37 +150,36 @@
                             <div class="summery-box-2">
                                 <ul class="summery-contain">
                                     @php
-                                    $totalAmount = 0;
-                                @endphp
-                                
-                                
+                                        $totalAmount = 0;
+                                    @endphp
+                            
                                     @foreach ($cart as $item)
                                         @php
-                                            $totalAmount += $item['price'] * $item['quantity'];
+                                            $totalAmount += $item->variant->variant_sale_price * $item->quantity;
                                         @endphp
-                                
+                            
                                         <li>
-                                            <img src="{{ $item['image'] }}" class="img-fluid blur-up lazyloaded checkout-image" alt="">
-                                
-                                            <h6>{{ $item['product_name'] }} 
-                                                <span> <strong> X {{ $item['quantity'] }}</strong></span>
-                                         
-                                
-                                            <a class="price">
-                                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} VNĐ
-                                            </a>   </h6>
+                                            <img src="{{ Storage::url($item->variant->image) }}"
+                                                class="img-fluid blur-up lazyload checkout-image" alt="">
+                            
+                                            <h6>{{ $item->variant->product->product_name }}
+                                                <span> <strong> X {{ $item->quantity }}</strong></span>
+                                                <a class="price">
+                                                    {{ number_format($item->variant->variant_sale_price * $item->quantity, 0, ',', '.') }} VNĐ
+                                                </a>
+                                            </h6>
                                         </li>
                                     @endforeach
-                        
-                                
                                 </ul>
+                            
                                 <ul class="summery-total">
                                     <li class="d-flex justify-content-between align-items-center">
-                                        <strong>Tổng Tiền Hàng:</strong> 
+                                        <strong>Tổng Tiền Hàng:</strong>
                                         <span id="totalAmount" class="fw-bold">
                                             {{ number_format($totalAmount, 0, ',', '.') }} VND
                                         </span>
                                     </li>
+                            
                                     @if ($voucherDiscount > 0)
                                         <div id="voucherDiscount">
                                             <ul>
@@ -191,7 +190,7 @@
                                             </ul>
                                         </div>
                                     @endif
-
+                            
                                     @if ($pointsDiscount > 0)
                                         <div id="pointsDiscountSection">
                                             <ul>
@@ -202,16 +201,18 @@
                                             </ul>
                                         </div>
                                     @endif
-                                    <li class="d-flex justify-content-between align-items-center"><strong>Thành tiền:
-                                        </strong>
-                                        <span class="text-danger" id="finalTotal">{{ number_format($total, 0, ',', '.') }}
-                                            VND</span>
+                            
+                                    <li class="d-flex justify-content-between align-items-center">
+                                        <strong>Thành tiền:</strong>
+                                        <span class="text-danger" id="finalTotal">
+                                            {{ number_format($totalAmount - $voucherDiscount - $pointsDiscount, 0, ',', '.') }} VND
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
-
-                            <button class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold" type="submit">Đặt
-                                hàng</button>
+                            
+                            <button class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold" type="submit">Đặt hàng</button>
+                            
                         </div>
                     </div>
                     </form>

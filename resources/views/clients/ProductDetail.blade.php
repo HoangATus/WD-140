@@ -231,6 +231,31 @@
                                 ngay</button>
                         </div>
                         <script>
+                            function addToCart(variantId, quantity) {
+                                fetch('/cart/add', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        },
+                                        body: JSON.stringify({
+                                            variant_id: variantId,
+                                            quantity: quantity
+                                        })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.message) {
+                                            // Thông báo thành công hoặc lỗi
+                                            alert(data.message);
+                                        }
+
+                                        // Cập nhật số lượng giỏ hàng trên giao diện
+                                        document.getElementById('cart-count').textContent = data.cart_count;
+                                    })
+                                    .catch(error => console.error('Lỗi khi thêm vào giỏ:', error));
+                            }
+
                             function addToCart() {
                                 if (!isLoggedIn) {
                                     alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.');
@@ -878,9 +903,13 @@
                     .then(response => {
                         console.log('Add to cart response:', response);
                         alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
-                        fetchCartCount(); // Cập nhật số lượng giỏ hàng
+                        fetchCartCount(); // Cập nhật số lượng giỏ hàng sau khi thêm sản phẩm
                         // Cập nhật tồn kho sau khi thêm
                         variantStock[variantId] -= quantity;
+
+                        // Cập nhật số lượng giỏ hàng từ response
+                        const cartCount = response.data.cart_count;
+                        document.getElementById('cart-count').textContent = cartCount;
                     })
                     .catch(error => {
                         console.error('Add to cart error:', error);
@@ -890,6 +919,7 @@
                             alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
                         }
                     });
+
             };
 
             // Hàm Mua ngay
@@ -942,7 +972,7 @@
 
         });
     </script>
-     <script type="text/javascript">
+    <script type="text/javascript">
         var Tawk_API = Tawk_API || {},
             Tawk_LoadStart = new Date();
         (function() {
