@@ -63,7 +63,7 @@
                                 <th>Giảm Giá</th>
                                 <th>Số Lượng</th>
                                 <th>Trạng Thái</th>
-                                <th>Trạng Thái Công Khai</th>
+                                {{-- <th>Trạng Thái Công Khai</th> --}}
                                 {{-- <th>Phạm Vi</th> --}}
                                 <th>Thao Tác</th>
                             </tr>
@@ -89,11 +89,11 @@
                                             {{ $voucher->is_active ? 'Hoạt động' : 'Vô hiệu hóa' }}
                                         </span>
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         <span class="badge {{ $voucher->is_public ? 'bg-info' : 'bg-warning' }}">
                                             {{ $voucher->is_public  ? 'Công khai' : 'Ẩn' }}
                                         </span>
-                                    </td>
+                                    </td> --}}
                                     {{-- <td>
                                         <span class="badge {{ $voucher->usage_type == 'all' ? 'bg-primary' : 'bg-secondary' }}">
                                             {{ $voucher->usage_type == 'all' ? 'Mọi người' : 'Giới hạn' }}

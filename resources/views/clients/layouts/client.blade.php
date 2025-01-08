@@ -11,6 +11,7 @@
     <meta name="description" content="Fastkart">
     <meta name="keywords" content="Fastkart">
     <meta name="author" content="Fastkart">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('assets/clients/images/favicon/7.png') }}" type="image/x-icon">
     <title>On-demand last-mile delivery</title>
 
@@ -67,170 +68,175 @@
         .category-box {
             transition: all 0.3s ease;
         }
+
         header .navbar {
-    display: inline-block;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    padding-left: 15px;
-    z-index: 0;
-}
-footer.section-t-space.footer-section-2.footer-color-3 {
-    z-index: -1; 
-}
+            display: inline-block;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            padding-left: 15px;
+            z-index: 0;
+        }
+
+        footer.section-t-space.footer-section-2.footer-color-3 {
+            z-index: -1;
+        }
 
 
 
-body {
-    font-family: Arial, sans-serif;
-}
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-.no-scroll {
-    overflow: hidden;
-}
+        .no-scroll {
+            overflow: hidden;
+        }
 
-.voucher-list {
-    max-height: 300px;
-    overflow-y: auto;
-    margin-top: 20px;
-    padding-right: 10px;
-}
+        .voucher-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+            padding-right: 10px;
+        }
 
-.modal {
-    position: relative;
-    z-index: 2;
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
+        .modal {
+            position: relative;
+            z-index: 2;
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
 
-.modal-content {
-    position: relative;
-    background-color: #FFF;
-    margin: 5% auto;
-    padding: 20px;
-    width: 80%;
-    max-width: 600px;
-    border-radius: 8px;
-}
+        .modal-content {
+            position: relative;
+            background-color: #FFF;
+            margin: 5% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+        }
 
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-}
-.xx {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-}
-.tabs {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
 
-.tab {
-    padding: 5px 10px;
-    background-color: #f5f5f5;
-    border: none;
-    cursor: pointer;
-}
+        .xx {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
 
-.tab.active {
-    background-color: #e0e0e0;
-    font-weight: bold;
-}
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
 
-.hr {
-    z-index: 0;
-}
+        .tab {
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border: none;
+            cursor: pointer;
+        }
 
-.voucher-info {
-    flex: 1;
-}
+        .tab.active {
+            background-color: #e0e0e0;
+            font-weight: bold;
+        }
 
-.modal-footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
+        .hr {
+            z-index: 0;
+        }
 
-.cancel,
-.confirm {
-    padding: 10px;
-    width: 100px;
-    cursor: pointer;
-}
+        .voucher-info {
+            flex: 1;
+        }
 
-.cancel {
-    background-color: #352eff;
-    color: #fff;
-}
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
 
-.confirm {
+        .cancel,
+        .confirm {
+            padding: 10px;
+            width: 100px;
+            cursor: pointer;
+        }
 
-    background-color: #417394;
-    color: white;
-}
+        .cancel {
+            background-color: #352eff;
+            color: #fff;
+        }
 
-.voucher-item {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    background-color: #f5f5f5;
-}
+        .confirm {
 
-.voucher-icon {
-    width: 70px;
-    height: 70px;
-    margin-right: 12px;
-}
+            background-color: #417394;
+            color: white;
+        }
 
-.voucher-info h4 {
-    color: #4CAF50;
-    font-size: 16px;
-    margin-bottom: 3px;
-}
+        .voucher-item {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+        }
 
-.voucher-info p {
-    margin-bottom: 3px;
-    font-size: 14px;
-}
+        .voucher-icon {
+            width: 70px;
+            height: 70px;
+            margin-right: 12px;
+        }
 
-.expiry {
-    font-size: 10px;
-    color: #666;
-}
+        .voucher-info h4 {
+            color: #4CAF50;
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
 
-.voucher-select {
-    margin-left: 8px;
-    transform: scale(1.5);
-    cursor: pointer;
-}
+        .voucher-info p {
+            margin-bottom: 3px;
+            font-size: 14px;
+        }
 
-.note {
-    color: #ff0000;
-    font-size: 12px;
-    margin-top: -8px;
-}
-button:disabled {
-background-color: #ccc; 
-color: #666; 
-cursor: not-allowed; 
-opacity: 0.6; 
-}
+        .expiry {
+            font-size: 10px;
+            color: #666;
+        }
+
+        .voucher-select {
+            margin-left: 8px;
+            transform: scale(1.5);
+            cursor: pointer;
+        }
+
+        .note {
+            color: #ff0000;
+            font-size: 12px;
+            margin-top: -8px;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
 
         .category-box img {
             transition: all 0.3s ease;
@@ -276,23 +282,31 @@ opacity: 0.6;
     <!-- Loader End -->
     <div class="container mt-4">
         <!-- Hiển thị thông báo -->
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Đóng">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
+        <!-- Nhúng SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        @if (session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ session('error') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Đóng">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
+        <script>
+            // Kiểm tra và hiển thị thông báo success
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: '{{ session('success') }}',
+                    confirmButtonText: 'OK'
+                });
+            @endif
+
+            // Kiểm tra và hiển thị thông báo error
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: '{{ session('error') }}',
+                    confirmButtonText: 'Thử lại'
+                });
+            @endif
+        </script>
+
     </div>
 
     <!-- Header Start -->
@@ -325,8 +339,8 @@ opacity: 0.6;
           language-code="vi"
         ></df-messenger> --}}
         <!-- Mã nhúng Chatbot.com -->
-<!-- Start of ChatBot (www.chatbot.com) code -->
-{{-- <script>
+        <!-- Start of ChatBot (www.chatbot.com) code -->
+        {{-- <script>
     window.__ow = window.__ow || {};
     window.__ow.organizationId = "398a317b-0e24-40c8-b2c8-48d5a72dc849";
     window.__ow.template_id = "bfe32f50-1ac1-44bf-953e-c5b50450e1bd";
@@ -437,40 +451,7 @@ opacity: 0.6;
                 // Gọi hàm khi trang tải
                 fetchCartCount();
 
-                // Gọi hàm khi thêm vào giỏ thành công
-                window.addToCart = function() {
-                    console.log('addToCart function called');
-                    const variantId = document.getElementById('selected-variant-id').value;
-                    const quantity = document.getElementById('quantity-input').value;
 
-                    console.log('Variant ID:', variantId);
-                    console.log('Quantity:', quantity);
-
-                    if (!variantId) {
-                        alert('Vui lòng chọn một biến thể hợp lệ.');
-                        return;
-                    }
-
-                    axios.post('{{ route('cart.add') }}', {
-                            variant_id: variantId,
-                            quantity: quantity
-                        })
-                        .then(response => {
-                            console.log('Add to cart response:', response);
-                            alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
-                            fetchCartCount(); // Cập nhật số lượng giỏ hàng
-                        })
-                        .catch(error => {
-                            console.error('Add to cart error:', error);
-                            if (error.response && error.response.data && error.response.data.message) {
-                                alert(error.response.data.message);
-                            } else {
-                                alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
-                            }
-                        });
-                }
-
-                // Tương tự, cập nhật các hàm khác nếu cần
             });
         </script>
 
