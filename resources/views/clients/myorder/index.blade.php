@@ -43,6 +43,8 @@
                                         <span class="badge bg-success text-white">
                                             <i class="fas fa-thumbs-up"></i> Hoàn thành
                                         </span>
+                                        @elseif ($order->status == 'delivered')
+                                        <span class="badge bg-success">Giao Hàng Thành Công </span>
                                         @elseif ($order->status == 'failed')
                                         <span class="badge bg-secondary">Giao Hàng Thất Bại</span>
                                     @elseif ($order->status == 'canceled')

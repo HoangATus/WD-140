@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSizeRequest;
 use App\Http\Requests\UpdateSizeRequest;
 use App\Models\AttributeSize;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 
@@ -69,12 +70,22 @@ class SizeController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(AttributeSize $attributeSize)
     {
+        // Kiểm tra xem size có được sử dụng làm biến thể hay không
+        $isUsedAsVariant = $attributeSize->variants()->exists();
 
+        // $isUsedInOrders = OrderItem::whereHas('variant', function ($query) use ($attributeSize) {
+        //     $query->where('attribute_size_id', $attributeSize->id);
+        // })->exists();
+
+
+        if ($isUsedAsVariant) {
+            // Nếu size đã được chọn làm biến thể, không cho phép xóa
+            return back()->with('error', 'Xóa thất bại. Do bản ghi đang được sử dụng');
+        }
+
+        // Nếu không được sử dụng, tiến hành xóa
         $attributeSize->delete();
         return back()->with('message', 'Xóa thành công');
     }

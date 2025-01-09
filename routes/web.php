@@ -69,6 +69,7 @@ Route::middleware(['web'])->group(function () {
     Route::post('/checkout/apply-loyalty-points', [CheckoutController::class, 'applyLoyaltyPoints'])->name('checkout.apply.loyalty.points');
     Route::post('/cart/apply-loyalty-points', [CartController::class, 'applyLoyaltyPoints'])->name('cart.applyLoyaltyPoints');
     Route::post('/cart/proceedToCheckout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
+    Route::post('/cart/update-total', [CartController::class, 'updateCarTotal'])->name('cart.updateTotal');
 
 
 
@@ -88,7 +89,7 @@ Route::middleware(['web'])->group(function () {
     Route::get('checkout2/pending/{order}', [CheckoutController::class, 'pending'])->name('checkout.pending');
     Route::get('my-orders/{id}/retry-payment', [OrderController::class, 'retryPayment'])->name('clients.retryPayment');
     Route::post('my-orders/{id}/process-retry-payment', [OrderController::class, 'processRetryPayment'])->name('orders.processRetryPayment');
-    
+
     // Đơn Hàng
     Route::middleware(['auth'])->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

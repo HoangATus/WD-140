@@ -64,6 +64,8 @@
                                                         <span class="badge badge-primary">Đang giao hàng</span>
                                                     @elseif ($order->status == 'failed')
                                                         <span class="badge bg-secondary">Giao Hàng Thất Bại</span>
+                                                    @elseif ($order->status == 'delivered')
+                                                        <span class="badge bg-success">Giao Hàng Thành Công </span>
                                                     @elseif ($order->status == 'completed')
                                                         <span class="badge badge-success">Hoàn thành</span>
                                                     @elseif ($order->status == 'canceled')
@@ -89,12 +91,13 @@
                                                     @endphp
                                                     @foreach ($order->items as $item)
                                                         @php
-                                                            $totalAmount += $item->price * $item->quantity; // Cộng dồn giá của từng sản phẩm
+                                                            $totalAmount += $item->price * $item->quantity;
                                                         @endphp
                                                     @endforeach
                                                     {{ number_format($totalAmount, 0, ',', '.') }} VNĐ
                                                 </td>
                                             </tr>
+
 
                                             @php
                                                 $voucher = $order->voucher;

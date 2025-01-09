@@ -5,6 +5,7 @@
 @section('content')
     <div class="container-xxl">
         <h2># Thống kê Bán Hàng</h2>
+
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
                 <h4 class="fs-18 fw-semibold m-0">Thống kê đơn hàng</h4>
@@ -18,7 +19,7 @@
                     <!-- First div -->
                     @foreach ($counts as $status => $count)
                         <div class="" style="flex: 0 0 14.2857%; /* 100% / 7 */; max-width: 14.2857%;">
-                            <div class="card" style=" height: 80px;">
+                            <div class="card">
                                 <div class="card-body d-flex align-items-center">
                                     <div class="fs-14 mb-1 flex-grow-1 fw-semibold text-black">{{ $status }}
                                     </div>
@@ -29,11 +30,6 @@
                     @endforeach
                 </div>
             </div> <!-- end sales -->
-        </div>
-        <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
-            <div class="flex-grow-1">
-                <h4 class="fs-18 fw-semibold m-0">Thống kê đơn hàng</h4>
-            </div>
         </div>
 
         <div class="row">
@@ -91,40 +87,12 @@
         </div>
     </div>
     <div class="container mt-5">
-        <!-- Form lọc theo tháng -->
-        <form method="GET" action="{{ route('admin.dashboard') }}" class="mb-4">
-            <div class="row g-3 align-items-end">
-                <div class="col-auto">
-                    <label for="month" class="form-label fw-bold">Chọn Tháng</label>
-                    <input type="month" id="month" name="month" class="form-control"
-                        value="{{ request('month', now()->format('Y-m')) }}">
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Lọc</button>
-                </div>
-            </div>
-        </form>
-
         <div class="row">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('message'))
-                <div class="alert alert-info">
-                    {{ session('message') }}
-                </div>
-            @endif
-            <!-- Top 5 Sản Phẩm Bán Chạy Nhất -->
+            <!-- Top 5 Sản Phẩm bán chạy Nhất -->
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Bán Chạy Nhất</h5>
                 <div class="border p-3 mb-3">
-                    @forelse ($topSellingProducts as $product)
+                    @foreach ($topSellingProducts as $product)
                         <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
                             <div class="me-3"
                                 style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
@@ -134,18 +102,16 @@
                             <div class="flex-grow-1">
                                 <div class="fw-bold"
                                     style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
-                                    {{ $product->product_name }}
-                                </div>
+                                    {{ $product->product_name }}</div>
                             </div>
-                            <div class="fw-bold" style="white-space: nowrap;">Số lượng: {{ $product->total_quantity }}
-                            </div>
+                            <div class="fw-bold" style="white-space: nowrap;">Số lượng:
+                                {{ $product->total_quantity }}</div>
                         </div>
-                    @empty
-                        <p>Không có sản phẩm bán chạy trong tháng này.</p>
-                    @endforelse
+                    @endforeach
                 </div>
             </div>
-            <!-- Top 5 Sản Phẩm Doanh Thu Cao Nhất -->
+
+            <!-- Top 5 Sản Phẩm doanh thu cao Nhất -->
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Doanh Thu Cao Nhất</h5>
                 <div class="border p-3 mb-3">
@@ -159,12 +125,10 @@
                             <div class="flex-grow-1">
                                 <p class="mb-0 fw-bold"
                                     style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
-                                    {{ $item->product_name }}
-                                </p>
+                                    {{ $item->product_name }}</p>
                             </div>
                             <div class="ms-auto fw-bold" style="white-space: nowrap;">
-                                {{ number_format($item->total_revenue, 0, ',', '.') }} VND
-                            </div>
+                                {{ number_format($item->total_revenue, 0, ',', '.') }} VND</div>
                         </div>
                     @endforeach
                 </div>
@@ -173,7 +137,7 @@
             <!-- Top 5 Sản Phẩm Lợi Nhuận Cao Nhất -->
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Lợi Nhuận Cao Nhất</h5>
-                <div class="border p-3 mb-3">
+                <div class="border p-3 mb-3 mt-3">
                     @foreach ($topProfitProducts as $item)
                         <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
                             <div class="me-3"
@@ -184,20 +148,16 @@
                             <div class="flex-grow-1">
                                 <p class="mb-0 fw-bold"
                                     style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
-                                    {{ $item->product_name }}
-                                </p>
+                                    {{ $item->product_name }}</p>
                             </div>
                             <div class="ms-auto fw-bold" style="white-space: nowrap;">
-                                {{ number_format($item->total_profit, 0, ',', '.') }} VND
-                            </div>
+                                {{ number_format($item->total_profit, 0, ',', '.') }} VND</div>
                         </div>
                     @endforeach
                 </div>
             </div>
         </div>
     </div>
-
-
     <style>
         .filter-container {
             display: flex;
@@ -306,27 +266,11 @@
 
             selectFilter('month');
             const today = new Date();
+            const currentMonth = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
+            document.getElementById('monthInput').value = currentMonth;
             const currentYear = today.getFullYear();
-            const currentMonth = String(today.getMonth() + 1).padStart(2, '0');
-            const defaultMonthValue = `${currentYear}-${currentMonth}`;
-
-            const monthInput = document.getElementById('monthInput');
-            let previousMonthValue = defaultMonthValue;
-            monthInput.value = defaultMonthValue;
-            monthInput.value = defaultMonthValue;
-            monthInput.setAttribute('max', defaultMonthValue);
+            document.getElementById('yearInput').value = currentYear;
             fetchMonthlyRevenue();
-
-            monthInput.addEventListener('change', function() {
-                const selectedMonth = this.value.trim();
-                if (!selectedMonth) {
-                    alert('Vui lòng chọn tháng hợp lệ.');
-                    this.value = previousMonthValue;
-                } else {
-                    previousMonthValue = selectedMonth;
-                    // fetchMonthlyRevenue();
-                }
-            });
         });
 
         function selectFilter(type) {
@@ -434,18 +378,9 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
-        let previousDay = '';
 
         function fetchRevenueData() {
-            const dayInput = document.getElementById('dayInput');
-            const day = dayInput.value.trim();
-
-            if (!day) {
-                alert('Vui lòng chọn ngày.');
-                dayInput.value = previousDay;
-                return;
-            }
-            previousDay = day;
+            const day = document.getElementById('dayInput').value;
 
             let url = '/admins/dashboard/revenue?';
 
@@ -518,19 +453,6 @@
             chart.render();
         }
     </script>
-    {{-- <script type="text/javascript">
-        var Tawk_API = Tawk_API || {},
-            Tawk_LoadStart = new Date();
-        (function() {
-            var s1 = document.createElement("script"),
-                s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/6752f2c24304e3196aed5b3c/1iee08htm';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
-    </script> --}}
 @endsection
 @section('js')
 @endsection

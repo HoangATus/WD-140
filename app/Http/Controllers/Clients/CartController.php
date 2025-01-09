@@ -11,83 +11,33 @@ use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
-    public function applyLoyaltyPoints(Request $request)
-    {
-        $appliedPoints = $request->input('applied_points', 0);
-        $user = Auth::user();
-        $pointValue = 1;
-
-        $totalAfterDiscount = session('cart_total', 0); // Lấy tổng tiền giỏ hàng từ session
-
-
-        // Lưu vào session
-        session([
-            'applied_loyalty_points' => $appliedPoints,
-            'checkout_total' => $totalAfterDiscount
-        ]);
-
-        return response()->json(['status' => 'success']);
-    }
-    public function index()
+    public function index(Request $request)
     {
         $userId = Auth::id();
         $cart = session()->get('cart_' . $userId, []);
-
-        // Lấy danh sách các variant ID từ giỏ hàng
         $variantIds = array_keys($cart);
-
-        // Truy vấn tồn kho từ cơ sở dữ liệu
         $variants = Variant::whereIn('id', $variantIds)->get();
 
         foreach ($cart as $variantId => &$item) {
             $variant = $variants->firstWhere('id', $variantId);
 
-            // Đảm bảo thông tin tồn kho được thêm vào từng item trong giỏ hàng
             $item['stock'] = $variant ? $variant->quantity : 0;
         }
-
-        // Lưu lại giỏ hàng đã cập nhật
         session()->put('cart_' . $userId, $cart);
 
         $sum = array_reduce($cart, function ($carry, $item) {
             return $carry + ($item['price'] * $item['quantity']);
         }, 0);
 
-        // Các biến khác
         $user = User::find($userId);
-        $loyaltyPoints = $user ? $user->points : 0;
-        $appliedPoints = session()->get('applied_loyalty_points', 0);
-        $pointValue = 1;
-        $discountAmount = $appliedPoints * $pointValue;
-        $total = max(0, $sum - $discountAmount);
+        $total = max(0, $sum);
 
-        session(['cart_total' => $total, 'discount_amount' => $discountAmount]);
+        session(['cart_total' => $total]);
 
-        return view('clients.cart.index', compact('cart', 'sum', 'total', 'loyaltyPoints', 'appliedPoints', 'discountAmount', 'user'));
+        return view('clients.cart.index', compact('cart', 'sum', 'total', 'user'));
     }
 
 
-    private function updateCartTotal($cart, $userId)
-    {
-        $sum = 0;
-        foreach ($cart as $item) {
-            $sum += $item['price'] * $item['quantity'];
-        }
-
-        $user = User::find($userId);
-        $loyaltyPoints = $user ? $user->points : 0;
-        $appliedPoints = session()->get('applied_loyalty_points', 0);
-        $appliedPoints = min($appliedPoints, $loyaltyPoints);
-        $pointValue = 1;
-        $discountAmount = $appliedPoints * $pointValue;
-        $total = max(0, $sum - $discountAmount);
-
-        session([
-            'cart_total' => $total,
-            'discount_amount' => $discountAmount,
-            'applied_loyalty_points' => $appliedPoints,
-        ]);
-    }
 
 
     public function update(Request $request)
@@ -101,12 +51,10 @@ class CartController extends Controller
             return response()->json(['error' => 'Sản phẩm không tồn tại.'], 404);
         }
 
-        // Kiểm tra tồn kho
         if ($newQuantity > $variant->quantity) {
-            return response()->json(['error' => 'Số lượng không được vượt quá tồn kho hiện tại.'], 400);
+            return response()->json(['error' => 'Số lượng không được vượt quá tồn kho.'], 400);
         }
 
-        // Cập nhật giỏ hàng
         $userId = Auth::id();
         $cart = session()->get('cart_' . $userId, []);
 
@@ -119,8 +67,14 @@ class CartController extends Controller
         return response()->json(['success' => 'Cập nhật thành công.']);
     }
 
+
+
+
     public function add(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.'], 403);
+        }
         $userId = Auth::id();
 
         $request->validate([
@@ -194,5 +148,47 @@ class CartController extends Controller
         }
 
         return response()->json(['count' => $count], 200);
+    }
+
+    public function updateCarTotal(Request $request)
+    {
+        $finalTotal = $request->input('final_total');
+        $voucherDiscount = $request->input('voucher_discount', 0);
+        $pointsDiscount = $request->input('points_discount', 0);
+        $voucherId = $request->input('selected_voucher', null);
+
+        session()->put('cart_total', $finalTotal);
+        session()->put('voucher_discount', $voucherDiscount);
+        session()->put('points_discount', $pointsDiscount);
+        if ($voucherId) {
+            session()->put('selected_voucher', $voucherId);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Thành tiền và các khuyến mãi đã được lưu vào session',
+        ]);
+    }
+
+
+    private function updateCartTotal($cart, $userId)
+    {
+        $sum = 0;
+        foreach ($cart as $item) {
+            $sum += $item['price'] * $item['quantity'];
+        }
+
+        $user = User::find($userId);
+        $loyaltyPoints = $user ? $user->points : 0;
+        $appliedPoints = session()->get('applied_loyalty_points', 0);
+        $appliedPoints = min($appliedPoints, $loyaltyPoints);
+        $pointValue = 1;
+        $discountAmount = $appliedPoints * $pointValue;
+        $total = max(0, $sum - $discountAmount);
+
+        session([
+            'cart_total' => $total,
+            'discount_amount' => $discountAmount,
+            'applied_loyalty_points' => $appliedPoints,
+        ]);
     }
 }
