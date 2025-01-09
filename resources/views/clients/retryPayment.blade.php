@@ -104,16 +104,18 @@
                                         </h6>
                                     </li>
 
+                                    <br>
+                                @endforeach
                             </ul>
-                            <br>
+
                             <ul>
                                 <li class="d-flex justify-content-between align-items-center"><strong>Tổng Tiền Hàng:
                                     </strong> <span id="totalAmount"
-                                        class="fw-bold">{{ number_format($item->price * $item->quantity, 0, ',', '.') }}
-                                        VND</span>
+
+                                        class="fw-bold">  {{ number_format($order->orderItems->sum(function($item) { return $item->price * $item->quantity; }), 0, ',', '.') }} VND
+                                    </span>
                                 </li>
                             </ul>
-                            @endforeach
                             @if ($order->voucher_discount > 0)
                                 <div id="voucherDiscount">
                                     <ul>

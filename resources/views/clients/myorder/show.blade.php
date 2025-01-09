@@ -63,6 +63,8 @@
                                                         <span class="badge badge-primary">Đang giao hàng</span>
                                                     @elseif ($order->status == 'failed')
                                                         <span class="badge bg-secondary">Giao Hàng Thất Bại</span>
+                                                    @elseif ($order->status == 'delivered')
+                                                        <span class="badge bg-success">Giao Hàng Thành Công </span>
                                                     @elseif ($order->status == 'completed')
                                                         <span class="badge badge-success">Hoàn thành</span>
                                                     @elseif ($order->status == 'canceled')
@@ -95,63 +97,20 @@
                                                 </td>
                                             </tr>
 
-                                            @php
-                                                $voucher = $order->voucher;
-                                                $displayDiscount = 'Không áp dụng';
-
-                                                if ($voucher) {
-                                                    if (
-                                                        $voucher->discount_type === 'fixed' &&
-                                                        $voucher->discount_value > 0
-                                                    ) {
-                                                        $displayDiscount =
-                                                            '- ' .
-                                                            number_format($voucher->discount_value, 0, ',', '.') .
-                                                            ' VNĐ';
-                                                    } elseif (
-                                                        $voucher->discount_type === 'percent' &&
-                                                        $voucher->discount_percent > 0
-                                                    ) {
-                                                        $displayDiscount = $voucher->discount_percent . '%';
-                                                    }
-                                                }
-                                            @endphp
-                                            <td class="fw-bold">Voucher :</td>
-                                            <td class="text-end">{{ $displayDiscount }}</td>
-                                          
-                                            @php
-                                                $displayPoints = 'Không sử dụng';
-
-<<<<<<< HEAD
-                                                if (isset($order->points_discount) && $order->points_discount > 0) {
-=======
-                                                if (!empty($order->points_discount) && $order->points_discount > 0) {
->>>>>>> e515311060a895ddb49bff7f112504e9c1450e1d
-                                                    $displayPoints =
-                                                        '- ' .
-                                                        number_format($order->points_discount, 0, ',', '.') .
-                                                        ' VNĐ';
-<<<<<<< HEAD
-                                                } else {
-                                                    $displayPoints = 'Không sử dụng';
-                                                }
-
-                                            @endphp
+                                            @if (!empty($order->voucher_discount) && $order->voucher_discount > 0)
+                                                <td class="fw-bold">Voucher :</td>
+                                                <td class="text-end">
+                                                    -{{ number_format($order->voucher_discount, 0, ',', '.') }} VNĐ</td>
+                                            @endif
 
                                             <tr>
-                                                <td class="fw-bold">Điểm tích lũy :</td>
-                                                <td class="text-end">{{ $displayPoints }}</td>
-                                            </tr>
-=======
-                                                }
-                                            @endphp
+                                                @if (!empty($order->points_discount) && $order->points_discount > 0)
+                                                    <td class="fw-bold">Điểm tích lũy :</td>
+                                                    <td class="text-end">
+                                                        -{{ number_format($order->points_discount, 0, ',', '.') }} VNĐ</td>
+                                                @endif
 
-                                            <tr>
-                                                <td class="fw-bold">Điểm tích lũy :</td>
-                                                <td class="text-end">{{ $displayPoints }}</td>
                                             </tr>
-
->>>>>>> e515311060a895ddb49bff7f112504e9c1450e1d
 
                                             <tr>
                                                 <th class="fw-bold" style="font-size: 18px;">Thành tiền :</th>
@@ -212,7 +171,6 @@
                                                 trong đơn hàng này.</p>
                                         @endif
                                     </div>
-
 
                                     @if ($order->status == 'completed')
                                         @php
@@ -384,9 +342,9 @@
         });
         document.querySelectorAll('.btn-cancel-order').forEach(button => {
             button.addEventListener('click', function(event) {
-                event.preventDefault(); // Ngăn chặn hành động mặc định
+                event.preventDefault();
 
-                const url = this.href; // Lấy URL từ thuộc tính href
+                const url = this.href;
                 const isOnlinePaid = this.dataset.paymentMethod === 'online' && this.dataset
                     .paymentStatus === 'paid';
 
@@ -396,7 +354,6 @@
                         'Đơn hàng đã thanh toán online. Cửa hàng sẽ không hoàn tiền nếu bạn hủy. Bạn có chắc chắn muốn tiếp tục không?';
                 }
 
-                // Hiển thị hộp thoại xác nhận
                 Swal.fire({
                     title: 'Xác nhận hủy đơn hàng',
                     text: message,
@@ -408,7 +365,7 @@
                     cancelButtonText: 'Hủy'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = url; // Tiếp tục đến URL
+                        window.location.href = url;
                     }
                 });
             });
@@ -461,7 +418,6 @@
         .btn {
             padding: 6px 12px;
             font-size: 14px;
-            all: unset;
         }
 
         img.img-fluid.rounded {

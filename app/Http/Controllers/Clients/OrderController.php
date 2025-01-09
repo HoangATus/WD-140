@@ -165,15 +165,11 @@ class OrderController extends Controller
 
         $rating = new Rating();
         $rating->order_item_id = $orderItem->id;
-<<<<<<< HEAD
-        $rating->product_id = $orderItem->product_id;
+
+        $rating->product_id = $orderItem->product_id; 
         $rating->variant_id = $orderItem->variant_id;
-        $rating->order_id = $order->id;
-=======
-        $rating->product_id = $orderItem->product_id; // Gán giá trị cho product_id
-        $rating->variant_id = $orderItem->variant_id;
-        $rating->order_id = $order->id; // Gán giá trị cho order_id
->>>>>>> e515311060a895ddb49bff7f112504e9c1450e1d
+        $rating->order_id = $order->id; 
+
         $rating->rating = $request->input('rating');
         $rating->review = $request->input('review');
         $rating->user_id = auth()->id();

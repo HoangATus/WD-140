@@ -17,10 +17,9 @@ class MyOrderController extends Controller
     {
         $user = Auth::user();
 
-<<<<<<< HEAD
-=======
+
         // Lấy các đơn hàng của người dùng, sắp xếp theo ngày tạo mới nhất
->>>>>>> e515311060a895ddb49bff7f112504e9c1450e1d
+
         $orders = $user->orders()->orderBy('created_at', 'desc')->paginate(10);
 
         foreach ($orders as $order) {
@@ -38,10 +37,7 @@ class MyOrderController extends Controller
 
         return view('clients.myorder.index', compact('orders'));
     }
-<<<<<<< HEAD
 
-
-=======
 
 
 
@@ -50,7 +46,7 @@ class MyOrderController extends Controller
      */
 
 
->>>>>>> e515311060a895ddb49bff7f112504e9c1450e1d
+
     public function show(Order $order)
     {
         if ($order->user_id !== Auth::id()) {

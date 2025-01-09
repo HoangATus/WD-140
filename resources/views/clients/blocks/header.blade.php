@@ -20,7 +20,7 @@
                             <div>
                                 <div class="timer-notification">
                                     <h6>Điều gì đó bạn yêu thích hiện đang được giảm giá!
-                                        <a href="shop-left-sidebar.html" class="text-white">Mua ngay!</a>
+                                        <a href="{{url('/products')}}" class="text-white">Mua ngay!</a>
                                     </h6>
                                 </div>
                             </div>

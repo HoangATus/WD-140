@@ -5,18 +5,21 @@
 @section('content')
     <div class="container-xxl">
         <h2># Thống kê Bán Hàng</h2>
+
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
                 <h4 class="fs-18 fw-semibold m-0">Thống kê đơn hàng</h4>
             </div>
         </div>
 
+        <!-- start row -->
         <div class="row">
             <div class="col-md-12 col-xl-12">
                 <div class="row g-3">
+                    <!-- First div -->
                     @foreach ($counts as $status => $count)
                         <div class="" style="flex: 0 0 14.2857%; /* 100% / 7 */; max-width: 14.2857%;">
-                            <div class="card" style=" height: 80px;">
+                            <div class="card">
                                 <div class="card-body d-flex align-items-center">
                                     <div class="fs-14 mb-1 flex-grow-1 fw-semibold text-black">{{ $status }}
                                     </div>
@@ -26,12 +29,7 @@
                         </div>
                     @endforeach
                 </div>
-            </div>
-        </div>
-        <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
-            <div class="flex-grow-1">
-                <h4 class="fs-18 fw-semibold m-0">Thống kê đơn hàng</h4>
-            </div>
+            </div> <!-- end sales -->
         </div>
 
         <div class="row">
@@ -41,6 +39,7 @@
                         <h5 class="card-title mb-0">Thống Kê Doanh Thu và Lợi nhuận</h5>
                     </div>
                     <div class="card-body">
+                        <!-- Date Filter -->
                         <div class="filter-container">
                             <div class="filter-tabs">
                                 <button class="filter-tab active" onclick="selectFilter('day')">Ngày</button>
@@ -73,10 +72,14 @@
                                     <input type="text" class="filter-input"id="dateRangeInput" name="daterange"
                                         class="range-date">
                                 </div>
-
+                                {{-- <div id="rangeInput" class="filter-input range-input" style="display: none;">
+                                    <input type="date" id="startDate" class="range-date" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" onchange="fetchRangeRevenue()">
+                                    ~
+                                    <input type="date" id="endDate" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" class="range-date" onchange="fetchRangeRevenue()">
+                                </div> --}}
                             </div>
                         </div>
-
+                        <!-- Render Revenue Chart -->
                         <div id="revenueChart" class="apex-charts mt-4"></div>
                     </div>
                 </div>
@@ -84,40 +87,12 @@
         </div>
     </div>
     <div class="container mt-5">
-
-        <form method="GET" action="{{ route('admin.dashboard') }}" class="mb-4">
-            <div class="row g-3 align-items-end">
-                <div class="col-auto">
-                    <label for="month" class="form-label fw-bold">Chọn Tháng</label>
-                    <input type="month" id="month" name="month" class="form-control"
-                        value="{{ request('month', now()->format('Y-m')) }}">
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Lọc</button>
-                </div>
-            </div>
-        </form>
-
         <div class="row">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('message'))
-                <div class="alert alert-info">
-                    {{ session('message') }}
-                </div>
-            @endif
-
+            <!-- Top 5 Sản Phẩm bán chạy Nhất -->
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Bán Chạy Nhất</h5>
                 <div class="border p-3 mb-3">
-                    @forelse ($topSellingProducts as $product)
+                    @foreach ($topSellingProducts as $product)
                         <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
                             <div class="me-3"
                                 style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
@@ -127,18 +102,16 @@
                             <div class="flex-grow-1">
                                 <div class="fw-bold"
                                     style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
-                                    {{ $product->product_name }}
-                                </div>
+                                    {{ $product->product_name }}</div>
                             </div>
-                            <div class="fw-bold" style="white-space: nowrap;">Số lượng: {{ $product->total_quantity }}
-                            </div>
+                            <div class="fw-bold" style="white-space: nowrap;">Số lượng:
+                                {{ $product->total_quantity }}</div>
                         </div>
-                    @empty
-                        <p>Không có sản phẩm bán chạy trong tháng này.</p>
-                    @endforelse
+                    @endforeach
                 </div>
             </div>
 
+            <!-- Top 5 Sản Phẩm doanh thu cao Nhất -->
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Doanh Thu Cao Nhất</h5>
                 <div class="border p-3 mb-3">
@@ -152,21 +125,19 @@
                             <div class="flex-grow-1">
                                 <p class="mb-0 fw-bold"
                                     style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
-                                    {{ $item->product_name }}
-                                </p>
+                                    {{ $item->product_name }}</p>
                             </div>
                             <div class="ms-auto fw-bold" style="white-space: nowrap;">
-                                {{ number_format($item->total_revenue, 0, ',', '.') }} VND
-                            </div>
+                                {{ number_format($item->total_revenue, 0, ',', '.') }} VND</div>
                         </div>
                     @endforeach
                 </div>
             </div>
 
-
+            <!-- Top 5 Sản Phẩm Lợi Nhuận Cao Nhất -->
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Lợi Nhuận Cao Nhất</h5>
-                <div class="border p-3 mb-3">
+                <div class="border p-3 mb-3 mt-3">
                     @foreach ($topProfitProducts as $item)
                         <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
                             <div class="me-3"
@@ -177,20 +148,16 @@
                             <div class="flex-grow-1">
                                 <p class="mb-0 fw-bold"
                                     style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
-                                    {{ $item->product_name }}
-                                </p>
+                                    {{ $item->product_name }}</p>
                             </div>
                             <div class="ms-auto fw-bold" style="white-space: nowrap;">
-                                {{ number_format($item->total_profit, 0, ',', '.') }} VND
-                            </div>
+                                {{ number_format($item->total_profit, 0, ',', '.') }} VND</div>
                         </div>
                     @endforeach
                 </div>
             </div>
         </div>
     </div>
-
-
     <style>
         .filter-container {
             display: flex;
@@ -265,147 +232,127 @@
         let chart;
         let savedStartDate, savedEndDate;
 
-        document.addEventListener("DOMContentLoaded", function() {
-            $(function() {
-                const today = moment();
+document.addEventListener("DOMContentLoaded", function() {
+    $(function() {
+    const today = moment();
 
-                $('#dateRangeInput').daterangepicker({
-                    opens: 'left',
-                    locale: {
-                        format: 'DD/MM/YYYY',
-                        applyLabel: 'Áp dụng',
-                        cancelLabel: 'Hủy',
-                        fromLabel: 'Từ',
-                        toLabel: 'Đến',
-                        customRangeLabel: 'Tùy chỉnh',
-                        daysOfWeek: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
-                        monthNames: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5',
-                            'Tháng 6',
-                            'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
-                        ],
-                        firstDay: 1
-                    },
-                    startDate: today,
-                    endDate: today,
-                    maxDate: today
-                }, function(start, end) {
-                    $('#dateRangeInput').val(
-                        `${start.format('DD/MM/YYYY')} ~ ${end.format('DD/MM/YYYY')}`);
-                    fetchRangeRevenue(start.format('DD-MM-YYYY'), end.format('DD-MM-YYYY'));
-                });
-            });
+    $('#dateRangeInput').daterangepicker({
+        opens: 'left',
+        locale: {
+            format: 'DD/MM/YYYY',
+            applyLabel: 'Áp dụng',
+            cancelLabel: 'Hủy',
+            fromLabel: 'Từ',
+            toLabel: 'Đến',
+            customRangeLabel: 'Tùy chỉnh',
+            daysOfWeek: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+            monthNames: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 
+                         'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+            firstDay: 1 
+        },
+        startDate: today,
+        endDate: today,
+        maxDate: today
+    }, function(start, end) {
+        $('#dateRangeInput').val(`${start.format('DD/MM/YYYY')} ~ ${end.format('DD/MM/YYYY')}`);
+        fetchRangeRevenue(start.format('DD-MM-YYYY'), end.format('DD-MM-YYYY'));
+    });
+});
 
 
 
-            selectFilter('month');
-            const today = new Date();
-            const currentYear = today.getFullYear();
-            const currentMonth = String(today.getMonth() + 1).padStart(2, '0');
-            const defaultMonthValue = `${currentYear}-${currentMonth}`;
+    selectFilter('month');
+    const today = new Date();
+    const currentMonth = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
+    document.getElementById('monthInput').value = currentMonth;
+    const currentYear = today.getFullYear();
+    document.getElementById('yearInput').value = currentYear;
+    fetchMonthlyRevenue();
+});
 
-            const monthInput = document.getElementById('monthInput');
-            let previousMonthValue = defaultMonthValue;
-            monthInput.value = defaultMonthValue;
-            monthInput.value = defaultMonthValue;
-            monthInput.setAttribute('max', defaultMonthValue);
-            fetchMonthlyRevenue();
+function selectFilter(type) {
+    document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+    document.getElementById('dayInput').style.display = 'none';
+    document.getElementById('monthInput').style.display = 'none';
+    document.getElementById('yearInput').style.display = 'none';
+    document.getElementById('rangeInput').style.display = 'none';
 
-            monthInput.addEventListener('change', function() {
-                const selectedMonth = this.value.trim();
-                if (!selectedMonth) {
-                    alert('Vui lòng chọn tháng hợp lệ.');
-                    this.value = previousMonthValue;
-                } else {
-                    previousMonthValue = selectedMonth;
-                    // fetchMonthlyRevenue();
+    if (type === 'day') {
+        document.getElementById('dayInput').style.display = 'block';
+        document.querySelector('.filter-tab:nth-child(1)').classList.add('active');
+        fetchRevenueData();
+    } else if (type === 'month') {
+        document.getElementById('monthInput').style.display = 'block';
+        document.querySelector('.filter-tab:nth-child(2)').classList.add('active');
+        fetchMonthlyRevenue();
+    } else if (type === 'year') {
+        document.getElementById('yearInput').style.display = 'block';
+        document.querySelector('.filter-tab:nth-child(3)').classList.add('active');
+        fetchYearlyRevenue();
+    } else if (type === 'range') {
+        document.getElementById('rangeInput').style.display = 'block';
+        document.querySelector('.filter-tab:nth-child(4)').classList.add('active');
+
+        if (savedStartDate && savedEndDate) {
+            $('#dateRangeInput').data('daterangepicker').setStartDate(savedStartDate);
+            $('#dateRangeInput').data('daterangepicker').setEndDate(savedEndDate);
+            fetchRangeRevenue(savedStartDate, savedEndDate);
+        } else {
+            const today = moment().format('DD-MM-YYYY');
+            $('#dateRangeInput').data('daterangepicker').setStartDate(today);
+            $('#dateRangeInput').data('daterangepicker').setEndDate(today);
+            fetchRangeRevenue(today, today);
+        }
+    }
+}
+
+function fetchRangeRevenue(startDate, endDate) {
+    if (!startDate || !endDate) {
+        alert('Vui lòng chọn cả ngày bắt đầu và ngày kết thúc.');
+        return;
+    }
+    const start = moment(startDate, 'DD-MM-YYYY');
+    const end = moment(endDate, 'DD-MM-YYYY');
+    const diffInDays = end.diff(start, 'days');
+
+    if (diffInDays > 30) {
+        alert('Khoảng thời gian không được vượt quá 30 ngày.');
+        if (savedStartDate && savedEndDate) {
+            $('#dateRangeInput').data('daterangepicker').setStartDate(savedStartDate);
+            $('#dateRangeInput').data('daterangepicker').setEndDate(savedEndDate);
+        }
+        return;
+    }
+
+    const url = `/admins/dashboard/range?daterange=${startDate} - ${endDate}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw response;
+            return response.json();
+        })
+        .then(data => {
+            const categories = data.map(item => item.date);
+            const revenues = data.map(item => item.revenue || 0);
+            const profits = data.map(item => item.profit || 0);
+            const title = `Doanh Thu và Lợi Nhuận Từ ${startDate} Đến ${endDate}`;
+
+            savedStartDate = startDate;
+            savedEndDate = endDate;
+
+            if (chart) chart.destroy();
+            renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
+        })
+        .catch(error => {
+            error.json().then(errData => {
+                if (errData.error.includes('quá 30 ngày')) {
+                    alert('Khoảng thời gian không được vượt quá 30 ngày.');
+                } else if (errData.error.includes('ngày hiện tại')) {
+                    alert('Ngày kết thúc không được vượt quá ngày hiện tại.');
                 }
-            });
+            }).catch(() => alert('Đã có lỗi xảy ra.'));
         });
-
-        function selectFilter(type) {
-            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
-            document.getElementById('dayInput').style.display = 'none';
-            document.getElementById('monthInput').style.display = 'none';
-            document.getElementById('yearInput').style.display = 'none';
-            document.getElementById('rangeInput').style.display = 'none';
-
-            if (type === 'day') {
-                document.getElementById('dayInput').style.display = 'block';
-                document.querySelector('.filter-tab:nth-child(1)').classList.add('active');
-                fetchRevenueData();
-            } else if (type === 'month') {
-                document.getElementById('monthInput').style.display = 'block';
-                document.querySelector('.filter-tab:nth-child(2)').classList.add('active');
-                fetchMonthlyRevenue();
-            } else if (type === 'year') {
-                document.getElementById('yearInput').style.display = 'block';
-                document.querySelector('.filter-tab:nth-child(3)').classList.add('active');
-                fetchYearlyRevenue();
-            } else if (type === 'range') {
-                document.getElementById('rangeInput').style.display = 'block';
-                document.querySelector('.filter-tab:nth-child(4)').classList.add('active');
-
-                if (savedStartDate && savedEndDate) {
-                    $('#dateRangeInput').data('daterangepicker').setStartDate(savedStartDate);
-                    $('#dateRangeInput').data('daterangepicker').setEndDate(savedEndDate);
-                    fetchRangeRevenue(savedStartDate, savedEndDate);
-                } else {
-                    const today = moment().format('DD-MM-YYYY');
-                    $('#dateRangeInput').data('daterangepicker').setStartDate(today);
-                    $('#dateRangeInput').data('daterangepicker').setEndDate(today);
-                    fetchRangeRevenue(today, today);
-                }
-            }
-        }
-
-        function fetchRangeRevenue(startDate, endDate) {
-            if (!startDate || !endDate) {
-                alert('Vui lòng chọn cả ngày bắt đầu và ngày kết thúc.');
-                return;
-            }
-            const start = moment(startDate, 'DD-MM-YYYY');
-            const end = moment(endDate, 'DD-MM-YYYY');
-            const diffInDays = end.diff(start, 'days');
-
-            if (diffInDays > 30) {
-                alert('Khoảng thời gian không được vượt quá 30 ngày.');
-                if (savedStartDate && savedEndDate) {
-                    $('#dateRangeInput').data('daterangepicker').setStartDate(savedStartDate);
-                    $('#dateRangeInput').data('daterangepicker').setEndDate(savedEndDate);
-                }
-                return;
-            }
-
-            const url = `/admins/dashboard/range?daterange=${startDate} - ${endDate}`;
-
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) throw response;
-                    return response.json();
-                })
-                .then(data => {
-                    const categories = data.map(item => item.date);
-                    const revenues = data.map(item => item.revenue || 0);
-                    const profits = data.map(item => item.profit || 0);
-                    const title = `Doanh Thu và Lợi Nhuận Từ ${startDate} Đến ${endDate}`;
-
-                    savedStartDate = startDate;
-                    savedEndDate = endDate;
-
-                    if (chart) chart.destroy();
-                    renderChart(document.querySelector("#revenueChart"), categories, revenues, profits, title);
-                })
-                .catch(error => {
-                    error.json().then(errData => {
-                        if (errData.error.includes('quá 30 ngày')) {
-                            alert('Khoảng thời gian không được vượt quá 30 ngày.');
-                        } else if (errData.error.includes('ngày hiện tại')) {
-                            alert('Ngày kết thúc không được vượt quá ngày hiện tại.');
-                        }
-                    }).catch(() => alert('Đã có lỗi xảy ra.'));
-                });
-        }
-
+}
         function fetchMonthlyRevenue() {
             const month = document.getElementById('monthInput').value;
             if (!month) return;
@@ -427,18 +374,9 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
-        let previousDay = '';
 
         function fetchRevenueData() {
-            const dayInput = document.getElementById('dayInput');
-            const day = dayInput.value.trim();
-
-            if (!day) {
-                alert('Vui lòng chọn ngày.');
-                dayInput.value = previousDay;
-                return;
-            }
-            previousDay = day;
+            const day = document.getElementById('dayInput').value;
 
             let url = '/admins/dashboard/revenue?';
 
@@ -511,19 +449,6 @@
             chart.render();
         }
     </script>
-    {{-- <script type="text/javascript">
-        var Tawk_API = Tawk_API || {},
-            Tawk_LoadStart = new Date();
-        (function() {
-            var s1 = document.createElement("script"),
-                s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/6752f2c24304e3196aed5b3c/1iee08htm';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
-    </script> --}}
 @endsection
 @section('js')
 @endsection

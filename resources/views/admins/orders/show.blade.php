@@ -43,60 +43,63 @@
             </div>
         </div>
 
-        <div class="card mb-4">
-            <div class="card-header">
-                <h4>#2. Thông Tin Sản Phẩm</h4>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>#2. Thông Tin Sản Phẩm</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr align="center">
+                        <th>STT</th>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Biến Thể</th>
+                        <th>Số Lượng</th>
+                        <th>Giá Bán</th>
+                        <th>Tổng tiền hàng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($order->orderItems as $index => $item)
                         <tr align="center">
-                            <th>STT</th>
-                            <th>Tên Sản Phẩm</th>
-                            <th>Biến Thể</th>
-                            <th>Số Lượng</th>
-                            <th>Giá Bán</th>
-                            <th>Tổng tiền hàng</th>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $item->product_name }}</td>
+                            <td>{{ $item->variant_name }}</td>
+                            <td>{{ $item->quantity }}</td>
+                            <td>{{ number_format($item->price, 0, ',', '.') }} VNĐ</td>
+                            <td>{{ number_format($item->price * $item->quantity, 0, ',', '.') }} VNĐ</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($order->orderItems as $index => $item)
-                            <tr align="center">
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->product_name }}</td>
-                                <td>{{ $item->variant_name }}</td>
-                                <td>{{ $item->quantity }}</td>
-                                <td>{{ number_format($item->price, 0, ',', '.') }} VNĐ</td>
-                                <td>{{ number_format($item->price * $item->quantity, 0, ',', '.') }} VNĐ</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <div class="row">
-                    <div class="col-md-3 offset-md-9">
-                        <div class="d-flex justify-content-between">
-                            <span><b>Tổng tiền hàng:</b></span>
-                            <span class="fw-bold">{{ number_format($item->price * $item->quantity, 0, ',', '.') }}
-                                VNĐ</span>
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <span><b>Điểm thưởng:</b></span>
-                            <span class="text-danger">-{{ number_format($order->points_discount, 0, ',', '.') }} VNĐ</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span><b>Mã giảm giá:</b></span>
-                            <span class="text-danger">-{{ number_format($order->voucher_discount, 0, ',', '.') }}
-                                VNĐ</span>
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <span><b>Thành tiền:</b></span>
-                            <span class="fw-bold">{{ number_format($order->total) }} VNĐ</span>
-                        </div>
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-3 offset-md-9">
+                    <div class="d-flex justify-content-between">
+                        <span><b>Tổng tiền hàng:</b></span>
+                        <span class="fw-bold"> {{ number_format($order->orderItems->sum(function($item) { return $item->price * $item->quantity; }), 0, ',', '.') }} VND
+                            </span>
+                    </div>
+            
+                    @if(!empty($order->points_discount) && $order->points_discount > 0)
+                    <div class="d-flex justify-content-between">
+                        <span><b>Điểm thưởng:</b></span>
+                        <span class="text-danger">-{{ number_format($order->points_discount, 0, ',', '.') }} VNĐ</span>
+                    </div>
+                    @endif
+            
+                    @if(!empty($order->voucher_discount) && $order->voucher_discount > 0)
+                    <div class="d-flex justify-content-between">
+                        <span><b>Mã giảm giá:</b></span>
+                        <span class="text-danger">-{{ number_format($order->voucher_discount, 0, ',', '.') }} VNĐ</span>
+                    </div>
+                    @endif
+            
+                    <div class="d-flex justify-content-between">
+                        <span><b>Thành tiền:</b></span>
+                        <span class="fw-bold">{{ number_format($order->total) }} VNĐ</span>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="card mb-4">
