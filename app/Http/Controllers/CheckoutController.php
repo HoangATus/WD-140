@@ -43,12 +43,12 @@ class CheckoutController extends Controller
 
     public function process(Request $request)
     {
-       
+
         if ($request->has('cancel_order')) {
             return $this->cancelOrder($request->input('order_id'));
         }
 
-   
+
         $request->validate([
             'name'           => 'required|string|max:255',
             'phone'          => 'required|string|max:20',
@@ -64,7 +64,7 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống.');
         }
 
-    
+
         $totalAmount = $cart->sum(function ($item) {
             return $item->variant->variant_sale_price * $item->quantity;
         });
@@ -84,7 +84,7 @@ class CheckoutController extends Controller
             'notes'           => $request->notes,
             'points_discount' => $pointsDiscount,
             'voucher_discount' => $voucherDiscount,
-            'total'           => $finalTotal,  
+            'total'           => $finalTotal,
             'status'          => 'pending',
             'payment_method'  => $request->payment_method,
             'voucher_id'      => $voucherId,
@@ -139,7 +139,7 @@ class CheckoutController extends Controller
             return $this->createVNPayPaymentLink($order);
         }
 
-            Mail::to(Auth::user()->user_email)->send(new OrderSuccessful($order));
+        Mail::to(Auth::user()->user_email)->send(new OrderSuccessful($order));
 
         return redirect()->route('checkout.success', ['order' => $order->id]);
     }
