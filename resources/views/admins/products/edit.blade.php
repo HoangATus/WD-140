@@ -165,12 +165,16 @@
                                             <tbody>
                                                 @php
                                                     $rows = count($product->variants);
+                                                    // dd($product->variants);
                                                 @endphp
                                                 @for ($index = 0; $index < $rows; $index++)
                                                     <tr>
                                                         <td>
+                                                            <input type="hidden" name="variants[{{ $index }}][id]"
+                                                                value="{{ $product->variants[$index]->id ?? '' }}">
                                                             <select name="variants[{{ $index }}][name]"
-                                                                class="form-select @error('variants.*.name') is-invalid @enderror">
+                                                                class="form-select @error('variants.*.name') is-invalid @enderror"
+                                                                @if ($variants[$index]->is_locked) style="pointer-events: none; background-color: #e9ecef;" @endif>
                                                                 @foreach ($colors as $id => $name)
                                                                     <option value="{{ $id }}"
                                                                         {{ old("variants.$index.name", $product->variants[$index]->attribute_color_id ?? '') == $id ? 'selected' : '' }}>
@@ -187,14 +191,13 @@
                                                         <td>
                                                             <select
                                                                 class="form-select @error("variants.$index.attribute_size_name") is-invalid @enderror"
-                                                                name="variants[{{ $index }}][attribute_size_name]">
-                                                                {{-- <option value="">Màu</option> --}}
+                                                                name="variants[{{ $index }}][attribute_size_name]"
+                                                                @if ($variants[$index]->is_locked) style="pointer-events: none; background-color: #e9ecef;" @endif>
                                                                 @foreach ($sizes as $size_id => $attribute_size_name)
                                                                     <option value="{{ $size_id }}"
-                                                                        {{ old("variants.$index.attribute_size_name", $product->variants[$index]->attribute_size_id ?? '') == $size_id ? 'selected' : '' }}>
+                                                                        {{ old("variants.$index.attribute_size_name", $variants[$index]->attribute_size_id ?? '') == $size_id ? 'selected' : '' }}>
                                                                         {{ $attribute_size_name }}
                                                                     </option>
-                                                                    {{-- {{ $variant->sizes->attribute_size_name ?? 'Không xác định' }} --}}
                                                                 @endforeach
                                                             </select>
                                                             @error("variants.$index.attribute_size_name")
@@ -308,10 +311,17 @@
                                                                 }
                                                             }
                                                         </script>
-
                                                         <td>
-                                                            <button type="button"
-                                                                class="btn btn-danger remove-variant-button">Xóa</button>
+                                                            @if (!$variants[$index]->is_locked)
+                                                                <input type="hidden" id="deletedVariantIds"
+                                                                    name="deletedVariantIds" value="">
+                                                                <button type="button"
+                                                                    class="btn btn-danger remove-variant-button">Xóa</button>
+                                                            @else
+                                                                {{-- <button type="button" class="btn btn-secondary" disabled
+                                                                    title="Biến thể này đang được sử dụng">Không thể
+                                                                    xóa</button> --}}
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endfor
@@ -398,6 +408,7 @@
                                     `;
 
                                     cellAction.innerHTML = `
+                                        <input type="hidden" id="deletedVariantIds" name="deletedVariantIds" value="">
                                         <button type="button" class="btn btn-danger remove-variant-button">Xóa</button>
                                     `;
                                     newRow.querySelector('.remove-variant-button').addEventListener('click', function() {
@@ -409,19 +420,47 @@
                                 }
 
                                 document.getElementById('addVariantButton').addEventListener('click', addVariantRow);
+                                const deletedVariantInput = document.getElementById('deletedVariantIds');
+
                                 document.querySelectorAll('.remove-variant-button').forEach(function(button) {
                                     button.addEventListener('click', function() {
-                                        const variantTable = document.getElementById('variantTable').querySelector(
-                                            'tbody');
+                                        const variantTable = document.getElementById('variantTable')
+                                            .getElementsByTagName('tbody')[0];
                                         const rows = variantTable.rows;
+
                                         if (rows.length <= 1) {
-                                            alert('Sản phẩm bắt buộc phải có biến thể');
-                                        } else if (confirm('Bạn có chắc chắn muốn xóa?')) {
-                                            this.closest('tr').remove();
-                                            updateRowIndices();
+                                            alert('Không thể xóa! Sản phẩm phải có ít nhất một biến thể.');
+                                            return;
+                                        }
+
+                                        if (confirm('Bạn có chắc chắn muốn xóa biến thể này?')) {
+                                            const row = this.closest('tr');
+                                            const variantIdInput = row.querySelector(
+                                                'input[name^="variants["][name$="[id]"]');
+                                            const deletedVariantInput = document.getElementById(
+                                            'deletedVariantIds'); // Input ẩn lưu các ID xóa
+
+                                            if (variantIdInput) {
+                                                const variantId = variantIdInput.value;
+                                                console.log('Biến thể bị xóa:', variantId); // Thêm log kiểm tra ID
+                                                if (variantId) {
+                                                    const deletedVariantIds = deletedVariantInput.value ?
+                                                        JSON.parse(deletedVariantInput.value) :
+                                                        [];
+                                                    deletedVariantIds.push(variantId);
+                                                    deletedVariantInput.value = JSON.stringify(deletedVariantIds);
+                                                }
+                                            }
+
+                                            console.log('Danh sách:', deletedVariantInput
+                                            .value);
+
+                                            row.remove();
                                         }
                                     });
                                 });
+
+
                             });
                         </script>
 
