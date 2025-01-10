@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Color;
 use App\Http\Requests\StoreColorRequest;
 use App\Http\Requests\UpdateColorRequest;
+use Illuminate\Support\Facades\DB;
 
 class ColorController extends Controller
 {
@@ -53,6 +54,9 @@ class ColorController extends Controller
      */
     public function edit(Color $color)
     {
+        if ($color->variants()->count() > 0) {
+            return back()->with(['message' => 'Sửa thất bại. Do bản ghi đang được sử dụng.']);
+        }
         return view(self::PATH_VIEW.__FUNCTION__, compact('color'));
     }
 
@@ -72,7 +76,11 @@ class ColorController extends Controller
      */
     public function destroy(Color $color)
     {
+        if ($color->variants()->count() > 0) {
+            return back()->with(['message' => 'Xóa thất bại. Do bản ghi đang được sử dụng.']);
+        }
         $color->delete();
-        return back()->with('success', 'Xóa thành công');
+        return back()->with('success', 'Xóa thành công.');
     }
+    
 }
