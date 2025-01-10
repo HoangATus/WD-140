@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('token');
             $table->integer('request_count')->default(0); 
             $table->timestamp('created_at')->nullable();
+            $table->timestamp('expires_at')->nullable();
         });
     }
 

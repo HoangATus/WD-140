@@ -55,7 +55,6 @@
                                         max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">
                                 </div>
                                 <div>
-
                                     <input type="month" id="monthInput" class="filter-input" style="display: block;"
                                         onchange="fetchMonthlyRevenue()">
                                 </div>

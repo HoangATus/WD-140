@@ -54,8 +54,15 @@ class SizeController extends Controller
      */
     public function edit(AttributeSize $attributeSize)
     {
+        // Kiểm tra nếu size đã được sử dụng làm biến thể
+        if ($attributeSize->variants()->exists()) {
+            return redirect()->route('admins.attributeSizes.index')
+                ->with('error', 'Sửa thất bại. Do bản ghi đang được sử dụng.');
+        }
+
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributeSize'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -72,20 +79,12 @@ class SizeController extends Controller
 
     public function destroy(AttributeSize $attributeSize)
     {
-        // Kiểm tra xem size có được sử dụng làm biến thể hay không
         $isUsedAsVariant = $attributeSize->variants()->exists();
 
-        // $isUsedInOrders = OrderItem::whereHas('variant', function ($query) use ($attributeSize) {
-        //     $query->where('attribute_size_id', $attributeSize->id);
-        // })->exists();
-
-
         if ($isUsedAsVariant) {
-            // Nếu size đã được chọn làm biến thể, không cho phép xóa
-            return back()->with('error', 'Xóa thất bại. Do bản ghi đang được sử dụng');
+            return back()->with('error', 'Xóa thất bại. Do bản ghi đang được sử dụng.');
         }
 
-        // Nếu không được sử dụng, tiến hành xóa
         $attributeSize->delete();
         return back()->with('message', 'Xóa thành công');
     }

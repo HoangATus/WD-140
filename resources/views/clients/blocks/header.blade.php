@@ -267,18 +267,19 @@
                                     </a>
                                 </li>
 
-                                <li class="right-side">
+                                <li class="right-side"> 
                                     <div class="onhover-dropdown header-badge">
                                         <button type="button" class="btn p-0 position-relative header-wishlist">
-                                            <a href="{{ route('cart.index') }}"><i data-feather="shopping-cart"></i>
-                                                <span class="position-absolute top-0 start-100 translate-middle badge"
-                                                    id="cart-count">0</span>
+                                            <a href="{{ route('cart.index') }}">
+                                                <i data-feather="shopping-cart"></i>
+                                                <span class="position-absolute top-0 start-100 translate-middle badge" id="cart-count">
+                                                    {{ $totalQuantity ?? 0 }}
+                                                </span>
                                             </a>
                                         </button>
-
-
                                     </div>
                                 </li>
+                                
                                 <li class="right-side onhover-dropdown">
                                     <div class="delivery-login-box">
                                         <div class="delivery-icon">
