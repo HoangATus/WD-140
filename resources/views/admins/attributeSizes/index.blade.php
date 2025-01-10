@@ -32,6 +32,9 @@
                                 {{ session('message') }}
                             </div>
                         @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger">{{ session('error') }}</div>
+                        @endif
                         <div class="table-responsive category-table">
                             <div>
                                 <table class="table all-package theme-table" id="table_id">
@@ -48,16 +51,16 @@
                                                 <td>{{ $item->id }}</td>
                                                 <td>{{ $item->attribute_size_name }}</td>
                                                 <td class="d-flex ms-2">
-                                                            <a href="{{ route('admins.attributeSizes.edit', $item) }}"
-                                                            class="btn btn-success me-3">Sửa</a>
-                                                            <form action="{{ route('admins.attributeSizes.destroy', $item) }}"
-                                                            method="POST"
-                                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')"
-                                                            style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger">Xóa</button>
-                                                        </form>
+                                                    <a href="{{ route('admins.attributeSizes.edit', $item) }}"
+                                                        class="btn btn-success me-3">Sửa</a>
+                                                    <form action="{{ route('admins.attributeSizes.destroy', $item) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')"
+                                                        style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach

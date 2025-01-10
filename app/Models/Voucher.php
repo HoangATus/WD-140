@@ -9,16 +9,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Voucher extends Model
 {
     protected $fillable = [
-        'code', 
-        'discount_type', 
-        'discount_value', 
-        'discount_percent', 
-        'max_discount_amount', 
-        'quantity', 
-        'start_date', 
-        'end_date', 
-        'is_active', 
-        'is_public', 
+        'code',
+        'discount_type',
+        'discount_value',
+        'discount_percent',
+        'max_discount_amount',
+        'quantity',
+        'start_date',
+        'end_date',
+        'is_active',
+        'is_public',
         'usage_type',
         'min_order_amount',
     ];
@@ -26,10 +26,15 @@ class Voucher extends Model
         'start_date',
         'end_date',
     ];
-    
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_voucher', 'voucher_id', 'user_id');
     }
 
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'voucher_id');
+    }
 }

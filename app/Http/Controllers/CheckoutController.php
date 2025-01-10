@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\OrderSuccessful;
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Variant;
 use App\Models\OrderItem;
@@ -13,6 +14,7 @@ use App\Models\Voucher;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -24,117 +26,123 @@ class CheckoutController extends Controller
         $userId = Auth::id();
         $user = Auth::user();
 
-        $cart = session()->get('cart_' . $userId, []);
-        $total = session()->get('cart_total', 0);
+        $cart = Cart::with('variant.product', 'variant.color', 'variant.size')
+            ->where('user_id', $userId)
+            ->get();
+
+
+        $total = $cart->sum(function ($item) {
+            return $item->variant->variant_sale_price * $item->quantity;
+        });
+
         $voucherDiscount = session()->get('voucher_discount', 0);
         $pointsDiscount = session()->get('points_discount', 0);
-      
 
-        return view('clients.checkout.index', compact('user', 'cart', 'total','voucherDiscount','pointsDiscount'));
+        return view('clients.checkout.index', compact('user', 'cart', 'total', 'voucherDiscount', 'pointsDiscount'));
     }
 
     public function process(Request $request)
     {
+
         if ($request->has('cancel_order')) {
             return $this->cancelOrder($request->input('order_id'));
         }
-    
+
+
         $request->validate([
-            'name'            => 'required|string|max:255',
-            'phone'           => 'required|string|max:20',
-            'address'         => 'required|string|max:500',
-            'notes'           => 'nullable|string|max:1000',
-            'payment_method'  => 'required|in:cod,online',
+            'name'           => 'required|string|max:255',
+            'phone'          => 'required|string|max:20',
+            'address'        => 'required|string|max:500',
+            'notes'          => 'nullable|string|max:1000',
+            'payment_method' => 'required|in:cod,online',
         ]);
-    
+
         $userId = Auth::id();
-        $user = User::find($userId);
-        $cart = session()->get('cart_' . $userId, []);
-    
-        if (empty($cart)) {
+        $cart = Cart::where('user_id', $userId)->with(['product', 'variant'])->get();
+
+        if ($cart->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống.');
         }
-    
-        $total = session()->get('cart_total', 0);
+
+
+        $totalAmount = $cart->sum(function ($item) {
+            return $item->variant->variant_sale_price * $item->quantity;
+        });
+
         $voucherDiscount = session()->get('voucher_discount', 0);
         $pointsDiscount = session()->get('points_discount', 0);
         $voucherId = session()->get('selected_voucher', null);
-    
-        $params['order_code'] = $this->generateUniqueOrderCode();
+
+        $finalTotal = $totalAmount - $voucherDiscount - $pointsDiscount;
+
         $order = Order::create([
-            'user_id'        => $userId,
-            'order_code'     => $params['order_code'],
-            'name'           => $request->name,
-            'phone'          => $request->phone,
-            'address'        => $request->address,
-            'notes'          => $request->notes,
-            'points_discount' => $pointsDiscount ?? 0,
-            'voucher_discount' => $voucherDiscount ?? 0,
-            'total'          => $total,
-            'status'         => 'pending',
-            'payment_method' => $request->payment_method,
-            'voucher_id'     => $voucherId,  
+            'user_id'         => $userId,
+            'order_code'      => $this->generateUniqueOrderCode(),
+            'name'            => $request->name,
+            'phone'           => $request->phone,
+            'address'         => $request->address,
+            'notes'           => $request->notes,
+            'points_discount' => $pointsDiscount,
+            'voucher_discount' => $voucherDiscount,
+            'total'           => $finalTotal,
+            'status'          => 'pending',
+            'payment_method'  => $request->payment_method,
+            'voucher_id'      => $voucherId,
         ]);
-    
-        foreach ($cart as $variant_id => $item) {
-            $variant = Variant::find($variant_id);
-    
-            if ($variant->quantity < $item['quantity']) {
-                return redirect()->route('cart.index')->with('error', 'Số lượng sản phẩm ' . $item['product_name'] . ' không đủ.');
+
+        foreach ($cart as $item) {
+            $variant = $item->variant;
+
+            if ($variant && $variant->quantity < $item->quantity) {
+                return redirect()->route('cart.index')->with('error', 'Số lượng sản phẩm ' . $item->product_name . ' không đủ.');
             }
-    
-            $variant->quantity -= $item['quantity'];
-            $variant->save();
-    
-            if ($total == 0) {
-                $order->update(['payment_status' => 'paid']);
+
+            if ($variant) {
+                $variant->quantity -= $item->quantity;
+                $variant->save();
             }
-            if ($voucherId) {
-                $voucher = Voucher::find($voucherId);
-            
-                if ($voucher) {
-                    $voucher->quantity -= 1;
-        
-                    if ($voucher->quantity <= 0) {
-                        $voucher->is_active = 0;
-                    }
-            
-                    $voucher->save();
-                    $user->vouchers()->detach($voucherId);
-                }
-            }
-            
-    
+
             OrderItem::create([
                 'order_id'     => $order->id,
-                'variant_id'   => $variant_id,
-                'product_id'   => $item['product_id'],
-                'product_name' => $item['product_name'],
-                'variant_name' => $item['variant_name'],
-                'price'        => $item['price'],
-                'quantity'     => $item['quantity'],
-                'image'        => $item['image'],
+                'variant_id'   => $item->variant_id,
+                'product_id'   => $item->variant->product_id,
+                'product_name' => $item->variant->product->product_name,
+                'variant_name' => $item->variant->size->attribute_size_name . ' ' . $item->variant->color->name,
+                'price'        => $item->variant->variant_sale_price,
+                'quantity'     => $item->quantity,
+                'image'        => $item->variant->image,
             ]);
         }
+
         if ($pointsDiscount > 0) {
+            $user = Auth::user();
             $user->points -= $pointsDiscount;
             $user->save();
         }
-        session()->forget('cart_' . $userId);
-        session()->forget('cart_total');
-        session()->forget('applied_loyalty_points');
-        session()->forget('selected_voucher'); 
-    
+
+        if ($voucherId) {
+            $voucher = Voucher::find($voucherId);
+            if ($voucher) {
+                $voucher->quantity -= 1;
+                if ($voucher->quantity <= 0) {
+                    $voucher->is_active = false;
+                }
+                $voucher->save();
+            }
+        }
+
+        session()->forget(['voucher_discount', 'points_discount', 'selected_voucher']);
+
+        Cart::where('user_id', $userId)->delete();
+
         if ($request->payment_method == 'online') {
             return $this->createVNPayPaymentLink($order);
         }
-    
-         Mail::to($user->user_email)->send(new OrderSuccessful($order));
-    
+
+        Mail::to(Auth::user()->user_email)->send(new OrderSuccessful($order));
+
         return redirect()->route('checkout.success', ['order' => $order->id]);
     }
-    
-
 
     public function success()
     {
@@ -449,9 +457,9 @@ class CheckoutController extends Controller
                 return redirect()->route('products.show', ['slug' => $variant->product->slug])
                     ->with('error', 'Số lượng sản phẩm không đủ.');
             }
-    if ($request->payment_method == 'online' && $request->final_total < 5000) {
-        return redirect()->back()->with('error', 'Đơn hàng thanh toán , Đơn hàng phải có Thành tiền tối thiểu là 5,000 VND.');
-    }
+            if ($request->payment_method == 'online' && $request->final_total < 5000) {
+                return redirect()->back()->with('error', 'Đơn hàng thanh toán , Đơn hàng phải có Thành tiền tối thiểu là 5,000 VND.');
+            }
 
             $order = Order::create([
                 'user_id' => $user->user_id,
