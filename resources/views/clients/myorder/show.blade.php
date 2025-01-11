@@ -156,15 +156,14 @@
                                         @if ($orderItems->count() > 0)
                                             @foreach ($orderItems as $item)
                                                 <div class="row mb-4 pb-3 border-bottom align-items-center">
-                                                    <!-- Đảm bảo các phần tử được căn giữa theo chiều dọc -->
-                                                    <div class="col-md-3"> <!-- Kích thước ảnh chiếm 3 cột -->
+                                                    <div class="col-md-3">
                                                         <a href="{{ route('products.show', $item->product->slug) }}"
                                                             class="order-image">
                                                             <img src="{{ $item->image }}" class="img-fluid rounded"
                                                                 alt="" style="max-width: 50%;">
                                                         </a>
                                                     </div>
-                                                    <div class="col-md-9"> <!-- Văn bản chiếm 9 cột còn lại -->
+                                                    <div class="col-md-9">
                                                         <div class="order-wrap">
                                                             <a href="{{ route('products.show', $item->product->slug) }}">
                                                                 <h4 class="fw-bold"
