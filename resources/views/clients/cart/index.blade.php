@@ -471,8 +471,6 @@
                     const row = this.closest('tr'); // Lấy dòng chứa sản phẩm
                     const variantId = row.getAttribute('data-variant-id'); // Lấy ID của sản phẩm
 
-                    console.log('Variant ID gửi lên:', variantId); // Log giá trị gửi lên
-
                     if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?')) {
                         fetch(`/cart/${variantId}`, {
                                 method: 'DELETE', // Gửi yêu cầu xóa sản phẩm từ giỏ hàng
@@ -484,11 +482,12 @@
                             })
                             .then(response => response.json())
                             .then(data => {
-                                console.log('Phản hồi từ server:',
-                                    data); // Log phản hồi từ server
                                 if (data.success) {
                                     alert(data.message); // Thông báo thành công
                                     row.remove(); // Xóa dòng sản phẩm khỏi bảng
+
+                                    // Cập nhật tổng tiền
+                                    calculateTotal(); // Gọi lại hàm tính tổng tiền
 
                                     // Cập nhật số lượng giỏ hàng trong header
                                     count();
@@ -499,15 +498,15 @@
                                     if (cartItems.length === 0) {
                                         // Nếu giỏ hàng trống, hiển thị thông báo và nút quay lại trang mua sắm
                                         document.querySelector('.cart-section').innerHTML = `
-                                <div class="mt-4 text-center" style="margin-bottom: 20px;">
-            <h3>Giỏ hàng của bạn đang trống.</h3>
-        </div>
-        <div class="d=flex justify-content-center align-items-center ">
-            <a href="{{ route('home') }}" class="btn btn-primary"
-                style="border-radius: 8px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">Mua
-                Sắm Ngay</a>
-        </div>
-                            `;
+                            <div class="mt-4 text-center" style="margin-bottom: 20px;">
+                                <h3>Giỏ hàng của bạn đang trống.</h3>
+                            </div>
+                            <div class="d=flex justify-content-center align-items-center ">
+                                <a href="{{ route('home') }}" class="btn btn-primary"
+                                    style="border-radius: 8px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">Mua
+                                    Sắm Ngay</a>
+                            </div>
+                        `;
                                     }
                                 } else {
                                     alert('Không thể xóa sản phẩm!');
@@ -516,6 +515,7 @@
                             .catch(error => console.error('Lỗi:', error)); // Log lỗi nếu có
                     }
                 });
+
             });
 
             // Hàm cập nhật số lượng giỏ hàng trong header
@@ -980,7 +980,6 @@
                     warningMessage.style.display = 'none';
                 }
             }
-
 
         });
     </script>
