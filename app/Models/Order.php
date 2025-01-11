@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Mail\OrderStatusChanged;
@@ -57,10 +58,10 @@ class Order extends Model
         'cancellation_reason',
         'voucher_id',
     ];
-    
+
     public function items()
     {
-        return $this->hasMany(OrderItem::class,'order_id');
+        return $this->hasMany(OrderItem::class, 'order_id');
     }
 
     public function user()
@@ -81,20 +82,20 @@ class Order extends Model
     public function cancel($reason = null)
     {
         if (in_array($this->status, [self::STATUS_PENDING, self::STATUS_CONFIRMED])) {
-            $oldStatus = $this->status; 
+            $oldStatus = $this->status;
             $this->status = self::STATUS_CANCELED;
-            $this->cancellation_reason = $reason; 
+            $this->cancellation_reason = $reason;
             $this->save();
 
-         
+
 
             $this->statusChanges()->create([
                 'old_status' => $oldStatus,
                 'new_status' => self::STATUS_CANCELED,
-                'notes' => $reason, 
-                'changed_by' => auth()->id(), 
+                'notes' => $reason,
+                'changed_by' => auth()->id(),
             ]);
-            
+
 
             return true;
         }
@@ -105,18 +106,18 @@ class Order extends Model
     public function updateStatus($newStatus, $notes = null)
     {
         $oldStatus = $this->status;
-    
+
         if ($newStatus === self::STATUS_FAILED) {
             $this->load('orderItems.variant');
             foreach ($this->orderItems as $orderItem) {
                 $variant = $orderItem->variant;
                 if ($variant) {
                     $variant->quantity += $orderItem->quantity;
-                    $variant->save(); 
+                    $variant->save();
                 }
             }
         }
-        $this->status = $newStatus;     
+        $this->status = $newStatus;
         $this->updated_at = now();
         $this->save();
         $this->statusChanges()->create([
@@ -125,25 +126,23 @@ class Order extends Model
             'notes' => $notes,
             'changed_by' => auth()->id() ?? 0,
         ]);
-    
-       
-       
-       
-        if ($this->user) { 
+
+
+
+
+        if ($this->user) {
             Mail::to($this->user->user_email)
-                ->cc('cc@example.com')   
-                ->bcc('bcc@example.com') 
-                ->send(new OrderStatusChanged($this, $newStatus, $notes)); 
+                ->cc('cc@example.com')
+                ->bcc('bcc@example.com')
+                ->send(new OrderStatusChanged($this, $newStatus, $notes));
         } else {
             Log::warning('Không tìm thấy người dùng cho đơn hàng: ' . $this->id);
         }
     }
 
     public function voucher()
-{
-    return $this->belongsTo(Voucher::class);
-}
-    
-    
+    {
+        return $this->belongsTo(Voucher::class);
+    }
     
 }

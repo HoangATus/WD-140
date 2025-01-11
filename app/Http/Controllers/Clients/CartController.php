@@ -3,76 +3,38 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\Variant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
-    public function index(Request $request)
 
+    public function index()
     {
         $userId = Auth::id();
-        $cart = session()->get('cart_' . $userId, []);
-        $variantIds = array_keys($cart);
+        $cart = Cart::with('variant.product', 'variant.color', 'variant.size')
+            ->where('user_id', $userId)->get();
 
+        $sum = $cart->reduce(function ($carry, $item) {
+            return $carry + ($item->variant->variant_sale_price * $item->quantity);
 
-        $variants = Variant::whereIn('id', $variantIds)->get();
-
-        foreach ($cart as $variantId => &$item) {
-            $variant = $variants->firstWhere('id', $variantId);
-
-            $item['stock'] = $variant ? $variant->quantity : 0;
-        }
-
-        session()->put('cart_' . $userId, $cart);
-
-        $sum = array_reduce($cart, function ($carry, $item) {
-            return $carry + ($item['price'] * $item['quantity']);
         }, 0);
-
         $user = User::find($userId);
         $total = max(0, $sum);
 
-        session(['cart_total' => $total]);
-
-        return view('clients.cart.index', compact('cart', 'sum', 'total', 'user'));
+        return view('clients.cart.index', [
+            'cart' => $cart,
+            'sum' => $sum,
+            'user' => $user,
+            'total' => $total
+        ]);
     }
-
-
-
-
-    public function update(Request $request)
-    {
-        $variantId = $request->input('variant_id');
-        $newQuantity = $request->input('quantity');
-
-        $variant = Variant::find($variantId);
-
-        if (!$variant) {
-            return response()->json(['error' => 'Sản phẩm không tồn tại.'], 404);
-        }
-
-
-        if ($newQuantity > $variant->quantity) {
-            return response()->json(['error' => 'Số lượng không được vượt quá tồn kho.'], 400);
-        }
-
-        $userId = Auth::id();
-        $cart = session()->get('cart_' . $userId, []);
-
-        if (isset($cart[$variantId])) {
-            $cart[$variantId]['quantity'] = $newQuantity;
-        }
-
-        session()->put('cart_' . $userId, $cart);
-
-        return response()->json(['success' => 'Cập nhật thành công.']);
-    }
-
-
 
     public function add(Request $request)
     {
@@ -87,74 +49,86 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $variant = Variant::with(['product', 'color', 'size'])->findOrFail($request->variant_id);
+        $variant = Variant::findOrFail($request->variant_id);
 
-        $cart = session()->get('cart_' . $userId, []);
-        $currentQuantityInCart = isset($cart[$variant->id]) ? $cart[$variant->id]['quantity'] : 0;
-        $requestedQuantity = $currentQuantityInCart + $request->quantity;
 
-        if ($requestedQuantity > $variant->quantity) {
-            $availableToAdd = $variant->quantity - $currentQuantityInCart;
-
-            return response()->json([
-                'message' => $availableToAdd > 0
-                    ? 'Vượt quá số lượng sản phẩm. Thêm tối đa ' . $availableToAdd . ' sản phẩm'
-                    : 'Sản phẩm đã đạt giới hạn số lượng có sẵn trong kho.',
-            ], 400);
+        if ($variant->quantity < $request->quantity) {
+            return response()->json(['error' => 'Số lượng sản phẩm không đủ.'], 400);
         }
 
-        if (isset($cart[$variant->id])) {
-            $cart[$variant->id]['quantity'] += $request->quantity;
+        $cart = Cart::where('user_id', $userId)
+            ->where('variant_id', $variant->id)
+            ->first();
+
+        if ($cart) {
+            $cart->quantity += $request->quantity;
+
+            if ($cart->quantity > $variant->quantity) {
+                return response()->json(['error' => 'Số lượng sản phẩm trong giỏ vượt quá tồn kho.'], 400);
+            }
+
+            $cart->save();
         } else {
-            $cart[$variant->id] = [
-                'product_id' => $variant->product->id,
-                'product_name' => $variant->product->product_name,
-                'variant_name' => $variant->color->name . ' - ' . $variant->size->attribute_size_name,
-                'price' => $variant->variant_sale_price,
+            Cart::create([
+                'user_id' => $userId,
+                'variant_id' => $variant->id,
                 'quantity' => $request->quantity,
-                'image' => Storage::url($variant->image),
-            ];
+            ]);
         }
 
-        session()->put('cart_' . $userId, $cart);
-        $this->updateCartTotal($cart, $userId);
-
-        return response()->json(['message' => 'Sản phẩm đã được thêm vào giỏ hàng thành công.'], 200);
+        return response()->json(['message' => 'Sản phẩm đã được thêm vào giỏ hàng.'], 200);
     }
 
 
-    public function remove(Request $request)
+    public function update(Request $request)
+
     {
-        $userId = Auth::id();
+        $variantId = $request->variant_id;
+        $quantity = $request->quantity;
 
-        $request->validate([
-            'variant_id' => 'required|exists:variants,id',
-        ]);
+        $cart = Cart::where('user_id', Auth::id())->where('variant_id', $variantId)->first();
 
-        $cart = session()->get('cart_' . $userId, []);
-
-        if (isset($cart[$request->variant_id])) {
-            unset($cart[$request->variant_id]);
-            session()->put('cart_' . $userId, $cart);
-
-            return response()->json(['message' => 'Sản phẩm đã được xóa khỏi giỏ hàng.'], 200);
+        if (!$cart) {
+            return response()->json(['error' => 'Sản phẩm không tồn tại trong giỏ hàng.'], 404);
         }
 
-        return response()->json(['message' => 'Sản phẩm không tồn tại trong giỏ hàng.'], 404);
+        $cart->quantity = $quantity;
+        $cart->save();
+
+        $totalAmount = $cart->variant->variant_sale_price * $cart->quantity;
+
+        return response()->json([
+            'success' => true,
+            'newTotalAmount' => $totalAmount
+        ]);
+    }
+
+
+    public function destroy($variant_id)
+    {
+        $user_id = auth()->id();
+
+
+        $deleted = DB::table('carts')
+            ->where('user_id', $user_id)
+            ->where('variant_id', $variant_id)
+            ->delete();
+
+        if ($deleted) {
+            return response()->json(['success' => true, 'message' => 'Sản phẩm đã được xóa khỏi giỏ hàng!']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Không thể xóa sản phẩm.']);
+        }
     }
 
     public function count()
     {
         $userId = Auth::id();
-        $cart = session()->get('cart_' . $userId, []);
-        $count = 0;
-
-        foreach ($cart as $item) {
-            $count += $item['quantity'];
-        }
+        $count = Cart::where('user_id', $userId)->sum('quantity');
 
         return response()->json(['count' => $count], 200);
     }
+
 
     public function updateCarTotal(Request $request)
     {

@@ -105,13 +105,9 @@ class ProductController extends Controller
                 'image' => Storage::url($variant->image),
             ];
         });
-
-        return view('clients.productDetail', compact('product', 'relatedProducts', 'variants'));
+        $variantStock = $product->variants->pluck('quantity', 'id');
+        return view('clients.productDetail', compact('product', 'relatedProducts', 'variants', 'variantStock'));
     }
-
-
-
-
 
 
     public function edit(string $id)
