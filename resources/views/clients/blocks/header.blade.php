@@ -267,7 +267,7 @@
                                     </a>
                                 </li>
 
-                                <li class="right-side"> 
+                                <li class="right-side">
                                     <div class="onhover-dropdown header-badge">
                                         <button type="button" class="btn p-0 position-relative header-wishlist">
                                             <a href="{{ route('cart.index') }}">
@@ -279,6 +279,7 @@
                                         </button>
                                     </div>
                                 </li>
+                                
                                 
                                 <li class="right-side onhover-dropdown">
                                     <div class="delivery-login-box">

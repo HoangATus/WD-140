@@ -257,89 +257,6 @@
 
     @include('clients.blocks.assets.js')
 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const cartTable = document.querySelector('table');
-
-            // Lắng nghe sự kiện nhấn nút tăng số lượng
-            document.querySelectorAll('.btn-increase').forEach(button => {
-                button.addEventListener('click', function() {
-                    let variantId = this.dataset.variantId;
-                    let quantityInput = document.querySelector(`#quantity-${variantId}`);
-                    let newQuantity = parseInt(quantityInput.value) + 1; // Tăng số lượng lên 1
-
-                    // Gọi hàm cập nhật số lượng
-                    updateQuantity(variantId, newQuantity, quantityInput);
-                });
-            });
-
-            // Lắng nghe sự kiện nhấn nút giảm số lượng
-            document.querySelectorAll('.btn-decrease').forEach(button => {
-                button.addEventListener('click', function() {
-                    let variantId = this.dataset.variantId;
-                    let quantityInput = document.querySelector(`#quantity-${variantId}`);
-                    let newQuantity = parseInt(quantityInput.value) - 1; // Giảm số lượng 1
-
-                    if (newQuantity < 1) newQuantity = 1; // Giới hạn số lượng không nhỏ hơn 1
-
-                    // Cập nhật số lượng
-                    updateQuantity(variantId, newQuantity, quantityInput);
-                });
-            });
-
-            // Lắng nghe sự kiện thay đổi số lượng từ người dùng nhập trực tiếp
-            document.querySelectorAll('.quantity-input').forEach(input => {
-                input.addEventListener('change', function() {
-                    const newQuantity = parseInt(this.value);
-                    if (newQuantity < 1) {
-                        alert('Số lượng phải lớn hơn hoặc bằng 1.');
-                        this.value = 1; // Đặt lại giá trị nếu nhập không hợp lệ
-                        return;
-                    }
-                    updateQuantity(this.dataset.variantId, newQuantity, this);
-                });
-            });
-
-            // Hàm cập nhật số lượng
-            function updateQuantity(variantId, quantity, element) {
-                const row = element.closest('tr');
-                const stockQuantity = parseInt(row.getAttribute('data-stock-quantity')); // Lấy số lượng trong kho
-
-                if (quantity > stockQuantity) {
-                    alert("Số lượng vượt quá số lượng trong kho.");
-                    element.value = stockQuantity; // Đặt lại số lượng tối đa
-                    quantity = stockQuantity;
-                }
-
-                // Gửi yêu cầu cập nhật số lượng lên server
-                fetch('/cart/update', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                'content')
-                        },
-                        body: JSON.stringify({
-                            variant_id: variantId,
-                            quantity: quantity
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Cập nhật lại số lượng và thành tiền
-                            element.value = quantity;
-                            row.querySelector('.totalAmount').textContent =
-                                `${number_format(data.newTotalAmount, 0, ',', '.')} VNĐ`;
-                        } else {
-                            alert(data.error);
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-        });
-    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             function calculateTotal() {
@@ -434,7 +351,8 @@
                 }
                 quantityInput.value = quantity;
 
-                // Gửi cập nhật số lượng tới server
+                updateCartCount();
+
                 sendQuantityUpdate(variantId, quantity, row, price);
             });
 
@@ -461,19 +379,40 @@
                         quantity = stockQuantity;
                     }
 
-                    // Gửi cập nhật số lượng tới server
+                    updateCartCount();
+
                     sendQuantityUpdate(variantId, quantity, row, price);
                 }
             });
 
+            function updateCartCount() {
+                let totalQuantity = 0;
+
+                const cartRows = cartTable.querySelectorAll("tr");
+                cartRows.forEach(row => {
+                    const quantityInput = row.querySelector(".quantity-input");
+                    if (quantityInput) {
+                        totalQuantity += parseInt(quantityInput.value);
+                    }
+                });
+
+                const cartCountElement = document.getElementById("cart-count");
+                if (cartCountElement) {
+                    cartCountElement.textContent = totalQuantity;
+                }
+            }
+
+
             document.querySelectorAll('.btn-remove').forEach(button => {
                 button.addEventListener('click', function() {
-                    const row = this.closest('tr'); // Lấy dòng chứa sản phẩm
-                    const variantId = row.getAttribute('data-variant-id'); // Lấy ID của sản phẩm
+                    const row = this.closest('tr'); 
+                    const variantId = row.getAttribute('data-variant-id');
+
+                    console.log('Variant ID gửi lên:', variantId); 
 
                     if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?')) {
                         fetch(`/cart/${variantId}`, {
-                                method: 'DELETE', // Gửi yêu cầu xóa sản phẩm từ giỏ hàng
+                                method: 'DELETE', 
                                 headers: {
                                     'X-CSRF-TOKEN': document.querySelector(
                                         'meta[name="csrf-token"]').getAttribute('content'),
@@ -482,46 +421,39 @@
                             })
                             .then(response => response.json())
                             .then(data => {
+                                console.log('Phản hồi từ server:',
+                                    data); 
                                 if (data.success) {
-                                    alert(data.message); // Thông báo thành công
-                                    row.remove(); // Xóa dòng sản phẩm khỏi bảng
-
-                                    // Cập nhật tổng tiền
-                                    calculateTotal(); // Gọi lại hàm tính tổng tiền
-
-                                    // Cập nhật số lượng giỏ hàng trong header
+                                    alert(data.message);
+                                    row.remove();
                                     count();
 
-                                    // Kiểm tra xem giỏ hàng có còn sản phẩm nào không
                                     const cartItems = document.querySelectorAll(
                                         '.cart-section tbody tr');
                                     if (cartItems.length === 0) {
-                                        // Nếu giỏ hàng trống, hiển thị thông báo và nút quay lại trang mua sắm
                                         document.querySelector('.cart-section').innerHTML = `
-                            <div class="mt-4 text-center" style="margin-bottom: 20px;">
-                                <h3>Giỏ hàng của bạn đang trống.</h3>
-                            </div>
-                            <div class="d=flex justify-content-center align-items-center ">
-                                <a href="{{ route('home') }}" class="btn btn-primary"
-                                    style="border-radius: 8px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">Mua
-                                    Sắm Ngay</a>
-                            </div>
-                        `;
+                                <div class="mt-4 text-center" style="margin-bottom: 20px;">
+            <h3>Giỏ hàng của bạn đang trống.</h3>
+        </div>
+        <div class="d=flex justify-content-center align-items-center ">
+            <a href="{{ route('home') }}" class="btn btn-primary"
+                style="border-radius: 8px; background-color: #417394; padding: 10px; color: white; border: none; margin-bottom: 20px;">Mua
+                Sắm Ngay</a>
+        </div>
+                            `;
                                     }
                                 } else {
                                     alert('Không thể xóa sản phẩm!');
                                 }
                             })
-                            .catch(error => console.error('Lỗi:', error)); // Log lỗi nếu có
+                            .catch(error => console.error('Lỗi:', error)); 
                     }
                 });
-
             });
 
-            // Hàm cập nhật số lượng giỏ hàng trong header
             function count() {
                 fetch('/cart/count', {
-                        method: 'GET', // Yêu cầu số lượng sản phẩm hiện tại trong giỏ
+                        method: 'GET',
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
                                 'content')
@@ -980,6 +912,7 @@
                     warningMessage.style.display = 'none';
                 }
             }
+
 
         });
     </script>
