@@ -33,6 +33,7 @@ return new class extends Migration
             // Tạo trường 'variant_name' với kiểu dữ liệu chuỗi (string), dùng để lưu tên biến thể của sản phẩm.
         
             $table->bigInteger('price');
+            $table->bigInteger('import_price');
             // Tạo trường 'price' với kiểu dữ liệu số nguyên lớn (bigInteger), dùng để lưu giá của sản phẩm tại thời điểm mua.
         
             $table->integer('quantity');
