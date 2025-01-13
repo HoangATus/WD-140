@@ -29,6 +29,8 @@ Route::prefix('admins')->as('admins.')->middleware('auth.admin')->group(function
     Route::resource('categories', CategoryController::class);
     Route::resource('attributeSizes', SizeController::class);
     Route::resource('products', ProductController::class);
+    Route::get('/products/check-variant-usage/{variantId}', [ProductController::class, 'checkVariantUsage'])
+    ->name('products.checkVariantUsage');
     Route::resource('colors', ColorController::class);
     Route::resource('orders', OrderController::class);
 
