@@ -97,20 +97,49 @@
                                                 </td>
                                             </tr>
 
-                                            @if (!empty($order->voucher_discount) && $order->voucher_discount > 0)
-                                                <td class="fw-bold">Voucher :</td>
-                                                <td class="text-end">
-                                                    -{{ number_format($order->voucher_discount, 0, ',', '.') }} VNĐ</td>
-                                            @endif
+
+                                            @php
+                                                $voucher = $order->voucher;
+                                                $displayDiscount = 'Không áp dụng';
+
+                                                if ($voucher) {
+                                                    // Kiểm tra loại giảm giá
+                                                    if (
+                                                        $voucher->discount_type === 'fixed' &&
+                                                        $voucher->discount_value > 0
+                                                    ) {
+                                                        // Định dạng số tiền với dấu chấm
+                                                        $displayDiscount =
+                                                            '- ' .
+                                                            number_format($voucher->discount_value, 0, ',', '.') .
+                                                            ' VNĐ';
+                                                    } elseif (
+                                                        $voucher->discount_type === 'percent' &&
+                                                        $voucher->discount_percent > 0
+                                                    ) {
+                                                        $displayDiscount = $voucher->discount_percent . '%';
+                                                    }
+                                                }
+                                            @endphp
+                                            <td class="fw-bold">Voucher :</td>
+                                            <td class="text-end">{{ $displayDiscount }}</td>
+
+                                            @php
+                                                $displayPoints = 'Không sử dụng';
+
+                                                if (!empty($order->points_discount) && $order->points_discount > 0) {
+                                                    $displayPoints =
+                                                        '- ' .
+                                                        number_format($order->points_discount, 0, ',', '.') .
+                                                        ' VNĐ';
+                                                }
+                                            @endphp
 
                                             <tr>
-                                                @if (!empty($order->points_discount) && $order->points_discount > 0)
-                                                    <td class="fw-bold">Điểm tích lũy :</td>
-                                                    <td class="text-end">
-                                                        -{{ number_format($order->points_discount, 0, ',', '.') }} VNĐ</td>
-                                                @endif
-
+                                                <td class="fw-bold">Điểm tích lũy :</td>
+                                                <td class="text-end">{{ $displayPoints }}</td>
                                             </tr>
+
 
                                             <tr>
                                                 <th class="fw-bold" style="font-size: 18px;">Thành tiền :</th>

@@ -33,10 +33,10 @@ class ShopController extends Controller
     public function index()
     {
 
-        $products = Product::with('variants')->latest()->take(10)->get();
+        $products = Product::with('variants')->where('is_active', true)->latest()->take(10)->get();
 
 
-        $bestSellingProducts = Product::with('variants')
+        $bestSellingProducts = Product::with('variants')->where('is_active', true)
             ->select('products.*')
             ->join('order_items', 'products.id', '=', 'order_items.product_id')
             ->join('orders', 'orders.id', '=', 'order_items.order_id')

@@ -20,7 +20,7 @@
                                 <form class="theme-form theme-form-2 mega-form">
 
                                     <div class="mb-4 row align-items-center">
-                                        <label class="form-label-title col-sm-3 mb-0">Tên </label>
+                                        <label class="form-label-title col-sm-3 mb-0">Tên màu</label>
                                         <div class="col-sm-9">
                                             <p>{{ $color->name }}</p>
                                         </div>

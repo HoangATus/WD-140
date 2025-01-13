@@ -72,6 +72,14 @@
                 <div class="title">
                     <h2 class="text-danger">SẢN PHẨM BÁN CHẠY</h2>
                 </div>
+
+                {{-- Hiển thị thông báo từ session nếu có --}}
+                @if (session('message'))
+                    <div class="alert alert-info">
+                        {{ session('message') }}
+                    </div>
+                @endif
+
                 @if (session('successy'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('successy') }}
@@ -83,77 +91,85 @@
                         {{ session('errors') }}
                     </div>
                 @endif
+
                 <div class="container">
-                    <div class="product-grid">
-                        @foreach ($bestSellingProducts as $product)
-                            <div class="product-box">
-                                <div class="product-img">
-                                    <a href="{{ route('products.show', $product->slug) }}">
-                                        <img src="{{ Storage::url($product->product_image_url) }}" class="img-fluid"
-                                            alt="{{ $product->product_name }}">
-                                    </a>
-                                </div>
-                                <div class="product-detail">
-                                    <div class="product-name">
-                                        <a
-                                            href="{{ route('products.show', $product->slug) }}">{{ $product->product_name }}</a>
-                                    </div>
-                                    <div class="product-rating custom-rate">
-                                        <ul class="rating">
-                                            @php
-                                                $averageRating = $product->ratings->avg('rating');
-                                            @endphp
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                <li>
-                                                    @if ($i <= $averageRating)
-                                                        <i data-feather="star" class="fill"></i>
-                                                    @else
-                                                        <i data-feather="star"></i>
-                                                    @endif
-                                                </li>
-                                            @endfor
-                                        </ul>
-                                    </div>
-                                    @if ($product->variants->isNotEmpty())
-                                        @php
-                                            $firstVariant = $product->variants->first();
-                                        @endphp
-                                        <div class="price">
-                                            <div class="sale-price">
-                                                {{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }} VNĐ
-                                            </div>
-                                            <div class="listed-price">
-                                                <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }}
-                                                    VNĐ</del>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    <div class="add-buttons d-flex align-items-center">
-                                        <a class="cart button text-white"
-                                            href="{{ route('products.show', $product->slug) }}">
-                                            Thêm vào giỏ
-                                            <span class="add-icon bg-light-gray">
-                                                <i class="bi bi-cart"></i>
-                                            </span>
+                    {{-- Kiểm tra nếu danh sách sản phẩm bán chạy trống --}}
+                    @if ($bestSellingProducts->isEmpty())
+                        <div class="alert alert-warning">
+                            Hiện tại chưa có sản phẩm bán chạy trong tháng này.
+                        </div>
+                    @else
+                        <div class="product-grid">
+                            @foreach ($bestSellingProducts as $product)
+                                <div class="product-box">
+                                    <div class="product-img">
+                                        <a href="{{ route('products.show', $product->slug) }}">
+                                            <img src="{{ Storage::url($product->product_image_url) }}" class="img-fluid"
+                                                alt="{{ $product->product_name }}">
                                         </a>
+                                    </div>
+                                    <div class="product-detail">
+                                        <div class="product-name">
+                                            <a
+                                                href="{{ route('products.show', $product->slug) }}">{{ $product->product_name }}</a>
+                                        </div>
+                                        <div class="product-rating custom-rate">
+                                            <ul class="rating">
+                                                @php
+                                                    $averageRating = $product->ratings->avg('rating');
+                                                @endphp
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <li>
+                                                        @if ($i <= $averageRating)
+                                                            <i data-feather="star" class="fill"></i>
+                                                        @else
+                                                            <i data-feather="star"></i>
+                                                        @endif
+                                                    </li>
+                                                @endfor
+                                            </ul>
+                                        </div>
+                                        @if ($product->variants->isNotEmpty())
+                                            @php
+                                                $firstVariant = $product->variants->first();
+                                            @endphp
+                                            <div class="price">
+                                                <div class="sale-price">
+                                                    {{ number_format($firstVariant->variant_sale_price, 0, ',', '.') }} VNĐ
+                                                </div>
+                                                <div class="listed-price">
+                                                    <del>{{ number_format($firstVariant->variant_listed_price, 0, ',', '.') }}
+                                                        VNĐ</del>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        <div class="add-buttons d-flex align-items-center">
+                                            <a class="cart button text-white"
+                                                href="{{ route('products.show', $product->slug) }}">
+                                                Thêm vào giỏ
+                                                <span class="add-icon bg-light-gray">
+                                                    <i class="bi bi-cart"></i>
+                                                </span>
+                                            </a>
 
-                                        <form action="{{ route('clients.favorites.store') }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            <button class="cart-icon" name="product_id" value="{{ $product->id }}"
-                                                type="submit">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </button>
-                                        </form>
+                                            <form action="{{ route('clients.favorites.store') }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                <button class="cart-icon" name="product_id" value="{{ $product->id }}"
+                                                    type="submit">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
-
             </div>
         </div>
+
     </div>
     <style>
         .product-grid {

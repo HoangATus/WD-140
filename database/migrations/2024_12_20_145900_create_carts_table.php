@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('variant_id')->nullable();
             $table->integer('quantity')->default(1); 
             $table->timestamps(); 
-
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('variant_id')->references('id')->on('variants');
         });

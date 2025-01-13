@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\ProductGallery;
 use App\Models\Variant;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -90,13 +91,24 @@ class ProductController extends Controller
     }
     public function edit(Product $product)
     {
-        //
         $categories = Category::query()->pluck('name', 'id')->all();
         $sizes = AttributeSize::query()->pluck('attribute_size_name', 'id')->all();
         $colors = Color::query()->pluck('name', 'id')->all();
-        $variants = $product->variants;
+        $variants = $product->variants->map(function ($variant) {
+            $isLocked = DB::table('order_items')
+                ->where('variant_id', $variant->id)
+                ->exists() || DB::table('carts')
+                ->where('variant_id', $variant->id)
+                ->exists();
+
+            $variant->is_locked = $isLocked;
+            return $variant;
+        });
         return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'colors', 'sizes', 'variants'));
     }
+
+
+
     public function update(UpdateProductRequest $request, Product $product)
     {
 
@@ -114,14 +126,34 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
             $product->update($data);
+            if ($request->has('deletedVariantIds')) {
+                $deletedVariantIds = json_decode($request->deletedVariantIds, true);
+                if (is_array($deletedVariantIds) && !empty($deletedVariantIds)) {
+                    $variantsToDelete = Variant::whereIn('id', $deletedVariantIds)->get();
+            
+                    foreach ($variantsToDelete as $variant) {
+                        if ($variant->image && Storage::exists($variant->image)) {
+                            Storage::delete($variant->image);
+                        }
+                        $variant->delete();
+                    }
+                    Log::info('Deleted Variants:', $deletedVariantIds);
+                }
+            }
+            // dd($request->deletedVariantIds);
+            
 
             if (!is_null($request->variants) && is_array($request->variants)) {
-                $variantIds = [];
+                $existingVariants = $product->variants->keyBy('id');
+                $processedVariantIds = [];
+
                 foreach ($request->variants as $item) {
-                    $newVariantData = [
-                        'product_id' => $product->id,
-                        'attribute_size_id' => $item['attribute_size_name'],
-                        'attribute_color_id' => $item['name'],
+
+                    $variantId = $item['id'] ?? null;
+
+                    $variantData = [
+                        'attribute_size_id' => $item['attribute_size_name'] ?? null,
+                        'attribute_color_id' => $item['name'] ?? null,
                         'variant_listed_price' => $item['variant_listed_price'] ?? 0,
                         'variant_sale_price' => $item['variant_sale_price'] ?? 0,
                         'variant_import_price' => $item['variant_import_price'] ?? 0,
@@ -133,16 +165,25 @@ class ProductController extends Controller
                             Storage::delete($item['old_image']);
                         }
 
-                        $newVariantData['image'] = Storage::put('variants', $item['image']);
+
+                        $variantData['image'] = Storage::put('variants', $item['image']);
                     } else if (!empty($item['old_image'])) {
-                        $newVariantData['image'] = $item['old_image'];
+                        $variantData['image'] = $item['old_image'];
                     }
 
-                    $newVariant = Variant::create($newVariantData);
-                    $variantIds[] = $newVariant->id;
+                    if ($variantId && $existingVariants->has($variantId)) {
+                        $variant = $existingVariants->get($variantId);
+                        $variant->update($variantData);
+                        $processedVariantIds[] = $variant->id;
+                    } else {
+                        $variantData['product_id'] = $product->id;
+                        $newVariant = Variant::create($variantData);
+                        $processedVariantIds[] = $newVariant->id;
+                    }
+
                 }
 
-                $product->variants()->whereNotIn('id', $variantIds)->delete();
+                Log::info('Processed Variants:', $processedVariantIds);
             }
 
             if ($request->has('product_galleries')) {
@@ -164,22 +205,32 @@ class ProductController extends Controller
     }
     public function destroy(Product $product)
     {
-        //
-        try {
-            DB::beginTransaction();
-            foreach ($product->galleries as $gallery) {
-                Storage::delete($gallery->image);
-                $gallery->delete();
-            }
-            $product->variants()->delete();
+        $variantIds = $product->variants->pluck('id')->toArray();
 
-            $product->delete();
+        $existsInOrder = DB::table('order_items')->whereIn('variant_id', $variantIds)->exists();
+        $existsInCart = DB::table('carts')->whereIn('variant_id', $variantIds)->exists();
 
-            DB::commit();
-            return redirect()->route('admins.products.index')->with('success', 'Sản phẩm đã được xóa thành công.');
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'Đã xảy ra lỗi khi xóa sản phẩm.']);
+        $errors = [];
+        if ($existsInOrder) {
+            $errors[] = 'Lỗi: Sản phẩm đã được mua.';
         }
+        if ($existsInCart) {
+            $errors[] = 'Lỗi: Sản phẩm đang trong giỏ hàng.';
+        }
+        if (!empty($errors)) {
+            return back()->withErrors($errors);
+        }
+
+        DB::beginTransaction();
+        foreach ($product->galleries as $gallery) {
+            Storage::delete($gallery->image);
+            $gallery->delete();
+        }
+        $product->variants()->delete();
+
+        $product->delete();
+
+        DB::commit();
+        return redirect()->route('admins.products.index')->with('success', 'Sản phẩm đã được xóa thành công.');
     }
 }

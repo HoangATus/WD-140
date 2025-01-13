@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSizeRequest;
 use App\Http\Requests\UpdateSizeRequest;
 use App\Models\AttributeSize;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 
@@ -38,8 +39,15 @@ class SizeController extends Controller
 
     public function edit(AttributeSize $attributeSize)
     {
+        // Kiểm tra nếu size đã được sử dụng làm biến thể
+        if ($attributeSize->variants()->exists()) {
+            return redirect()->route('admins.attributeSizes.index')
+                ->with('error', 'Sửa thất bại. Do bản ghi đang được sử dụng.');
+        }
+
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributeSize'));
     }
+
 
     public function update(UpdateSizeRequest $request, AttributeSize $attributeSize)
     {
@@ -53,6 +61,11 @@ class SizeController extends Controller
 
     public function destroy(AttributeSize $attributeSize)
     {
+        $isUsedAsVariant = $attributeSize->variants()->exists();
+
+        if ($isUsedAsVariant) {
+            return back()->with('error', 'Xóa thất bại. Do bản ghi đang được sử dụng.');
+        }
 
         $attributeSize->delete();
         return back()->with('message', 'Xóa thành công');
