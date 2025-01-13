@@ -160,6 +160,10 @@
                                                             class="order-image">
                                                             <img src="{{ $item->image }}" class="img-fluid rounded"
                                                                 alt="" style="max-width: 50%;">
+                                                            {{-- <img src="{{ asset('storage/' . $item->image) }}"
+                                                                class="img-fluid rounded" alt="Product Image"
+                                                                style="max-width: 50%;"> --}}
+
                                                         </a>
                                                         <img src="{{ asset('storage/' . $item->image) }}"
                                                         class="img-fluid rounded" alt=""
