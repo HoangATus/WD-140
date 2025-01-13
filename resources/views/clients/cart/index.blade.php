@@ -431,7 +431,6 @@
                                     alert(data.message);
                                     row.remove();
 
-<
                                     calculateTotal();
 
                                     updateCartCount();
