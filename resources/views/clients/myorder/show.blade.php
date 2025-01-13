@@ -161,6 +161,9 @@
                                                             <img src="{{ $item->image }}" class="img-fluid rounded"
                                                                 alt="" style="max-width: 50%;">
                                                         </a>
+                                                        <img src="{{ asset('storage/' . $item->image) }}"
+                                                        class="img-fluid rounded" alt=""
+                                                        style="max-width: 50%;"></a>
                                                     </div>
                                                     <div class="col-md-9">
                                                         <div class="order-wrap">

@@ -61,12 +61,13 @@
                                         onchange="fetchMonthlyRevenue()">
                                 </div>
                                 <select id="yearInput" class="filter-input" onchange="fetchYearlyRevenue()">
-                       
-                                 @foreach ($revenu as $year)
-                                 <option value="{{ $year }}" {{ $year == $currentYear ? 'selected' : '' }}>
-                                    {{ $year }}
-                                </option>
-                                 @endforeach
+
+                                    @foreach ($revenu as $year)
+                                        <option value="{{ $year }}" {{ $year == $currentYear ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
+                                    @endforeach
+
                                 </select>
 
                                 <div id="rangeInput" style="display: none; border: none; outline: none;">
@@ -83,7 +84,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container mt-5">
 
         <form method="GET" action="{{ route('admin.dashboard') }}" class="mb-4">
@@ -98,11 +99,11 @@
                 </div>
             </div>
         </form>
-        @if($topSellingMessage)
-        <div class="alert alert-info">
-            {{ $topSellingMessage }}
-        </div>
-    @endif
+        @if ($topSellingMessage)
+            <div class="alert alert-info">
+                {{ $topSellingMessage }}
+            </div>
+        @endif
         <div class="row">
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -164,9 +165,9 @@
                                 {{ number_format($item->total_revenue, 0, ',', '.') }} VND
                             </div>
                         </div>
-                        @empty
+                    @empty
                         <p>Không có sản phẩm doanh thu trong tháng này.</p>
-                        @endforelse
+                    @endforelse
                 </div>
             </div>
 
@@ -191,9 +192,9 @@
                                 {{ number_format($item->total_profit, 0, ',', '.') }} VND
                             </div>
                         </div>
-                        @empty
+                    @empty
                         <p>Không có sản phẩm lợi nhuận trong tháng này.</p>
-                        @endforelse
+                    @endforelse
                 </div>
             </div>
         </div>

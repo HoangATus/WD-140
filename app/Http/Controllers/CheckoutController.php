@@ -60,6 +60,8 @@ class CheckoutController extends Controller
 
         $userId = Auth::id();
 
+        $user = User::find($userId);
+
         $cart = Cart::where('user_id', $userId)->with(['product', 'variant'])->get();
 
         if ($cart->isEmpty()) {
@@ -113,13 +115,13 @@ class CheckoutController extends Controller
                 'product_name' => $item->variant->product->product_name,
                 'variant_name' => $item->variant->size->attribute_size_name . ' ' . $item->variant->color->name,
                 'price'        => $item->variant->variant_sale_price,
+                'price_import' => $item->variant->variant_import_price,
                 'quantity'     => $item->quantity,
                 'image'        => $item->variant->image,
             ]);
         }
 
         if ($pointsDiscount > 0) {
-            $user = Auth::user();
             $user->points -= $pointsDiscount;
             $user->save();
         }
@@ -523,6 +525,7 @@ class CheckoutController extends Controller
                 'product_name' => $variant->product->product_name,
                 'variant_name' => $variant->color->name . '-' . $variant->size->attribute_size_name,
                 'price' => $variant->variant_sale_price,
+                'price_import' => $variant->variant->variant_import_price,
                 'quantity' => $request->quantity,
                 'image' => Storage::url($variant->image),
             ]);

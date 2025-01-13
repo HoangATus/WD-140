@@ -53,9 +53,13 @@ class RevenueController extends Controller
         $currentYear = Carbon::now()->year;
         $years = range($currentYear - 5, $currentYear);
 
-        $revenu = DB::table('orders')
+        $currentYear = Carbon::now()->year;
+        $years = range($currentYear - 5, $currentYear);
+        $whereInStatus = ['delivered', 'completed'];
+        $revenu  = DB::table('orders')
             ->selectRaw('YEAR(created_at) as year')
             ->distinct()
+            ->whereIn('orders.status', $whereInStatus)
             ->orderByDesc('year')
             ->pluck('year');
 
@@ -147,10 +151,17 @@ class RevenueController extends Controller
             ->limit(5)
             ->get();
 
+
+
         return view('admins.dashboard', compact(
-            'month',
+            'years',
             'revenu',
+            'currentYear',
+            'revenueData',
+            'counts',
+            'month',
             'year',
+            'data',
             'topSellingProducts',
             'topRevenueProducts',
             'topProfitProducts',
@@ -160,6 +171,7 @@ class RevenueController extends Controller
             'topSellingMessage'
         ));
     }
+
 
 
     protected function calculateRevenueAndProfit($month, $year)
@@ -224,19 +236,20 @@ class RevenueController extends Controller
     {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-
+        $whereInStatus = ['delivered', 'completed'];
         Log::info("Start Date: $startDate, End Date: $endDate");
 
         $revenues = DB::table('orders')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
-            ->join('variants', 'order_items.variant_id', '=', 'variants.id')
+            // ->join('variants', 'order_items.variant_id', '=', 'variants.id')
             ->select(
                 DB::raw('DATE(orders.created_at) as date'),
                 DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
-                DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
+                DB::raw('SUM(order_items.quantity * (order_items.price - order_items.price_import)) as profit')
             )
             ->whereBetween('orders.created_at', [$startDate, $endDate])
             ->groupBy('date')
+            ->whereIn('orders.status', $whereInStatus)
             ->orderBy('date', 'ASC')
             ->get();
 
@@ -270,11 +283,11 @@ class RevenueController extends Controller
         if ($day) {
             $revenues = DB::table('orders')
                 ->join('order_items', 'orders.id', '=', 'order_items.order_id')
-                ->join('variants', 'order_items.variant_id', '=', 'variants.id')
+                // ->join('variants', 'order_items.variant_id', '=', 'variants.id')
                 ->select(
                     DB::raw('HOUR(orders.created_at) as hour'),
                     DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
-                    DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
+                    DB::raw('SUM(order_items.quantity * (order_items.price - order_items.price_import)) as profit')
                 )
                 ->whereDate('orders.created_at', $day)
                 ->whereIn('orders.status', $whereInStatus)
@@ -290,11 +303,11 @@ class RevenueController extends Controller
         if ($month & $year) {
             $revenues = DB::table('orders')
                 ->join('order_items', 'orders.id', '=', 'order_items.order_id')
-                ->join('variants', 'order_items.variant_id', '=', 'variants.id')
+                // ->join('variants', 'order_items.variant_id', '=', 'variants.id')
                 ->select(
                     DB::raw('DAY(orders.created_at) as day'),
                     DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
-                    DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
+                    DB::raw('SUM(order_items.quantity * (order_items.price - order_items.price_import)) as profit')
                 )
                 ->whereYear('orders.created_at', $year)
                 ->whereMonth('orders.created_at', $month)
@@ -310,11 +323,11 @@ class RevenueController extends Controller
         if ($year) {
             $revenues = DB::table('orders')
                 ->join('order_items', 'orders.id', '=', 'order_items.order_id')
-                ->join('variants', 'order_items.variant_id', '=', 'variants.id')
+                // ->join('variants', 'order_items.variant_id', '=', 'variants.id')
                 ->select(
                     DB::raw('MONTH(orders.created_at) as month'),
                     DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
-                    DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
+                    DB::raw('SUM(order_items.quantity * (order_items.price - order_items.price_import)) as profit')
                 )
                 ->whereYear('orders.created_at', $year)
                 ->whereIn('orders.status', $whereInStatus)
@@ -412,11 +425,11 @@ class RevenueController extends Controller
 
         $revenues = DB::table('orders')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
-            ->join('variants', 'order_items.variant_id', '=', 'variants.id')
+            // ->join('variants', 'order_items.variant_id', '=', 'variants.id')
             ->select(
                 DB::raw('DATE(orders.created_at) as date'),
                 DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
-                DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
+                DB::raw('SUM(order_items.quantity * (order_items.price - order_items.price_import)) as profit')
             )
             ->whereBetween('orders.created_at', [$startDate, $endDate])
             ->whereIn('orders.status', ['delivered', 'completed'])
@@ -445,11 +458,11 @@ class RevenueController extends Controller
 
         $revenues = DB::table('orders')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
-            ->join('variants', 'order_items.variant_id', '=', 'variants.id')
+            // ->join('variants', 'order_items.variant_id', '=', 'variants.id')
             ->select(
                 DB::raw('DAY(orders.created_at) as day'),
                 DB::raw('SUM(order_items.quantity * order_items.price) as revenue'),
-                DB::raw('SUM(order_items.quantity * (order_items.price - variants.variant_import_price)) as profit')
+                DB::raw('SUM(order_items.quantity * (order_items.price - order_items.price_import)) as profit')
             )
             ->whereYear('orders.created_at', $year)
             ->whereMonth('orders.created_at', $month)

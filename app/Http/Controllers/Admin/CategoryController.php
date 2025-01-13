@@ -52,6 +52,9 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
+        if ($category->product()->count() > 0) {
+            return back()->with(['success' => 'Không thể sửa danh mục này vì nó đã được sử dụng với sản phẩm.']);
+        }
         return view(self::PATH_VIEW.__FUNCTION__, compact('category'));
     }
 
@@ -73,7 +76,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         if ($category->product()->count() > 0) {
-            return back()->with(['success' => 'Không thể xóa danh mục này vì nó đã được liên kết với sản phẩm.']);
+            return back()->with(['success' => 'Không thể xóa danh mục này vì nó đã được sử dụng với sản phẩm.']);
         }
         $category->delete();
         return back()->with('message', 'Xóa thành công');
