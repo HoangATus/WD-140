@@ -59,12 +59,11 @@
                                         onchange="fetchMonthlyRevenue()">
                                 </div>
                                 <select id="yearInput" class="filter-input" onchange="fetchYearlyRevenue()">
-                                    @php
-                                        $currentYear = \Carbon\Carbon::now()->year;
-                                    @endphp
-                                    @for ($i = 0; $i <= 5; $i++)
-                                        <option value="{{ $currentYear - $i }}">{{ $currentYear - $i }}</option>
-                                    @endfor
+                                    @foreach ($revenu as $year)
+                                    <option value="{{ $year }}" {{ $year == $currentYear ? 'selected' : '' }}>
+                                       {{ $year }}
+                                   </option>
+                                    @endforeach
                                 </select>
 
                                 <div id="rangeInput" style="display: none; border: none; outline: none;">
