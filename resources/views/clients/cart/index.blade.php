@@ -1,7 +1,7 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Breadcrumb Section Start -->
+
     <section class="breadcrumb-section">
         <div class="container">
             <nav aria-label="breadcrumb">
@@ -12,9 +12,7 @@
             </nav>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
 
-    <!-- Cart Section Start -->
     <section class="cart-section">
         <div class="container">
             <h2>Giỏ Hàng</h2>
@@ -32,9 +30,11 @@
                         </tr>
                     </thead>
                     <tbody>
+
                         @foreach ($cart as $item)
                             <tr data-variant-id="{{ $item->variant_id }}"
                                 data-stock-quantity="{{ $item->variant->quantity }}">
+
                                 <td>
                                     <img src="{{ Storage::url($item->variant->image) }}"
                                         alt="{{ $item->variant->name ?? 'Sản phẩm' }}" width="80">
@@ -170,12 +170,14 @@
                                 <input type="hidden" id="pontsDiscountInput" name="pointsDiscount" value="0">
                                 <input type="hidden" id="selectedVoucher" name="selectedVoucher">
 
+
                                 <ul class="summery-total ">
                                     <li class="d-flex justify-content-between align-items-center"><strong>Thành tiền:
                                         </strong>
                                         <span class="price" id="finalTotal">{{ number_format($total, 0, ',', '.') }}
                                             VND</span>
                                     </li>
+
                                 </ul>
                                 <input type="hidden" name="initial_total" value="{{ $total }}">
                                 <input type="hidden" id="finalTotalInput" name="final_total"
@@ -253,7 +255,6 @@
         @endif
         </div>
     </section>
-    <!-- Cart Section End -->
 
     @include('clients.blocks.assets.js')
 
@@ -269,6 +270,7 @@
                     " VND";
                 finalTotalElement.innerText = `${totalAmount.toLocaleString()} VND`;
             }
+
             const cartTable = document.querySelector("tbody");
 
             function updateRowTotal(row, quantity, price) {
@@ -280,6 +282,7 @@
             function sendQuantityUpdate(variantId, quantity, row, price) {
                 axios
                     .post("{{ route('cart.update') }}", {
+
                         variant_id: variantId,
                         quantity: quantity,
                     })
@@ -329,6 +332,7 @@
                     });
             }
 
+
             cartTable.addEventListener("click", function(e) {
                 const button = e.target;
                 const row = button.closest("tr");
@@ -363,7 +367,9 @@
                     const price = parseInt(row.cells[3].textContent.replace(/\D/g, ""));
                     const variantId = row.getAttribute("data-variant-id");
 
+
                     let quantity = parseInt(input.value);
+
                     const stockQuantity = parseInt(row.getAttribute("data-stock-quantity"));
 
                     if (quantity < 1 || isNaN(quantity)) {
@@ -405,8 +411,10 @@
 
             document.querySelectorAll('.btn-remove').forEach(button => {
                 button.addEventListener('click', function() {
+
                     const row = this.closest('tr');
                     const variantId = row.getAttribute('data-variant-id');
+
 
                     if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?')) {
                         fetch(`/cart/${variantId}`, {
@@ -423,9 +431,11 @@
                                     alert(data.message);
                                     row.remove();
 
+<
                                     calculateTotal();
 
                                     updateCartCount();
+
 
                                     const cartItems = document.querySelectorAll(
                                         '.cart-section tbody tr');
@@ -443,9 +453,12 @@
                                     }
                                 } else {
                                     alert('Không thể xóa sản phẩm!');
+
                                 }
                             })
+
                             .catch(error => console.error('Lỗi:', error));
+
                     }
                 });
             });

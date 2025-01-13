@@ -1,7 +1,6 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Phần Điều Hướng Bắt Đầu -->
     <section class="breadcrumb-section pt-0">
         <div class="container-fluid-lg">
             <div class="row">
@@ -23,10 +22,7 @@
             </div>
         </div>
     </section>
-    <!-- Phần Điều Hướng Kết Thúc -->
 
-
-    <!-- Phần Bảng Điều Khiển Người Dùng Bắt Đầu -->
     <section class="user-dashboard-section section-b-space">
         <div class="container-fluid-lg">
             <div class="row">
@@ -76,21 +72,7 @@
                                     data-bs-target="#pills-order" type="button"><i data-feather="shopping-bag"></i>Đơn
                                     Hàng</button>
                             </li>
-                            {{-- <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-wishlist-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-wishlist" type="button"><i data-feather="heart"></i>
-                                Danh Sách Yêu Thích</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-card-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-card" type="button" role="tab"><i
-                                    data-feather="credit-card"></i> Thẻ Đã Lưu</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-address-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-address" type="button" role="tab"><i
-                                    data-feather="map-pin"></i>Địa Chỉ</button>
-                        </li> --}}
+
                         </ul>
                     </div>
                 </div>
@@ -138,6 +120,7 @@
                                                 </div>
                                             @enderror
                                         </div>
+
                                         <div class="form-group mt-2">
                                             <label for="user_phone_number">Số điện thoại:</label>
                                             <input type="number" name="user_phone_number" id="user_phone_number"
@@ -169,14 +152,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    {{-- <div class="ms-2">
-                                        <div class="d-flex justify-content-end">
-                                            <a href="{{ route('profile.index') }}">
-                                            <button type="" class=""
-                                                style="border-radius: 6px; background-color: gray; padding: 10px; color: white; border: none;">Quay lại</button>
-                                            </a>
-                                        </div>
-                                    </div> --}}
+
                                 </div>
                             </div>
                         </div>
@@ -185,5 +161,4 @@
             </div>
         </div>
     </section>
-    <!-- User Dashboard Section End -->
 @endsection

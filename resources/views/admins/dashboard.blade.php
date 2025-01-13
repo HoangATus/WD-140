@@ -5,21 +5,18 @@
 @section('content')
     <div class="container-xxl">
         <h2># Thống kê Bán Hàng</h2>
-
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
                 <h4 class="fs-18 fw-semibold m-0">Thống kê đơn hàng</h4>
             </div>
         </div>
 
-        <!-- start row -->
         <div class="row">
             <div class="col-md-12 col-xl-12">
                 <div class="row g-3">
-                    <!-- First div -->
                     @foreach ($counts as $status => $count)
                         <div class="" style="flex: 0 0 14.2857%; /* 100% / 7 */; max-width: 14.2857%;">
-                            <div class="card">
+                            <div class="card" style=" height: 80px;">
                                 <div class="card-body d-flex align-items-center">
                                     <div class="fs-14 mb-1 flex-grow-1 fw-semibold text-black">{{ $status }}
                                     </div>
@@ -29,7 +26,12 @@
                         </div>
                     @endforeach
                 </div>
-            </div> <!-- end sales -->
+            </div>
+        </div>
+        <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
+            <div class="flex-grow-1">
+                <h4 class="fs-18 fw-semibold m-0"># Thống Kê Doanh Thu và Lợi nhuận</h4>
+            </div>
         </div>
 
         <div class="row">
@@ -39,7 +41,6 @@
                         <h5 class="card-title mb-0">Thống Kê Doanh Thu và Lợi nhuận</h5>
                     </div>
                     <div class="card-body">
-                        <!-- Date Filter -->
                         <div class="filter-container">
                             <div class="filter-tabs">
                                 <button class="filter-tab active" onclick="selectFilter('day')">Ngày</button>
@@ -55,42 +56,74 @@
                                         max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">
                                 </div>
                                 <div>
+
                                     <input type="month" id="monthInput" class="filter-input" style="display: block;"
                                         onchange="fetchMonthlyRevenue()">
                                 </div>
                                 <select id="yearInput" class="filter-input" onchange="fetchYearlyRevenue()">
+
                                     @foreach ($revenu as $year)
-                                    <option value="{{ $year }}" {{ $year == $currentYear ? 'selected' : '' }}>
-                                       {{ $year }}
-                                   </option>
+                                        <option value="{{ $year }}" {{ $year == $currentYear ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
                                     @endforeach
+
                                 </select>
 
                                 <div id="rangeInput" style="display: none; border: none; outline: none;">
                                     <input type="text" class="filter-input"id="dateRangeInput" name="daterange"
                                         class="range-date">
                                 </div>
-                                {{-- <div id="rangeInput" class="filter-input range-input" style="display: none;">
-                                    <input type="date" id="startDate" class="range-date" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" onchange="fetchRangeRevenue()">
-                                    ~
-                                    <input type="date" id="endDate" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" class="range-date" onchange="fetchRangeRevenue()">
-                                </div> --}}
+
                             </div>
                         </div>
-                        <!-- Render Revenue Chart -->
+
                         <div id="revenueChart" class="apex-charts mt-4"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="container mt-5">
+
+        <form method="GET" action="{{ route('admin.dashboard') }}" class="mb-4">
+            <div class="row g-3 align-items-end">
+                <div class="col-auto">
+                    <label for="month" class="form-label fw-bold">Chọn Tháng</label>
+                    <input type="month" id="month" name="month" class="form-control"
+                        value="{{ request('month', now()->format('Y-m')) }}">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Lọc</button>
+                </div>
+            </div>
+        </form>
+        @if ($topSellingMessage)
+            <div class="alert alert-info">
+                {{ $topSellingMessage }}
+            </div>
+        @endif
         <div class="row">
-            <!-- Top 5 Sản Phẩm bán chạy Nhất -->
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (session('message'))
+                <div class="alert alert-info">
+                    {{ session('message') }}
+                </div>
+            @endif
+
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Bán Chạy Nhất</h5>
                 <div class="border p-3 mb-3">
-                    @foreach ($topSellingProducts as $product)
+                    @forelse ($topSellingProducts as $product)
                         <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
                             <div class="me-3"
                                 style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
@@ -100,20 +133,22 @@
                             <div class="flex-grow-1">
                                 <div class="fw-bold"
                                     style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
-                                    {{ $product->product_name }}</div>
+                                    {{ $product->product_name }}
+                                </div>
                             </div>
-                            <div class="fw-bold" style="white-space: nowrap;">Số lượng:
-                                {{ $product->total_quantity }}</div>
+                            <div class="fw-bold" style="white-space: nowrap;">Số lượng: {{ $product->total_quantity }}
+                            </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <p>Không có sản phẩm bán chạy trong tháng này.</p>
+                    @endforelse
                 </div>
             </div>
 
-            <!-- Top 5 Sản Phẩm doanh thu cao Nhất -->
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Doanh Thu Cao Nhất</h5>
                 <div class="border p-3 mb-3">
-                    @foreach ($topRevenueProducts as $item)
+                    @forelse ($topRevenueProducts as $item)
                         <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
                             <div class="me-3"
                                 style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
@@ -123,20 +158,24 @@
                             <div class="flex-grow-1">
                                 <p class="mb-0 fw-bold"
                                     style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
-                                    {{ $item->product_name }}</p>
+                                    {{ $item->product_name }}
+                                </p>
                             </div>
                             <div class="ms-auto fw-bold" style="white-space: nowrap;">
-                                {{ number_format($item->total_revenue, 0, ',', '.') }} VND</div>
+                                {{ number_format($item->total_revenue, 0, ',', '.') }} VND
+                            </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <p>Không có sản phẩm doanh thu trong tháng này.</p>
+                    @endforelse
                 </div>
             </div>
 
-            <!-- Top 5 Sản Phẩm Lợi Nhuận Cao Nhất -->
+
             <div class="col-md-4">
                 <h5 class="fw-bold"># Top 5 Sản Phẩm Lợi Nhuận Cao Nhất</h5>
-                <div class="border p-3 mb-3 mt-3">
-                    @foreach ($topProfitProducts as $item)
+                <div class="border p-3 mb-3">
+                    @forelse ($topProfitProducts as $item)
                         <div class="d-flex align-items-center border-bottom py-2" style="font-size: 0.9rem;">
                             <div class="me-3"
                                 style="width: 45px; height: 45px; background: #e0e0e0; display: flex; align-items: center; justify-content: center;">
@@ -146,16 +185,22 @@
                             <div class="flex-grow-1">
                                 <p class="mb-0 fw-bold"
                                     style="max-width: 150px; overflow: hidden; white-space: normal; line-height: 1.2; font-size: 14px;">
-                                    {{ $item->product_name }}</p>
+                                    {{ $item->product_name }}
+                                </p>
                             </div>
                             <div class="ms-auto fw-bold" style="white-space: nowrap;">
-                                {{ number_format($item->total_profit, 0, ',', '.') }} VND</div>
+                                {{ number_format($item->total_profit, 0, ',', '.') }} VND
+                            </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <p>Không có sản phẩm lợi nhuận trong tháng này.</p>
+                    @endforelse
                 </div>
             </div>
         </div>
     </div>
+
+
     <style>
         .filter-container {
             display: flex;
@@ -264,11 +309,27 @@
 
             selectFilter('month');
             const today = new Date();
-            const currentMonth = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
-            document.getElementById('monthInput').value = currentMonth;
             const currentYear = today.getFullYear();
-            document.getElementById('yearInput').value = currentYear;
+            const currentMonth = String(today.getMonth() + 1).padStart(2, '0');
+            const defaultMonthValue = `${currentYear}-${currentMonth}`;
+
+            const monthInput = document.getElementById('monthInput');
+            let previousMonthValue = defaultMonthValue;
+            monthInput.value = defaultMonthValue;
+            monthInput.value = defaultMonthValue;
+            monthInput.setAttribute('max', defaultMonthValue);
             fetchMonthlyRevenue();
+
+            monthInput.addEventListener('change', function() {
+                const selectedMonth = this.value.trim();
+                if (!selectedMonth) {
+                    alert('Vui lòng chọn tháng hợp lệ.');
+                    this.value = previousMonthValue;
+                } else {
+                    previousMonthValue = selectedMonth;
+                    // fetchMonthlyRevenue();
+                }
+            });
         });
 
         function selectFilter(type) {
@@ -376,9 +437,18 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
+        let previousDay = '';
 
         function fetchRevenueData() {
-            const day = document.getElementById('dayInput').value;
+            const dayInput = document.getElementById('dayInput');
+            const day = dayInput.value.trim();
+
+            if (!day) {
+                alert('Vui lòng chọn ngày.');
+                dayInput.value = previousDay;
+                return;
+            }
+            previousDay = day;
 
             let url = '/admins/dashboard/revenue?';
 

@@ -7,13 +7,11 @@
 @section('css')
 @endsection
 @section('content')
-    {{-- {{ $product }} --}}
-    {{-- {{$variants}} --}}
+
     <form method="POST" action="{{ route('admins.products.update', $product->id) }}" id="product-form"
         enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <!-- New Product Add Start -->
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -191,6 +189,7 @@
                                                         <td>
                                                             <select
                                                                 class="form-select @error("variants.$index.attribute_size_name") is-invalid @enderror"
+
                                                                 name="variants[{{ $index }}][attribute_size_name]"
                                                                 @if ($variants[$index]->is_locked) style="pointer-events: none; background-color: #e9ecef;" @endif>
                                                                 @foreach ($sizes as $size_id => $attribute_size_name)
@@ -285,15 +284,14 @@
                                                         <script>
                                                             document.getElementById('product-form').addEventListener('submit', function(event) {
                                                                 document.querySelectorAll('input[id^="variant-import-price-"]').forEach(function(input) {
-                                                                    let value = input.value.replace(/\./g, '').replace(' VNĐ', '').trim(); // Xóa định dạng VNĐ
-                                                                    input.value = value; // Gán lại giá trị đã xóa định dạng
+                                                                    let value = input.value.replace(/\./g, '').replace(' VNĐ', '').trim();
+                                                                    input.value = value;
                                                                 });
 
-                                                                // Lặp qua các trường khác nếu có
                                                                 document.querySelectorAll('input[id^="variant-sale-price-"], input[id^="variant-listed-price-"]')
                                                                     .forEach(function(input) {
-                                                                        let value = input.value.replace(/\./g, '').replace(' VNĐ', '').trim(); // Xóa định dạng VNĐ
-                                                                        input.value = value; // Gán lại giá trị đã xóa định dạng
+                                                                        let value = input.value.replace(/\./g, '').replace(' VNĐ', '').trim();
+                                                                        input.value = value;
                                                                     });
                                                             });
 
@@ -472,7 +470,7 @@
             <a href="{{ route('admins.products.index') }}" class="btn btn-secondary me-2">Quay lại</a>
             <button type="submit" class="btn btn-success">Sửa</button>
         </div>
-        <!-- New Product Add End -->
+
     </form>
 @endsection
 

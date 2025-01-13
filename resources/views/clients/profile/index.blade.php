@@ -1,7 +1,6 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Phần Điều Hướng Bắt Đầu -->
     <section class="breadcrumb-section pt-0">
         <div class="container-fluid-lg">
             <div class="row">
@@ -23,10 +22,7 @@
             </div>
         </div>
     </section>
-    <!-- Phần Điều Hướng Kết Thúc -->
 
-
-    <!-- Phần Bảng Điều Khiển Người Dùng Bắt Đầu -->
     <section class="user-dashboard-section section-b-space">
         <div class="container-fluid-lg">
             <div class="row">
@@ -69,6 +65,7 @@
                                     <i data-feather="home"></i> Hồ sơ
                                 </button>
                             </li>
+
                         </ul>
                     </div>
                 </div>
@@ -126,7 +123,7 @@
                                     @endif
 
                                     <div class="dashboard-title">
-                                        {{-- <h3>Thông tin tài khoản</h3> --}}
+
                                     </div>
 
 
@@ -142,7 +139,6 @@
                                                         class="text-title">{{ $user->user_name }}</b></h6>
                                                 <h6 class="text-content">Email: <b
                                                         class="text-title">{{ $user->user_email }}</b></h6>
-                                                {{-- <a href="javascript:void(0)">Change Password</a> --}}
                                             </div>
                                         </div>
 
@@ -194,5 +190,4 @@
             </div>
         </div>
     </section>
-    <!-- User Dashboard Section End -->
 @endsection

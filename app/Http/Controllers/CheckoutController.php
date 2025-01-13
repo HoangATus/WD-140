@@ -38,6 +38,7 @@ class CheckoutController extends Controller
         $voucherDiscount = session()->get('voucher_discount', 0);
         $pointsDiscount = session()->get('points_discount', 0);
 
+
         return view('clients.checkout.index', compact('user', 'cart', 'total', 'voucherDiscount', 'pointsDiscount'));
     }
 
@@ -58,7 +59,9 @@ class CheckoutController extends Controller
         ]);
 
         $userId = Auth::id();
+
         $user = User::find($userId);
+
         $cart = Cart::where('user_id', $userId)->with(['product', 'variant'])->get();
 
         if ($cart->isEmpty()) {
@@ -73,6 +76,7 @@ class CheckoutController extends Controller
         $voucherDiscount = session()->get('voucher_discount', 0);
         $pointsDiscount = session()->get('points_discount', 0);
         $voucherId = session()->get('selected_voucher', null);
+
 
         $finalTotal = $totalAmount - $voucherDiscount - $pointsDiscount;
 
@@ -103,6 +107,7 @@ class CheckoutController extends Controller
                 $variant->save();
             }
 
+
             OrderItem::create([
                 'order_id'     => $order->id,
                 'variant_id'   => $item->variant_id,
@@ -121,6 +126,7 @@ class CheckoutController extends Controller
             $user->save();
         }
 
+
         if ($voucherId) {
             $voucher = Voucher::find($voucherId);
             if ($voucher) {
@@ -136,6 +142,7 @@ class CheckoutController extends Controller
 
         Cart::where('user_id', $userId)->delete();
 
+
         if ($request->payment_method == 'online') {
             return $this->createVNPayPaymentLink($order);
         }
@@ -144,6 +151,7 @@ class CheckoutController extends Controller
 
         return redirect()->route('checkout.success', ['order' => $order->id]);
     }
+
 
     public function success()
     {
@@ -335,24 +343,40 @@ class CheckoutController extends Controller
     public function getUserVouchers()
     {
         $user = auth()->user();
-        $vouchers = Voucher::where('is_active', true)
+
+        $vouchers = Voucher::where('is_active', true) // Only get active vouchers
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->where('quantity', '>', 0)
-            ->whereHas('users', function ($query) use ($user) {
-                $query->where('user_voucher.user_id', $user->user_id);
+            ->where(function ($query) {
+                $query->where('usage_type', 'all');
+            })
+            ->orWhere(function ($query) use ($user) {
+                $query->where('usage_type', 'restricted')
+                    ->whereHas('users', function ($query) use ($user) {
+                        $query->where('user_voucher.user_id', $user->user_id);
+                    });
             })
             ->orderByDesc('max_discount_amount')
             ->get();
+
+        // Filter out any vouchers that are inactive
+        $vouchers = $vouchers->filter(function ($voucher) {
+            return $voucher->is_active;
+        });
+
         foreach ($vouchers as $voucher) {
             $usedQuantity = Order::where('voucher_id', $voucher->id)->count();
-            $totalVoucherQuantity = $voucher->quantity + $usedQuantity;
+            $totalVoucherQuantity = $voucher->quantity - $usedQuantity;
 
             $voucher->used_quantity = $usedQuantity;
             $voucher->total_quantity = $totalVoucherQuantity;
         }
 
-        return response()->json(['vouchers' => $vouchers]);
+        return response()->json([
+            'vouchers' => $vouchers,
+            'status' => 'active',  // Reflect the activation status here if needed
+        ]);
     }
 
     public function saveVoucher(Request $request)
@@ -458,6 +482,7 @@ class CheckoutController extends Controller
                 return redirect()->route('products.show', ['slug' => $variant->product->slug])
                     ->with('error', 'Số lượng sản phẩm không đủ.');
             }
+
             if ($request->payment_method == 'online' && $request->final_total < 5000) {
                 return redirect()->back()->with('error', 'Đơn hàng thanh toán , Đơn hàng phải có Thành tiền tối thiểu là 5,000 VND.');
             }
@@ -470,6 +495,14 @@ class CheckoutController extends Controller
                 'address' => $request->address,
                 'notes' => $request->notes,
                 'total' => $request->final_total,
+
+
+                'discount' => $request->initial_total - $request->final_total,
+
+
+                'status'         => 'pending',
+
+
                 'points_discount' => $request->pointsDiscount ?? 0,
                 'voucher_discount' => $request->voucherDiscount ?? 0,
                 'status' => 'pending',

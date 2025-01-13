@@ -13,9 +13,7 @@ class CategoryController extends Controller
 {
     const PATH_VIEW = 'admins.categories.';
     const PATH_UPLOAD = 'categories';
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         //
@@ -24,17 +22,11 @@ class CategoryController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view(self::PATH_VIEW.__FUNCTION__);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
 
     public function store(StoreCategoryRequest $request)
     {
@@ -52,19 +44,12 @@ class CategoryController extends Controller
     
         return redirect()->route('admins.categories.index')->with('message', 'Thêm mới thành công');
     }
-    
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Category $category)
     {
         return view(self::PATH_VIEW.__FUNCTION__, compact('category'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Category $category)
     {
         if ($category->product()->count() > 0) {
@@ -73,9 +58,6 @@ class CategoryController extends Controller
         return view(self::PATH_VIEW.__FUNCTION__, compact('category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $data = $request->except('cover');
@@ -91,9 +73,6 @@ class CategoryController extends Controller
         return redirect()->route('admins.categories.index')->with('message', 'Cập nhật thành công');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Category $category)
     {
         if ($category->product()->count() > 0) {

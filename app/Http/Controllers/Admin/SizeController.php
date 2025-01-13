@@ -19,18 +19,10 @@ class SizeController extends Controller
         $attributeSizes = AttributeSize::query()->latest('id')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributeSizes'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view(self::PATH_VIEW . __FUNCTION__);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreSizeRequest $request)
     {
 
@@ -40,18 +32,11 @@ class SizeController extends Controller
         return redirect()->route('admins.attributeSizes.index')->with('success', ' Thêm mới thành công');
     }
 
-
-    /**
-     * Display the specified resource.
-     */
     public function show(AttributeSize $attributeSize)
     {
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributeSize'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(AttributeSize $attributeSize)
     {
         // Kiểm tra nếu size đã được sử dụng làm biến thể
@@ -64,9 +49,6 @@ class SizeController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateSizeRequest $request, AttributeSize $attributeSize)
     {
 

@@ -1,7 +1,7 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Breadcrumb Section Start -->
+
     <section class="">
         <div class="container-fluid-lg">
             <div class="row">
@@ -23,25 +23,21 @@
 
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
 
-    <!-- Product Section Start -->
     <section class="product-section">
         <div class="container-fluid-lg">
             <div class="row">
-                {{-- <div class="col-xxl-9 col-xl-8 col-lg-7 wow fadeInUp">
-                    <div class="row g-4"> --}}
+
                 <div class="col-xl-6 wow fadeInUp">
                     <div class="product-left-box">
                         <div class="row g-2">
-                            <!-- Main Image and Thumbnails -->
+
                             <div class="col-xxl-10 col-lg-12 col-md-10 order-xxl-2 order-lg-1 order-md-2">
                                 <div class="product-main-2 no-arrow">
                                     @php
-                                        // Lấy các ảnh từ product_galleries và loại bỏ trùng lặp
+
                                         $uniqueGalleries = $product->galleries->unique('image');
 
-                                        // Lấy các ảnh từ variants không trùng với product_galleries
                                         $variantImages = $product->variants
                                             ->filter(function ($variant) use ($uniqueGalleries) {
                                                 return $variant->image &&
@@ -51,14 +47,13 @@
                                     @endphp
 
                                     <div class="slider-image">
-                                        <!-- Ảnh chính của sản phẩm -->
+
                                         <img src="{{ Storage::url($product->product_image_url) }}" id="img-0"
                                             data-zoom-image="{{ Storage::url($product->product_image_url) }}"
                                             class="img-fluid image_zoom_cls-0 blur-up lazyload"
                                             alt="{{ $product->product_name }}">
                                     </div>
 
-                                    <!-- Ảnh từ product_galleries -->
                                     @foreach ($uniqueGalleries as $index => $gallery)
                                         <div class="slider-image">
                                             <img src="{{ Storage::url($gallery->image) }}" id="img-{{ $index + 1 }}"
@@ -69,7 +64,6 @@
                                     @endforeach
 
 
-                                    <!-- Ảnh từ variants -->
                                     @foreach ($variantImages as $index => $variantImage)
                                         <div class="slider-image">
                                             <img src="{{ Storage::url($variantImage->image) }}"
@@ -83,7 +77,6 @@
 
                             <div class="col-xxl-2 col-lg-12 col-md-2 order-xxl-1 order-lg-2 order-md-1">
                                 <div class="left-slider-image-2 left-slider no-arrow slick-top">
-                                    <!-- Ảnh chính của sản phẩm trong thumbnails -->
                                     <div>
                                         <div class="sidebar-image">
                                             <img src="{{ Storage::url($product->product_image_url) }}"
@@ -91,7 +84,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Thumbnails từ product_galleries -->
                                     @foreach ($uniqueGalleries as $gallery)
                                         <div>
                                             <div class="sidebar-image">
@@ -108,11 +100,9 @@
                     </div>
                 </div>
 
-
-                <!-- Thông tin sản phẩm bên phải -->
                 <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="right-box-contain">
-                        {{-- <h6 class="offer-top">Giảm giá 30%</h6> --}}
+
                         <h2 class="name">{{ $product->product_name }}</h2>
 
                         <div class="pro" style="text-align: left; margin-left: 0;">
@@ -120,15 +110,15 @@
                             <div class="product-rating custom-rate">
                                 <ul class="rating">
                                     @php
-                                        $averageRating = $product->ratings->avg('rating'); // Tính trung bình số sao
+                                        $averageRating = $product->ratings->avg('rating');
                                     @endphp
 
                                     @for ($i = 1; $i <= 5; $i++)
                                         <li>
                                             @if ($i <= $averageRating)
-                                                <i data-feather="star" class="fill"></i> <!-- Sao đầy -->
+                                                <i data-feather="star" class="fill"></i>
                                             @else
-                                                <i data-feather="star"></i> <!-- Sao rỗng -->
+                                                <i data-feather="star"></i>
                                             @endif
                                         </li>
                                     @endfor
@@ -147,7 +137,6 @@
                             </div>
 
                             <div class="product-options">
-                                <!-- Màu sắc -->
                                 <div class="option-title" style="margin-top: 10px">Màu sắc:</div>
                                 <div class="option-list" id="color-options">
                                     @php
@@ -158,13 +147,11 @@
                                             $size = $variant->size->attribute_size_name;
                                             $quantity = $variant->quantity ?? 0;
 
-                                            // Đếm số lượng sản phẩm theo màu
                                             if (!isset($colorCounts[$color])) {
                                                 $colorCounts[$color] = 0;
                                             }
                                             $colorCounts[$color] += $quantity;
 
-                                            // Đếm số lượng sản phẩm theo kích thước
                                             if (!isset($sizeCounts[$size])) {
                                                 $sizeCounts[$size] = 0;
                                             }
@@ -172,7 +159,6 @@
                                         }
                                     @endphp
 
-                                    <!-- Hiển thị màu sắc và tổng số lượng -->
                                     @foreach ($colorCounts as $color => $totalQuantity)
                                         <button class="option-item-color btn-color" style="margin-bottom: 10px;"
                                             data-color="{{ $color }}" data-quantity="{{ $totalQuantity }}">
@@ -183,7 +169,6 @@
                                     @endforeach
                                 </div>
 
-                                <!-- Kích thước -->
                                 <div class="option-title">Kích thước:</div>
                                 <div class="option-list" id="size-options">
                                     @foreach ($sizeCounts as $size => $totalQuantity)
@@ -197,12 +182,10 @@
                                 </div>
                             </div>
 
-                            <!-- Trường Hiển Thị Số Lượng Có Sẵn -->
                             <div class="available-quantity" id="available-quantity" style="margin-top: 10px;">
                                 Số lượng có sẵn: <span id="available-quantity-value">N/A</span>
                             </div>
 
-                            <!-- Chọn số lượng -->
                             <div class="note-box product-package">
                                 <div class="cart_qty qty-box product-qty">
                                     <div class="input-group">
@@ -218,12 +201,10 @@
                                 </div>
                             </div>
 
-                            <!-- Các Trường Ẩn cho Biến Thể và Số Lượng -->
                             <input type="hidden" id="selected-variant-id" name="variant_id" value="">
                             <input type="hidden" id="selected-quantity" name="quantity" value="1">
                         </div>
 
-                        <!-- Nút Thêm vào giỏ và Mua ngay -->
                         <div class="note-box product-package">
                             <button onclick="addToCart()" class="btn btn-md bg-dark cart-button text-white w-50">Thêm vào
                                 giỏ</button>
@@ -278,7 +259,6 @@
                 </div>
             </div>
 
-            <!-- Tab mô tả và đánh giá -->
             <div class="col-12">
                 <div class="product-section-box">
                     <ul class="nav nav-tabs custom-nav" id="myTab" role="tablist">
@@ -314,7 +294,6 @@
                                 @if ($product->ratings->count() > 0)
                                     @foreach ($product->ratings as $rating)
                                         @if (!$rating->hidden)
-                                            <!-- Kiểm tra xem đánh giá có bị ẩn không -->
                                             <div class="customer-review border p-3 mb-3 rounded"
                                                 style="background-color: #f9f9f9;">
                                                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -350,14 +329,13 @@
                         <div class="tab-pane fade" id="infoo" role="tabpanel">
 
                             <div class="table-responsive">
-                                <!-- Nội dung bình luận khách hàng -->
+
                                 @if ($product->comments->isEmpty())
                                     <p>Chưa có bình luận nào.</p>
                                 @else
                                     <ul style="list-style-type: none; padding: 0;">
                                         @foreach ($product->comments as $comment)
                                             @if ($comment->is_approved || auth()->id() === $comment->user_id)
-                                                <!-- Kiểm tra nếu bình luận đã được phê duyệt hoặc người dùng hiện tại là người đã bình luận -->
                                                 <li class="{{ !$comment->is_approved ? 'unapproved' : '' }}"
                                                     style="margin-bottom: 15px; display: block;">
                                                     <div
@@ -372,12 +350,11 @@
                                                         {{ $comment->comment }}</p>
 
                                                     @if (!$comment->is_approved)
-                                                        <!-- Thông báo chờ phê duyệt -->
                                                         <p style="color: red; margin-top: 5px; font-size: 12px;">
                                                             Đang chờ phê duyệt...</p>
                                                     @endif
                                                 </li>
-                                                <!-- Thêm dấu ngang ngăn cách giữa các bình luận -->
+
                                                 <hr style="border: 1px solid #ccc; margin: 10px 0;">
                                             @endif
                                         @endforeach
@@ -387,12 +364,10 @@
                                     <h3>Bình luận:</h3>
                                 </div>
 
-                                <!-- Hiển thị thông báo thành công nếu có -->
                                 @if (session('successs'))
                                     <p style="color: green; margin-top: 8px;">{{ session('successs') }}</p>
                                 @endif
 
-                                <!-- Form bình luận -->
                                 <div class="comments mt-3">
                                     <form action="{{ route('comments.store', $product->id) }}" method="POST"
                                         enctype="multipart/form-data">
@@ -427,11 +402,10 @@
 
         .rating i {
             color: #FFD700;
-            /* Màu vàng cho sao đầy */
+
         }
     </style>
 
-    <!-- Related Product Section Start -->
     <section class="product-list-section section-b-space">
         <div class="container-fluid-lg">
             <div class="title">
@@ -466,16 +440,16 @@
                                         <div class="product-ratin custom-rate">
                                             <ul class="rating" style="display: flex; justify-content: center">
                                                 @php
-                                                    $averageRating = $product->ratings->avg('rating'); // Tính trung bình số sao
+                                                    $averageRating = $product->ratings->avg('rating');
                                                 @endphp
 
                                                 @for ($i = 1; $i <= 5; $i++)
                                                     <li>
                                                         @if ($i <= $averageRating)
-                                                            <i data-feather="star" class="fill"></i> <!-- Sao đầy -->
+                                                            <i data-feather="star" class="fill"></i>
                                                         @else
-                                                            <i data-feather="star"></i> <!-- Sao rỗng -->
-                                                        @endif
+                                                            <i data-feather="star"></i>
+                                                            < @endif
                                                     </li>
                                                 @endfor
                                             </ul>
@@ -523,9 +497,7 @@
         </div>
     </section>
     @include('clients.blocks.assets.js')
-    <!-- Related Product Section End -->
 
-    <!-- Chèn Dữ Liệu Biến Thể -->
     <script>
         const variants = @json($variants);
     </script>
@@ -538,7 +510,6 @@
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            /* Để tự động điều chỉnh kích thước */
             gap: 20px;
         }
 
@@ -550,9 +521,9 @@
             background-color: #fff;
             overflow: hidden;
             display: flex;
-            /* Sử dụng flex để căn chỉnh nội dung */
+
             flex-direction: column;
-            /* Sắp xếp theo chiều dọc */
+
         }
 
         .product-box:hover {
@@ -570,7 +541,7 @@
         .product-details {
             text-align: center;
             flex: 1;
-            /* Cho phép nội dung chiếm không gian còn lại */
+
         }
 
         .product-name {
@@ -604,7 +575,6 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            /* Adds space between the two buttons */
             margin-top: 10px;
         }
 
@@ -615,7 +585,6 @@
             background-color: #417394;
             color: white;
             border: 2px solid transparent;
-            /* Add transparent border for consistent button size */
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
@@ -631,7 +600,6 @@
             background-color: #417394;
             color: white;
             border: 2px solid transparent;
-            /* Add transparent border for consistent button size */
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
@@ -644,23 +612,23 @@
             margin-left: 5px;
         }
 
-        /* Hover effects */
+
         .cart:hover {
             background-color: #355c74;
             transform: scale(1.05);
             border-color: #355c74;
             border: none;
-            /* Ensure border matches background color */
+
         }
 
         .cart-icon:hover {
             background-color: #417394;
             color: white;
-            /* Change icon color on hover */
+
             transform: scale(1.05);
             border-color: #355c74;
             border: none;
-            /* Darker border on hover */
+
         }
     </style>
 
@@ -686,7 +654,6 @@
             let selectedSize = null;
             let selectedVariant = null;
 
-            // Hàm reset các lựa chọn khi chọn màu mới
             function resetSelections() {
                 sizeOptions.forEach(btn => {
                     btn.classList.remove('active');
@@ -700,27 +667,23 @@
                 updateUI(null);
             }
 
-            // Hàm tìm biến thể dựa trên màu và kích thước đã chọn
             function findVariant(color, size) {
                 return variants.find(variant => variant.color === color && variant.size === size);
             }
 
-            // Hàm cập nhật giao diện dựa trên biến thể được chọn
             function updateUI(variant) {
                 if (variant) {
-                    // Cập nhật giá
+
                     currentPrice.textContent = new Intl.NumberFormat('vi-VN').format(variant.sale_price) + ' ₫';
                     currentListedPrice.textContent = new Intl.NumberFormat('vi-VN').format(variant.listed_price) +
                         ' ₫';
 
-                    // Cập nhật số lượng có sẵn
+
                     availableQuantity.textContent = variant.quantity;
 
-                    // Cập nhật hình ảnh chính
                     mainImage.src = variant.image;
                     mainImage.setAttribute('data-zoom-image', variant.image);
 
-                    // Cập nhật giới hạn số lượng trong input
                     quantityInput.max = variant.quantity;
                     if (variant.quantity > 0) {
                         quantityInput.value = 1;
@@ -728,11 +691,10 @@
                         quantityInput.value = 0;
                     }
 
-                    // Cập nhật các trường ẩn
                     document.getElementById('selected-variant-id').value = variant.id;
                     document.getElementById('selected-quantity').value = quantityInput.value;
                 } else {
-                    // Nếu không tìm thấy biến thể, reset giao diện
+
                     currentPrice.textContent = 'N/A';
                     currentListedPrice.textContent = 'N/A';
                     availableQuantity.textContent = 'N/A';
@@ -741,39 +703,32 @@
                     quantityInput.max = 1;
                     quantityInput.value = 1;
 
-                    // Reset các trường ẩn
                     document.getElementById('selected-variant-id').value = '';
                     document.getElementById('selected-quantity').value = 1;
                 }
             }
 
-            // Thêm sự kiện cho các nút chọn màu sắc
             colorOptions.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    // Loại bỏ class active khỏi tất cả các nút màu
+
                     colorOptions.forEach(b => {
                         b.classList.remove('active');
                         b.querySelector('.checkmark').style.display = 'none';
                     });
-                    // Thêm class active cho nút màu được chọn
+
                     this.classList.add('active');
                     this.querySelector('.checkmark').style.display = 'block';
 
-                    // Lưu màu sắc đã chọn
                     selectedColor = this.getAttribute('data-color');
 
-                    // Reset lựa chọn kích thước
                     resetSelections();
 
-                    // Tìm các kích thước có sẵn cho màu sắc đã chọn
                     const availableSizes = variants
                         .filter(variant => variant.color === selectedColor && variant.quantity > 0)
                         .map(variant => variant.size);
 
-                    // Loại bỏ trùng lặp kích thước
                     const uniqueAvailableSizes = [...new Set(availableSizes)];
 
-                    // Vô hiệu hóa các kích thước không có sẵn
                     sizeOptions.forEach(btn => {
                         const size = btn.getAttribute('data-size');
                         if (uniqueAvailableSizes.includes(size)) {
@@ -787,7 +742,6 @@
                         }
                     });
 
-                    // Nếu chỉ có một kích thước có sẵn, tự động chọn nó
                     if (uniqueAvailableSizes.length === 1) {
                         sizeOptions.forEach(btn => {
                             if (btn.getAttribute('data-size') === uniqueAvailableSizes[0]) {
@@ -798,32 +752,25 @@
                 });
             });
 
-            // Thêm sự kiện cho các nút chọn kích thước
             sizeOptions.forEach(btn => {
                 btn.addEventListener('click', function() {
                     if (this.disabled) return;
 
-                    // Loại bỏ class active khỏi tất cả các nút kích thước
                     sizeOptions.forEach(b => {
                         b.classList.remove('active');
                         b.querySelector('.checkmark').style.display = 'none';
                     });
-                    // Thêm class active cho nút kích thước được chọn
                     this.classList.add('active');
                     this.querySelector('.checkmark').style.display = 'block';
 
-                    // Lưu kích thước đã chọn
                     selectedSize = this.getAttribute('data-size');
 
-                    // Tìm biến thể tương ứng
                     selectedVariant = findVariant(selectedColor, selectedSize);
 
-                    // Cập nhật giao diện
                     updateUI(selectedVariant);
                 });
             });
 
-            // Thêm sự kiện cho input số lượng
             quantityInput.addEventListener('change', function() {
                 const max = parseInt(this.max);
                 let value = parseInt(this.value);
@@ -839,10 +786,12 @@
             });
         });
 
+
         // hàm thêm sản phẩm 
         document.addEventListener('DOMContentLoaded', function() {
             // Biến chứa số lượng tồn kho của các biến thể
             const variantStock = @json($variantStock);
+
 
             // Hàm lấy số lượng giỏ hàng
             function fetchCartCount() {
@@ -855,8 +804,10 @@
                     });
             }
 
+
             // Gọi hàm khi trang tải
             fetchCartCount();
+
 
             // Hàm kiểm tra trạng thái đăng nhập
             function checkLogin() {

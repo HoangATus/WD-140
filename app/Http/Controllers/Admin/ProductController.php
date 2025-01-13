@@ -21,19 +21,13 @@ class ProductController extends Controller
     const PATH_VIEW = 'admins.products.';
     const PATH_UPLOAD = 'products';
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        // Fetch all products and pass them to the view
+
         $products = Product::query()->with('category', 'variants')->latest()->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $categories = Category::query()->pluck('name', 'id')->all();
@@ -44,11 +38,9 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        // dd($request->all());
-        // dd($request->variants);
+
         $data = $request->except(['variants', 'product_image_url', 'product_galleries']);
         $data['product_code'] = $request->product_code;
-        // $data['product_code'] = $request->input('product_code');
         $data['slug'] = Str::slug($data['product_name'] . '-' . $data['product_code']);
         if (!empty($request->hasFile('product_image_url'))) {
             $data['product_image_url'] = Storage::put('products', $request->file('product_image_url'));
@@ -72,7 +64,6 @@ class ProductController extends Controller
                 }
             }
 
-            // Kiểm tra nếu product_galleries không phải là null và là mảng
             if (!is_null($request->product_galleries) && is_array($request->product_galleries)) {
                 foreach ($request->product_galleries as $item) {
                     ProductGallery::query()->create([
@@ -86,7 +77,6 @@ class ProductController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
             dd($exception->getMessage());
-            // thực hiện xóa ảnh trong storage
             return back();
         }
     }
@@ -99,10 +89,6 @@ class ProductController extends Controller
         $colors = Color::query()->pluck('name', 'id')->all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'sizes', 'colors'));
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Product $product)
     {
         $categories = Category::query()->pluck('name', 'id')->all();
@@ -122,13 +108,10 @@ class ProductController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(UpdateProductRequest $request, Product $product)
     {
-        // dd($request->all());
-        // dd($product->variants);
+
         $data = $request->except(['variants', 'product_image_url', 'product_galleries']);
         $data['product_code'] = $request->product_code;
         $data['slug'] = Str::slug($data['product_name'] . '-' . $data['product_code']);
@@ -165,6 +148,7 @@ class ProductController extends Controller
                 $processedVariantIds = [];
 
                 foreach ($request->variants as $item) {
+
                     $variantId = $item['id'] ?? null;
 
                     $variantData = [
@@ -181,6 +165,7 @@ class ProductController extends Controller
                             Storage::delete($item['old_image']);
                         }
 
+
                         $variantData['image'] = Storage::put('variants', $item['image']);
                     } else if (!empty($item['old_image'])) {
                         $variantData['image'] = $item['old_image'];
@@ -195,12 +180,12 @@ class ProductController extends Controller
                         $newVariant = Variant::create($variantData);
                         $processedVariantIds[] = $newVariant->id;
                     }
+
                 }
 
                 Log::info('Processed Variants:', $processedVariantIds);
             }
 
-            // abum ảnh
             if ($request->has('product_galleries')) {
                 foreach ($request->product_galleries as $item) {
                     ProductGallery::create([
@@ -209,22 +194,6 @@ class ProductController extends Controller
                     ]);
                 }
             }
-            // if ($request->has('product_galleries')) {
-            //     $Galleries = ProductGallery::where('product_id', $product->id)->get();
-            //     foreach ($Galleries as $gallery) {
-            //         if (Storage::exists($gallery->image)) {
-            //             Storage::delete($gallery->image);
-            //         }
-            //         $gallery->delete();
-            //     }
-            //     foreach ($request->product_galleries as $item) {
-            //         $imagePath = Storage::put('product_galleries', $item);
-            //         ProductGallery::create([
-            //             'image' => $imagePath,
-            //             'product_id' => $product->id,
-            //         ]);
-            //     }
-            // }
 
             DB::commit();
             return redirect()->route('admins.products.index')->with('message', 'Cập nhật thành công');
@@ -234,10 +203,6 @@ class ProductController extends Controller
             return back()->with('error', 'Cập nhật không thành công.');
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Product $product)
     {
         $variantIds = $product->variants->pluck('id')->toArray();

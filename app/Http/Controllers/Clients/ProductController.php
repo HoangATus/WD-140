@@ -14,23 +14,17 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    // ... các phương thức ở đây ...
-    /**
-     * Display a listing of the resource.
-     */
 
     public function index(Request $request)
     {
-        $search = $request->input('search'); // Lấy từ khóa tìm kiếm
-        $query = Product::query(); // Khởi tạo query cho sản phẩm
+        $search = $request->input('search');
+        $query = Product::query();
 
-        // Xử lý lọc theo danh mục
         if ($request->has('category_ids')) {
-            $categoryIds = $request->input('category_ids'); // Lấy danh sách category_id từ request
-            $query->whereIn('category_id', $categoryIds); // Lọc theo nhiều danh mục
+            $categoryIds = $request->input('category_ids');
+            $query->whereIn('category_id', $categoryIds);
         }
 
-        // Xử lý lọc theo giá
         if ($request->has('price_range')) {
             $priceRanges = $request->input('price_range');
             $query->whereHas('variants', function ($q) use ($priceRanges) {
@@ -43,9 +37,6 @@ class ProductController extends Controller
             });
         }
 
-
-
-        // Xử lý sắp xếp
         if ($request->has('sort')) {
             switch ($request->sort) {
                 case 'low':
@@ -61,52 +52,35 @@ class ProductController extends Controller
                         ->groupBy('products.id');
                     break;
                 case 'aToz':
-                    $query->orderBy('product_name', 'asc'); // Sắp xếp theo tên từ A-Z
+                    $query->orderBy('product_name', 'asc');
                     break;
                 case 'zToa':
-                    $query->orderBy('product_name', 'desc'); // Sắp xếp theo tên từ Z-A
+                    $query->orderBy('product_name', 'desc');
                     break;
             }
         }
 
-        // Xử lý tìm kiếm
         if ($search) {
             $query->where('product_name', 'like', "%{$search}%");
         }
+        $listProduct = $query->with('variants')->paginate(8);
 
-        // Lấy danh sách sản phẩm sau khi lọc và sắp xếp
-        $listProduct = $query->with('variants')->paginate(8); // Phân trang với 6 sản phẩm mỗi trang
-
-        // Lấy danh sách danh mục
         $listCategory = Category::withCount('products')->get();
-
-        // dd($listProduct);
 
 
         return view('clients.product', compact('listProduct', 'listCategory'));
     }
 
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
-
-    /**
-     * Display the specified resource.
-     */
 
     public function show($slug)
     {
@@ -136,25 +110,18 @@ class ProductController extends Controller
     }
 
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         //

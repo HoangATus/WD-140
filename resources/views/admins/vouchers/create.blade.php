@@ -46,7 +46,7 @@
             </div>
 
             <div class="form-group" id="discount-value-div">
-                <label for="discount-value">Mệnh Giá Giảm Giá:</label>
+                <label for="discount-value">Giảm Giá Tối Đa:</label>
                 <input type="text" name="discount_value"
                     class="form-control @error('discount_value') is-invalid @enderror" value="{{ old('discount_value') }}"
                     id="discount-value">
@@ -66,7 +66,7 @@
             </div>
 
             <div class="form-group" id="max-discount-amount-div" style="display: none;">
-                <label for="max_discount_amount">Tối Đa Giảm Giá:</label>
+                <label for="max_discount_amount">Giảm Giá Tối Đa:</label>
                 <input type="text" name="max_discount_amount"
                     class="form-control @error('max_discount_amount') is-invalid @enderror"
                     value="{{ old('max_discount_amount') }}" id="max-discount-amount">
@@ -76,7 +76,9 @@
             </div>
 
             <div class="form-group" id="min-discount-amount-div" style="display: none;">
+
                 <label for="min_order_amount">Giá tối thiểu được giảm: </label>
+
                 <input type="text" name="min_order_amount" 
                     class="form-control @error('min_order_amount') is-invalid @enderror"
                     value="{{ old('min_order_amount') }}" id="min_order_amount">

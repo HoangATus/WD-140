@@ -1,15 +1,12 @@
 @extends('admins.layouts.admin')
 
 @section('title')
-Trang quản trị
+    Trang quản trị
 @endsection
 
 @section('css')
-
 @endsection
 @section('content')
-
-
 <!-- New Product Add Start -->
 <div class="container-fluid">
     <div class="row">
@@ -37,25 +34,23 @@ Trang quản trị
                                             @error('name')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
+
                                         </div>
+                                        <div class="row">
+                                            <div class="col-sm-9 offset-sm-3">
+                                                <button type="submit" class="btn btn-primary">Cập nhật </button>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <div class="row">
-                                <div class="col-sm-9 offset-sm-3">
-                                    <button type="submit" class="btn btn-primary">Cập nhật </button>
-                                </div>
+                                </form>
+
+
                             </div>
-
-                                </div>
-                            </form>
-
-                           
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-
 @endsection

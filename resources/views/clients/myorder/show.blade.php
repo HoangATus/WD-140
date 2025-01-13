@@ -1,7 +1,6 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- User Dashboard Section Start -->
     <section class="user-dashboard-section section-b-space">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <div class="container-fluid-lg">
@@ -87,7 +86,7 @@
                                                 <td class="fw-bold">Tổng tiền hàng :</td>
                                                 <td class="text-end">
                                                     @php
-                                                        $totalAmount = 0; // Biến để lưu tổng tiền
+                                                        $totalAmount = 0;
                                                     @endphp
                                                     @foreach ($order->items as $item)
                                                         @php
@@ -166,6 +165,9 @@
                                                                 style="max-width: 50%;"> --}}
 
                                                         </a>
+                                                        <img src="{{ asset('storage/' . $item->image) }}"
+                                                        class="img-fluid rounded" alt=""
+                                                        style="max-width: 50%;"></a>
                                                     </div>
                                                     <div class="col-md-9">
                                                         <div class="order-wrap">
@@ -206,8 +208,6 @@
                                         @endif
                                     </div>
 
-                                    {{-- danh gia --}}
-
                                     @if ($order->status == 'completed')
                                         @php
                                             $allRated = true;
@@ -218,7 +218,6 @@
 
                                         @foreach ($groupedItems as $productId => $items)
                                             @php
-                                                // Lấy một biến thể để hiển thị thông tin sản phẩm chính
                                                 $productItem = $items->first();
                                                 $isRated = $productItem
                                                     ->rating()
@@ -306,8 +305,6 @@
                                             <form action="{{ route('orders.reorder', $order->id) }}" method="POST"
                                                 style="display: inline-block;">
                                                 @csrf
-                                                {{-- <button type="submit" class="btn btn-sm btn-success"
-                                                    onclick="return confirm('Bạn có muốn mua lại đơn hàng này?')">Mua Lại</button> --}}
                                             </form>
                                         @endif
                                         <a href="{{ url('/') }}" class="btn btn-secondary"
@@ -340,11 +337,9 @@
                         var ratingValue = this.getAttribute('data-value');
                         var productId = this.getAttribute('data-product-id');
 
-                        // Đặt giá trị rating vào input hidden
                         document.getElementById('input-rating-' + productId).value =
                             ratingValue;
 
-                        // Cập nhật giao diện sao đã chọn
                         document.querySelectorAll('#rating-' + productId + ' .star')
                             .forEach(function(star) {
                                 star.style.color = star.getAttribute('data-value') <=
@@ -364,31 +359,28 @@
             return true;
         }
 
-        // Event listener để xử lý khi người dùng chọn sao
         document.querySelectorAll('.star').forEach(star => {
             star.addEventListener('click', function() {
                 const productId = this.dataset.productId;
                 const ratingValue = this.dataset.value;
 
-                // Cập nhật input hidden với giá trị số sao
                 document.getElementById(`input-rating-${productId}`).value = ratingValue;
 
-                // Highlight các ngôi sao được chọn
                 const stars = document.querySelectorAll(`#rating-${productId} .star`);
                 stars.forEach(star => {
                     if (star.dataset.value <= ratingValue) {
-                        star.style.color = "gold"; // Màu vàng cho sao được chọn
+                        star.style.color = "gold";
                     } else {
-                        star.style.color = "gray"; // Màu xám cho sao chưa chọn
+                        star.style.color = "gray";
                     }
                 });
             });
         });
         document.querySelectorAll('.btn-cancel-order').forEach(button => {
             button.addEventListener('click', function(event) {
-                event.preventDefault(); // Ngăn chặn hành động mặc định
+                event.preventDefault();
 
-                const url = this.href; // Lấy URL từ thuộc tính href
+                const url = this.href;
                 const isOnlinePaid = this.dataset.paymentMethod === 'online' && this.dataset
                     .paymentStatus === 'paid';
 
@@ -398,7 +390,6 @@
                         'Đơn hàng đã thanh toán online. Cửa hàng sẽ không hoàn tiền nếu bạn hủy. Bạn có chắc chắn muốn tiếp tục không?';
                 }
 
-                // Hiển thị hộp thoại xác nhận
                 Swal.fire({
                     title: 'Xác nhận hủy đơn hàng',
                     text: message,
@@ -410,7 +401,7 @@
                     cancelButtonText: 'Hủy'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = url; // Tiếp tục đến URL
+                        window.location.href = url;
                     }
                 });
             });
@@ -422,14 +413,12 @@
     <style>
         .star {
             color: #d3d3d3;
-            /* Màu xám cho sao chưa chọn */
             transition: color 0.3s;
         }
 
         .star:hover,
         .star.selected {
             color: #ffcc00;
-            /* Màu vàng cho sao khi chọn */
         }
 
         .order-summary-table td,
@@ -449,14 +438,12 @@
 
         .rating {
             font-size: 20px;
-            /* Giảm kích thước sao */
             cursor: pointer;
         }
 
         .rating .star:hover,
         .rating .star.active {
             color: #ffaa00;
-            /* Màu khi di chuột hoặc đã chọn */
         }
 
         textarea {
@@ -466,14 +453,11 @@
 
         .btn {
             padding: 6px 12px;
-            /* Điều chỉnh kích thước nút */
             font-size: 14px;
-            /* Giảm kích thước chữ trên nút */
         }
 
         img.img-fluid.rounded {
             max-width: 80%;
-            /* Điều chỉnh kích thước ảnh sản phẩm */
             height: auto;
             border-radius: 10px;
         }

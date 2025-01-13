@@ -190,9 +190,9 @@ class VoucherController extends Controller
         ]);
 
         if ($request->usage_type == 'restricted') {
-            $voucher->users()->sync($request->users); 
+            $voucher->users()->sync($request->users);
         } else {
-            $voucher->users()->detach(); 
+            $voucher->users()->detach();
         }
 
         return redirect()->route('admins.vouchers.index')->with('success', 'Voucher đã được cập nhật thành công!');

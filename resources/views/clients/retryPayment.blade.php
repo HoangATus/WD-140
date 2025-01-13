@@ -1,7 +1,6 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Breadcrumb Section Start -->
     <section class="breadcrumb-section pt-0">
         <div class="container-fluid-lg">
             <div class="row">
@@ -23,9 +22,7 @@
             </div>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
 
-    <!-- Checkout section Start -->
     <section class="checkout-section-2 section-b-space">
         <div class="container-fluid-lg">
             <div class="row g-sm-4 g-3">
@@ -106,6 +103,7 @@
                                                 VND</a>
                                         </h6>
                                     </li>
+
                                     <br>
                                 @endforeach
                             </ul>
@@ -113,6 +111,7 @@
                             <ul>
                                 <li class="d-flex justify-content-between align-items-center"><strong>Tổng Tiền Hàng:
                                     </strong> <span id="totalAmount"
+
                                         class="fw-bold">  {{ number_format($order->orderItems->sum(function($item) { return $item->price * $item->quantity; }), 0, ',', '.') }} VND
                                     </span>
                                 </li>
@@ -155,5 +154,4 @@
             </div>
         </div>
     </section>
-    <!-- Checkout section End -->
 @endsection

@@ -17,7 +17,6 @@ class FavoriteController extends Controller
             'product_id' => 'required|exists:products,id',
         ]);
 
-        // Kiểm tra xem sản phẩm đã tồn tại trong danh sách yêu thích của người dùng chưa
         $exists = Favorite::where('user_id', Auth::id())
             ->where('product_id', $request->product_id)
             ->exists();
@@ -25,8 +24,6 @@ class FavoriteController extends Controller
         if ($exists) {
             return back()->with('errors', 'Sản phẩm này đã có trong danh sách yêu thích.');
         }
-
-        // Nếu sản phẩm chưa tồn tại, thêm vào danh sách yêu thích
         Favorite::create([
             'user_id' => Auth::id(),
             'product_id' => $request->product_id,
@@ -38,12 +35,12 @@ class FavoriteController extends Controller
     {
 
         $favorites = Favorite::where('user_id', Auth::id())
-            ->with(['product.ratings']) // eager load ratings
+            ->with(['product.ratings'])
             ->get();
         $banners = Banner::where('is_active', true)
             ->with('category')
             ->get();
-        // Kiểm tra xem dữ liệu có được lấy đúng không
+
         if ($favorites->isEmpty()) {
             Log::info('Không có sản phẩm yêu thích nào.');
         } else {
@@ -54,25 +51,21 @@ class FavoriteController extends Controller
 
     public function destroy($id)
     {
-        // Tìm sản phẩm yêu thích theo ID
+
         $favorite = Favorite::find($id);
 
-        // Nếu sản phẩm không tồn tại
         if (!$favorite) {
             return redirect()->back()->with('errorss', 'Sản phẩm không còn trong danh sách yêu thích.');
         }
 
-        // Kiểm tra quyền sở hữu
         if ($favorite->user_id !== auth()->id()) {
             return redirect()->back()->with('errorss', 'Bạn không có quyền xóa sản phẩm này.');
         }
 
-        // Xóa sản phẩm yêu thích
         try {
             $favorite->delete();
             return redirect()->route('clients.favorites.index')->with('successyy', 'Sản phẩm đã được xóa khỏi danh sách yêu thích.');
         } catch (\Exception $e) {
-            // Ghi log lỗi và thông báo cho người dùng
             Log::error('Lỗi khi xóa sản phẩm yêu thích:', ['error' => $e->getMessage()]);
             return redirect()->back()->with('errorss', 'Đã xảy ra lỗi. Vui lòng thử lại sau.');
         }

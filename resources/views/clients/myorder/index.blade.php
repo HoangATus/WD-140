@@ -69,8 +69,7 @@
                     </tbody>
                 </table>
             </div>
-        
-            <!-- Pagination (nếu có nhiều đơn hàng) -->
+
             <div class="d-flex justify-content-center">
                 {{ $orders->links('pagination::bootstrap-5') }}
             </div>

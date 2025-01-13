@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
+
     public function index()
     {
         $userId = Auth::id();
@@ -22,9 +23,11 @@ class CartController extends Controller
 
         $sum = $cart->reduce(function ($carry, $item) {
             return $carry + ($item->variant->variant_sale_price * $item->quantity);
+
         }, 0);
         $user = User::find($userId);
         $total = max(0, $sum);
+
         return view('clients.cart.index', [
             'cart' => $cart,
             'sum' => $sum,
@@ -35,6 +38,10 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.'], 403);
+        }
+
         $userId = Auth::id();
 
         $request->validate([
@@ -43,6 +50,7 @@ class CartController extends Controller
         ]);
 
         $variant = Variant::findOrFail($request->variant_id);
+
 
         if ($variant->quantity < $request->quantity) {
             return response()->json(['error' => 'Số lượng sản phẩm không đủ.'], 400);
@@ -71,7 +79,9 @@ class CartController extends Controller
         return response()->json(['message' => 'Sản phẩm đã được thêm vào giỏ hàng.'], 200);
     }
 
+
     public function update(Request $request)
+
     {
         $variantId = $request->variant_id;
         $quantity = $request->quantity;

@@ -80,15 +80,15 @@
                                     <div class="product-rating custom-rate">
                                         <ul class="rating">
                                             @php
-                                                $averageRating = $favorite->product->ratings->avg('rating'); // Tính trung bình số sao
+                                                $averageRating = $favorite->product->ratings->avg('rating');
                                             @endphp
 
                                             @for ($i = 1; $i <= 5; $i++)
                                                 <li>
                                                     @if ($i <= $averageRating)
-                                                        <i data-feather="star" class="fill"></i> <!-- Sao đầy -->
+                                                        <i data-feather="star" class="fill"></i>
                                                     @else
-                                                        <i data-feather="star"></i> <!-- Sao rỗng -->
+                                                        <i data-feather="star"></i>
                                                     @endif
                                                 </li>
                                             @endfor
@@ -141,7 +141,7 @@
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            /* Để tự động điều chỉnh kích thước */
+
             gap: 20px;
         }
 
@@ -210,7 +210,6 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            /* Adds space between the two buttons */
             margin-top: 10px;
         }
 
@@ -221,7 +220,6 @@
             background-color: #417394;
             color: white;
             border: 2px solid transparent;
-            /* Add transparent border for consistent button size */
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
@@ -237,7 +235,6 @@
             background-color: #417394;
             color: white;
             border: 2px solid transparent;
-            /* Add transparent border for consistent button size */
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
@@ -250,23 +247,19 @@
             margin-left: 5px;
         }
 
-        /* Hover effects */
         .cart:hover {
             background-color: #355c74;
             transform: scale(1.05);
             border-color: #355c74;
             border: none;
-            /* Ensure border matches background color */
         }
 
         .cart-icon:hover {
             background-color: #ff0000;
             color: white;
-            /* Change icon color on hover */
             transform: scale(1.05);
             border-color: #355c74;
             border: none;
-            /* Darker border on hover */
         }
     </style>
 @endsection

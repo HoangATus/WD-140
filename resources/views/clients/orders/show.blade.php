@@ -1,9 +1,6 @@
-<!-- resources/views/orders/show.blade.php -->
-
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- Breadcrumb Section Start -->
     <section class="breadcrumb-section">
         <div class="container">
             <nav aria-label="breadcrumb">
@@ -15,9 +12,6 @@
             </nav>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
-
-    <!-- Order Details Section Start -->
     <section class="order-details-section">
         <div class="container">
             <h2>Chi Tiết Đơn Hàng #{{ $order->id }}</h2>
@@ -31,7 +25,8 @@
                     <p><strong>Ghi Chú:</strong> {{ $order->notes }}</p>
                 @endif
                 <p><strong>Ngày Đặt:</strong> {{ $order->created_at->format('d/m/Y H:i') }}</p>
-                <p><strong>Trạng Thái:</strong> <span class="badge badge-pill badge-info">{{ ucfirst($order->status) }}</span></p>
+                <p><strong>Trạng Thái:</strong> <span
+                        class="badge badge-pill badge-info">{{ ucfirst($order->status) }}</span></p>
             </div>
 
             <div class="order-items mb-4">
@@ -72,12 +67,12 @@
             @if (in_array($order->status, [\App\Models\Order::STATUS_PENDING, \App\Models\Order::STATUS_CONFIRMED]))
                 <form action="{{ route('orders.cancel', $order->id) }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">Hủy Đơn Hàng</button>
+                    <button type="submit" class="btn btn-danger"
+                        onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">Hủy Đơn Hàng</button>
                 </form>
             @endif
         </div>
     </section>
-    <!-- Order Details Section End -->
 
     @include('clients.blocks.assets.js')
 @endsection

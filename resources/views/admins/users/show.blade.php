@@ -42,7 +42,7 @@
                     <div class="mb-3">
                         <label for="banned_until" class="form-label">Cấm đến ngày:</label>
                         <input type="date" name="banned_until" class="form-control" id="bannedUntil">
-                        <span id="error-message" class="text-danger"></span> <!-- Thông báo lỗi -->
+                        <span id="error-message" class="text-danger"></span> 
                     </div>
                     <button type="submit" class="btn btn-warning">Cấm người dùng</button>
                 </form>

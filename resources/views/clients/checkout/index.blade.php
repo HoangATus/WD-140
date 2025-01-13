@@ -1,7 +1,6 @@
 @extends('clients.layouts.client')
 
 @section('content')
-    <!-- mobile fix menu start -->
     <div class="mobile-menu d-md-none d-block mobile-cart">
         <ul>
             <li class="active">
@@ -40,9 +39,7 @@
             </li>
         </ul>
     </div>
-    <!-- mobile fix menu end -->
 
-    <!-- Breadcrumb Section Start -->
     <section class="breadcrumb-section pt-0">
         <div class="container-fluid-lg">
             <div class="row">
@@ -64,9 +61,7 @@
             </div>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
 
-    <!-- Checkout section Start -->
     <section class="checkout-section-2 section-b-space">
         @if (count($cart) > 0)
             <div class="container-fluid-lg">
@@ -220,6 +215,7 @@
                         let checkbox = document.getElementById('applied_loyalty_points');
 
                         checkbox.addEventListener('change', function() {
+
                             let appliedLoyaltyPoints = this.checked ? Math.min(availablePoints, initialTotal) : 0;
                             fetch('/checkout/apply-loyalty-points', {
                                     method: 'POST',
@@ -235,6 +231,7 @@
                                 .then(response => response.json())
                                 .then(data => {
                                     if (data.success) {
+
                                         document.getElementById('total_display').textContent = data.new_total;
                                     } else {
                                         console.error('Failed to apply loyalty points');
@@ -307,8 +304,6 @@
 
                                     <div class="order-contain">
                                         <h3 class="theme-color">Đặt hàng thành công</h3>
-                                        {{-- <h5 class="text-content">Thanh toán thành công và đơn hàng của bạn đang trên đường</h5> --}}
-                                        {{-- <h6>Mã giao dịch: 1708031724431131</h6> --}}
 
 
                                     </div>
@@ -334,6 +329,5 @@
             </section>
         @endif
     </section>
-    <!-- Checkout section End -->
 
 @endsection

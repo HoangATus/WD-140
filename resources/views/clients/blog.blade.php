@@ -27,7 +27,6 @@
         .card-img-top {
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
-            /* height: 200px; */
             object-fit: cover;
         }
 
@@ -65,7 +64,6 @@
         }
     </style>
 
-    <!-- Poster Section Start -->
     <section>
         <div class="container-fluid-lg">
             <div class="banner-contain-2 hover-effect">
@@ -75,96 +73,101 @@
         </div>
     </section>
 
-    <!-- Main Content Section -->
     <section class="blog-section section-b-space">
-        @if ($hotNews || $relatedNews->isNotEmpty() || $popularNews->isNotEmpty() || $album->isNotEmpty() || $categories->isNotEmpty())
-        @if ($hotNews)
-        <div class="container-fluid-lg">
-            <div class="row mb-5">
-                <div class="col-md-9 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-                    <h3 class="mb-3">Đọc ngay cho nóng</h3>
-                    <div class="row">
-                        <div class="col-md-7 mb-3 ">
-                            <div class="card border-0 main-article-card"style="height: 610px;">
-                                <a href="{{ route('clients.blogDetail', $hotNews->slug) }}" class="text">
+        @if (
+            $hotNews ||
+                $relatedNews->isNotEmpty() ||
+                $popularNews->isNotEmpty() ||
+                $album->isNotEmpty() ||
+                $categories->isNotEmpty())
+            @if ($hotNews)
+                <div class="container-fluid-lg">
+                    <div class="row mb-5">
+                        <div class="col-md-9 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+                            <h3 class="mb-3">Đọc ngay cho nóng</h3>
+                            <div class="row">
+                                <div class="col-md-7 mb-3 ">
+                                    <div class="card border-0 main-article-card"style="height: 610px;">
+                                        <a href="{{ route('clients.blogDetail', $hotNews->slug) }}" class="text">
 
-                                    <img src="{{ Storage::url($hotNews->image) }}" class="card-img-top"
-                                        alt="{{ $hotNews->title }}">
+                                            <img src="{{ Storage::url($hotNews->image) }}" class="card-img-top"
+                                                alt="{{ $hotNews->title }}">
 
-                                    <div class="card-body">
-                                        <h6 class="card-subtitle mb-2 text-secondary">{{ $hotNews->category->name }}</h6>
-                                        <h4 class="card-title">{{ $hotNews->title }}</h4>
-                                        <p class="card-text">
-                                            {{ Str::limit($hotNews->content, 150) }}
-                                            <a href="{{ route('clients.blogDetail', $hotNews->slug) }}"
-                                                class="text-primary">Xem thêm</a>
-                                        </p>
-                                </a>
+                                            <div class="card-body">
+                                                <h6 class="card-subtitle mb-2 text-secondary">{{ $hotNews->category->name }}
+                                                </h6>
+                                                <h4 class="card-title">{{ $hotNews->title }}</h4>
+                                                <p class="card-text">
+                                                    {{ Str::limit($hotNews->content, 150) }}
+                                                    <a href="{{ route('clients.blogDetail', $hotNews->slug) }}"
+                                                        class="text-primary">Xem thêm</a>
+                                                </p>
+                                        </a>
+                                    </div>
+                                </div>
+            @endif
+            </div>
+            <div style="height: 610px;" class="col-md-5   d-flex flex-column justify-content-between">
+                @foreach ($relatedNews as $news)
+                    <a href="{{ route('clients.blogDetail', $news->slug) }}"class="text">
+
+                        <div class="card border-0  related-article-card d-flex flex-row mb-3">
+                            <div class="  p-2">
+                                <img src="{{ Storage::url($news->image) }}"style="width: 170px; height: 165px;"
+                                    alt="{{ $news->title }}">
+                            </div>
+                            <div class="card-body w-50 d-flex flex-column justify-content-center">
+                                <h6 class="card-subtitle mb-2 text-secondary">{{ $news->category->name }}</h6>
+                                <h5 class="card-title">{{ Str::limit($news->title, 50) }}</h5>
+                                <p class="card-text">{{ Str::limit($news->content, 100) }}</p>
                             </div>
                         </div>
-                        @endif
-                    </div>
-                    <div style="height: 610px;" class="col-md-5   d-flex flex-column justify-content-between">
-                        @foreach ($relatedNews as $news)
-                            <a href="{{ route('clients.blogDetail', $news->slug) }}"class="text">
-
-                                <div class="card border-0  related-article-card d-flex flex-row mb-3">
-                                    <div class="  p-2">
-                                        <img src="{{ Storage::url($news->image) }}"style="width: 170px; height: 165px;"
-                                            alt="{{ $news->title }}">
-                                    </div>
-                                    <div class="card-body w-50 d-flex flex-column justify-content-center">
-                                        <h6 class="card-subtitle mb-2 text-secondary">{{ $news->category->name }}</h6>
-                                        <h5 class="card-title">{{ Str::limit($news->title, 50) }}</h5>
-                                        <p class="card-text">{{ Str::limit($news->content, 100) }}</p>
-                                    </div>
-                                </div>
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
-                <h3 class="mt-5 mb-3">Nhiều người quan tâm</h3>
-                <div id="popularNewsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-                    <div class="carousel-inner">
-                        @foreach ($popularNews as $index => $newsChunk)
-                            <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                <div class="row">
-                                    @foreach ($newsChunk as $news)
-                                        <div class="col-md-6 ">
-
-
-                                            <div class="card border-0 popular-article-card"> <a
-                                                    href="{{ route('clients.blogDetail', $news->slug) }}"class="text">
-                                                    <img src="{{ Storage::url($news->image) }}" class="card-img-top"
-                                                        alt="{{ $news->title }}">
-                                                    <div class="card-body">
-                                                        <h6 class="card-subtitle mb-2 text-secondary">
-                                                            {{ $news->category->name }}</h6>
-                                                        <h5 class="card-title">{{ $news->title }}</h5>
-                                                        <p class="card-text">
-                                                            {{ Str::limit($news->content, 100) }}
-                                                            <a href="{{ route('clients.blogDetail', $news->slug) }}"
-                                                                class="text-primary">Xem thêm</a>
-                                                        </p>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                </div>
-                        @endforeach
-                    </div>
-                </div>
+                    </a>
                 @endforeach
             </div>
+            </div>
+            <h3 class="mt-5 mb-3">Nhiều người quan tâm</h3>
+            <div id="popularNewsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                <div class="carousel-inner">
+                    @foreach ($popularNews as $index => $newsChunk)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <div class="row">
+                                @foreach ($newsChunk as $news)
+                                    <div class="col-md-6 ">
 
-            <button class="carousel-control-prev" type="button" data-bs-target="#popularNewsCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#popularNewsCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+
+                                        <div class="card border-0 popular-article-card"> <a
+                                                href="{{ route('clients.blogDetail', $news->slug) }}"class="text">
+                                                <img src="{{ Storage::url($news->image) }}" class="card-img-top"
+                                                    alt="{{ $news->title }}">
+                                                <div class="card-body">
+                                                    <h6 class="card-subtitle mb-2 text-secondary">
+                                                        {{ $news->category->name }}</h6>
+                                                    <h5 class="card-title">{{ $news->title }}</h5>
+                                                    <p class="card-text">
+                                                        {{ Str::limit($news->content, 100) }}
+                                                        <a href="{{ route('clients.blogDetail', $news->slug) }}"
+                                                            class="text-primary">Xem thêm</a>
+                                                    </p>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                            </div>
+                    @endforeach
+                </div>
+            </div>
+        @endforeach
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#popularNewsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#popularNewsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
         </div>
 
         <h3 class="mt-5 mb-3">Bộ sưu tập</h3>
@@ -259,14 +262,12 @@
                 s0.parentNode.insertBefore(s1, s0);
             })();
         </script>
-
-             @else
-            <!-- No News Section -->
-            <div class="container">
-                <div class="no-news">
-                    Không có tin tức nào
-                </div>
+    @else
+        <div class="container">
+            <div class="no-news">
+                Không có tin tức nào
             </div>
+        </div>
         @endif
 
     </section>
