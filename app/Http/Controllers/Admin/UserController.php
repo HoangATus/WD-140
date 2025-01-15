@@ -31,20 +31,27 @@ class UserController extends Controller
         if ($user->role === 'Admin') {
             return back()->with(['message' => 'Không thể cấm tài khoản quản trị viên.']);
         }
-
+    
         $request->validate([
-            'banned_until' => 'required|date|after_or_equal:today',
+            'banned_until' => 'nullable|date|after_or_equal:today', 
         ], [
-            'banned_until.required' => 'Vui lòng chọn ngày cấm.',
             'banned_until.after_or_equal' => 'Ngày cấm phải lớn hơn hoặc bằng ngày hiện tại.',
         ]);
-
+    
         $user->is_banned = true;
-        $user->banned_until = now()->create($request->banned_until);
+        if ($request->banned_until) {
+            $user->banned_until = now()->create($request->banned_until);
+            $message = 'Người dùng đã bị cấm thành công đến ' . $user->banned_until->format('d/m/Y') . '.';
+        } else {
+            $user->banned_until = null; 
+            $message = 'Người dùng đã bị cấm vĩnh viễn.';
+        }
+    
         $user->save();
-
-        return redirect()->route('admins.users.index')->with('message', 'Người dùng đã bị cấm thành công đến ' . $user->banned_until->format('d/m/Y') . '.');
+    
+        return redirect()->route('admins.users.index')->with('message', $message);
     }
+    
     public function unban(User $user)
     {
         $user->is_banned = false;
