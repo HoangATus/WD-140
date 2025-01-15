@@ -62,8 +62,8 @@
             <div class="form-group" id="min-discount-amount-div" style="display: none;">
                 <label for="min_order_amount">Giá tối thiểu được giảm: </label>
                 <input type="text" name="min_order_amount" 
-                    class="form-control @error('min_order_amount') is-invalid @enderror"
-                    value="{{ old('min_order_amount') }}" id="min_order_amount">
+                    class="form-control @error('min_order_amount') is-invalid @enderror" disabled
+                    value="{{ old('min_order_amount', $voucher->min_order_amount) }}" id="min_order_amount">
             </div>
 
 
