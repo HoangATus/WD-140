@@ -311,8 +311,8 @@
                                                         </script>
                                                         <td>
                                                             @if (!$variants[$index]->is_locked)
-                                                                <input type="hidden" id="deletedVariantIds"
-                                                                    name="deletedVariantIds" value="">
+                                                                {{-- <input type="hidden" id="deletedVariantIds"
+                                                                    name="deletedVariantIds" value=""> --}}
                                                                 <button type="button"
                                                                     class="btn btn-danger remove-variant-button">Xóa</button>
                                                             @else
@@ -468,6 +468,8 @@
         </div>
         <div class="d-flex justify-content-end">
             <a href="{{ route('admins.products.index') }}" class="btn btn-secondary me-2">Quay lại</a>
+            <input type="hidden" id="deletedVariantIds"
+            name="deletedVariantIds" value="">
             <button type="submit" class="btn btn-success">Sửa</button>
         </div>
 

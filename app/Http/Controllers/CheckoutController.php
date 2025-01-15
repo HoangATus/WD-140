@@ -525,7 +525,7 @@ class CheckoutController extends Controller
                 'product_name' => $variant->product->product_name,
                 'variant_name' => $variant->color->name . '-' . $variant->size->attribute_size_name,
                 'price' => $variant->variant_sale_price,
-                'price_import' => $variant->variant->variant_import_price,
+                'price_import' => $variant->variant_import_price,
                 'quantity' => $request->quantity,
                 'image' => Storage::url($variant->image),
             ]);

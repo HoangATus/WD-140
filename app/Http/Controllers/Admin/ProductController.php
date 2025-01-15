@@ -115,7 +115,7 @@ class ProductController extends Controller
         $data = $request->except(['variants', 'product_image_url', 'product_galleries']);
         $data['product_code'] = $request->product_code;
         $data['slug'] = Str::slug($data['product_name'] . '-' . $data['product_code']);
-
+        
         if ($request->hasFile('product_image_url')) {
             if ($product->product_image_url) {
                 Storage::delete($product->product_image_url);
@@ -126,6 +126,7 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
             $product->update($data);
+            // dd($request);
             if ($request->has('deletedVariantIds')) {
                 $deletedVariantIds = json_decode($request->deletedVariantIds, true);
                 if (is_array($deletedVariantIds) && !empty($deletedVariantIds)) {
@@ -140,7 +141,7 @@ class ProductController extends Controller
                     Log::info('Deleted Variants:', $deletedVariantIds);
                 }
             }
-            // dd($request->deletedVariantIds);
+            
             
 
             if (!is_null($request->variants) && is_array($request->variants)) {
