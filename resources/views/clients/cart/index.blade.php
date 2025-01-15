@@ -497,19 +497,14 @@
                                     'pointsDiscount');
                                 const pointsInputHidden = document.getElementById(
                                     'pontsDiscountInput');
-
                                 if (pointsCheckbox.checked) {
-                                    pointsCheckbox.checked =
-                                        false;
-                                    pointsDiscountSection.style.display =
-                                        'none';
-                                    pointsDiscount.innerText =
-                                        '- 0 VND';
+                                    pointsCheckbox.checked = false;
+                                    pointsDiscountSection.style.display = 'none';
+                                    pointsDiscount.innerText = '- 0 VND';
                                     pointsInputHidden.value = 0;
                                     document.getElementById('pontsDiscountInput').value = 0;
                                     alert(
-                                        'Điểm tích lũy đã được bỏ chọn do thay đổi giỏ hàng.'
-                                    );
+                                    'Điểm tích lũy đã được bỏ chọn do thay đổi giỏ hàng.');
                                 }
                                 let hasVoucherReset = false;
                                 const voucherInputs = document.querySelectorAll(
