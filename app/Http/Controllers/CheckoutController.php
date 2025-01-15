@@ -142,7 +142,7 @@ class CheckoutController extends Controller
 
         Cart::where('user_id', $userId)->delete();
 
-
+        $user->vouchers()->detach($voucher->id);
         if ($request->payment_method == 'online') {
             return $this->createVNPayPaymentLink($order);
         }
@@ -344,40 +344,35 @@ class CheckoutController extends Controller
     {
         $user = auth()->user();
 
-        $vouchers = Voucher::where('is_active', true) // Only get active vouchers
+        // Lấy danh sách các voucher mà người dùng đủ điều kiện sử dụng
+        $vouchers = Voucher::where('is_active', true)
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->where('quantity', '>', 0)
-            ->where(function ($query) {
-                $query->where('usage_type', 'all');
-            })
-            ->orWhere(function ($query) use ($user) {
-                $query->where('usage_type', 'restricted')
-                    ->whereHas('users', function ($query) use ($user) {
-                        $query->where('user_voucher.user_id', $user->user_id);
-                    });
-            })
+            ->whereHas('users', function ($query) use ($user) {
+                            $query->where('user_voucher.user_id', $user->user_id);
+                        })
+            
+            // ->whereDoesntHave('orders', function ($query) use ($user) {
+            //     // Kiểm tra xem người dùng đã sử dụng voucher hay chưa
+            //     $query->where('user_id', $user->user_id);
+            // })
             ->orderByDesc('max_discount_amount')
             ->get();
 
-        // Filter out any vouchers that are inactive
-        $vouchers = $vouchers->filter(function ($voucher) {
-            return $voucher->is_active;
-        });
-
+        // Tính toán thông tin bổ sung cho mỗi voucher
         foreach ($vouchers as $voucher) {
-            $usedQuantity = Order::where('voucher_id', $voucher->id)->count();
-            $totalVoucherQuantity = $voucher->quantity - $usedQuantity;
+            $usedQuantity = Order::where('voucher_id', $voucher->id)->count(); // Tổng số lần sử dụng voucher
+            $totalVoucherQuantity = $voucher->quantity + $usedQuantity;
 
-            $voucher->used_quantity = $usedQuantity;
-            $voucher->total_quantity = $totalVoucherQuantity;
+            $voucher->used_quantity = $usedQuantity;        // Số lượng đã sử dụng
+            $voucher->total_quantity = $totalVoucherQuantity; // Tổng số lượng voucher có thể dùng
         }
 
-        return response()->json([
-            'vouchers' => $vouchers,
-            'status' => 'active',  // Reflect the activation status here if needed
-        ]);
+        return response()->json(['vouchers' => $vouchers]);
     }
+
+
 
     public function saveVoucher(Request $request)
     {
@@ -525,7 +520,7 @@ class CheckoutController extends Controller
                 'product_name' => $variant->product->product_name,
                 'variant_name' => $variant->color->name . '-' . $variant->size->attribute_size_name,
                 'price' => $variant->variant_sale_price,
-                'price_import' => $variant->variant->variant_import_price,
+                'price_import' => $variant->variant_import_price,
                 'quantity' => $request->quantity,
                 'image' => Storage::url($variant->image),
             ]);
