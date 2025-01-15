@@ -990,46 +990,50 @@
 
 
             function updateTotal() {
-                let voucherDiscount = parseFloat(document.getElementById('voucherDiscountInput').value) || 0;
-                let pointsDiscount = parseFloat(document.getElementById('pontsDiscountInput').value) || 0;
-                let selectedVoucher = document.getElementById('selectedVoucher').value || null;
-                let finalTotal = totalAmount - voucherDiscount - pointsDiscount;
-                if (finalTotal < 0) {
-                    finalTotal = 0;
-                }
 
-                finalTotalElement.innerText = `${finalTotal.toLocaleString()} VND`;
-                document.getElementById('finalTotalInput').value = finalTotal;
-                fetch('/cart/update-total', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        },
-                        body: JSON.stringify({
-                            final_total: finalTotal,
-                            voucher_discount: voucherDiscount,
-                            points_discount: pointsDiscount,
-                            selected_voucher: selectedVoucher
-                        })
-                    }).then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            console.log(data.message);
-                        }
-                    }).catch(error => console.error('Error:', error));
-
-                const paymentOnlineRadio = document.getElementById('payment_online');
-                const warningMessage = document.getElementById('warningMessage');
-
-                if (finalTotal < 5000) {
-                    paymentOnlineRadio.disabled = true;
-                    warningMessage.style.display = 'block';
-                } else {
-                    paymentOnlineRadio.disabled = false;
-                    warningMessage.style.display = 'none';
-                }
+                   let voucherDiscountr = document.getElementById('voucherDiscountInput').value || null;
+            let pointsDiscountr = document.getElementById('pontsDiscountInput').value || null;
+            let selectedVoucher = document.getElementById('selectedVoucher').value || null;
+            let finalTotal = totalAmount - voucherDiscount - pointsDiscount;
+            if (finalTotal < 0) {
+                finalTotal = 0;
             }
+
+            finalTotalElement.innerText = `${finalTotal.toLocaleString()} VND`;
+            document.getElementById('finalTotalInput').value = finalTotal;
+            
+            fetch('/cart/update-total', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        final_total: finalTotal,
+                        voucher_discount: voucherDiscountr,
+                        points_discount: pointsDiscountr,
+                        selected_voucher: selectedVoucher
+                    })
+                }).then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log(data.message);
+                    }
+                }).catch(error => console.error('Error:', error));
+
+            const paymentOnlineRadio = document.getElementById('payment_online');
+            const warningMessage = document.getElementById('warningMessage');
+
+            if (finalTotal < 5000) {
+                paymentOnlineRadio.disabled = true;
+                warningMessage.style.display = 'block';
+            } else {
+                paymentOnlineRadio.disabled = false;
+                warningMessage.style.display = 'none';
+            }
+        }
+
+
 
 
         });

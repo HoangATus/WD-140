@@ -134,6 +134,7 @@ class CheckoutController extends Controller
                 if ($voucher->quantity <= 0) {
                     $voucher->is_active = false;
                 }
+                $user->vouchers()->detach($voucher->id);
                 $voucher->save();
             }
         }

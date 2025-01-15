@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,26 +16,36 @@ class AuthController extends Controller
     {
         return view('auth.clients.login');
     }
-
     public function login(Request $request)
     {
         $request->validate([
             'login_identifier' => 'required|string',
             'user_password' => 'required|string',
         ]);
-
+    
         $field = filter_var($request->login_identifier, FILTER_VALIDATE_EMAIL) ? 'user_email' : 'user_phone_number';
         $user = User::where($field, $request->login_identifier)->first();
-
-        if ($user && Hash::check($request->user_password, $user->user_password)) {
-            Auth::login($user); 
-            return redirect('/'); 
+    
+        if ($user) {
+            if ($user->is_banned) {
+                $bannedUntil = $user->banned_until ? Carbon::parse($user->banned_until) : null;
+    
+                if ($bannedUntil && now()->lessThan($bannedUntil)) {
+                    $message = 'Tài khoản của bạn đã bị cấm đến ' . $bannedUntil->format('d/m/Y H:i') . '.';
+                    return back()->withErrors(['loginError' => $message]);
+                } elseif (!$bannedUntil) {
+                    return back()->withErrors(['loginError' => 'Tài khoản của bạn đã bị cấm vĩnh viễn.']);
+                }
+            }
+    
+            if (Hash::check($request->user_password, $user->user_password)) {
+                Auth::login($user);
+                return redirect('/');
+            }
         }
-
+    
         return back()->withErrors(['loginError' => 'Thông tin đăng nhập không đúng']);
     }
-
-
 
     public function showFormRegister()
     {
