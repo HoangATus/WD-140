@@ -107,7 +107,17 @@ class ProductController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'colors', 'sizes', 'variants'));
     }
 
-
+    public function checkVariantUsage($variantId)
+    {
+        try {
+            $isUsed = DB::table('order_items')->where('variant_id', $variantId)->exists() ||
+                DB::table('carts')->where('variant_id', $variantId)->exists();
+            return response()->json(['is_used' => $isUsed]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
 
     public function update(UpdateProductRequest $request, Product $product)
     {
@@ -131,7 +141,7 @@ class ProductController extends Controller
                 $deletedVariantIds = json_decode($request->deletedVariantIds, true);
                 if (is_array($deletedVariantIds) && !empty($deletedVariantIds)) {
                     $variantsToDelete = Variant::whereIn('id', $deletedVariantIds)->get();
-            
+
                     foreach ($variantsToDelete as $variant) {
                         if ($variant->image && Storage::exists($variant->image)) {
                             Storage::delete($variant->image);
@@ -141,8 +151,9 @@ class ProductController extends Controller
                     Log::info('Deleted Variants:', $deletedVariantIds);
                 }
             }
-            
-            
+
+            // dd($request->deletedVariantIds);
+
 
             if (!is_null($request->variants) && is_array($request->variants)) {
                 $existingVariants = $product->variants->keyBy('id');
@@ -181,7 +192,6 @@ class ProductController extends Controller
                         $newVariant = Variant::create($variantData);
                         $processedVariantIds[] = $newVariant->id;
                     }
-
                 }
 
                 Log::info('Processed Variants:', $processedVariantIds);

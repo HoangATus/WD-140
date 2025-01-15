@@ -189,7 +189,6 @@
                                                         <td>
                                                             <select
                                                                 class="form-select @error("variants.$index.attribute_size_name") is-invalid @enderror"
-
                                                                 name="variants[{{ $index }}][attribute_size_name]"
                                                                 @if ($variants[$index]->is_locked) style="pointer-events: none; background-color: #e9ecef;" @endif>
                                                                 @foreach ($sizes as $size_id => $attribute_size_name)
@@ -416,6 +415,44 @@
                                         }
                                     });
                                 }
+                                async function checkVariantUsage(variantId) {
+                                    try {
+                                        const response = await fetch(`/admins/products/check-variant-usage/${variantId}`, {
+                                            method: 'GET',
+                                        });
+                                        if (!response.ok) throw new Error('Failed to fetch');
+                                        const data = await response.json();
+                                        return data.is_used;
+                                    } catch (error) {
+                                        console.error('Lỗi kiểm tra biến thể:', error);
+                                        alert('Có lỗi xảy ra khi kiểm tra biến thể.');
+                                        return true;
+                                    }
+                                }
+
+                                document.querySelectorAll('select[name^="variants["]').forEach((select) => {
+                                    let previousValue = select.value;
+
+                                    select.addEventListener('change', async function() {
+                                        const variantRow = this.closest('tr');
+                                        const variantIdInput = variantRow.querySelector(
+                                            'input[name^="variants["][name$="[id]"]');
+
+                                        if (variantIdInput) {
+                                            const variantId = variantIdInput.value;
+                                            const isUsed = await checkVariantUsage(variantId);
+
+                                            if (isUsed) {
+                                                alert(
+                                                    'Không thể thay đổi vì biến thể này đang được sử dụng trong giỏ hàng hoặc đơn hàng.');
+                                                this.value = previousValue;
+                                            } else {
+                                                previousValue = this
+                                                .value;
+                                            }
+                                        }
+                                    });
+                                });
 
                                 document.getElementById('addVariantButton').addEventListener('click', addVariantRow);
                                 const deletedVariantInput = document.getElementById('deletedVariantIds');
@@ -436,29 +473,42 @@
                                             const variantIdInput = row.querySelector(
                                                 'input[name^="variants["][name$="[id]"]');
                                             const deletedVariantInput = document.getElementById(
-                                            'deletedVariantIds'); // Input ẩn lưu các ID xóa
+                                                'deletedVariantIds');
 
                                             if (variantIdInput) {
                                                 const variantId = variantIdInput.value;
-                                                console.log('Biến thể bị xóa:', variantId); // Thêm log kiểm tra ID
-                                                if (variantId) {
-                                                    const deletedVariantIds = deletedVariantInput.value ?
-                                                        JSON.parse(deletedVariantInput.value) :
-                                                        [];
-                                                    deletedVariantIds.push(variantId);
-                                                    deletedVariantInput.value = JSON.stringify(deletedVariantIds);
-                                                }
+                                                fetch(`/admins/products/check-variant-usage/${variantId}`, {
+                                                        method: 'GET',
+                                                    })
+                                                    .then((response) => response.json())
+                                                    .then((data) => {
+                                                        if (data.is_used) {
+                                                            alert(
+                                                                'Không thể xóa biến thể này vì đang được sử dụng trong giỏ hàng hoặc đơn hàng.'
+                                                                );
+                                                        } else {
+                                                            console.log('Biến thể bị xóa:', variantId);
+                                                            if (variantId) {
+                                                                const deletedVariantIds = deletedVariantInput
+                                                                    .value ?
+                                                                    JSON.parse(deletedVariantInput.value) : [];
+                                                                deletedVariantIds.push(variantId);
+                                                                deletedVariantInput.value = JSON.stringify(
+                                                                    deletedVariantIds);
+                                                            }
+
+                                                            console.log('Danh sách:', deletedVariantInput.value);
+                                                            row.remove();
+                                                        }
+                                                    })
+                                                    .catch((error) => {
+                                                        console.error('Lỗi kiểm tra biến thể:', error);
+                                                        alert('Có lỗi xảy ra khi kiểm tra biến thể.');
+                                                    });
                                             }
-
-                                            console.log('Danh sách:', deletedVariantInput
-                                            .value);
-
-                                            row.remove();
                                         }
                                     });
                                 });
-
-
                             });
                         </script>
 
