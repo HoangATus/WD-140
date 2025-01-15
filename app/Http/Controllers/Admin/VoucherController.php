@@ -11,6 +11,7 @@ use App\Models\Voucher;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VoucherController extends Controller
 {
@@ -52,7 +53,6 @@ class VoucherController extends Controller
 
     public function store(StoreVoucherRequest $request)
     {
-
         $validatedData = $request->validate([
             'code' => 'required|string|max:255',
             'discount_type' => 'required|string',
@@ -74,12 +74,31 @@ class VoucherController extends Controller
 
         $voucher = Voucher::create($validatedData);
 
+        if ($request->usage_type == 'all') {
+            $allUserIds = User::pluck('user_id')->toArray();
+
+            $data = [];
+            $currentTime = now();
+
+            foreach ($allUserIds as $userId) {
+                $data[] = [
+                    'user_id'    => $userId,
+                    'voucher_id' => $voucher->id,
+                    'created_at' => $currentTime,
+                    'updated_at' => $currentTime,
+                ];
+            }
+
+            DB::table('user_voucher')->insert($data);
+        }
+
         if ($request->usage_type == 'restricted' && !empty($request->users)) {
             $voucher->users()->attach($request->users);
         }
 
         return redirect()->route('admins.vouchers.index')->with('success', 'Voucher được tạo thành công!');
     }
+
 
 
 
@@ -190,8 +209,14 @@ class VoucherController extends Controller
         ]);
 
         if ($request->usage_type == 'restricted') {
+            // Chỉ thêm các user được chọn
             $voucher->users()->sync($request->users);
+        } elseif ($request->usage_type == 'all') {
+            // Lấy tất cả user và thêm vào bảng trung gian
+            $allUsers = User::pluck('user_id')->toArray();
+            $voucher->users()->sync($allUsers);
         } else {
+            // Xóa tất cả liên kết khi không có user được chỉ định
             $voucher->users()->detach();
         }
 

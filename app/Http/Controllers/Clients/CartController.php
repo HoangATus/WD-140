@@ -23,7 +23,6 @@ class CartController extends Controller
 
         $sum = $cart->reduce(function ($carry, $item) {
             return $carry + ($item->variant->variant_sale_price * $item->quantity);
-
         }, 0);
         $user = User::find($userId);
         $total = max(0, $sum);
@@ -102,24 +101,50 @@ class CartController extends Controller
             'newTotalAmount' => $totalAmount
         ]);
     }
-
-
-    public function destroy($variant_id)
+    
+    public function remove(Request $request)
     {
-        $user_id = auth()->id();
+        $request->validate([
+            'variant_id' => 'required|exists:variants,id',
+        ]);
 
+        $variantId = $request->input('variant_id'); 
+        $userId = Auth::id(); 
+        $cart = Cart::where('user_id', $userId)
+            ->where('variant_id', $variantId)
+            ->first();
 
-        $deleted = DB::table('carts')
-            ->where('user_id', $user_id)
-            ->where('variant_id', $variant_id)
-            ->delete();
-
-        if ($deleted) {
-            return response()->json(['success' => true, 'message' => 'Sản phẩm đã được xóa khỏi giỏ hàng!']);
-        } else {
-            return response()->json(['success' => false, 'message' => 'Không thể xóa sản phẩm.']);
+        if (!$cart) {
+            return response()->json([
+                'message' => 'Sản phẩm không tồn tại trong giỏ hàng.',
+            ], 404);
         }
+
+        $cart->delete();
+
+        return response()->json([
+            'message' => 'Sản phẩm đã được xóa khỏi giỏ hàng.',
+        ], 200);
     }
+
+
+
+    // public function destroy($variant_id)
+    // {
+    //     $user_id = auth()->id();
+
+
+    //     $deleted = DB::table('carts')
+    //         ->where('user_id', $user_id)
+    //         ->where('variant_id', $variant_id)
+    //         ->delete();
+
+    //     if ($deleted) {
+    //         return response()->json(['success' => true, 'message' => 'Sản phẩm đã được xóa khỏi giỏ hàng!']);
+    //     } else {
+    //         return response()->json(['success' => false, 'message' => 'Không thể xóa sản phẩm.']);
+    //     }
+    // }
 
     public function count()
     {
