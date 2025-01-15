@@ -471,9 +471,11 @@
                     const row = this.closest('tr');
                     const variantId = row.getAttribute('data-variant-id');
 
+
                     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
                         axios.post('{{ route('cart.remove') }}', {
                                 variant_id: variantId
+
                             })
                             .then(response => {
                                 row.remove();
@@ -514,6 +516,7 @@
                                 const voucherDiscountInput = document.getElementById(
                                     'voucherDiscountInput');
 
+
                                 voucherInputs.forEach(voucher => {
                                     if (voucher.checked) {
                                         voucher.checked = false;
@@ -534,10 +537,12 @@
 
                             })
 
+
                             .catch(error => {
                                 console.error(error);
 
                             });
+
                     }
                 });
             });
